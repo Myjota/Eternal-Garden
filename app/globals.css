@@ -794,14 +794,28 @@
 }
 
 .memorial-hero-biography {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   margin-left: auto;
   margin-right: auto;
   max-width: 62ch;
-  font-size: 1.05rem;
-  line-height: 1.85;
-  color: color-mix(in oklch, var(--foreground), var(--muted-foreground) 45%);
+  padding: 1rem 1.25rem;
+  border: 1px solid color-mix(in oklch, var(--border), var(--primary) 12%);
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in oklch, var(--card), transparent 12%);
+  box-shadow: 0 10px 30px color-mix(in oklch, var(--theme-glow-color), transparent 70%);
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  line-height: 1.9;
+  color: color-mix(in oklch, var(--foreground), var(--muted-foreground) 30%);
   text-wrap: pretty;
+}
+
+[data-theme="eternal-night"] .memorial-hero-biography {
+  background: color-mix(in oklch, var(--card), transparent 6%);
+  border-color: color-mix(in oklch, var(--primary), transparent 45%);
+}
+
+[data-theme="orthodox"] .memorial-hero-biography {
+  border-left: 3px solid color-mix(in oklch, var(--primary), transparent 20%);
 }
 
 [data-theme="eternal-night"] .memorial-hero-dates {
