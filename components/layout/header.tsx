@@ -50,9 +50,9 @@ export function Header({ locale, t, onLocaleChange, user }: HeaderProps) {
           <Image
             src="/images/logo.png"
             alt="Eternal Garden"
-            width={60}
+            width={40}
             height={40}
-            className="h-10 w-10"
+            className="h-10 w-auto"
           />
           <span className="font-serif text-xl font-semibold text-foreground">
             
