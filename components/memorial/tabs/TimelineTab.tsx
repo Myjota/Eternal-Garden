@@ -36,16 +36,16 @@ export function TimelineTab({ events }: TimelineTabProps) {
   return (
     <div className="max-w-2xl mx-auto relative pl-8">
 
-      {/* Timeline line */}
-      <div className="absolute left-[11px] top-0 bottom-0 w-0.5 bg-border/50" />
+      {/* Timeline line (theme-driven) */}
+      <div className="timeline-line absolute left-[11px] top-0 bottom-0 w-0.5" />
 
       <div className="space-y-8">
 
         {events.map((event) => (
           <div key={event.id} className="relative">
 
-            {/* Dot */}
-            <div className="absolute -left-8 top-6 w-6 h-6 rounded-full bg-primary/20 border border-primary/40" />
+            {/* Dot (theme-driven) */}
+            <div className="timeline-dot absolute -left-8 top-6" />
 
             <Card className="border-border/50 bg-card/90 backdrop-blur overflow-hidden">
 
@@ -98,4 +98,4 @@ export function TimelineTab({ events }: TimelineTabProps) {
       </div>
     </div>
   )
-                }
+}
