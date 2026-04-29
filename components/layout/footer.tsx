@@ -23,7 +23,7 @@ export function Footer({ t }: FooterProps) {
                 alt="Eternal Garden"
                 width={40}
                 height={40}
-                className="h-10 w-10"
+                className="h-10 w-auto"
               />
               <span className="font-serif text-xl font-semibold text-foreground">
                 Eternal Garden
