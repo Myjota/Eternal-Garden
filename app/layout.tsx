@@ -30,6 +30,8 @@ export const metadata: Metadata = {
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
 
   applicationName: siteName,
+  creator: siteName,
+  publisher: siteName,
 
   keywords: [
     'atminimas',
@@ -42,9 +44,6 @@ export const metadata: Metadata = {
   ],
 
   authors: [{ name: siteName }],
-
-  creator: siteName,
-  publisher: siteName,
 
   alternates: {
     canonical: siteUrl,
@@ -94,11 +93,12 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
+      { url: '/favicon.ico' },
       { url: '/icon.svg', type: 'image/svg+xml' },
       { url: '/icon-32x32.png', sizes: '32x32' },
       { url: '/icon-16x16.png', sizes: '16x16' },
     ],
-    apple: '/apple-icon.png',
+    apple: '/apple-touch-icon.png',
     shortcut: '/favicon.ico',
   },
 
@@ -128,7 +128,8 @@ export default function RootLayout({
   return (
     <html lang="lt" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
-        {/* Structured data (SEO boost) */}
+
+        {/* Structured Data (SEO boost) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -149,4 +150,4 @@ export default function RootLayout({
       </body>
     </html>
   )
-      }
+        }
