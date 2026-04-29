@@ -2,9 +2,9 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { TimelineTab } from './TimelineTab'
-import { GalleryTab } from './GalleryTab'
-import { CondolencesTab } from './CondolencesTab'
+import { TimelineTab } from './tabs/TimelineTab'
+import { GalleryTab } from './tabs/GalleryTab'
+import { CondolencesTab } from './tabs/CondolencesTab'
 
 import { Clock, ImageIcon, Heart } from 'lucide-react'
 
