@@ -21,10 +21,8 @@ interface Condolence {
 
 interface CondolencesTabProps {
   items: Condolence[]
-
   allowCondolences?: boolean
   isSubmitting?: boolean
-
   onSubmit?: (data: { name: string; message: string }) => void
 }
 
@@ -40,17 +38,14 @@ export function CondolencesTab({
 
   const handleSubmit = () => {
     if (!name.trim() || !message.trim()) return
-
     onSubmit?.({ name, message })
-
     setName('')
     setMessage('')
   }
 
-  // ❌ Empty state
   if (!items.length && !allowCondolences) {
     return (
-      <Card className="border-border/50 bg-card/80 backdrop-blur max-w-2xl mx-auto">
+      <Card className="condolence-card max-w-2xl mx-auto">
         <CardContent className="p-12">
           <Empty
             icon={MessageCircle}
@@ -67,11 +62,11 @@ export function CondolencesTab({
 
       {/* FORM */}
       {allowCondolences && (
-        <Card className="border-border/50 bg-card/90 backdrop-blur">
+        <Card className="condolence-card">
 
           <CardContent className="p-6 space-y-4">
 
-            <h3 className="font-serif text-xl font-semibold">
+            <h3 className="font-serif text-xl font-semibold text-foreground">
               Palikti žinutę
             </h3>
 
@@ -104,7 +99,7 @@ export function CondolencesTab({
       {/* LIST */}
       {items.length === 0 ? (
         allowCondolences ? null : (
-          <Card className="border-border/50 bg-card/80 backdrop-blur">
+          <Card className="condolence-card">
             <CardContent className="p-12 text-center text-muted-foreground">
               Dar nėra paliktų žinučių
             </CardContent>
@@ -114,13 +109,13 @@ export function CondolencesTab({
         <div className="space-y-4">
 
           {items.map((c) => (
-            <Card key={c.id} className="border-border/50 bg-card/80 backdrop-blur">
+            <Card key={c.id} className="condolence-card">
 
               <CardContent className="p-5">
 
                 <div className="flex items-center justify-between mb-3">
 
-                  <span className="font-semibold">
+                  <span className="font-semibold text-foreground">
                     {c.author_name}
                   </span>
 
@@ -144,4 +139,4 @@ export function CondolencesTab({
 
     </div>
   )
-                }
+}
