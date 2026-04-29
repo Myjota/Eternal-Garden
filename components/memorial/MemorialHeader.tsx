@@ -11,13 +11,13 @@ interface MemorialHeaderProps {
 
 export function MemorialHeader({ onShare }: MemorialHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
 
-        {/* Left side: Back + Logo */}
+        {/* Left side */}
         <Link
           href="/"
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity text-foreground"
         >
           <ChevronLeft className="h-5 w-5" />
 
@@ -34,7 +34,7 @@ export function MemorialHeader({ onShare }: MemorialHeaderProps) {
           </span>
         </Link>
 
-        {/* Right side: Share */}
+        {/* Right side */}
         <Button variant="ghost" size="sm" onClick={onShare}>
           <Share2 className="h-4 w-4 mr-2" />
           <span className="hidden sm:inline">Share</span>
