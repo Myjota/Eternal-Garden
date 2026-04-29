@@ -531,9 +531,46 @@
    SHARED THEME UTILITIES
    ============================================ */
 
+/* Global theme surface layer */
+.theme-surface {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.theme-card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.theme-card:hover {
+  box-shadow: 0 0 40px var(--theme-glow-color);
+  transform: translateY(-2px);
+}
+
+/* Hero/background depth layer */
+.theme-hero {
+  position: relative;
+  background: radial-gradient(
+    ellipse at top,
+    var(--theme-gradient-start),
+    transparent 70%
+  );
+}
+
+.theme-glow-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--theme-hero-bg, transparent);
+  pointer-events: none;
+}
+
 /* Candle glow animation */
 .candle-glow {
   animation: candleFlicker 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px var(--theme-glow-color));
 }
 
 @keyframes candleFlicker {
@@ -544,7 +581,22 @@
   50% { 
     filter: drop-shadow(0 0 15px var(--theme-glow-color)); 
     opacity: 0.9;
+    transform: scale(1.05);
   }
+}
+
+/* Emotional layer for condolence elements */
+.condolence-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 0 30px var(--theme-glow-color);
+  transition: all 0.3s ease;
+}
+
+.condolence-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 60px var(--theme-glow-color);
 }
 
 /* Portrait frame gradient */
@@ -584,6 +636,32 @@
 }
 
 .timeline-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
   background: var(--primary);
   box-shadow: 0 0 0 4px var(--background), 0 0 0 6px var(--primary);
+}
+
+/* Decorative system */
+.theme-pattern {
+  opacity: var(--theme-pattern-opacity, 0.05);
+  pointer-events: none;
+}
+
+.theme-glow {
+  box-shadow: 0 0 80px var(--theme-glow-color);
+}
+
+/* Unified card system */
+.card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+}
+
+.card-soft {
+  background: color-mix(in oklch, var(--card), transparent 20%);
 }
