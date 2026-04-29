@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button'
+
 export function MemorialHero({
   memorial,
   totalCandles,
@@ -14,7 +16,7 @@ export function MemorialHero({
         {memorial.biography}
       </p>
 
-      <Button onClick={onLightCandle}>
+      <Button onClick={onLightCandle} disabled={!onLightCandle}>
         Light Candle ({totalCandles})
       </Button>
 

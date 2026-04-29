@@ -1,0 +1,16 @@
+{
+  "name": "Eternal Garden",
+  "short_name": "EternalGarden",
+  "description": "Skaitmeninė atminimo platforma.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#166534",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
