@@ -3,14 +3,15 @@ import { notFound } from 'next/navigation'
 import { MemorialClient } from './memorial-client'
 
 interface Props {
-  params: Promise<{ slug: string }>
+  params: { slug: string }
 }
 
 export default async function MemorialPage({ params }: Props) {
-  const { slug } = await params
+  const { slug } = params
   const supabase = await createClient()
 
-  // Fetch memorial by slug
+  /* ================= MEMORIAL ================= */
+
   const { data: memorial, error } = await supabase
     .from('memorials')
     .select('*')
@@ -21,44 +22,56 @@ export default async function MemorialPage({ params }: Props) {
     notFound()
   }
 
-  // Fetch timeline events
-  const { data: timelineEvents } = await supabase
-    .from('timeline_events')
-    .select('*')
-    .eq('memorial_id', memorial.id)
-    .order('event_date', { ascending: true })
+  /* ================= PARALLEL FETCH ================= */
+  // 🔥 greičiau nei sequential
 
-  // Fetch gallery items
-  const { data: galleryItems } = await supabase
-    .from('gallery_items')
-    .select('*')
-    .eq('memorial_id', memorial.id)
-    .order('sort_order', { ascending: true })
+  const [
+    { data: timelineEvents },
+    { data: galleryItems },
+    { data: candles },
+    { data: condolences },
+    { data: authData },
+  ] = await Promise.all([
+    supabase
+      .from('timeline_events')
+      .select('*')
+      .eq('memorial_id', memorial.id)
+      .order('event_date', { ascending: true }),
 
-  // Fetch candles
-  const { data: candles } = await supabase
-    .from('candles')
-    .select('*')
-    .eq('memorial_id', memorial.id)
-    .order('lit_at', { descending: true })
-    .limit(50)
+    supabase
+      .from('gallery_items')
+      .select('*')
+      .eq('memorial_id', memorial.id)
+      .order('sort_order', { ascending: true }),
 
-  // Fetch condolences
-  const { data: condolences } = await supabase
-    .from('condolences')
-    .select('*')
-    .eq('memorial_id', memorial.id)
-    .eq('is_approved', true)
-    .order('created_at', { descending: true })
+    supabase
+      .from('candles')
+      .select('*')
+      .eq('memorial_id', memorial.id)
+      .order('lit_at', { descending: true })
+      .limit(50),
 
-  // Get current user (optional)
-  const { data: { user } } = await supabase.auth.getUser()
+    supabase
+      .from('condolences')
+      .select('*')
+      .eq('memorial_id', memorial.id)
+      .eq('is_approved', true)
+      .order('created_at', { descending: true }),
 
-  // Increment view count
+    supabase.auth.getUser(),
+  ])
+
+  const user = authData?.user || null
+
+  /* ================= VIEW COUNT ================= */
+  // ⚠️ optional: galima per DB function (geriau scale)
+
   await supabase
     .from('memorials')
     .update({ view_count: memorial.view_count + 1 })
     .eq('id', memorial.id)
+
+  /* ================= RENDER ================= */
 
   return (
     <MemorialClient
