@@ -25,7 +25,7 @@ export function MemorialTabs({
       <Tabs defaultValue="timeline" className="w-full">
 
         {/* NAV */}
-        <TabsList className="grid w-full grid-cols-3 max-w-lg mx-auto bg-muted/50 backdrop-blur">
+        <TabsList className="grid w-full grid-cols-3 max-w-lg mx-auto theme-tabs">
 
           <TabsTrigger value="timeline" className="gap-2">
             <Clock className="h-4 w-4" />
