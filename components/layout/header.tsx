@@ -50,12 +50,12 @@ export function Header({ locale, t, onLocaleChange, user }: HeaderProps) {
           <Image
             src="/images/logo.png"
             alt="Eternal Garden"
-            width={40}
+            width={60}
             height={40}
             className="h-10 w-10"
           />
           <span className="font-serif text-xl font-semibold text-foreground">
-            Eternal Garden
+            
           </span>
         </Link>
 
@@ -87,7 +87,6 @@ export function Header({ locale, t, onLocaleChange, user }: HeaderProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1.5 px-2">
-                <Globe className="h-4 w-4" />
                 <span className="text-xs">{locale.toUpperCase()}</span>
                 <ChevronDown className="h-3 w-3" />
               </Button>
@@ -195,7 +194,6 @@ export function Header({ locale, t, onLocaleChange, user }: HeaderProps) {
             <div className="flex flex-col gap-2 pt-4 border-t border-border">
               {/* Mobile Language */}
               <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
                 <span className="text-sm">
                   {locales.map((loc, i) => (
                     <span key={loc}>
