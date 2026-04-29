@@ -59,7 +59,7 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
               alt="Eternal Garden"
               width={128}
               height={128}
-              className="h-24 w-24 md:h-32 md:w-32"
+              className="h-24 w-auto md:h-32 md:w-auto"
             />
           </div>
 
