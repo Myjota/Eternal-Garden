@@ -108,7 +108,6 @@ export function MemorialClient({
       {/* HERO */}
       <MemorialHero
         memorial={memorial}
-        totalCandles={totalCandles}
       />
 
       {/* STATS */}

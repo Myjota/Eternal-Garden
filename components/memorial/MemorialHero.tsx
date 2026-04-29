@@ -1,10 +1,7 @@
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
 
 export function MemorialHero({
   memorial,
-  totalCandles,
-  onLightCandle,
 }) {
   const birthDate = memorial.birth_date
     ? new Date(memorial.birth_date).toLocaleDateString('lt-LT')
@@ -14,8 +11,8 @@ export function MemorialHero({
     : null
 
   return (
-    <section className="relative py-16 text-center">
-      <div className="mx-auto mb-6 h-40 w-32 overflow-hidden rounded-lg border border-border bg-muted portrait-frame">
+    <section className="memorial-hero relative py-16 text-center">
+      <div className="profile-image profile-image-ornate mx-auto mb-8 h-64 w-48 sm:h-72 sm:w-56 md:h-80 md:w-64 shadow-lg">
         <div className="relative h-full w-full rounded-md overflow-hidden">
           <Image
             src={memorial.profile_image_url || '/images/logo.png'}
@@ -27,25 +24,21 @@ export function MemorialHero({
         </div>
       </div>
 
-      <h1 className="text-4xl font-bold">
+      <h1 className="memorial-hero-name">
         {memorial.first_name} {memorial.last_name}
       </h1>
 
       {(birthDate || deathDate) && (
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="memorial-hero-dates">
           {birthDate || '—'} - {deathDate || '—'}
         </p>
       )}
 
       {memorial.biography && (
-        <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground">
+        <p className="memorial-hero-biography">
           {memorial.biography}
         </p>
       )}
-
-      <Button onClick={onLightCandle} disabled={!onLightCandle} className="mt-6">
-        Light Candle ({totalCandles})
-      </Button>
 
     </section>
   )

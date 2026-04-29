@@ -764,3 +764,52 @@
   background:
     radial-gradient(circle at center, transparent 52%, color-mix(in oklch, var(--accent), transparent 82%) 100%);
 }
+
+/* Memorial hero typography/content layer */
+.memorial-hero {
+  position: relative;
+}
+
+.memorial-hero-name {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+.memorial-hero-dates {
+  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in oklch, var(--border), var(--primary) 16%);
+  border-radius: 9999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  background: color-mix(in oklch, var(--card), transparent 20%);
+}
+
+.memorial-hero-biography {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: color-mix(in oklch, var(--foreground), var(--muted-foreground) 45%);
+  text-wrap: pretty;
+}
+
+[data-theme="eternal-night"] .memorial-hero-dates {
+  border-color: color-mix(in oklch, var(--primary), transparent 55%);
+  box-shadow: 0 0 24px color-mix(in oklch, var(--theme-glow-color), transparent 35%);
+}
+
+[data-theme="orthodox"] .memorial-hero-dates {
+  border-radius: 8px;
+  letter-spacing: 0.01em;
+}
