@@ -6,6 +6,13 @@ export function MemorialHero({
   totalCandles,
   onLightCandle,
 }) {
+  const birthDate = memorial.birth_date
+    ? new Date(memorial.birth_date).toLocaleDateString('lt-LT')
+    : null
+  const deathDate = memorial.death_date
+    ? new Date(memorial.death_date).toLocaleDateString('lt-LT')
+    : null
+
   return (
     <section className="relative py-16 text-center">
       <div className="mx-auto mb-6 h-40 w-32 overflow-hidden rounded-lg border border-border bg-muted portrait-frame">
@@ -24,11 +31,19 @@ export function MemorialHero({
         {memorial.first_name} {memorial.last_name}
       </h1>
 
-      <p className="mt-4">
-        {memorial.biography}
-      </p>
+      {(birthDate || deathDate) && (
+        <p className="mt-3 text-sm text-muted-foreground">
+          {birthDate || '—'} - {deathDate || '—'}
+        </p>
+      )}
 
-      <Button onClick={onLightCandle} disabled={!onLightCandle}>
+      {memorial.biography && (
+        <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground">
+          {memorial.biography}
+        </p>
+      )}
+
+      <Button onClick={onLightCandle} disabled={!onLightCandle} className="mt-6">
         Light Candle ({totalCandles})
       </Button>
 
