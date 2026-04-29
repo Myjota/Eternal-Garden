@@ -9,14 +9,40 @@ import { MemorialTabs } from '@/components/memorial/MemorialTabs'
 import { useCandles } from '@/hooks/useCandles'
 import { useCondolences } from '@/hooks/useCondolences'
 
-interface Props {
-  memorial: any
+import type { User } from '@supabase/supabase-js'
+import type { ThemeId } from '@/lib/themes/config'
+
+/* ================= TYPES ================= */
+
+interface Memorial {
+  id: string
+  slug: string
+  first_name: string
+  last_name: string
+  birth_date: string | null
+  death_date: string | null
+  biography: string | null
+  epitaph: string | null
+  profile_image_url: string | null
+  cover_image_url: string | null
+  theme: ThemeId
+  privacy: string
+  view_count: number
+  candle_count: number
+  allow_candles: boolean
+  allow_condolences: boolean
+}
+
+interface MemorialClientProps {
+  memorial: Memorial
   timelineEvents: any[]
   galleryItems: any[]
   candles: any[]
   condolences: any[]
-  currentUser: any
+  currentUser: User | null
 }
+
+/* ================= COMPONENT ================= */
 
 export function MemorialClient({
   memorial,
@@ -25,11 +51,11 @@ export function MemorialClient({
   candles: initialCandles,
   condolences: initialCondolences,
   currentUser,
-}: Props) {
+}: MemorialClientProps) {
 
-  // 🧠 CANDLES HOOK
+  /* 🧠 HOOKS */
+
   const {
-    candles,
     hasLitCandle,
     isLoading,
     lightCandle,
@@ -40,7 +66,6 @@ export function MemorialClient({
     userEmail: currentUser?.email,
   })
 
-  // 🧠 CONDOLENCES HOOK
   const {
     items: condolenceItems,
     isSubmitting,
@@ -51,11 +76,13 @@ export function MemorialClient({
     userId: currentUser?.id,
   })
 
-  // 🔢 derived state
+  /* 🔢 DERIVED */
+
   const totalCandles =
     memorial.candle_count + (hasLitCandle ? 1 : 0)
 
-  // 🔗 share handler
+  /* 🔗 ACTIONS */
+
   const handleShare = async () => {
     if (navigator.share) {
       await navigator.share({
@@ -67,8 +94,13 @@ export function MemorialClient({
     }
   }
 
+  /* 🎨 UI */
+
   return (
-    <div data-theme={memorial.theme} className="min-h-screen">
+    <div
+      data-theme={memorial.theme}
+      className="min-h-screen bg-background relative overflow-hidden"
+    >
 
       {/* HEADER */}
       <MemorialHeader onShare={handleShare} />
@@ -94,7 +126,7 @@ export function MemorialClient({
         onShare={handleShare}
       />
 
-      {/* TABS WRAPPER */}
+      {/* TABS */}
       <MemorialTabs
         timelineEvents={timelineEvents}
         galleryItems={galleryItems}
