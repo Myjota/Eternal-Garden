@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { EternalGardenLogo } from '@/components/icons'
 import { createClient } from '@/lib/supabase/client'
 import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
@@ -19,7 +19,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  
+
   const locale: Locale = defaultLocale
   const t = getTranslations(locale)
 
@@ -49,21 +49,37 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      {/* Background decoration */}
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1920&q=80')`,
-        }}
-      />
-      
+    <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
+
+      {/* subtle logo background pattern */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.04]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/images/logo.png')",
+            backgroundRepeat: 'repeat',
+            backgroundSize: '140px',
+            backgroundPosition: 'center',
+          }}
+        />
+      </div>
+
       <div className="relative flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md border-border/50 shadow-xl">
+        <Card className="w-full max-w-md border-border/50 shadow-xl backdrop-blur">
+
           <CardHeader className="text-center space-y-4">
+
+            {/* ✅ UPDATED LOGO */}
             <Link href="/" className="flex justify-center">
-              <EternalGardenLogo className="h-16 w-16 text-primary" />
+              <Image
+                src="/images/logo.png"
+                alt="Eternal Garden"
+                width={64}
+                height={64}
+                className="h-16 w-16 object-contain"
+              />
             </Link>
+
             <div>
               <CardTitle className="font-serif text-2xl text-foreground">
                 {t.auth.login}
@@ -72,15 +88,19 @@ export default function LoginPage() {
                 Eternal Garden
               </CardDescription>
             </div>
+
           </CardHeader>
+
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
+
               {error && (
                 <Alert variant="destructive">
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 
+              {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">{t.auth.email}</Label>
                 <Input
@@ -94,16 +114,18 @@ export default function LoginPage() {
                 />
               </div>
 
+              {/* Password */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">{t.auth.password}</Label>
-                  <Link 
-                    href="/auth/forgot-password" 
+                  <Link
+                    href="/auth/forgot-password"
                     className="text-sm text-primary hover:underline"
                   >
                     {t.auth.forgotPassword}
                   </Link>
                 </div>
+
                 <Input
                   id="password"
                   type="password"
@@ -114,37 +136,37 @@ export default function LoginPage() {
                 />
               </div>
 
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={loading}
-              >
+              {/* Submit */}
+              <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? <Spinner className="h-4 w-4" /> : t.auth.loginButton}
               </Button>
 
+              {/* Signup */}
               <div className="text-center text-sm text-muted-foreground">
                 {t.auth.noAccount}{' '}
-                <Link 
-                  href="/auth/signup" 
+                <Link
+                  href="/auth/signup"
                   className="text-primary hover:underline font-medium"
                 >
                   {t.auth.signup}
                 </Link>
               </div>
+
             </form>
           </CardContent>
         </Card>
       </div>
 
-      {/* Footer link back to home */}
+      {/* Footer */}
       <div className="relative text-center py-6">
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           {t.common.back} &larr; Eternal Garden
         </Link>
       </div>
+
     </div>
   )
-}
+                  }
