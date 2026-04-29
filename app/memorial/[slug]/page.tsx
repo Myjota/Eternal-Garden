@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation'
 import { MemorialClient } from './memorial-client'
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export default async function MemorialPage({ params }: Props) {
-  const { slug } = params
+  const { slug } = await params
   const supabase = await createClient()
 
   /* ================= MEMORIAL ================= */
