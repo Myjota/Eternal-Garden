@@ -20,7 +20,7 @@ interface GalleryTabProps {
 export function GalleryTab({ items }: GalleryTabProps) {
   if (!items || items.length === 0) {
     return (
-      <Card className="border-border/50 bg-card/80 backdrop-blur max-w-2xl mx-auto">
+      <Card className="theme-card">
         <CardContent className="p-12">
           <Empty
             icon={ImageIcon}
@@ -38,7 +38,7 @@ export function GalleryTab({ items }: GalleryTabProps) {
       {items.map((item) => (
         <Card
           key={item.id}
-          className="overflow-hidden border-border/50 bg-card/80 backdrop-blur group cursor-pointer hover:scale-[1.02] transition-transform"
+          className="overflow-hidden theme-card group cursor-pointer transition-transform hover:scale-[1.02]"
         >
 
           {/* Media */}
@@ -51,8 +51,8 @@ export function GalleryTab({ items }: GalleryTabProps) {
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
 
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+            {/* Theme-aware overlay */}
+            <div className="absolute inset-0 theme-image-overlay opacity-0 group-hover:opacity-100 transition-opacity" />
 
           </div>
 
