@@ -38,13 +38,6 @@ export function FamousSection({ t }: FamousSectionProps) {
     setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : prev))
   }
 
-  const placeholderImages = [
-    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=400&fit=crop&q=80&sat=-100&sepia=30',
-    'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=400&fit=crop&q=80&sat=-100&sepia=30',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&q=80&sat=-100&sepia=30',
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=400&fit=crop&q=80&sat=-100&sepia=30',
-  ]
-
   return (
     <section className="py-16 md:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -81,51 +74,48 @@ export function FamousSection({ t }: FamousSectionProps) {
 
           {/* Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
-            {currentItems.map((person, i) => {
-              const globalIndex = currentPage * itemsPerPage + i
+            {currentItems.map((person) => (
+              <Card
+                key={person.id}
+                className="overflow-hidden border-2 border-primary/20 bg-card hover:border-primary/40 transition-all duration-300"
+              >
+                {/* IMAGE FIX: using profileImage from mock data */}
+                <div className="aspect-[3/4] relative overflow-hidden bg-muted">
+                  <Image
+                    src={person.profileImage}
+                    alt={`${person.firstName} ${person.lastName}`}
+                    fill
+                    className="object-cover sepia-[0.3]"
+                  />
+                  <div className="absolute inset-2 border border-primary/20 pointer-events-none" />
+                </div>
 
-              return (
-                <Card
-                  key={person.id}
-                  className="overflow-hidden border-2 border-primary/20 bg-card hover:border-primary/40 transition-all duration-300"
-                >
-                  <div className="aspect-[3/4] relative overflow-hidden bg-muted">
-                    <Image
-                      src={placeholderImages[globalIndex % placeholderImages.length]}
-                      alt={`${person.firstName} ${person.lastName}`}
-                      fill
-                      className="object-cover sepia-[0.3]"
-                    />
-                    <div className="absolute inset-2 border border-primary/20 pointer-events-none" />
-                  </div>
+                <CardContent className="p-4 text-center">
+                  <h3 className="font-serif font-semibold text-foreground">
+                    {person.firstName} {person.lastName}
+                  </h3>
 
-                  <CardContent className="p-4 text-center">
-                    <h3 className="font-serif font-semibold text-foreground">
-                      {person.firstName} {person.lastName}
-                    </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {new Date(person.birthDate).getFullYear()} – {new Date(person.deathDate).getFullYear()}
+                  </p>
 
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {new Date(person.birthDate).getFullYear()} – {new Date(person.deathDate).getFullYear()}
-                    </p>
+                  <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                    {person.biography}
+                  </p>
 
-                    <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                      {person.biography}
-                    </p>
-
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                      asChild
-                    >
-                      <Link href={`/memorial/${person.slug}`}>
-                        {t.famousSection.viewMemorial}
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              )
-            })}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    asChild
+                  >
+                    <Link href={`/memorial/${person.slug}`}>
+                      {t.famousSection.viewMemorial}
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           {/* Dots */}
