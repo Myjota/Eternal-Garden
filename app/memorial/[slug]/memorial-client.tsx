@@ -1,24 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { MemorialHeader } from '@/components/memorial/MemorialHeader'
+import { MemorialHero } from '@/components/memorial/MemorialHero'
+import { MemorialStats } from '@/components/memorial/MemorialStats'
+import { MemorialActions } from '@/components/memorial/MemorialActions'
 
-import { MemorialHeader } from '@/memorial-client/components/MemorialHeader'
-import { MemorialHero } from '@/memorial-client/components/MemorialHero'
-import { MemorialStats } from '@/memorial-client/components/MemorialStats'
-import { MemorialActions } from '@/memorial-client/components/MemorialActions'
-import { MemorialTabs } from '@/memorial-client/tabs/MemorialTabs'
+// ✅ FIXED (local path)
+import { MemorialTabs } from './tabs/MemorialTabs'
 
 import { useCandles } from '@/memorial-client/hooks/useCandles'
 import { useCondolences } from '@/memorial-client/hooks/useCondolences'
-
-interface Props {
-  memorial: any
-  timelineEvents: any[]
-  galleryItems: any[]
-  candles: any[]
-  condolences: any[]
-  currentUser: any
-}
 
 export function MemorialClient({
   memorial,
@@ -27,11 +18,8 @@ export function MemorialClient({
   candles: initialCandles,
   condolences: initialCondolences,
   currentUser,
-}: Props) {
+}: any) {
 
-  // ─────────────────────────────
-  // 1. Hooks (business logic layer)
-  // ─────────────────────────────
   const {
     candles,
     hasLitCandle,
@@ -54,15 +42,9 @@ export function MemorialClient({
     userId: currentUser?.id,
   })
 
-  // ─────────────────────────────
-  // 2. Derived state
-  // ─────────────────────────────
   const totalCandles =
     memorial.candle_count + (hasLitCandle ? 1 : 0)
 
-  // ─────────────────────────────
-  // 3. UI actions
-  // ─────────────────────────────
   const handleShare = async () => {
     if (navigator.share) {
       await navigator.share({
@@ -74,11 +56,8 @@ export function MemorialClient({
     }
   }
 
-  // ─────────────────────────────
-  // 4. Render (PURE UI COMPOSITION)
-  // ─────────────────────────────
   return (
-    <div data-theme={memorial.theme} className="min-h-screen">
+    <div data-theme={memorial.theme}>
 
       <MemorialHeader onShare={handleShare} />
 
