@@ -1,15 +1,22 @@
 'use client'
 
-import { MemorialHeader } from '@/components/memorial/MemorialHeader'
-import { MemorialHero } from '@/components/memorial/MemorialHero'
-import { MemorialStats } from '@/components/memorial/MemorialStats'
-import { MemorialActions } from '@/components/memorial/MemorialActions'
-
-// ✅ FIXED (local path)
+import { MemorialHeader } from './components/MemorialHeader'
+import { MemorialHero } from './components/MemorialHero'
+import { MemorialStats } from './components/MemorialStats'
+import { MemorialActions } from './components/MemorialActions'
 import { MemorialTabs } from './tabs/MemorialTabs'
 
-import { useCandles } from '@/memorial-client/hooks/useCandles'
-import { useCondolences } from '@/memorial-client/hooks/useCondolences'
+import { useCandles } from './hooks/useCandles'
+import { useCondolences } from './hooks/useCondolences'
+
+interface Props {
+  memorial: any
+  timelineEvents: any[]
+  galleryItems: any[]
+  candles: any[]
+  condolences: any[]
+  currentUser: any
+}
 
 export function MemorialClient({
   memorial,
@@ -18,8 +25,9 @@ export function MemorialClient({
   candles: initialCandles,
   condolences: initialCondolences,
   currentUser,
-}: any) {
+}: Props) {
 
+  // 🧠 CANDLES HOOK
   const {
     candles,
     hasLitCandle,
@@ -32,6 +40,7 @@ export function MemorialClient({
     userEmail: currentUser?.email,
   })
 
+  // 🧠 CONDOLENCES HOOK
   const {
     items: condolenceItems,
     isSubmitting,
@@ -42,9 +51,11 @@ export function MemorialClient({
     userId: currentUser?.id,
   })
 
+  // 🔢 derived state
   const totalCandles =
     memorial.candle_count + (hasLitCandle ? 1 : 0)
 
+  // 🔗 share handler
   const handleShare = async () => {
     if (navigator.share) {
       await navigator.share({
@@ -56,21 +67,26 @@ export function MemorialClient({
     }
   }
 
+  // 🎨 UI ONLY
   return (
-    <div data-theme={memorial.theme}>
+    <div data-theme={memorial.theme} className="min-h-screen">
 
+      {/* HEADER */}
       <MemorialHeader onShare={handleShare} />
 
+      {/* HERO */}
       <MemorialHero
         memorial={memorial}
         totalCandles={totalCandles}
       />
 
+      {/* STATS */}
       <MemorialStats
         candles={totalCandles}
         views={memorial.view_count}
       />
 
+      {/* ACTIONS */}
       <MemorialActions
         hasLitCandle={hasLitCandle}
         isLoading={isLoading}
@@ -79,6 +95,7 @@ export function MemorialClient({
         onShare={handleShare}
       />
 
+      {/* TABS */}
       <MemorialTabs
         timelineEvents={timelineEvents}
         galleryItems={galleryItems}
@@ -89,4 +106,4 @@ export function MemorialClient({
 
     </div>
   )
-}
+      }
