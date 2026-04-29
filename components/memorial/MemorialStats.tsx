@@ -18,7 +18,7 @@ export function MemorialStats({
 
       {/* Candles */}
       <div className="flex items-center gap-3">
-        <div className="p-3 rounded-full bg-primary/10">
+        <div className="p-3 rounded-full theme-stat-icon">
           <Flame className="h-6 w-6 text-primary" />
         </div>
 
@@ -34,7 +34,7 @@ export function MemorialStats({
 
       {/* Views */}
       <div className="flex items-center gap-3">
-        <div className="p-3 rounded-full bg-muted">
+        <div className="p-3 rounded-full theme-stat-icon">
           <Eye className="h-6 w-6 text-muted-foreground" />
         </div>
 
