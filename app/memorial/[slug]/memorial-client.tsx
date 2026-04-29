@@ -1,13 +1,13 @@
 'use client'
 
-import { MemorialHeader } from './components/MemorialHeader'
-import { MemorialHero } from './components/MemorialHero'
-import { MemorialStats } from './components/MemorialStats'
-import { MemorialActions } from './components/MemorialActions'
-import { MemorialTabs } from './tabs/MemorialTabs'
+import { MemorialHeader } from '@/components/memorial/MemorialHeader'
+import { MemorialHero } from '@/components/memorial/MemorialHero'
+import { MemorialStats } from '@/components/memorial/MemorialStats'
+import { MemorialActions } from '@/components/memorial/MemorialActions'
+import { MemorialTabs } from '@/components/memorial/MemorialTabs'
 
-import { useCandles } from './hooks/useCandles'
-import { useCondolences } from './hooks/useCondolences'
+import { useCandles } from '@/hooks/useCandles'
+import { useCondolences } from '@/hooks/useCondolences'
 
 interface Props {
   memorial: any
@@ -67,7 +67,6 @@ export function MemorialClient({
     }
   }
 
-  // 🎨 UI ONLY
   return (
     <div data-theme={memorial.theme} className="min-h-screen">
 
@@ -95,7 +94,7 @@ export function MemorialClient({
         onShare={handleShare}
       />
 
-      {/* TABS */}
+      {/* TABS WRAPPER */}
       <MemorialTabs
         timelineEvents={timelineEvents}
         galleryItems={galleryItems}
@@ -106,4 +105,4 @@ export function MemorialClient({
 
     </div>
   )
-      }
+}
