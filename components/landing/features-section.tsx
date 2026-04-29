@@ -69,7 +69,7 @@ export function FeaturesSection({ t, theme = 'garden' }: FeaturesSectionProps) {
               alt="Eternal Garden"
               width={48}
               height={48}
-              className="h-12 w-12"
+              className="h-12 w-auto"
             />
           </div>
           <h2 className={`font-serif text-3xl font-bold md:text-4xl ${isMarble ? 'text-[#2d5a3d]' : 'text-primary'}`}>
