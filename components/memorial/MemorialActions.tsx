@@ -35,7 +35,8 @@ export function MemorialActions({
           size="lg"
           className="gap-3 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-shadow"
         >
-          <Flame className={`h-6 w-6 ${hasLitCandle ? '' : 'candle-glow'}`} />
+          {/* Theme-driven effect ONLY via CSS */}
+          <Flame className="h-6 w-6 candle-glow" />
 
           {hasLitCandle ? alreadyLitLabel : lightLabel}
         </Button>
