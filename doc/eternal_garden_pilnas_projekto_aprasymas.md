@@ -134,6 +134,133 @@ Artimųjų ir draugų žinutės.
 
 ## Sistemos Architektūra
 
+### Shema
+src/
+├── app/
+│   ├── layout.tsx                     → global app wrapper
+│   ├── globals.css                   → tailwind + base imports
+│   │
+│   ├── page.tsx                      → homepage
+│   │
+│   ├── memorials/
+│   │   └── [slug]/
+│   │       └── page.tsx              → fetch memorial + pass data to MemorialClient
+│   │
+│   ├── dashboard/
+│   │   ├── page.tsx
+│   │   ├── memorials/
+│   │   └── settings/
+│   │
+│   └── admin/
+│       └── page.tsx
+│
+├── components/
+│   ├── memorial/                     → ONLY memorial page UI
+│   │   ├── MemorialClient.tsx        → main themed wrapper / state / logic
+│   │   ├── MemorialHeader.tsx
+│   │   ├── MemorialHero.tsx
+│   │   ├── MemorialStats.tsx
+│   │   ├── MemorialActions.tsx
+│   │   ├── MemorialTabs.tsx
+│   │   │
+│   │   ├── blocks/                  → page sections
+│   │   │   ├── BiographyBlock.tsx
+│   │   │   ├── CandleWall.tsx
+│   │   │   ├── FamilyBlock.tsx
+│   │   │   └── SupportBlock.tsx
+│   │   │
+│   │   ├── tabs/
+│   │   │   ├── TimelineTab.tsx
+│   │   │   ├── GalleryTab.tsx
+│   │   │   └── CondolencesTab.tsx
+│   │   │
+│   │   └── modals/
+│   │       ├── CandleModal.tsx
+│   │       ├── ShareModal.tsx
+│   │       └── PhotoViewer.tsx
+│   │
+│   ├── dashboard/                   → user dashboard UI
+│   │   ├── DashboardSidebar.tsx
+│   │   ├── MemorialCard.tsx
+│   │   ├── ThemeCard.tsx
+│   │   └── UpgradeCard.tsx
+│   │
+│   ├── admin/                       → admin panel UI
+│   │   ├── UsersTable.tsx
+│   │   ├── ReportsTable.tsx
+│   │   └── ThemeManager.tsx
+│   │
+│   ├── theme/                       → global theme system
+│   │   ├── ThemeProvider.tsx
+│   │   ├── ThemePicker.tsx
+│   │   └── ThemePreviewCard.tsx
+│   │
+│   ├── layout/                      → reusable layout pieces
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Sidebar.tsx
+│   │   └── Container.tsx
+│   │
+│   └── ui/                          → shadcn reusable primitives
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── tabs.tsx
+│       ├── dialog.tsx
+│       ├── input.tsx
+│       └── ...
+│
+├── lib/
+│   ├── supabase/
+│   │   ├── server.ts
+│   │   ├── client.ts
+│   │   └── middleware.ts
+│   │
+│   ├── themes/
+│   │   ├── config.ts               → theme list
+│   │   ├── access.ts               → free/premium checks
+│   │   ├── loader.ts               → load memorial theme
+│   │   ├── theme-context.tsx
+│   │   └── index.ts
+│   │
+│   ├── auth/
+│   ├── utils/
+│   ├── validations/
+│   └── constants/
+│
+├── hooks/
+│   ├── useTheme.ts
+│   ├── useMemorial.ts
+│   └── useShare.ts
+│
+├── types/
+│   ├── memorial.ts
+│   ├── user.ts
+│   └── theme.ts
+│
+└── styles/
+    ├── themes/
+    │   ├── index.css               → imports all themes
+    │   │
+    │   ├── base/
+    │   │   ├── tokens.css
+    │   │   ├── utilities.css
+    │   │   ├── animations.css
+    │   │   └── components.css
+    │   │
+    │   ├── free/
+    │   │   ├── garden.css
+    │   │   └── marble.css
+    │   │
+    │   ├── premium/
+    │   │   ├── orthodox.css
+    │   │   ├── eternal-night.css
+    │   │   └── sunny-window.css
+    │   │
+    │   └── special/
+    │       └── rainbow-bridge.css
+    │
+    └── fonts/
+
 ### Frontend Struktūra
 - app/
 - components/
