@@ -197,7 +197,7 @@ export default function CreateMemorialPage() {
                 alt="Eternal Garden"
                 width={24}
                 height={24}
-                className="h-6 w-6"
+                className="h-6 w-auto"
               />
               <span className="font-serif text-lg font-semibold">Naujas atminimas</span>
             </div>
