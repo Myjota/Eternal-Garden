@@ -270,6 +270,17 @@
   background: linear-gradient(135deg, oklch(0.35 0.12 145 / 0.03) 0%, transparent 50%, oklch(0.45 0.10 145 / 0.02) 100%);
 }
 
+/* Garden Theme - Full page background image */
+[data-theme="garden"] {
+  background-image: 
+    linear-gradient(to bottom, oklch(0.99 0.005 145 / 0.85) 0%, oklch(0.98 0.008 145 / 0.75) 50%, oklch(0.97 0.01 145 / 0.85) 100%),
+    url('/themes/garden.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
 [data-theme="garden"] .theme-card-glow {
   box-shadow: 0 0 40px oklch(0.50 0.15 145 / 0.08);
 }
