@@ -273,12 +273,13 @@
 /* Garden Theme - Full page background image */
 [data-theme="garden"] {
   background-image: 
-    linear-gradient(to bottom, oklch(0.99 0.005 145 / 0.85) 0%, oklch(0.98 0.008 145 / 0.75) 50%, oklch(0.97 0.01 145 / 0.85) 100%),
+    linear-gradient(to bottom, oklch(0.35 0.08 145 / 0.08) 0%, transparent 30%, oklch(0.35 0.08 145 / 0.05) 100%),
     url('/themes/garden.jpeg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 [data-theme="garden"] .theme-card-glow {
