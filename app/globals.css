@@ -320,6 +320,18 @@
   padding: 4px;
 }
 
+/* Marble Theme - Full page background image */
+[data-theme="marble"] {
+  background-image: 
+    linear-gradient(to bottom, oklch(0.98 0.002 250 / 0.15) 0%, transparent 30%, oklch(0.94 0.005 250 / 0.1) 100%),
+    url('/themes/marble1.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
 /* Orthodox Theme - Byzantine patterns */
 [data-theme="orthodox"] .theme-pattern {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4a574' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='%23d4a574' stroke-opacity='0.04' stroke-width='0.5'/%3E%3Cpath d='M30 5 L30 55 M5 30 L55 30' stroke='%23d4a574' stroke-opacity='0.03' stroke-width='0.5'/%3E%3C/svg%3E");
@@ -361,6 +373,18 @@
   font-size: 2rem;
   color: oklch(0.60 0.16 70);
   opacity: 0.6;
+}
+
+/* Orthodox Theme - Full page background image */
+[data-theme="orthodox"] {
+  background-image: 
+    linear-gradient(to bottom, oklch(0.97 0.01 50 / 0.2) 0%, transparent 30%, oklch(0.55 0.15 50 / 0.08) 100%),
+    url('/themes/ortodoks.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 /* Eternal Night Theme - Stars and cosmos */
@@ -417,6 +441,18 @@
   border-radius: 50%;
   box-shadow: 0 0 40px oklch(0.95 0.05 80 / 0.4);
   opacity: 0.8;
+}
+
+/* Eternal Night Theme - Full page background image */
+[data-theme="eternal-night"] {
+  background-image: 
+    linear-gradient(to bottom, oklch(0.15 0.02 260 / 0.3) 0%, transparent 40%, oklch(0.10 0.03 270 / 0.4) 100%),
+    url('/themes/eternal.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 /* Rainbow Bridge Theme - Soft rainbow gradients for pets */
@@ -476,6 +512,18 @@
   opacity: 0.5;
 }
 
+/* Rainbow Bridge Theme - Full page background image */
+[data-theme="rainbow-bridge"] {
+  background-image: 
+    linear-gradient(to bottom, oklch(0.98 0.01 280 / 0.25) 0%, transparent 40%, oklch(0.95 0.02 300 / 0.15) 100%),
+    url('/themes/rainbow.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
 /* Sunny Window Theme - Warm sunlight rays */
 [data-theme="sunny-window"] .theme-pattern {
   background-image: 
@@ -505,6 +553,19 @@
 
 [data-theme="sunny-window"] .theme-border-accent {
   border-color: oklch(0.75 0.16 75 / 0.4);
+}
+
+/* Sunny Window Theme - Full page background image */
+/* Note: Add /themes/sunny-window.jpeg when available */
+[data-theme="sunny-window"] {
+  background-image: 
+    linear-gradient(to bottom, oklch(0.99 0.01 80 / 0.2) 0%, transparent 40%, oklch(0.95 0.02 75 / 0.15) 100%),
+    linear-gradient(180deg, oklch(0.99 0.015 85) 0%, oklch(0.98 0.02 80) 100%);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 [data-theme="sunny-window"] .theme-portrait-frame {
