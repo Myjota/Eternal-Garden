@@ -26,7 +26,7 @@ export function MemorialHeader({ onShare }: MemorialHeaderProps) {
             alt="Eternal Garden"
             width={28}
             height={28}
-            className="h-7 w-7"
+            className="h-7 w-auto"
           />
 
           <span className="font-serif text-lg font-semibold hidden sm:inline">
