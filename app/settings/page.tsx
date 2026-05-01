@@ -8,12 +8,11 @@ import { Bell, Globe, Lock } from 'lucide-react'
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
-
-  // true = LT, false = EN
   const [isLithuanian, setIsLithuanian] = useState(true)
-
-  // true = private, false = public
   const [isPrivate, setIsPrivate] = useState(false)
+
+  const switchClass =
+    'data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted-foreground/40'
 
   return (
     <>
@@ -36,12 +35,10 @@ export default function SettingsPage() {
 
           <CardContent>
             <div className="flex items-center justify-between">
-
               <div>
                 <p className="font-medium">
                   {isPrivate ? 'Private memorial' : 'Public memorial'}
                 </p>
-
                 <p className="text-sm text-muted-foreground">
                   {isPrivate
                     ? 'Hidden from search and listings'
@@ -52,8 +49,8 @@ export default function SettingsPage() {
               <Switch
                 checked={isPrivate}
                 onCheckedChange={setIsPrivate}
+                className={switchClass}
               />
-
             </div>
           </CardContent>
         </Card>
@@ -69,12 +66,10 @@ export default function SettingsPage() {
 
           <CardContent>
             <div className="flex items-center justify-between">
-
               <div>
                 <p className="font-medium">
                   Email notifications
                 </p>
-
                 <p className="text-sm text-muted-foreground">
                   Receive updates about memorial activity
                 </p>
@@ -83,8 +78,8 @@ export default function SettingsPage() {
               <Switch
                 checked={emailNotifications}
                 onCheckedChange={setEmailNotifications}
+                className={switchClass}
               />
-
             </div>
           </CardContent>
         </Card>
@@ -100,12 +95,10 @@ export default function SettingsPage() {
 
           <CardContent>
             <div className="flex items-center justify-between">
-
               <div>
                 <p className="font-medium">
                   {isLithuanian ? 'Lietuvių' : 'English'}
                 </p>
-
                 <p className="text-sm text-muted-foreground">
                   Interface language
                 </p>
@@ -114,8 +107,8 @@ export default function SettingsPage() {
               <Switch
                 checked={isLithuanian}
                 onCheckedChange={setIsLithuanian}
+                className={switchClass}
               />
-
             </div>
           </CardContent>
         </Card>
