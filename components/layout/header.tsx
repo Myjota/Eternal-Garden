@@ -56,9 +56,7 @@ export function Header({
     login: 'Login',
   }
 
-  const handleLocaleChange = (
-    newLocale: Locale
-  ) => {
+  const handleLocaleChange = (newLocale: Locale) => {
     onLocaleChange?.(newLocale)
   }
 
@@ -73,7 +71,6 @@ export function Header({
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
-
     return pathname.startsWith(href)
   }
 
@@ -104,17 +101,11 @@ export function Header({
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
-          <Link
-            href="/"
-            className={linkClass('/')}
-          >
+          <Link href="/" className={linkClass('/')}>
             {nav.home}
           </Link>
 
-          <Link
-            href="/support"
-            className={linkClass('/support')}
-          >
+          <Link href="/support" className={linkClass('/support')}>
             {nav.supportProject}
           </Link>
         </nav>
@@ -133,7 +124,6 @@ export function Header({
                 <span className="text-xs">
                   {locale.toUpperCase()}
                 </span>
-
                 <ChevronDown className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -142,9 +132,7 @@ export function Header({
               {locales.map((loc) => (
                 <DropdownMenuItem
                   key={loc}
-                  onClick={() =>
-                    handleLocaleChange(loc)
-                  }
+                  onClick={() => handleLocaleChange(loc)}
                 >
                   {localeNames[loc]}
                 </DropdownMenuItem>
@@ -152,7 +140,7 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* User Logged In */}
+          {/* USER */}
           {user ? (
             <>
               <Button size="sm" asChild>
@@ -169,17 +157,16 @@ export function Header({
                     className="gap-2"
                   >
                     <User className="h-4 w-4" />
-
-                    <span className="max-w-[120px] truncate">
-                      {user.email ??
-                        'Account'}
-                    </span>
-
                     <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" className="w-56">
+
+                  <div className="px-2 py-1.5 text-xs text-muted-foreground truncate">
+                    {user.email ?? 'Account'}
+                  </div>
+
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">
                       Dashboard
@@ -192,6 +179,26 @@ export function Header({
                     </Link>
                   </DropdownMenuItem>
 
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings">
+                      Settings
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/services">
+                      Services
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/create">
+                      Create Memorial
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <div className="my-1 border-t border-border" />
+
                   <DropdownMenuItem
                     onClick={handleLogout}
                     className="text-destructive"
@@ -199,21 +206,14 @@ export function Header({
                     <LogOut className="h-4 w-4 mr-2" />
                     Atsijungti
                   </DropdownMenuItem>
+
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
           ) : (
             <>
-              <Button
-                variant="ghost"
-                size="sm"
-                asChild
-              >
-                <Link
-                  href="/auth/login"
-                  className="gap-2"
-                >
-                  <User className="h-4 w-4" />
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/auth/login">
                   {nav.login}
                 </Link>
               </Button>
@@ -231,9 +231,7 @@ export function Header({
         <button
           className="md:hidden"
           onClick={() =>
-            setMobileMenuOpen(
-              !mobileMenuOpen
-            )
+            setMobileMenuOpen(!mobileMenuOpen)
           }
         >
           {mobileMenuOpen ? (
@@ -244,46 +242,29 @@ export function Header({
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       {mobileMenuOpen && (
         <div className="border-t border-border md:hidden">
           <nav className="container mx-auto flex flex-col gap-4 p-4">
 
-            <Link
-              href="/"
-              onClick={() =>
-                setMobileMenuOpen(false)
-              }
-            >
+            <Link href="/" onClick={() => setMobileMenuOpen(false)}>
               {nav.home}
             </Link>
 
-            <Link
-              href="/support"
-              onClick={() =>
-                setMobileMenuOpen(false)
-              }
-            >
+            <Link href="/support" onClick={() => setMobileMenuOpen(false)}>
               {nav.supportProject}
             </Link>
 
             <div className="pt-4 border-t border-border flex flex-col gap-2">
 
-              <Button
-                size="sm"
-                asChild
-              >
+              <Button size="sm" asChild>
                 <Link href="/create">
                   {nav.createMemorial}
                 </Link>
               </Button>
 
               {!user && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                >
+                <Button variant="outline" size="sm" asChild>
                   <Link href="/auth/login">
                     {nav.login}
                   </Link>
@@ -292,32 +273,34 @@ export function Header({
 
               {user && (
                 <>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                  >
+                  <Button variant="outline" size="sm" asChild>
                     <Link href="/dashboard">
                       Dashboard
                     </Link>
                   </Button>
 
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                  >
+                  <Button variant="outline" size="sm" asChild>
                     <Link href="/profile">
                       Profile
+                    </Link>
+                  </Button>
+
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href="/settings">
+                      Settings
+                    </Link>
+                  </Button>
+
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href="/services">
+                      Services
                     </Link>
                   </Button>
 
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={
-                      handleLogout
-                    }
+                    onClick={handleLogout}
                     className="text-destructive"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
@@ -325,6 +308,7 @@ export function Header({
                   </Button>
                 </>
               )}
+
             </div>
 
           </nav>
@@ -332,4 +316,4 @@ export function Header({
       )}
     </header>
   )
-    }
+      }
