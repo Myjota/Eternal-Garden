@@ -2,16 +2,21 @@
    ORTHODOX THEME - Premium
    ============================================ */
 [data-theme="orthodox"] {
+  /* Core colors - Gold & deep tones */
   --primary: oklch(0.60 0.16 70);
   --primary-foreground: oklch(0.15 0.02 30);
   --secondary: oklch(0.35 0.14 30);
   --secondary-foreground: oklch(0.95 0.02 70);
   --accent: oklch(0.55 0.14 70);
   --accent-foreground: oklch(0.15 0.02 30);
+
+  /* Background colors */
   --background: oklch(0.97 0.01 60);
   --foreground: oklch(0.20 0.04 30);
   --muted: oklch(0.93 0.02 60);
   --muted-foreground: oklch(0.45 0.05 30);
+
+  /* UI elements */
   --card: oklch(0.98 0.008 60);
   --card-foreground: oklch(0.20 0.04 30);
   --popover: oklch(0.98 0.008 60);
@@ -20,40 +25,58 @@
   --input: oklch(0.90 0.03 60);
   --ring: oklch(0.60 0.16 70);
 
+  /* Theme-specific */
   --theme-gradient-start: oklch(0.60 0.16 70);
   --theme-gradient-end: oklch(0.40 0.14 30);
   --theme-pattern-opacity: 0.04;
   --theme-glow-color: oklch(0.65 0.18 70 / 0.20);
 }
 
-/* Patterns */
+/* Pattern */
 [data-theme="orthodox"] .theme-pattern {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4a574' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='%23d4a574' stroke-opacity='0.04' stroke-width='0.5'/%3E%3Cpath d='M30 5 L30 55 M5 30 L55 30' stroke='%23d4a574' stroke-opacity='0.03' stroke-width='0.5'/%3E%3C/svg%3E");
   background-size: 60px 60px;
 }
 
+/* Hero */
 [data-theme="orthodox"] .theme-hero-bg {
   background:
-    radial-gradient(ellipse at 50% 0%, oklch(0.65 0.16 70 / 0.15) 0%, transparent 60%),
-    linear-gradient(180deg, oklch(0.97 0.02 60) 0%, oklch(0.95 0.015 50) 100%);
+    radial-gradient(
+      ellipse at 50% 0%,
+      oklch(0.65 0.16 70 / 0.15) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      oklch(0.97 0.02 60) 0%,
+      oklch(0.95 0.015 50) 100%
+    );
 }
 
+/* Glow */
 [data-theme="orthodox"] .theme-card-glow {
   box-shadow:
     0 0 50px oklch(0.65 0.18 70 / 0.15),
     0 0 100px oklch(0.60 0.14 70 / 0.08);
 }
 
+/* Border */
 [data-theme="orthodox"] .theme-border-accent {
   border-color: oklch(0.65 0.16 70 / 0.5);
 }
 
+/* Portrait */
 [data-theme="orthodox"] .theme-portrait-frame {
-  background: linear-gradient(135deg, oklch(0.65 0.16 70), oklch(0.50 0.12 60));
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.16 70),
+    oklch(0.50 0.12 60)
+  );
   padding: 6px;
   border-radius: 0;
 }
 
+/* Cross decoration */
 [data-theme="orthodox"] .theme-cross {
   position: relative;
 }
@@ -72,11 +95,16 @@
 /* Background */
 [data-theme="orthodox"] {
   background-image:
-    linear-gradient(to bottom, oklch(0.97 0.01 50 / 0.2) 0%, transparent 30%, oklch(0.55 0.15 50 / 0.08) 100%),
+    linear-gradient(
+      to bottom,
+      oklch(0.97 0.01 50 / 0.2) 0%,
+      transparent 30%,
+      oklch(0.55 0.15 50 / 0.08) 100%
+    ),
     url('/themes/ortodoks.jpeg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
   min-height: 100vh;
-}
+       }
