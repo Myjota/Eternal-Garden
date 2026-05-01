@@ -2,16 +2,21 @@
    ETERNAL NIGHT THEME - Premium
    ============================================ */
 [data-theme="eternal-night"] {
+  /* Core colors - Night sky palette */
   --primary: oklch(0.70 0.12 260);
   --primary-foreground: oklch(0.12 0.02 260);
   --secondary: oklch(0.28 0.06 280);
   --secondary-foreground: oklch(0.90 0.02 260);
   --accent: oklch(0.75 0.10 290);
   --accent-foreground: oklch(0.12 0.02 290);
+
+  /* Background colors */
   --background: oklch(0.12 0.025 270);
   --foreground: oklch(0.92 0.01 260);
   --muted: oklch(0.18 0.03 270);
   --muted-foreground: oklch(0.65 0.03 260);
+
+  /* UI elements */
   --card: oklch(0.15 0.03 270);
   --card-foreground: oklch(0.92 0.01 260);
   --popover: oklch(0.15 0.03 270);
@@ -20,13 +25,14 @@
   --input: oklch(0.20 0.03 270);
   --ring: oklch(0.70 0.12 260);
 
+  /* Theme-specific */
   --theme-gradient-start: oklch(0.15 0.04 280);
   --theme-gradient-end: oklch(0.10 0.03 260);
   --theme-pattern-opacity: 0.15;
   --theme-glow-color: oklch(0.75 0.15 260 / 0.25);
 }
 
-/* Stars */
+/* Stars pattern */
 [data-theme="eternal-night"] .theme-pattern {
   background-image:
     radial-gradient(1px 1px at 20px 30px, oklch(0.95 0 0), transparent),
@@ -42,17 +48,34 @@
   animation: twinkle 8s ease-in-out infinite alternate;
 }
 
+/* Animation */
 @keyframes twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Hero */
 [data-theme="eternal-night"] .theme-hero-bg {
   background:
-    radial-gradient(ellipse at 30% 20%, oklch(0.25 0.08 280 / 0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 70%, oklch(0.20 0.06 260 / 0.4) 0%, transparent 40%),
-    linear-gradient(180deg, oklch(0.10 0.03 270) 0%, oklch(0.14 0.025 265) 100%);
+    radial-gradient(
+      ellipse at 30% 20%,
+      oklch(0.25 0.08 280 / 0.5) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 70%,
+      oklch(0.20 0.06 260 / 0.4) 0%,
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      oklch(0.10 0.03 270) 0%,
+      oklch(0.14 0.025 265) 100%
+    );
 }
 
 /* Glow */
@@ -63,23 +86,33 @@
     inset 0 1px 0 oklch(0.40 0.06 260 / 0.3);
 }
 
+/* Border */
 [data-theme="eternal-night"] .theme-border-accent {
   border-color: oklch(0.50 0.10 260 / 0.4);
 }
 
+/* Portrait */
 [data-theme="eternal-night"] .theme-portrait-frame {
-  background: linear-gradient(135deg, oklch(0.55 0.12 260), oklch(0.35 0.08 280));
+  background: linear-gradient(
+    135deg,
+    oklch(0.55 0.12 260),
+    oklch(0.35 0.08 280)
+  );
   padding: 4px;
 }
 
-/* Moon */
+/* Moon decoration */
 [data-theme="eternal-night"] .theme-moon {
   position: absolute;
   top: 2rem;
   right: 2rem;
   width: 60px;
   height: 60px;
-  background: radial-gradient(circle at 35% 35%, oklch(0.98 0.02 80), oklch(0.85 0.04 70));
+  background: radial-gradient(
+    circle at 35% 35%,
+    oklch(0.98 0.02 80),
+    oklch(0.85 0.04 70)
+  );
   border-radius: 50%;
   box-shadow: 0 0 40px oklch(0.95 0.05 80 / 0.4);
   opacity: 0.8;
@@ -88,7 +121,12 @@
 /* Background */
 [data-theme="eternal-night"] {
   background-image:
-    linear-gradient(to bottom, oklch(0.15 0.02 260 / 0.3) 0%, transparent 40%, oklch(0.10 0.03 270 / 0.4) 100%),
+    linear-gradient(
+      to bottom,
+      oklch(0.15 0.02 260 / 0.3) 0%,
+      transparent 40%,
+      oklch(0.10 0.03 270 / 0.4) 100%
+    ),
     url('/themes/eternal.jpeg');
   background-size: cover;
   background-position: center;
