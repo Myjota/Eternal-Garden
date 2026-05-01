@@ -43,7 +43,6 @@ interface MemorialClientProps {
   candles: any[]
   condolences: any[]
   currentUser: User | null
-
   locale: Locale
   t: Translations
 }
@@ -60,8 +59,6 @@ export function MemorialClient({
   locale,
   t,
 }: MemorialClientProps) {
-  /* 🧠 HOOKS */
-
   const {
     hasLitCandle,
     isLoading,
@@ -83,25 +80,8 @@ export function MemorialClient({
     userId: currentUser?.id,
   })
 
-  /* 🔢 DERIVED */
-
   const totalCandles =
     memorial.candle_count + (hasLitCandle ? 1 : 0)
-
-  /* 🔗 ACTIONS */
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      await navigator.share({
-        title: `${memorial.first_name} ${memorial.last_name}`,
-        url: window.location.href,
-      })
-    } else {
-      await navigator.clipboard.writeText(window.location.href)
-    }
-  }
-
-  /* 🎨 UI */
 
   return (
     <div
@@ -130,7 +110,6 @@ export function MemorialClient({
         isLoading={isLoading}
         allowCandles={memorial.allow_candles}
         onLightCandle={lightCandle}
-        onShare={handleShare}
       />
 
       {/* TABS */}
