@@ -9,7 +9,10 @@ import { Bell, Globe, Lock } from 'lucide-react'
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
 
-  // ON = private, OFF = public
+  // true = LT, false = EN
+  const [isLithuanian, setIsLithuanian] = useState(true)
+
+  // true = private, false = public
   const [isPrivate, setIsPrivate] = useState(false)
 
   return (
@@ -41,13 +44,12 @@ export default function SettingsPage() {
 
                 <p className="text-sm text-muted-foreground">
                   {isPrivate
-                    ? 'Hidden from search and public listings'
-                    : 'Visible in search and public listings'}
+                    ? 'Hidden from search and listings'
+                    : 'Visible in search and public pages'}
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
-
                 <span className="text-xs text-muted-foreground">
                   {isPrivate ? 'Private' : 'Public'}
                 </span>
@@ -56,7 +58,6 @@ export default function SettingsPage() {
                   checked={isPrivate}
                   onCheckedChange={setIsPrivate}
                 />
-
               </div>
 
             </div>
@@ -74,10 +75,12 @@ export default function SettingsPage() {
 
           <CardContent>
             <div className="flex items-center justify-between">
+
               <div>
                 <p className="font-medium">
                   Email notifications
                 </p>
+
                 <p className="text-sm text-muted-foreground">
                   Receive updates about memorial activity
                 </p>
@@ -87,6 +90,44 @@ export default function SettingsPage() {
                 checked={emailNotifications}
                 onCheckedChange={setEmailNotifications}
               />
+
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 🌍 LANGUAGE */}
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5" />
+              Language
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <div className="flex items-center justify-between">
+
+              <div>
+                <p className="font-medium">
+                  {isLithuanian ? 'Lietuvių' : 'English'}
+                </p>
+
+                <p className="text-sm text-muted-foreground">
+                  Interface language
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">
+                  {isLithuanian ? 'LT' : 'EN'}
+                </span>
+
+                <Switch
+                  checked={isLithuanian}
+                  onCheckedChange={setIsLithuanian}
+                />
+              </div>
+
             </div>
           </CardContent>
         </Card>
