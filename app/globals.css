@@ -4,13 +4,13 @@
 /* ============================================
    THEMES IMPORT
    ============================================ */
-@import './styles/themes/free/garden.css';
-@import './styles/themes/free/marble.css';
+@import '@/styles/themes/free/garden.css';
+@import '@/styles/themes/free/marble.css';
 
-@import './styles/themes/premium/eternal-night.css';
-@import './styles/themes/premium/orthodox.css';
-@import './styles/themes/premium/rainbow-bridge.css';
-@import './styles/themes/premium/sunny-window.css';
+@import '@/styles/themes/premium/eternal-night.css';
+@import '@/styles/themes/premium/orthodox.css';
+@import '@/styles/themes/premium/rainbow-bridge.css';
+@import '@/styles/themes/premium/sunny-window.css';
 
 @custom-variant dark (&:is(.dark *));
 
