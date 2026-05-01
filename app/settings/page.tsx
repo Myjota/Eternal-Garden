@@ -8,7 +8,8 @@ import { Bell, Globe, Lock } from 'lucide-react'
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
-  const [language, setLanguage] = useState(true) // true = LT, false = EN
+
+  // ON = private, OFF = public
   const [isPrivate, setIsPrivate] = useState(false)
 
   return (
@@ -32,21 +33,32 @@ export default function SettingsPage() {
 
           <CardContent>
             <div className="flex items-center justify-between">
+
               <div>
                 <p className="font-medium">
                   {isPrivate ? 'Private memorial' : 'Public memorial'}
                 </p>
+
                 <p className="text-sm text-muted-foreground">
                   {isPrivate
-                    ? 'Hidden from search and listings'
-                    : 'Visible in search and public pages'}
+                    ? 'Hidden from search and public listings'
+                    : 'Visible in search and public listings'}
                 </p>
               </div>
 
-              <Switch
-                checked={isPrivate}
-                onCheckedChange={setIsPrivate}
-              />
+              <div className="flex items-center gap-2">
+
+                <span className="text-xs text-muted-foreground">
+                  {isPrivate ? 'Private' : 'Public'}
+                </span>
+
+                <Switch
+                  checked={isPrivate}
+                  onCheckedChange={setIsPrivate}
+                />
+
+              </div>
+
             </div>
           </CardContent>
         </Card>
@@ -74,34 +86,6 @@ export default function SettingsPage() {
               <Switch
                 checked={emailNotifications}
                 onCheckedChange={setEmailNotifications}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 🌍 LANGUAGE (NOW SWITCH STYLE LIKE PRIVACY) */}
-        <Card className="mb-4">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5" />
-              Language
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">
-                  {language ? 'Lietuvių' : 'English'}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Interface language
-                </p>
-              </div>
-
-              <Switch
-                checked={language}
-                onCheckedChange={setLanguage}
               />
             </div>
           </CardContent>
