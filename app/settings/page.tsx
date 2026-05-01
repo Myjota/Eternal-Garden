@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { Card } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Header } from '@/components/layout/header'
+import { Settings, Bell, Globe, Trash2 } from 'lucide-react'
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
-  const [candleAlerts, setCandleAlerts] = useState(true)
-  const [darkMode, setDarkMode] = useState(false)
+  const [language, setLanguage] = useState('lt')
 
   return (
     <>
@@ -23,15 +23,16 @@ export default function SettingsPage() {
           Settings
         </h1>
 
-        <div className="space-y-4">
+        {/* NOTIFICATIONS */}
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5" />
+              Notifications
+            </CardTitle>
+          </CardHeader>
 
-          {/* ACCOUNT */}
-          <Card className="p-6 space-y-4">
-
-            <h2 className="font-medium">
-              Account preferences
-            </h2>
-
+          <CardContent>
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">
@@ -47,67 +48,59 @@ export default function SettingsPage() {
                 onCheckedChange={setEmailNotifications}
               />
             </div>
+          </CardContent>
+        </Card>
 
-          </Card>
+        {/* LANGUAGE */}
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5" />
+              Language
+            </CardTitle>
+          </CardHeader>
 
-          {/* MEMORIAL */}
-          <Card className="p-6 space-y-4">
-
-            <h2 className="font-medium">
-              Memorial settings
-            </h2>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">
-                  Candle alerts
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Notify when someone lights a candle
-                </p>
-              </div>
-
-              <Switch
-                checked={candleAlerts}
-                onCheckedChange={setCandleAlerts}
-              />
+          <CardContent className="flex items-center justify-between">
+            <div>
+              <p className="font-medium">Interface language</p>
+              <p className="text-sm text-muted-foreground">
+                Current: {language.toUpperCase()}
+              </p>
             </div>
 
-          </Card>
-
-          {/* APPEARANCE */}
-          <Card className="p-6 space-y-4">
-
-            <h2 className="font-medium">
-              Appearance
-            </h2>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">
-                  Dark mode
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Switch theme appearance
-                </p>
-              </div>
-
-              <Switch
-                checked={darkMode}
-                onCheckedChange={setDarkMode}
-              />
-            </div>
-
-          </Card>
-
-          {/* SAVE */}
-          <div className="flex justify-end">
-            <Button onClick={() => alert('Settings saved (mock)')}>
-              Save changes
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setLanguage(language === 'lt' ? 'en' : 'lt')
+              }
+            >
+              Switch
             </Button>
-          </div>
+          </CardContent>
+        </Card>
 
-        </div>
+        {/* DANGER ZONE */}
+        <Card className="border-destructive/30">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-destructive">
+              <Trash2 className="h-5 w-5" />
+              Danger zone
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <Button
+              variant="destructive"
+              className="w-full"
+              onClick={() =>
+                alert('Account deletion (mock)')
+              }
+            >
+              Delete account
+            </Button>
+          </CardContent>
+        </Card>
 
       </div>
     </>
