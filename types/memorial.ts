@@ -12,7 +12,7 @@ export interface Memorial {
   profile_image_url: string | null
   cover_image_url: string | null
   theme: ThemeId
-  privacy: 'public' | 'private' | 'unlisted'
+  privacy: 'public' | 'private'
   view_count: number
   candle_count: number
   allow_candles: boolean
@@ -47,12 +47,9 @@ export interface Candle {
   id: string
   memorial_id: string
   user_id: string | null
-  user_email: string | null
   user_name: string | null
   message: string | null
   lit_at: string
-  expires_at: string
-  is_premium: boolean
 }
 
 export interface Condolence {
@@ -60,7 +57,6 @@ export interface Condolence {
   memorial_id: string
   user_id: string | null
   author_name: string
-  author_email: string | null
   message: string
   is_approved: boolean
   created_at: string
