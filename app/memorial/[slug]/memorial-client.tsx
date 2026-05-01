@@ -1,6 +1,6 @@
 'use client'
 
-import { MemorialHeader } from '@/components/memorial/MemorialHeader'
+import { Header } from '@/components/layout/Header'
 import { MemorialHero } from '@/components/memorial/MemorialHero'
 import { MemorialStats } from '@/components/memorial/MemorialStats'
 import { MemorialActions } from '@/components/memorial/MemorialActions'
@@ -11,6 +11,9 @@ import { useCondolences } from '@/hooks/useCondolences'
 
 import type { User } from '@supabase/supabase-js'
 import type { ThemeId } from '@/lib/themes/config'
+
+import type { Locale } from '@/lib/i18n/config'
+import type { Translations } from '@/lib/i18n/locales/lt'
 
 /* ================= TYPES ================= */
 
@@ -40,6 +43,9 @@ interface MemorialClientProps {
   candles: any[]
   condolences: any[]
   currentUser: User | null
+
+  locale: Locale
+  t: Translations
 }
 
 /* ================= COMPONENT ================= */
@@ -51,8 +57,9 @@ export function MemorialClient({
   candles: initialCandles,
   condolences: initialCondolences,
   currentUser,
+  locale,
+  t,
 }: MemorialClientProps) {
-
   /* 🧠 HOOKS */
 
   const {
@@ -101,14 +108,15 @@ export function MemorialClient({
       data-theme={memorial.theme}
       className="min-h-screen bg-background relative overflow-hidden"
     >
-
       {/* HEADER */}
-      <MemorialHeader onShare={handleShare} />
+      <Header
+        locale={locale}
+        t={t}
+        user={currentUser}
+      />
 
       {/* HERO */}
-      <MemorialHero
-        memorial={memorial}
-      />
+      <MemorialHero memorial={memorial} />
 
       {/* STATS */}
       <MemorialStats
@@ -133,7 +141,6 @@ export function MemorialClient({
         onSubmitCondolence={submitCondolence}
         isSubmittingCondolence={isSubmitting}
       />
-
     </div>
   )
 }
