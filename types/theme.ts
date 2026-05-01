@@ -1,4 +1,4 @@
-export type ThemeCategory = 'free' | 'premium' | 'special'
+export type ThemeCategory = 'free' | 'premium'
 
 export interface ThemeColors {
   primary: string
@@ -30,5 +30,5 @@ export interface ThemeDefinition {
 export interface ThemeAccess {
   themeId: string
   hasAccess: boolean
-  reason: 'free' | 'premium' | 'purchased' | 'trial'
+  reason: 'free' | 'premium'
 }
