@@ -2,14 +2,13 @@
 
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Header } from '@/components/layout/header'
-import { Bell, Globe, Trash2, Lock } from 'lucide-react'
+import { Bell, Globe, Lock } from 'lucide-react'
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
-  const [language, setLanguage] = useState('lt')
+  const [language, setLanguage] = useState(true) // true = LT, false = EN
   const [isPrivate, setIsPrivate] = useState(false)
 
   return (
@@ -17,11 +16,12 @@ export default function SettingsPage() {
       <Header />
 
       <div className="container mx-auto py-10 max-w-2xl">
+
         <h1 className="text-2xl font-semibold mb-6">
           Settings
         </h1>
 
-        {/* 🔒 MEMORIAL PRIVACY (NEW) */}
+        {/* 🔒 PRIVACY */}
         <Card className="mb-4">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -38,8 +38,8 @@ export default function SettingsPage() {
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {isPrivate
-                    ? 'Hidden from search and public listings'
-                    : 'Visible in search and public listings'}
+                    ? 'Hidden from search and listings'
+                    : 'Visible in search and public pages'}
                 </p>
               </div>
 
@@ -51,7 +51,7 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        {/* 🔔 NOTIFICATIONS (kept) */}
+        {/* 🔔 NOTIFICATIONS */}
         <Card className="mb-4">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        {/* 🌍 LANGUAGE (kept) */}
+        {/* 🌍 LANGUAGE (NOW SWITCH STYLE LIKE PRIVACY) */}
         <Card className="mb-4">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -88,43 +88,22 @@ export default function SettingsPage() {
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">Interface language</p>
-              <p className="text-sm text-muted-foreground">
-                Current: {language.toUpperCase()}
-              </p>
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                setLanguage(language === 'lt' ? 'en' : 'lt')
-              }
-            >
-              Switch
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* ⚠️ DANGER ZONE (kept) */}
-        <Card className="border-destructive/30">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-destructive">
-              <Trash2 className="h-5 w-5" />
-              Danger zone
-            </CardTitle>
-          </CardHeader>
-
           <CardContent>
-            <Button
-              variant="destructive"
-              className="w-full"
-              onClick={() => alert('Account deletion (mock)')}
-            >
-              Delete account
-            </Button>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">
+                  {language ? 'Lietuvių' : 'English'}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Interface language
+                </p>
+              </div>
+
+              <Switch
+                checked={language}
+                onCheckedChange={setLanguage}
+              />
+            </div>
           </CardContent>
         </Card>
 
