@@ -76,7 +76,7 @@ export default function LoginPage() {
                 alt="Eternal Garden"
                 width={64}
                 height={64}
-                className="h-16 w-16 object-contain"
+                className="h-16 w-auto object-contain"
               />
             </Link>
 
