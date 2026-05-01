@@ -29,7 +29,7 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Lock className="h-5 w-5" />
-              Memorial privacy
+              Privatumas
             </CardTitle>
           </CardHeader>
 
@@ -37,12 +37,12 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">
-                  {isPrivate ? 'Private memorial' : 'Public memorial'}
+                  {isPrivate ? 'Privatus Atminimas' : 'Viešas Atminimas'}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {isPrivate
-                    ? 'Hidden from search and listings'
-                    : 'Visible in search and public pages'}
+                    ? 'Nebus rodomas per paieškas'
+                    : 'Viešas Atminimas'}
                 </p>
               </div>
 
@@ -60,7 +60,7 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Bell className="h-5 w-5" />
-              Notifications
+              Pranešimai
             </CardTitle>
           </CardHeader>
 
@@ -71,7 +71,7 @@ export default function SettingsPage() {
                   Email notifications
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Receive updates about memorial activity
+                  Gaukite naujausius pranešimus
                 </p>
               </div>
 
@@ -89,7 +89,7 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Globe className="h-5 w-5" />
-              Language
+              Kalba
             </CardTitle>
           </CardHeader>
 
