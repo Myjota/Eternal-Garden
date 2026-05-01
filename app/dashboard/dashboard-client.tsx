@@ -3,15 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import {
-  Plus,
   Flame,
   Eye,
   Edit,
   Trash2,
   ExternalLink,
-  LogOut,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -21,31 +18,23 @@ import { Empty } from '@/components/ui/empty'
 import { Header } from '@/components/layout/header'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
-import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 
 interface Memorial {
   id: string
   slug: string
   first_name: string
   last_name: string
-  birth_date: string | null
-  death_date: string | null
-  biography: string | null
   profile_image_url: string | null
-  theme: string
-  privacy: string
   view_count: number
   candle_count: number
-  created_at: string
 }
 
 interface Profile {
   id: string
   email: string | null
   full_name: string | null
-  avatar_url: string | null
-  preferred_language: string | null
 }
 
 interface DashboardClientProps {
@@ -59,31 +48,16 @@ export function DashboardClient({
   profile,
   memorials: initialMemorials,
 }: DashboardClientProps) {
-  const router = useRouter()
-
   const [locale, setLocale] = useState<Locale>(defaultLocale)
-  const [memorials, setMemorials] =
-    useState<Memorial[]>(initialMemorials)
-
-  const [deletingId, setDeletingId] =
-    useState<string | null>(null)
+  const [memorials, setMemorials] = useState(initialMemorials)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const t = getTranslations(locale)
 
-  const handleLocaleChange = (newLocale: Locale) => {
-    setLocale(newLocale)
-  }
-
-  const handleLogout = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/')
-    router.refresh()
-  }
+  const handleLocaleChange = (l: Locale) => setLocale(l)
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Ar tikrai norite ištrinti šį atminimą?'))
-      return
+    if (!confirm('Ar tikrai norite ištrinti šį atminimą?')) return
 
     setDeletingId(id)
 
@@ -94,24 +68,23 @@ export function DashboardClient({
       .eq('id', id)
 
     if (!error) {
-      setMemorials((prev) =>
-        prev.filter((m) => m.id !== id)
-      )
+      setMemorials((prev) => prev.filter((m) => m.id !== id))
     }
 
     setDeletingId(null)
   }
-
-  const placeholderPortrait =
-    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&q=80&sat=-100'
 
   const displayName =
     profile?.full_name ||
     user.email?.split('@')[0] ||
     'Vartotojas'
 
+  const placeholder =
+    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&q=80'
+
   return (
     <ThemeProvider initialTheme="garden">
+
       <div className="min-h-screen flex flex-col bg-background">
 
         <Header
@@ -124,39 +97,17 @@ export function DashboardClient({
         <main className="flex-1">
           <div className="container mx-auto px-4 py-8">
 
-            {/* HEADER */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-
-              <div>
-                <h1 className="font-serif text-3xl font-bold">
-                  {t.dashboard.title}
-                </h1>
-
-                <p className="text-muted-foreground mt-1">
-                  Sveiki, {displayName}!
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-
-                <Button asChild>
-                  <Link href="/create" className="gap-2">
-                    <Plus className="h-4 w-4" />
-                    {t.dashboard.createNew}
-                  </Link>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="h-4 w-4" />
-                </Button>
-
-              </div>
+            {/* HEADER (ONLY INFO) */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-serif font-bold">
+                {t.dashboard.title}
+              </h1>
+              <p className="text-muted-foreground">
+                Sveiki, {displayName}
+              </p>
             </div>
 
-            {/* ONLY ONE TAB */}
+            {/* TABS */}
             <Tabs defaultValue="memorials">
 
               <TabsList className="mb-6">
@@ -166,7 +117,6 @@ export function DashboardClient({
                 </TabsTrigger>
               </TabsList>
 
-              {/* MEMORIALS */}
               <TabsContent value="memorials">
 
                 {memorials.length === 0 ? (
@@ -175,75 +125,55 @@ export function DashboardClient({
                     title={t.dashboard.noMemorials}
                     description={t.dashboard.createFirst}
                   >
+                    {/* CREATE ONLY HERE */}
                     <Button asChild className="mt-4">
-                      <Link href="/create" className="gap-2">
-                        <Plus className="h-4 w-4" />
-                        {t.dashboard.createNew}
+                      <Link href="/create">
+                        Create Memorial
                       </Link>
                     </Button>
                   </Empty>
                 ) : (
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-6 md:grid-cols-3">
 
-                    {memorials.map((memorial) => (
-                      <Card
-                        key={memorial.id}
-                        className="overflow-hidden"
-                      >
-                        <div className="aspect-[4/3] relative bg-muted">
+                    {memorials.map((m) => (
+                      <Card key={m.id}>
 
+                        <div className="aspect-[4/3] relative">
                           <Image
-                            src={
-                              memorial.profile_image_url ||
-                              placeholderPortrait
-                            }
-                            alt={`${memorial.first_name} ${memorial.last_name}`}
+                            src={m.profile_image_url || placeholder}
+                            alt=""
                             fill
                             className="object-cover"
                           />
 
-                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-3 flex gap-4 text-white text-sm">
-
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm p-3 flex gap-4">
                             <span className="flex items-center gap-1">
                               <Flame className="h-4 w-4" />
-                              {memorial.candle_count}
+                              {m.candle_count}
                             </span>
-
                             <span className="flex items-center gap-1">
                               <Eye className="h-4 w-4" />
-                              {memorial.view_count}
+                              {m.view_count}
                             </span>
-
                           </div>
-
                         </div>
 
                         <CardContent className="p-4">
 
                           <h3 className="font-semibold">
-                            {memorial.first_name}{' '}
-                            {memorial.last_name}
+                            {m.first_name} {m.last_name}
                           </h3>
 
                           <div className="flex gap-2 mt-4">
 
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              asChild
-                              className="flex-1"
-                            >
-                              <Link href={`/dashboard/memorial/${memorial.id}/edit`}>
+                            <Button asChild size="sm" variant="outline">
+                              <Link href={`/dashboard/memorial/${m.id}/edit`}>
                                 <Edit className="h-3 w-3" />
                               </Link>
                             </Button>
 
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              asChild
-                            >
-                              <Link href={`/memorial/${memorial.slug}`}>
+                            <Button asChild size="sm" variant="outline">
+                              <Link href={`/memorial/${m.slug}`}>
                                 <ExternalLink className="h-3 w-3" />
                               </Link>
                             </Button>
@@ -252,12 +182,8 @@ export function DashboardClient({
                               size="sm"
                               variant="outline"
                               className="text-red-500"
-                              onClick={() =>
-                                handleDelete(memorial.id)
-                              }
-                              disabled={
-                                deletingId === memorial.id
-                              }
+                              onClick={() => handleDelete(m.id)}
+                              disabled={deletingId === m.id}
                             >
                               <Trash2 className="h-3 w-3" />
                             </Button>
@@ -265,21 +191,9 @@ export function DashboardClient({
                           </div>
 
                         </CardContent>
+
                       </Card>
                     ))}
-
-                    {/* ADD NEW */}
-                    <Card className="border-dashed">
-                      <Link
-                        href="/create"
-                        className="flex flex-col items-center justify-center h-full min-h-[250px]"
-                      >
-                        <Plus className="h-10 w-10 text-muted-foreground" />
-                        <p className="mt-2 text-sm">
-                          {t.dashboard.createNew}
-                        </p>
-                      </Link>
-                    </Card>
 
                   </div>
                 )}
@@ -290,7 +204,9 @@ export function DashboardClient({
 
           </div>
         </main>
+
       </div>
+
     </ThemeProvider>
   )
 }
