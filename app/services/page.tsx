@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Header } from '@/components/layout/header'
 
 const services = [
   {
@@ -32,50 +33,61 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="container mx-auto py-10 max-w-5xl">
+    <>
+      {/* HEADER */}
+      <Header />
 
-      <h1 className="text-2xl font-semibold mb-2">
-        Services
-      </h1>
+      {/* PAGE */}
+      <div className="container mx-auto py-10 max-w-5xl">
 
-      <p className="text-sm text-muted-foreground mb-6">
-        Optional services to enhance memorials and legacy pages
-      </p>
+        <h1 className="text-2xl font-semibold mb-2">
+          Services
+        </h1>
 
-      <div className="grid gap-4 md:grid-cols-2">
+        <p className="text-sm text-muted-foreground mb-6">
+          Optional services to enhance memorials and legacy pages
+        </p>
 
-        {services.map((service) => (
-          <Card key={service.title} className="p-6 space-y-3">
+        <div className="grid gap-4 md:grid-cols-2">
 
-            <div className="flex items-start justify-between gap-4">
+          {services.map((service) => (
+            <Card key={service.title} className="p-6 space-y-3">
 
-              <h2 className="text-lg font-medium">
-                {service.title}
-              </h2>
+              <div className="flex items-start justify-between gap-4">
 
-              <span className="text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
-                {service.status}
-              </span>
+                <h2 className="text-lg font-medium">
+                  {service.title}
+                </h2>
 
-            </div>
+                <span className="text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
+                  {service.status}
+                </span>
 
-            <p className="text-sm text-muted-foreground">
-              {service.desc}
-            </p>
+              </div>
 
-            <p className="text-sm font-semibold">
-              {service.price}
-            </p>
+              <p className="text-sm text-muted-foreground">
+                {service.desc}
+              </p>
 
-            <Button className="w-full" disabled={service.status !== 'Available'}>
-              {service.status === 'Available' ? 'Activate' : 'Not available'}
-            </Button>
+              <p className="text-sm font-semibold">
+                {service.price}
+              </p>
 
-          </Card>
-        ))}
+              <Button
+                className="w-full"
+                disabled={service.status !== 'Available'}
+              >
+                {service.status === 'Available'
+                  ? 'Activate'
+                  : 'Not available'}
+              </Button>
+
+            </Card>
+          ))}
+
+        </div>
 
       </div>
-
-    </div>
+    </>
   )
-      }
+}
