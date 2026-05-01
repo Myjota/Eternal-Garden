@@ -49,16 +49,10 @@ export default function SettingsPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">
-                  {isPrivate ? 'Private' : 'Public'}
-                </span>
-
-                <Switch
-                  checked={isPrivate}
-                  onCheckedChange={setIsPrivate}
-                />
-              </div>
+              <Switch
+                checked={isPrivate}
+                onCheckedChange={setIsPrivate}
+              />
 
             </div>
           </CardContent>
@@ -117,16 +111,10 @@ export default function SettingsPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">
-                  {isLithuanian ? 'LT' : 'EN'}
-                </span>
-
-                <Switch
-                  checked={isLithuanian}
-                  onCheckedChange={setIsLithuanian}
-                />
-              </div>
+              <Switch
+                checked={isLithuanian}
+                onCheckedChange={setIsLithuanian}
+              />
 
             </div>
           </CardContent>
