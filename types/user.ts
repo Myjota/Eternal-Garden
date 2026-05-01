@@ -1,4 +1,4 @@
-export type UserRole = 'guest' | 'user' | 'moderator' | 'admin'
+export type UserRole = 'guest' | 'user' | 'moderator' | 'admin' | 'family' 
 
 export interface Profile {
   id: string
@@ -23,7 +23,7 @@ export interface UserSettings {
 export interface UserSubscription {
   id: string
   user_id: string
-  plan: 'free' | 'premium' | 'family'
+  plan: 'free' | 'premium' 
   status: 'active' | 'cancelled' | 'expired'
   started_at: string
   expires_at: string | null
