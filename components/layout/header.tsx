@@ -20,14 +20,14 @@ import { createClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface HeaderProps {
-  locale: Locale
-  t: Translations
+  locale?: Locale
+  t?: Translations
   onLocaleChange?: (locale: Locale) => void
   user?: SupabaseUser | null
 }
 
 export function Header({
-  locale,
+  locale = 'lt',
   t,
   onLocaleChange,
   user,
@@ -35,6 +35,13 @@ export function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
+
+  const nav = t?.nav ?? {
+    home: 'Home',
+    supportProject: 'Support',
+    createMemorial: 'Create Memorial',
+    login: 'Login',
+  }
 
   const handleLocaleChange = (newLocale: Locale) => {
     onLocaleChange?.(newLocale)
@@ -61,7 +68,6 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur">
-
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
         {/* Logo */}
@@ -77,15 +83,13 @@ export function Header({
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
-
           <Link href="/" className={linkClass('/')}>
-            {t.nav.home}
+            {nav.home}
           </Link>
 
           <Link href="/support" className={linkClass('/support')}>
-            {t.nav.supportProject}
+            {nav.supportProject}
           </Link>
-
         </nav>
 
         {/* Right Side */}
@@ -114,30 +118,27 @@ export function Header({
 
           {/* User actions */}
           {user ? (
-            <>
-              <Button size="sm" asChild>
-                <Link href="/create">
-                  {t.nav.createMemorial}
-                </Link>
-              </Button>
-            </>
+            <Button size="sm" asChild>
+              <Link href="/create">
+                {nav.createMemorial}
+              </Link>
+            </Button>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/auth/login" className="gap-2">
                   <User className="h-4 w-4" />
-                  {t.nav.login}
+                  {nav.login}
                 </Link>
               </Button>
 
               <Button size="sm" asChild>
                 <Link href="/create">
-                  {t.nav.createMemorial}
+                  {nav.createMemorial}
                 </Link>
               </Button>
             </>
           )}
-
         </div>
 
         {/* Mobile Button */}
@@ -151,35 +152,33 @@ export function Header({
             <Menu className="h-6 w-6" />
           )}
         </button>
-
       </div>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="border-t border-border md:hidden">
-
           <nav className="container mx-auto flex flex-col gap-4 p-4">
 
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-              {t.nav.home}
+              {nav.home}
             </Link>
 
             <Link href="/support" onClick={() => setMobileMenuOpen(false)}>
-              {t.nav.supportProject}
+              {nav.supportProject}
             </Link>
 
             <div className="pt-4 border-t border-border flex flex-col gap-2">
 
               <Button size="sm" asChild>
                 <Link href="/create">
-                  {t.nav.createMemorial}
+                  {nav.createMemorial}
                 </Link>
               </Button>
 
               {!user && (
                 <Button variant="outline" size="sm" asChild>
                   <Link href="/auth/login">
-                    {t.nav.login}
+                    {nav.login}
                   </Link>
                 </Button>
               )}
@@ -199,10 +198,8 @@ export function Header({
             </div>
 
           </nav>
-
         </div>
       )}
-
     </header>
   )
-    }
+}
