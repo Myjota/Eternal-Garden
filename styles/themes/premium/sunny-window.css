@@ -1,0 +1,95 @@
+/* Sunny Window Theme - Premium */
+/* Warm, bright theme with golden sunshine tones */
+
+[data-theme="sunny-window"] {
+  --primary: oklch(0.65 0.16 70);
+  --primary-foreground: oklch(0.15 0.03 70);
+  --secondary: oklch(0.92 0.06 80);
+  --secondary-foreground: oklch(0.30 0.06 70);
+  --accent: oklch(0.70 0.14 50);
+  --accent-foreground: oklch(0.15 0.03 50);
+  --background: oklch(0.99 0.01 80);
+  --foreground: oklch(0.25 0.04 70);
+  --muted: oklch(0.95 0.02 80);
+  --muted-foreground: oklch(0.50 0.04 70);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.04 70);
+  --border: oklch(0.88 0.04 80);
+  --input: oklch(0.88 0.04 80);
+  --ring: oklch(0.65 0.16 70);
+}
+
+/* Sunny Window specific styles */
+[data-theme="sunny-window"] .memorial-hero {
+  background: linear-gradient(
+    180deg,
+    oklch(0.98 0.03 80) 0%,
+    oklch(0.99 0.01 80) 100%
+  );
+}
+
+/* Sunlight rays effect */
+[data-theme="sunny-window"] .memorial-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at top center,
+    oklch(0.65 0.16 70 / 0.15) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Window light pattern */
+[data-theme="sunny-window"] .memorial-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 40%,
+    oklch(1 0 90 / 0.1) 50%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* Warm glow profile image */
+[data-theme="sunny-window"] .profile-image-ornate {
+  border-color: oklch(0.65 0.16 70);
+  box-shadow: 
+    0 0 0 2px oklch(0.99 0.01 80),
+    0 0 0 4px oklch(0.65 0.16 70),
+    0 0 30px oklch(0.65 0.16 70 / 0.3),
+    0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Warm cards */
+[data-theme="sunny-window"] .memorial-card {
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0) 0%,
+    oklch(0.99 0.015 80) 100%
+  );
+  border-color: oklch(0.90 0.04 80);
+}
+
+/* Sunshine accent */
+[data-theme="sunny-window"] .btn-primary {
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.16 70) 0%,
+    oklch(0.60 0.14 60) 100%
+  );
+  box-shadow: 0 4px 15px oklch(0.65 0.16 70 / 0.3);
+}
+
+/* Warm candle effect */
+[data-theme="sunny-window"] .candle-flame {
+  color: oklch(0.65 0.16 70);
+}
