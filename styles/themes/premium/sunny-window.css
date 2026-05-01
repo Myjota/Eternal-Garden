@@ -8,14 +8,17 @@
   --secondary-foreground: oklch(0.30 0.08 75);
   --accent: oklch(0.72 0.14 55);
   --accent-foreground: oklch(0.15 0.03 55);
+
   --background: oklch(0.995 0.01 85);
   --foreground: oklch(0.25 0.05 75);
   --muted: oklch(0.96 0.025 85);
   --muted-foreground: oklch(0.50 0.05 75);
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.25 0.05 75);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.25 0.05 75);
+
   --border: oklch(0.90 0.04 85);
   --input: oklch(0.92 0.03 85);
   --ring: oklch(0.68 0.16 75);
