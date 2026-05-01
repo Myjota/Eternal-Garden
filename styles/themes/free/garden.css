@@ -3,16 +3,21 @@
    ============================================ */
 :root,
 [data-theme="garden"] {
+  /* Core colors - Green nature palette */
   --primary: oklch(0.35 0.12 145);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.95 0.02 145);
   --secondary-foreground: oklch(0.25 0.08 145);
   --accent: oklch(0.45 0.10 145);
   --accent-foreground: oklch(0.98 0 0);
+  
+  /* Background colors */
   --background: oklch(0.99 0.005 145);
   --foreground: oklch(0.20 0.02 145);
   --muted: oklch(0.96 0.01 145);
   --muted-foreground: oklch(0.45 0.05 145);
+  
+  /* UI elements */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.20 0.02 145);
   --popover: oklch(1 0 0);
@@ -20,15 +25,21 @@
   --border: oklch(0.90 0.02 145);
   --input: oklch(0.90 0.02 145);
   --ring: oklch(0.35 0.12 145);
+  
+  /* Status */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
+  
+  /* Radius */
   --radius: 0.625rem;
-
+  
+  /* Theme-specific variables */
   --theme-gradient-start: oklch(0.35 0.12 145);
   --theme-gradient-end: oklch(0.45 0.08 160);
   --theme-pattern-opacity: 0.03;
   --theme-glow-color: oklch(0.50 0.15 145 / 0.15);
-
+  
+  /* Sidebar */
   --sidebar: oklch(0.98 0.005 145);
   --sidebar-foreground: oklch(0.20 0.02 145);
   --sidebar-primary: oklch(0.35 0.12 145);
@@ -37,7 +48,8 @@
   --sidebar-accent-foreground: oklch(0.25 0.08 145);
   --sidebar-border: oklch(0.90 0.02 145);
   --sidebar-ring: oklch(0.35 0.12 145);
-
+  
+  /* Charts */
   --chart-1: oklch(0.35 0.12 145);
   --chart-2: oklch(0.45 0.10 145);
   --chart-3: oklch(0.55 0.08 145);
@@ -45,19 +57,29 @@
   --chart-5: oklch(0.75 0.04 145);
 }
 
-/* Garden styles */
+/* Garden-specific styles */
 [data-theme="garden"] .theme-pattern {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.03'/%3E%3C/svg%3E");
   background-size: 80px 80px;
 }
 
 [data-theme="garden"] .theme-hero-bg {
-  background: linear-gradient(135deg, oklch(0.35 0.12 145 / 0.03) 0%, transparent 50%, oklch(0.45 0.10 145 / 0.02) 100%);
+  background: linear-gradient(
+    135deg,
+    oklch(0.35 0.12 145 / 0.03) 0%,
+    transparent 50%,
+    oklch(0.45 0.10 145 / 0.02) 100%
+  );
 }
 
 [data-theme="garden"] {
   background-image:
-    linear-gradient(to bottom, oklch(0.35 0.08 145 / 0.08) 0%, transparent 30%, oklch(0.35 0.08 145 / 0.05) 100%),
+    linear-gradient(
+      to bottom,
+      oklch(0.35 0.08 145 / 0.08) 0%,
+      transparent 30%,
+      oklch(0.35 0.08 145 / 0.05) 100%
+    ),
     url('/themes/garden.jpeg');
   background-size: cover;
   background-position: center;
