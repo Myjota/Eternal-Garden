@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Card } from '@/components/ui/card'
+import { Header } from '@/components/layout/header'
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null)
@@ -19,34 +20,40 @@ export default function ProfilePage() {
   }, [])
 
   return (
-    <div className="container mx-auto py-10 max-w-2xl">
+    <>
+      {/* HEADER */}
+      <Header user={user} />
 
-      <h1 className="text-2xl font-semibold mb-6">
-        Profile
-      </h1>
+      {/* PAGE */}
+      <div className="container mx-auto py-10 max-w-2xl">
 
-      <Card className="p-6 space-y-4">
+        <h1 className="text-2xl font-semibold mb-6">
+          Profile
+        </h1>
 
-        <div>
-          <p className="text-sm text-muted-foreground">
-            Email
-          </p>
-          <p className="font-medium">
-            {user?.email ?? 'Guest user'}
-          </p>
-        </div>
+        <Card className="p-6 space-y-4">
 
-        <div>
-          <p className="text-sm text-muted-foreground">
-            User ID
-          </p>
-          <p className="text-xs break-all font-mono">
-            {user?.id ?? 'No session'}
-          </p>
-        </div>
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Email
+            </p>
+            <p className="font-medium">
+              {user?.email ?? 'Guest user'}
+            </p>
+          </div>
 
-      </Card>
+          <div>
+            <p className="text-sm text-muted-foreground">
+              User ID
+            </p>
+            <p className="text-xs break-all font-mono">
+              {user?.id ?? 'No session'}
+            </p>
+          </div>
 
-    </div>
+        </Card>
+
+      </div>
+    </>
   )
 }
