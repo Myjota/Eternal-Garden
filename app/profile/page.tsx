@@ -1,10 +1,22 @@
 'use client'
 
-import { useUser } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { Card } from '@/components/ui/card'
 
 export default function ProfilePage() {
-  const user = useUser()
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    const supabase = createClient()
+
+    const loadUser = async () => {
+      const { data } = await supabase.auth.getUser()
+      setUser(data.user)
+    }
+
+    loadUser()
+  }, [])
 
   return (
     <div className="container mx-auto py-10 max-w-2xl">
@@ -20,7 +32,7 @@ export default function ProfilePage() {
             Email
           </p>
           <p className="font-medium">
-            {user?.email ?? 'Not logged in'}
+            {user?.email ?? 'Guest user'}
           </p>
         </div>
 
@@ -28,8 +40,8 @@ export default function ProfilePage() {
           <p className="text-sm text-muted-foreground">
             User ID
           </p>
-          <p className="font-mono text-xs break-all">
-            {user?.id}
+          <p className="text-xs break-all font-mono">
+            {user?.id ?? 'No session'}
           </p>
         </div>
 
