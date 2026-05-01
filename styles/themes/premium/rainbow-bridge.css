@@ -1,21 +1,25 @@
-/* ============================================
-   RAINBOW BRIDGE THEME - Premium
-   ============================================ */
 [data-theme="rainbow-bridge"] {
   --primary: oklch(0.68 0.14 290);
   --primary-foreground: oklch(0.98 0 0);
+
   --secondary: oklch(0.88 0.10 210);
   --secondary-foreground: oklch(0.30 0.06 210);
+
   --accent: oklch(0.82 0.12 350);
   --accent-foreground: oklch(0.25 0.05 350);
+
   --background: oklch(0.98 0.015 300);
   --foreground: oklch(0.30 0.04 290);
+
   --muted: oklch(0.94 0.025 300);
   --muted-foreground: oklch(0.50 0.05 290);
+
   --card: oklch(0.995 0.01 300);
   --card-foreground: oklch(0.30 0.04 290);
+
   --popover: oklch(0.995 0.01 300);
   --popover-foreground: oklch(0.30 0.04 290);
+
   --border: oklch(0.90 0.04 300);
   --input: oklch(0.92 0.03 300);
   --ring: oklch(0.68 0.14 290);
@@ -30,18 +34,17 @@
 [data-theme="rainbow-bridge"] .theme-pattern {
   background-image:
     linear-gradient(135deg,
-      oklch(0.92 0.08 0 / 0.1) 0%,
-      oklch(0.92 0.08 40 / 0.1) 15%,
-      oklch(0.92 0.08 80 / 0.1) 30%,
-      oklch(0.92 0.08 140 / 0.1) 45%,
-      oklch(0.92 0.08 200 / 0.1) 60%,
-      oklch(0.92 0.08 260 / 0.1) 75%,
-      oklch(0.92 0.08 300 / 0.1) 90%,
+      oklch(0.92 0.08 0 / 0.10) 0%,
+      oklch(0.92 0.08 40 / 0.10) 15%,
+      oklch(0.92 0.08 80 / 0.10) 30%,
+      oklch(0.92 0.08 140 / 0.10) 45%,
+      oklch(0.92 0.08 200 / 0.10) 60%,
+      oklch(0.92 0.08 260 / 0.10) 75%,
+      oklch(0.92 0.08 300 / 0.10) 90%,
       transparent 100%
     );
   background-size: 100% 200px;
   background-repeat: no-repeat;
-  opacity: 0.5;
 }
 
 /* Hero */
@@ -60,19 +63,15 @@
     0 0 80px oklch(0.75 0.12 210 / 0.08);
 }
 
-/* Border */
+/* Border (simplified - no border-image bugs) */
 [data-theme="rainbow-bridge"] .theme-border-accent {
-  border-image: linear-gradient(90deg,
-    oklch(0.80 0.15 350),
-    oklch(0.80 0.12 80),
-    oklch(0.78 0.12 210),
-    oklch(0.80 0.14 290)
-  ) 1;
+  border-color: oklch(0.80 0.14 290 / 0.4);
 }
 
 /* Portrait */
 [data-theme="rainbow-bridge"] .theme-portrait-frame {
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+    135deg,
     oklch(0.85 0.12 350),
     oklch(0.82 0.12 290),
     oklch(0.80 0.10 210)
@@ -81,6 +80,7 @@
   border-radius: 50%;
 }
 
+/* Paw element */
 [data-theme="rainbow-bridge"] .theme-paw {
   display: inline-block;
   margin: 0 0.25rem;
@@ -90,7 +90,11 @@
 /* Background */
 [data-theme="rainbow-bridge"] {
   background-image:
-    linear-gradient(to bottom, oklch(0.98 0.01 280 / 0.25), transparent 40%, oklch(0.95 0.02 300 / 0.15) 100%),
+    linear-gradient(to bottom,
+      oklch(0.98 0.01 280 / 0.25),
+      transparent 40%,
+      oklch(0.95 0.02 300 / 0.15) 100%
+    ),
     url('/themes/rainbow.jpeg');
   background-size: cover;
   background-position: center;
