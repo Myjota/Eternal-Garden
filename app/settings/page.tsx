@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
+import { Header } from '@/components/layout/header'
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
@@ -11,98 +12,104 @@ export default function SettingsPage() {
   const [darkMode, setDarkMode] = useState(false)
 
   return (
-    <div className="container mx-auto py-10 max-w-2xl">
+    <>
+      {/* HEADER */}
+      <Header />
 
-      <h1 className="text-2xl font-semibold mb-6">
-        Settings
-      </h1>
+      {/* PAGE */}
+      <div className="container mx-auto py-10 max-w-2xl">
 
-      <div className="space-y-4">
+        <h1 className="text-2xl font-semibold mb-6">
+          Settings
+        </h1>
 
-        {/* ACCOUNT */}
-        <Card className="p-6 space-y-4">
+        <div className="space-y-4">
 
-          <h2 className="font-medium">
-            Account preferences
-          </h2>
+          {/* ACCOUNT */}
+          <Card className="p-6 space-y-4">
 
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">
-                Email notifications
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Receive updates about memorial activity
-              </p>
+            <h2 className="font-medium">
+              Account preferences
+            </h2>
+
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">
+                  Email notifications
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Receive updates about memorial activity
+                </p>
+              </div>
+
+              <Switch
+                checked={emailNotifications}
+                onCheckedChange={setEmailNotifications}
+              />
             </div>
 
-            <Switch
-              checked={emailNotifications}
-              onCheckedChange={setEmailNotifications}
-            />
-          </div>
+          </Card>
 
-        </Card>
+          {/* MEMORIAL */}
+          <Card className="p-6 space-y-4">
 
-        {/* MEMORIAL */}
-        <Card className="p-6 space-y-4">
+            <h2 className="font-medium">
+              Memorial settings
+            </h2>
 
-          <h2 className="font-medium">
-            Memorial settings
-          </h2>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">
+                  Candle alerts
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Notify when someone lights a candle
+                </p>
+              </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">
-                Candle alerts
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Notify when someone lights a candle
-              </p>
+              <Switch
+                checked={candleAlerts}
+                onCheckedChange={setCandleAlerts}
+              />
             </div>
 
-            <Switch
-              checked={candleAlerts}
-              onCheckedChange={setCandleAlerts}
-            />
-          </div>
+          </Card>
 
-        </Card>
+          {/* APPEARANCE */}
+          <Card className="p-6 space-y-4">
 
-        {/* APPEARANCE */}
-        <Card className="p-6 space-y-4">
+            <h2 className="font-medium">
+              Appearance
+            </h2>
 
-          <h2 className="font-medium">
-            Appearance
-          </h2>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">
+                  Dark mode
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Switch theme appearance
+                </p>
+              </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">
-                Dark mode
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Switch theme appearance
-              </p>
+              <Switch
+                checked={darkMode}
+                onCheckedChange={setDarkMode}
+              />
             </div>
 
-            <Switch
-              checked={darkMode}
-              onCheckedChange={setDarkMode}
-            />
+          </Card>
+
+          {/* SAVE */}
+          <div className="flex justify-end">
+            <Button onClick={() => alert('Settings saved (mock)')}>
+              Save changes
+            </Button>
           </div>
 
-        </Card>
-
-        {/* SAVE (fake) */}
-        <div className="flex justify-end">
-          <Button onClick={() => alert('Settings saved (mock)')}>
-            Save changes
-          </Button>
         </div>
 
       </div>
-
-    </div>
+    </>
   )
-          }
+}
