@@ -1,203 +1,18 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* ============================================
+   THEMES IMPORT
+   ============================================ */
+@import './styles/themes/free/garden.css';
+@import './styles/themes/free/marble.css';
+
+@import './styles/themes/premium/eternal-night.css';
+@import './styles/themes/premium/orthodox.css';
+@import './styles/themes/premium/rainbow-bridge.css';
+@import './styles/themes/premium/sunny-window.css';
+
 @custom-variant dark (&:is(.dark *));
-
-/* ============================================
-   GARDEN THEME - Default (Free)
-   Classic forest green with nature elements
-   ============================================ */
-:root,
-[data-theme="garden"] {
-  --primary: oklch(0.35 0.12 145);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.02 145);
-  --secondary-foreground: oklch(0.25 0.08 145);
-  --accent: oklch(0.45 0.10 145);
-  --accent-foreground: oklch(0.98 0 0);
-  --background: oklch(0.99 0.005 145);
-  --foreground: oklch(0.20 0.02 145);
-  --muted: oklch(0.96 0.01 145);
-  --muted-foreground: oklch(0.45 0.05 145);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.02 145);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.20 0.02 145);
-  --border: oklch(0.90 0.02 145);
-  --input: oklch(0.90 0.02 145);
-  --ring: oklch(0.35 0.12 145);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.98 0 0);
-  --radius: 0.625rem;
-  
-  /* Theme-specific */
-  --theme-gradient-start: oklch(0.35 0.12 145);
-  --theme-gradient-end: oklch(0.45 0.08 160);
-  --theme-pattern-opacity: 0.03;
-  --theme-glow-color: oklch(0.50 0.15 145 / 0.15);
-  
-  /* Sidebar */
-  --sidebar: oklch(0.98 0.005 145);
-  --sidebar-foreground: oklch(0.20 0.02 145);
-  --sidebar-primary: oklch(0.35 0.12 145);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.95 0.02 145);
-  --sidebar-accent-foreground: oklch(0.25 0.08 145);
-  --sidebar-border: oklch(0.90 0.02 145);
-  --sidebar-ring: oklch(0.35 0.12 145);
-  
-  /* Charts */
-  --chart-1: oklch(0.35 0.12 145);
-  --chart-2: oklch(0.45 0.10 145);
-  --chart-3: oklch(0.55 0.08 145);
-  --chart-4: oklch(0.65 0.06 145);
-  --chart-5: oklch(0.75 0.04 145);
-}
-
-/* ============================================
-   MARBLE THEME - Premium
-   Elegant white marble with gold accents
-   ============================================ */
-[data-theme="marble"] {
-  --primary: oklch(0.50 0.02 80);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.96 0.005 80);
-  --secondary-foreground: oklch(0.35 0.01 80);
-  --accent: oklch(0.65 0.10 80);
-  --accent-foreground: oklch(0.20 0.02 80);
-  --background: oklch(0.985 0.002 80);
-  --foreground: oklch(0.25 0.01 80);
-  --muted: oklch(0.94 0.005 80);
-  --muted-foreground: oklch(0.50 0.01 80);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.01 80);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.01 80);
-  --border: oklch(0.88 0.01 80);
-  --input: oklch(0.92 0.01 80);
-  --ring: oklch(0.55 0.08 80);
-  
-  --theme-gradient-start: oklch(0.50 0.02 80);
-  --theme-gradient-end: oklch(0.60 0.08 70);
-  --theme-pattern-opacity: 0.02;
-  --theme-glow-color: oklch(0.70 0.10 80 / 0.10);
-}
-
-/* ============================================
-   ORTHODOX THEME - Premium
-   Traditional with gold, deep red, Byzantine
-   ============================================ */
-[data-theme="orthodox"] {
-  --primary: oklch(0.60 0.16 70);
-  --primary-foreground: oklch(0.15 0.02 30);
-  --secondary: oklch(0.35 0.14 30);
-  --secondary-foreground: oklch(0.95 0.02 70);
-  --accent: oklch(0.55 0.14 70);
-  --accent-foreground: oklch(0.15 0.02 30);
-  --background: oklch(0.97 0.01 60);
-  --foreground: oklch(0.20 0.04 30);
-  --muted: oklch(0.93 0.02 60);
-  --muted-foreground: oklch(0.45 0.05 30);
-  --card: oklch(0.98 0.008 60);
-  --card-foreground: oklch(0.20 0.04 30);
-  --popover: oklch(0.98 0.008 60);
-  --popover-foreground: oklch(0.20 0.04 30);
-  --border: oklch(0.85 0.04 60);
-  --input: oklch(0.90 0.03 60);
-  --ring: oklch(0.60 0.16 70);
-  
-  --theme-gradient-start: oklch(0.60 0.16 70);
-  --theme-gradient-end: oklch(0.40 0.14 30);
-  --theme-pattern-opacity: 0.04;
-  --theme-glow-color: oklch(0.65 0.18 70 / 0.20);
-}
-
-/* ============================================
-   ETERNAL NIGHT THEME - Premium
-   Dark with stars, cosmic, peaceful
-   ============================================ */
-[data-theme="eternal-night"] {
-  --primary: oklch(0.70 0.12 260);
-  --primary-foreground: oklch(0.12 0.02 260);
-  --secondary: oklch(0.28 0.06 280);
-  --secondary-foreground: oklch(0.90 0.02 260);
-  --accent: oklch(0.75 0.10 290);
-  --accent-foreground: oklch(0.12 0.02 290);
-  --background: oklch(0.12 0.025 270);
-  --foreground: oklch(0.92 0.01 260);
-  --muted: oklch(0.18 0.03 270);
-  --muted-foreground: oklch(0.65 0.03 260);
-  --card: oklch(0.15 0.03 270);
-  --card-foreground: oklch(0.92 0.01 260);
-  --popover: oklch(0.15 0.03 270);
-  --popover-foreground: oklch(0.92 0.01 260);
-  --border: oklch(0.25 0.04 270);
-  --input: oklch(0.20 0.03 270);
-  --ring: oklch(0.70 0.12 260);
-  
-  --theme-gradient-start: oklch(0.15 0.04 280);
-  --theme-gradient-end: oklch(0.10 0.03 260);
-  --theme-pattern-opacity: 0.15;
-  --theme-glow-color: oklch(0.75 0.15 260 / 0.25);
-}
-
-/* ============================================
-   RAINBOW BRIDGE THEME - Premium
-   Soft pastels for pet memorials
-   ============================================ */
-[data-theme="rainbow-bridge"] {
-  --primary: oklch(0.68 0.14 290);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.88 0.10 210);
-  --secondary-foreground: oklch(0.30 0.06 210);
-  --accent: oklch(0.82 0.12 350);
-  --accent-foreground: oklch(0.25 0.05 350);
-  --background: oklch(0.98 0.015 300);
-  --foreground: oklch(0.30 0.04 290);
-  --muted: oklch(0.94 0.025 300);
-  --muted-foreground: oklch(0.50 0.05 290);
-  --card: oklch(0.995 0.01 300);
-  --card-foreground: oklch(0.30 0.04 290);
-  --popover: oklch(0.995 0.01 300);
-  --popover-foreground: oklch(0.30 0.04 290);
-  --border: oklch(0.90 0.04 300);
-  --input: oklch(0.92 0.03 300);
-  --ring: oklch(0.68 0.14 290);
-  
-  --theme-gradient-start: oklch(0.85 0.12 350);
-  --theme-gradient-end: oklch(0.80 0.12 210);
-  --theme-pattern-opacity: 0.05;
-  --theme-glow-color: oklch(0.80 0.15 290 / 0.20);
-}
-
-/* ============================================
-   SUNNY WINDOW THEME - Premium
-   Warm golden sunshine, hopeful
-   ============================================ */
-[data-theme="sunny-window"] {
-  --primary: oklch(0.68 0.16 75);
-  --primary-foreground: oklch(0.15 0.03 75);
-  --secondary: oklch(0.94 0.06 85);
-  --secondary-foreground: oklch(0.30 0.08 75);
-  --accent: oklch(0.72 0.14 55);
-  --accent-foreground: oklch(0.15 0.03 55);
-  --background: oklch(0.995 0.01 85);
-  --foreground: oklch(0.25 0.05 75);
-  --muted: oklch(0.96 0.025 85);
-  --muted-foreground: oklch(0.50 0.05 75);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.05 75);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.05 75);
-  --border: oklch(0.90 0.04 85);
-  --input: oklch(0.92 0.03 85);
-  --ring: oklch(0.68 0.16 75);
-  
-  --theme-gradient-start: oklch(0.75 0.15 70);
-  --theme-gradient-end: oklch(0.70 0.12 50);
-  --theme-pattern-opacity: 0.04;
-  --theme-glow-color: oklch(0.80 0.18 75 / 0.25);
-}
 
 /* ============================================
    TAILWIND THEME TOKENS
@@ -206,6 +21,7 @@
   --font-sans: 'Inter', 'Geist', 'Geist Fallback', system-ui, sans-serif;
   --font-serif: 'Playfair Display', 'Georgia', serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -225,15 +41,18 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -244,367 +63,28 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ============================================
+   BASE
+   ============================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     scroll-behavior: smooth;
   }
 }
 
 /* ============================================
-   THEME DECORATIVE PATTERNS
-   ============================================ */
-
-/* Garden Theme - Leaf Pattern */
-[data-theme="garden"] .theme-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.03'/%3E%3C/svg%3E");
-  background-size: 80px 80px;
-}
-
-[data-theme="garden"] .theme-hero-bg {
-  background: linear-gradient(135deg, oklch(0.35 0.12 145 / 0.03) 0%, transparent 50%, oklch(0.45 0.10 145 / 0.02) 100%);
-}
-
-/* Garden Theme - Full page background image */
-[data-theme="garden"] {
-  background-image: 
-    linear-gradient(to bottom, oklch(0.35 0.08 145 / 0.08) 0%, transparent 30%, oklch(0.35 0.08 145 / 0.05) 100%),
-    url('/themes/garden.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-[data-theme="garden"] .theme-card-glow {
-  box-shadow: 0 0 40px oklch(0.50 0.15 145 / 0.08);
-}
-
-[data-theme="garden"] .theme-border-accent {
-  border-color: oklch(0.45 0.12 145 / 0.3);
-}
-
-/* Marble Theme - Veined marble texture */
-[data-theme="marble"] .theme-pattern {
-  background-image: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M0 50 Q50 30 100 50 T200 50' fill='none' stroke='%239ca3af' stroke-opacity='0.06' stroke-width='1'/%3E%3Cpath d='M0 100 Q60 80 120 100 T200 100' fill='none' stroke='%239ca3af' stroke-opacity='0.04' stroke-width='0.5'/%3E%3Cpath d='M0 150 Q40 130 90 150 T200 150' fill='none' stroke='%239ca3af' stroke-opacity='0.05' stroke-width='0.8'/%3E%3C/svg%3E"),
-    linear-gradient(135deg, oklch(0.98 0.005 80) 0%, oklch(0.96 0.008 70) 50%, oklch(0.98 0.005 90) 100%);
-  background-size: 200px 200px, 100% 100%;
-}
-
-[data-theme="marble"] .theme-hero-bg {
-  background: 
-    radial-gradient(ellipse at 30% 20%, oklch(0.65 0.10 80 / 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, oklch(0.55 0.08 70 / 0.06) 0%, transparent 40%);
-}
-
-[data-theme="marble"] .theme-card-glow {
-  box-shadow: 
-    0 0 60px oklch(0.70 0.10 80 / 0.08),
-    inset 0 1px 0 oklch(1 0 0 / 0.8);
-}
-
-[data-theme="marble"] .theme-border-accent {
-  border-color: oklch(0.70 0.12 80 / 0.4);
-  border-image: linear-gradient(135deg, oklch(0.75 0.12 80 / 0.5), oklch(0.60 0.08 70 / 0.3)) 1;
-}
-
-[data-theme="marble"] .theme-portrait-frame {
-  background: linear-gradient(135deg, oklch(0.75 0.12 80), oklch(0.55 0.06 70));
-  padding: 4px;
-}
-
-/* Marble Theme - Full page background image */
-[data-theme="marble"] {
-  background-image: 
-    linear-gradient(to bottom, oklch(0.98 0.002 250 / 0.15) 0%, transparent 30%, oklch(0.94 0.005 250 / 0.1) 100%),
-    url('/themes/marble1.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-/* Orthodox Theme - Byzantine patterns */
-[data-theme="orthodox"] .theme-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4a574' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='%23d4a574' stroke-opacity='0.04' stroke-width='0.5'/%3E%3Cpath d='M30 5 L30 55 M5 30 L55 30' stroke='%23d4a574' stroke-opacity='0.03' stroke-width='0.5'/%3E%3C/svg%3E");
-  background-size: 60px 60px;
-}
-
-[data-theme="orthodox"] .theme-hero-bg {
-  background: 
-    radial-gradient(ellipse at 50% 0%, oklch(0.65 0.16 70 / 0.15) 0%, transparent 60%),
-    linear-gradient(180deg, oklch(0.97 0.02 60) 0%, oklch(0.95 0.015 50) 100%);
-}
-
-[data-theme="orthodox"] .theme-card-glow {
-  box-shadow: 
-    0 0 50px oklch(0.65 0.18 70 / 0.15),
-    0 0 100px oklch(0.60 0.14 70 / 0.08);
-}
-
-[data-theme="orthodox"] .theme-border-accent {
-  border-color: oklch(0.65 0.16 70 / 0.5);
-}
-
-[data-theme="orthodox"] .theme-portrait-frame {
-  background: linear-gradient(135deg, oklch(0.65 0.16 70), oklch(0.50 0.12 60));
-  padding: 6px;
-  border-radius: 0;
-}
-
-[data-theme="orthodox"] .theme-cross {
-  position: relative;
-}
-
-[data-theme="orthodox"] .theme-cross::before {
-  content: '☦';
-  position: absolute;
-  top: -2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  color: oklch(0.60 0.16 70);
-  opacity: 0.6;
-}
-
-/* Orthodox Theme - Full page background image */
-[data-theme="orthodox"] {
-  background-image: 
-    linear-gradient(to bottom, oklch(0.97 0.01 50 / 0.2) 0%, transparent 30%, oklch(0.55 0.15 50 / 0.08) 100%),
-    url('/themes/ortodoks.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-/* Eternal Night Theme - Stars and cosmos */
-[data-theme="eternal-night"] .theme-pattern {
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, oklch(0.95 0 0), transparent),
-    radial-gradient(1px 1px at 40px 70px, oklch(0.90 0.05 260), transparent),
-    radial-gradient(1.5px 1.5px at 90px 40px, oklch(0.85 0 0), transparent),
-    radial-gradient(1px 1px at 130px 80px, oklch(0.95 0.03 280), transparent),
-    radial-gradient(2px 2px at 160px 30px, oklch(0.80 0.08 260), transparent),
-    radial-gradient(1px 1px at 200px 60px, oklch(0.90 0 0), transparent),
-    radial-gradient(1.5px 1.5px at 50px 120px, oklch(0.85 0.05 290), transparent),
-    radial-gradient(1px 1px at 100px 150px, oklch(0.95 0 0), transparent),
-    radial-gradient(2px 2px at 180px 140px, oklch(0.75 0.10 260), transparent);
-  background-size: 220px 180px;
-  animation: twinkle 8s ease-in-out infinite alternate;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-[data-theme="eternal-night"] .theme-hero-bg {
-  background: 
-    radial-gradient(ellipse at 30% 20%, oklch(0.25 0.08 280 / 0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 70%, oklch(0.20 0.06 260 / 0.4) 0%, transparent 40%),
-    linear-gradient(180deg, oklch(0.10 0.03 270) 0%, oklch(0.14 0.025 265) 100%);
-}
-
-[data-theme="eternal-night"] .theme-card-glow {
-  box-shadow: 
-    0 0 80px oklch(0.70 0.15 260 / 0.20),
-    0 0 150px oklch(0.60 0.12 280 / 0.10),
-    inset 0 1px 0 oklch(0.40 0.06 260 / 0.3);
-}
-
-[data-theme="eternal-night"] .theme-border-accent {
-  border-color: oklch(0.50 0.10 260 / 0.4);
-}
-
-[data-theme="eternal-night"] .theme-portrait-frame {
-  background: linear-gradient(135deg, oklch(0.55 0.12 260), oklch(0.35 0.08 280));
-  padding: 4px;
-}
-
-[data-theme="eternal-night"] .theme-moon {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle at 35% 35%, oklch(0.98 0.02 80), oklch(0.85 0.04 70));
-  border-radius: 50%;
-  box-shadow: 0 0 40px oklch(0.95 0.05 80 / 0.4);
-  opacity: 0.8;
-}
-
-/* Eternal Night Theme - Full page background image */
-[data-theme="eternal-night"] {
-  background-image: 
-    linear-gradient(to bottom, oklch(0.15 0.02 260 / 0.3) 0%, transparent 40%, oklch(0.10 0.03 270 / 0.4) 100%),
-    url('/themes/eternal.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-/* Rainbow Bridge Theme - Soft rainbow gradients for pets */
-[data-theme="rainbow-bridge"] .theme-pattern {
-  background-image: 
-    linear-gradient(135deg, 
-      oklch(0.92 0.08 0 / 0.1) 0%, 
-      oklch(0.92 0.08 40 / 0.1) 15%, 
-      oklch(0.92 0.08 80 / 0.1) 30%, 
-      oklch(0.92 0.08 140 / 0.1) 45%, 
-      oklch(0.92 0.08 200 / 0.1) 60%, 
-      oklch(0.92 0.08 260 / 0.1) 75%, 
-      oklch(0.92 0.08 300 / 0.1) 90%, 
-      transparent 100%
-    );
-  background-size: 100% 200px;
-  background-repeat: no-repeat;
-  opacity: 0.5;
-}
-
-[data-theme="rainbow-bridge"] .theme-hero-bg {
-  background: 
-    radial-gradient(ellipse at 20% 30%, oklch(0.90 0.12 350 / 0.15) 0%, transparent 40%),
-    radial-gradient(ellipse at 80% 50%, oklch(0.88 0.10 210 / 0.12) 0%, transparent 35%),
-    radial-gradient(ellipse at 50% 80%, oklch(0.85 0.12 290 / 0.10) 0%, transparent 40%),
-    linear-gradient(180deg, oklch(0.98 0.015 300) 0%, oklch(0.99 0.01 280) 100%);
-}
-
-[data-theme="rainbow-bridge"] .theme-card-glow {
-  box-shadow: 
-    0 0 40px oklch(0.80 0.15 290 / 0.12),
-    0 0 80px oklch(0.75 0.12 210 / 0.08);
-}
-
-[data-theme="rainbow-bridge"] .theme-border-accent {
-  border-image: linear-gradient(90deg, 
-    oklch(0.80 0.15 350), 
-    oklch(0.80 0.12 80), 
-    oklch(0.78 0.12 210), 
-    oklch(0.80 0.14 290)
-  ) 1;
-}
-
-[data-theme="rainbow-bridge"] .theme-portrait-frame {
-  background: linear-gradient(135deg, 
-    oklch(0.85 0.12 350), 
-    oklch(0.82 0.12 290), 
-    oklch(0.80 0.10 210)
-  );
-  padding: 5px;
-  border-radius: 50%;
-}
-
-[data-theme="rainbow-bridge"] .theme-paw {
-  display: inline-block;
-  margin: 0 0.25rem;
-  opacity: 0.5;
-}
-
-/* Rainbow Bridge Theme - Full page background image */
-[data-theme="rainbow-bridge"] {
-  background-image: 
-    linear-gradient(to bottom, oklch(0.98 0.01 280 / 0.25) 0%, transparent 40%, oklch(0.95 0.02 300 / 0.15) 100%),
-    url('/themes/rainbow.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-/* Sunny Window Theme - Warm sunlight rays */
-[data-theme="sunny-window"] .theme-pattern {
-  background-image: 
-    radial-gradient(ellipse at 50% -20%, oklch(0.80 0.18 75 / 0.08) 0%, transparent 60%),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 80px,
-      oklch(0.85 0.12 80 / 0.02) 80px,
-      oklch(0.85 0.12 80 / 0.02) 82px
-    );
-}
-
-[data-theme="sunny-window"] .theme-hero-bg {
-  background: 
-    radial-gradient(ellipse at 50% -10%, oklch(0.85 0.20 75 / 0.25) 0%, transparent 50%),
-    radial-gradient(ellipse at 30% 30%, oklch(0.80 0.15 85 / 0.12) 0%, transparent 40%),
-    radial-gradient(ellipse at 70% 60%, oklch(0.75 0.12 60 / 0.08) 0%, transparent 35%),
-    linear-gradient(180deg, oklch(0.99 0.015 85) 0%, oklch(0.995 0.01 80) 100%);
-}
-
-[data-theme="sunny-window"] .theme-card-glow {
-  box-shadow: 
-    0 0 60px oklch(0.80 0.18 75 / 0.15),
-    0 0 120px oklch(0.75 0.15 80 / 0.08);
-}
-
-[data-theme="sunny-window"] .theme-border-accent {
-  border-color: oklch(0.75 0.16 75 / 0.4);
-}
-
-/* Sunny Window Theme - Full page background image */
-/* Note: Add /themes/sunny-window.jpeg when available */
-[data-theme="sunny-window"] {
-  background-image: 
-    linear-gradient(to bottom, oklch(0.99 0.01 80 / 0.2) 0%, transparent 40%, oklch(0.95 0.02 75 / 0.15) 100%),
-    linear-gradient(180deg, oklch(0.99 0.015 85) 0%, oklch(0.98 0.02 80) 100%);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-[data-theme="sunny-window"] .theme-portrait-frame {
-  background: linear-gradient(135deg, oklch(0.75 0.16 75), oklch(0.65 0.14 60));
-  padding: 4px;
-}
-
-[data-theme="sunny-window"] .theme-sunray {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300%;
-  height: 200px;
-  background: conic-gradient(
-    from 180deg at 50% -50%,
-    transparent 0deg,
-    oklch(0.85 0.15 75 / 0.05) 10deg,
-    transparent 20deg,
-    oklch(0.85 0.15 75 / 0.03) 30deg,
-    transparent 40deg,
-    oklch(0.85 0.15 75 / 0.04) 50deg,
-    transparent 60deg,
-    oklch(0.85 0.15 75 / 0.05) 70deg,
-    transparent 80deg,
-    oklch(0.85 0.15 75 / 0.03) 90deg,
-    transparent 100deg,
-    oklch(0.85 0.15 75 / 0.04) 110deg,
-    transparent 120deg
-  );
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-/* ============================================
    SHARED THEME UTILITIES
    ============================================ */
 
-/* Global theme surface layer */
+/* Global theme surface */
 .theme-surface {
   background: var(--background);
   color: var(--foreground);
@@ -623,7 +103,7 @@
   transform: translateY(-2px);
 }
 
-/* Hero/background depth layer */
+/* Hero */
 .theme-hero {
   position: relative;
   background: radial-gradient(
@@ -640,25 +120,25 @@
   pointer-events: none;
 }
 
-/* Candle glow animation */
+/* Candle */
 .candle-glow {
   animation: candleFlicker 2s ease-in-out infinite;
   filter: drop-shadow(0 0 10px var(--theme-glow-color));
 }
 
 @keyframes candleFlicker {
-  0%, 100% { 
-    filter: drop-shadow(0 0 8px var(--theme-glow-color)); 
+  0%, 100% {
+    filter: drop-shadow(0 0 8px var(--theme-glow-color));
     opacity: 1;
   }
-  50% { 
-    filter: drop-shadow(0 0 15px var(--theme-glow-color)); 
+  50% {
+    filter: drop-shadow(0 0 15px var(--theme-glow-color));
     opacity: 0.9;
     transform: scale(1.05);
   }
 }
 
-/* Emotional layer for condolence elements */
+/* Condolence */
 .condolence-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -672,13 +152,17 @@
   box-shadow: 0 0 60px var(--theme-glow-color);
 }
 
-/* Portrait frame gradient */
+/* Portrait frame */
 .portrait-frame {
-  background: linear-gradient(135deg, var(--theme-gradient-start), var(--theme-gradient-end));
+  background: linear-gradient(
+    135deg,
+    var(--theme-gradient-start),
+    var(--theme-gradient-end)
+  );
   padding: 4px;
 }
 
-/* Custom scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -696,14 +180,14 @@
   background: var(--accent);
 }
 
-/* Feature card icon styles */
+/* Feature icon */
 .feature-icon {
   @apply flex items-center justify-center w-14 h-14 rounded-full;
   background: oklch(from var(--primary) l c h / 0.1);
   color: var(--primary);
 }
 
-/* Timeline connector */
+/* Timeline */
 .timeline-line {
   background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
 }
@@ -716,7 +200,7 @@
   box-shadow: 0 0 0 4px var(--background), 0 0 0 6px var(--primary);
 }
 
-/* Decorative system */
+/* Decorative */
 .theme-pattern {
   opacity: var(--theme-pattern-opacity, 0.05);
   pointer-events: none;
@@ -726,7 +210,7 @@
   box-shadow: 0 0 80px var(--theme-glow-color);
 }
 
-/* Unified card system */
+/* Card system */
 .card {
   background: var(--card);
   color: var(--card-foreground);
@@ -737,166 +221,4 @@
 
 .card-soft {
   background: color-mix(in oklch, var(--card), transparent 20%);
-}
-
-/* ============================================
-   PROFILE IMAGE DESIGN SYSTEM
-   ============================================ */
-
-.profile-image {
-  position: relative;
-  overflow: hidden;
-  border-radius: calc(var(--radius) + 4px);
-  border: 1px solid var(--border);
-  background: var(--card);
-  box-shadow: 0 8px 24px color-mix(in oklch, var(--foreground), transparent 85%);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-.profile-image:hover {
-  transform: translateY(-2px);
-}
-
-.profile-image img {
-  transition: transform 0.35s ease;
-}
-
-.profile-image:hover img {
-  transform: scale(1.03);
-}
-
-/* Variant 1: clean memorial frame */
-.profile-image-minimal {
-  border-radius: 14px;
-  border-color: color-mix(in oklch, var(--border), var(--primary) 12%);
-}
-
-/* Variant 2: soft emotional glow */
-.profile-image-glow {
-  box-shadow:
-    0 0 0 1px color-mix(in oklch, var(--border), transparent 20%),
-    0 0 30px var(--theme-glow-color),
-    0 12px 28px color-mix(in oklch, var(--foreground), transparent 85%);
-}
-
-.profile-image-glow::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 20% 15%, color-mix(in oklch, var(--primary), transparent 75%), transparent 45%);
-}
-
-/* Variant 3: premium ornate ring */
-.profile-image-ornate {
-  padding: 4px;
-  border: 0;
-  background:
-    linear-gradient(135deg, var(--theme-gradient-start), var(--theme-gradient-end));
-}
-
-.profile-image-ornate > * {
-  border-radius: calc(var(--radius) + 2px);
-  overflow: hidden;
-  border: 1px solid color-mix(in oklch, var(--border), var(--primary) 18%);
-}
-
-/* Variant 4: soft vignette */
-.profile-image-soft {
-  border-color: color-mix(in oklch, var(--border), var(--accent) 18%);
-}
-
-.profile-image-soft::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at center, transparent 55%, color-mix(in oklch, var(--foreground), transparent 85%) 100%);
-}
-
-/* Theme-specific accents */
-[data-theme="orthodox"] .profile-image-ornate {
-  border-radius: 0;
-}
-
-[data-theme="eternal-night"] .profile-image-glow {
-  box-shadow:
-    0 0 0 1px color-mix(in oklch, var(--border), transparent 20%),
-    0 0 44px var(--theme-glow-color),
-    0 0 88px color-mix(in oklch, var(--primary), transparent 82%);
-}
-
-[data-theme="marble"] .profile-image-minimal {
-  box-shadow:
-    0 0 0 1px color-mix(in oklch, var(--border), transparent 10%),
-    0 10px 26px color-mix(in oklch, var(--foreground), transparent 88%);
-}
-
-[data-theme="rainbow-bridge"] .profile-image-soft::before {
-  background:
-    radial-gradient(circle at center, transparent 52%, color-mix(in oklch, var(--accent), transparent 82%) 100%);
-}
-
-/* Memorial hero typography/content layer */
-.memorial-hero {
-  position: relative;
-}
-
-.memorial-hero-name {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--foreground);
-  text-wrap: balance;
-}
-
-.memorial-hero-dates {
-  margin-top: 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid color-mix(in oklch, var(--border), var(--primary) 16%);
-  border-radius: 9999px;
-  padding: 0.35rem 0.85rem;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-  background: color-mix(in oklch, var(--card), transparent 20%);
-}
-
-.memorial-hero-biography {
-  margin-top: 1.25rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 62ch;
-  padding: 1rem 1.25rem;
-  border: 1px solid color-mix(in oklch, var(--border), var(--primary) 12%);
-  border-radius: calc(var(--radius) + 2px);
-  background: color-mix(in oklch, var(--card), transparent 12%);
-  box-shadow: 0 10px 30px color-mix(in oklch, var(--theme-glow-color), transparent 70%);
-  font-size: clamp(1rem, 1.6vw, 1.1rem);
-  line-height: 1.9;
-  color: color-mix(in oklch, var(--foreground), var(--muted-foreground) 30%);
-  text-wrap: pretty;
-}
-
-[data-theme="eternal-night"] .memorial-hero-biography {
-  background: color-mix(in oklch, var(--card), transparent 6%);
-  border-color: color-mix(in oklch, var(--primary), transparent 45%);
-}
-
-[data-theme="orthodox"] .memorial-hero-biography {
-  border-left: 3px solid color-mix(in oklch, var(--primary), transparent 20%);
-}
-
-[data-theme="eternal-night"] .memorial-hero-dates {
-  border-color: color-mix(in oklch, var(--primary), transparent 55%);
-  box-shadow: 0 0 24px color-mix(in oklch, var(--theme-glow-color), transparent 35%);
-}
-
-[data-theme="orthodox"] .memorial-hero-dates {
-  border-radius: 8px;
-  letter-spacing: 0.01em;
 }
