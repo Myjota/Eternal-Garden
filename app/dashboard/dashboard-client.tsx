@@ -4,7 +4,15 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Plus, Settings, Flame, Eye, Edit, Trash2, ExternalLink, LogOut } from 'lucide-react'
+import {
+  Plus,
+  Flame,
+  Eye,
+  Edit,
+  Trash2,
+  ExternalLink,
+  LogOut,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -54,8 +62,11 @@ export function DashboardClient({
   const router = useRouter()
 
   const [locale, setLocale] = useState<Locale>(defaultLocale)
-  const [memorials, setMemorials] = useState<Memorial[]>(initialMemorials)
-  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [memorials, setMemorials] =
+    useState<Memorial[]>(initialMemorials)
+
+  const [deletingId, setDeletingId] =
+    useState<string | null>(null)
 
   const t = getTranslations(locale)
 
@@ -71,7 +82,8 @@ export function DashboardClient({
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Ar tikrai norite ištrinti šį atminimą?')) return
+    if (!confirm('Ar tikrai norite ištrinti šį atminimą?'))
+      return
 
     setDeletingId(id)
 
@@ -102,7 +114,6 @@ export function DashboardClient({
     <ThemeProvider initialTheme="garden">
       <div className="min-h-screen flex flex-col bg-background">
 
-        {/* HEADER */}
         <Header
           locale={locale}
           t={t}
@@ -117,7 +128,7 @@ export function DashboardClient({
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
 
               <div>
-                <h1 className="font-serif text-3xl font-bold text-foreground">
+                <h1 className="font-serif text-3xl font-bold">
                   {t.dashboard.title}
                 </h1>
 
@@ -145,21 +156,14 @@ export function DashboardClient({
               </div>
             </div>
 
-            {/* TABS (NO PROFILE TAB ANYMORE) */}
-            <Tabs defaultValue="memorials" className="w-full">
+            {/* ONLY ONE TAB */}
+            <Tabs defaultValue="memorials">
 
               <TabsList className="mb-6">
-
-                <TabsTrigger value="memorials">
-                  <Flame className="h-4 w-4 mr-2" />
+                <TabsTrigger value="memorials" className="gap-2">
+                  <Flame className="h-4 w-4" />
                   {t.dashboard.myMemorials}
                 </TabsTrigger>
-
-                <TabsTrigger value="settings">
-                  <Settings className="h-4 w-4 mr-2" />
-                  {t.dashboard.settings}
-                </TabsTrigger>
-
               </TabsList>
 
               {/* MEMORIALS */}
@@ -184,9 +188,8 @@ export function DashboardClient({
                     {memorials.map((memorial) => (
                       <Card
                         key={memorial.id}
-                        className="overflow-hidden border-border/50 hover:shadow-lg transition-shadow"
+                        className="overflow-hidden"
                       >
-
                         <div className="aspect-[4/3] relative bg-muted">
 
                           <Image
@@ -199,62 +202,56 @@ export function DashboardClient({
                             className="object-cover"
                           />
 
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-3 flex gap-4 text-white text-sm">
 
-                            <div className="flex items-center gap-4 text-white text-sm">
+                            <span className="flex items-center gap-1">
+                              <Flame className="h-4 w-4" />
+                              {memorial.candle_count}
+                            </span>
 
-                              <div className="flex items-center gap-1">
-                                <Flame className="h-4 w-4" />
-                                {memorial.candle_count}
-                              </div>
+                            <span className="flex items-center gap-1">
+                              <Eye className="h-4 w-4" />
+                              {memorial.view_count}
+                            </span>
 
-                              <div className="flex items-center gap-1">
-                                <Eye className="h-4 w-4" />
-                                {memorial.view_count}
-                              </div>
-
-                            </div>
                           </div>
+
                         </div>
 
                         <CardContent className="p-4">
 
-                          <h3 className="font-serif font-semibold text-lg">
+                          <h3 className="font-semibold">
                             {memorial.first_name}{' '}
                             {memorial.last_name}
                           </h3>
 
-                          <div className="flex items-center gap-2 mt-4">
+                          <div className="flex gap-2 mt-4">
 
                             <Button
-                              variant="outline"
                               size="sm"
+                              variant="outline"
                               asChild
                               className="flex-1"
                             >
-                              <Link
-                                href={`/dashboard/memorial/${memorial.id}/edit`}
-                              >
-                                <Edit className="h-3 w-3 mr-1" />
-                                {t.common.edit}
+                              <Link href={`/dashboard/memorial/${memorial.id}/edit`}>
+                                <Edit className="h-3 w-3" />
                               </Link>
                             </Button>
 
                             <Button
-                              variant="outline"
                               size="sm"
+                              variant="outline"
                               asChild
                             >
-                              <Link
-                                href={`/memorial/${memorial.slug}`}
-                              >
+                              <Link href={`/memorial/${memorial.slug}`}>
                                 <ExternalLink className="h-3 w-3" />
                               </Link>
                             </Button>
 
                             <Button
-                              variant="outline"
                               size="sm"
+                              variant="outline"
+                              className="text-red-500"
                               onClick={() =>
                                 handleDelete(memorial.id)
                               }
@@ -271,56 +268,21 @@ export function DashboardClient({
                       </Card>
                     ))}
 
+                    {/* ADD NEW */}
+                    <Card className="border-dashed">
+                      <Link
+                        href="/create"
+                        className="flex flex-col items-center justify-center h-full min-h-[250px]"
+                      >
+                        <Plus className="h-10 w-10 text-muted-foreground" />
+                        <p className="mt-2 text-sm">
+                          {t.dashboard.createNew}
+                        </p>
+                      </Link>
+                    </Card>
+
                   </div>
                 )}
-              </TabsContent>
-
-              {/* SETTINGS */}
-              <TabsContent value="settings">
-
-                <Card className="max-w-2xl">
-
-                  <CardContent className="p-6 space-y-4">
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">
-                          Language
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Interface language
-                        </p>
-                      </div>
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                      >
-                        LT
-                      </Button>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-destructive">
-                          Danger zone
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Delete account
-                        </p>
-                      </div>
-
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                      >
-                        Delete
-                      </Button>
-                    </div>
-
-                  </CardContent>
-
-                </Card>
 
               </TabsContent>
 
