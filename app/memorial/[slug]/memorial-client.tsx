@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from '@/components/layout/Header'
+import { Header } from '@/components/layout/header'
 import { MemorialHero } from '@/components/memorial/MemorialHero'
 import { MemorialStats } from '@/components/memorial/MemorialStats'
 import { MemorialActions } from '@/components/memorial/MemorialActions'
