@@ -1,84 +1,82 @@
-/* Orthodox Theme - Premium */
-/* Traditional Orthodox Christian theme with gold and deep red */
-
+/* ============================================
+   ORTHODOX THEME - Premium
+   ============================================ */
 [data-theme="orthodox"] {
-  --primary: oklch(0.55 0.15 50);
+  --primary: oklch(0.60 0.16 70);
   --primary-foreground: oklch(0.15 0.02 30);
-  --secondary: oklch(0.35 0.12 25);
-  --secondary-foreground: oklch(0.95 0.02 50);
-  --accent: oklch(0.60 0.12 50);
+  --secondary: oklch(0.35 0.14 30);
+  --secondary-foreground: oklch(0.95 0.02 70);
+  --accent: oklch(0.55 0.14 70);
   --accent-foreground: oklch(0.15 0.02 30);
-  --background: oklch(0.97 0.01 50);
-  --foreground: oklch(0.20 0.03 30);
-  --muted: oklch(0.93 0.02 50);
+  --background: oklch(0.97 0.01 60);
+  --foreground: oklch(0.20 0.04 30);
+  --muted: oklch(0.93 0.02 60);
   --muted-foreground: oklch(0.45 0.05 30);
-  --card: oklch(0.99 0.005 50);
-  --card-foreground: oklch(0.20 0.03 30);
-  --border: oklch(0.85 0.03 50);
-  --input: oklch(0.85 0.03 50);
-  --ring: oklch(0.55 0.15 50);
+  --card: oklch(0.98 0.008 60);
+  --card-foreground: oklch(0.20 0.04 30);
+  --popover: oklch(0.98 0.008 60);
+  --popover-foreground: oklch(0.20 0.04 30);
+  --border: oklch(0.85 0.04 60);
+  --input: oklch(0.90 0.03 60);
+  --ring: oklch(0.60 0.16 70);
+
+  --theme-gradient-start: oklch(0.60 0.16 70);
+  --theme-gradient-end: oklch(0.40 0.14 30);
+  --theme-pattern-opacity: 0.04;
+  --theme-glow-color: oklch(0.65 0.18 70 / 0.20);
 }
 
-/* Orthodox theme specific styles */
-[data-theme="orthodox"] .memorial-hero {
-  background: radial-gradient(
-    ellipse at center,
-    oklch(0.97 0.02 50) 0%,
-    oklch(0.93 0.03 45) 100%
-  );
+/* Patterns */
+[data-theme="orthodox"] .theme-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4a574' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='%23d4a574' stroke-opacity='0.04' stroke-width='0.5'/%3E%3Cpath d='M30 5 L30 55 M5 30 L55 30' stroke='%23d4a574' stroke-opacity='0.03' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
 }
 
-/* Gold border ornament */
-[data-theme="orthodox"] .profile-image-ornate {
-  border-color: oklch(0.55 0.15 50);
-  border-width: 5px;
-  box-shadow: 
-    0 0 0 3px oklch(0.97 0.01 50),
-    0 0 0 6px oklch(0.55 0.15 50),
-    0 0 30px oklch(0.55 0.15 50 / 0.3),
-    0 15px 35px -10px rgba(0, 0, 0, 0.2);
+[data-theme="orthodox"] .theme-hero-bg {
+  background:
+    radial-gradient(ellipse at 50% 0%, oklch(0.65 0.16 70 / 0.15) 0%, transparent 60%),
+    linear-gradient(180deg, oklch(0.97 0.02 60) 0%, oklch(0.95 0.015 50) 100%);
 }
 
-/* Cross pattern overlay */
-[data-theme="orthodox"] .memorial-hero::after {
-  content: '';
+[data-theme="orthodox"] .theme-card-glow {
+  box-shadow:
+    0 0 50px oklch(0.65 0.18 70 / 0.15),
+    0 0 100px oklch(0.60 0.14 70 / 0.08);
+}
+
+[data-theme="orthodox"] .theme-border-accent {
+  border-color: oklch(0.65 0.16 70 / 0.5);
+}
+
+[data-theme="orthodox"] .theme-portrait-frame {
+  background: linear-gradient(135deg, oklch(0.65 0.16 70), oklch(0.50 0.12 60));
+  padding: 6px;
+  border-radius: 0;
+}
+
+[data-theme="orthodox"] .theme-cross {
+  position: relative;
+}
+
+[data-theme="orthodox"] .theme-cross::before {
+  content: '☦';
   position: absolute;
-  top: 20px;
+  top: -2rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 60px;
-  opacity: 0.1;
-  background: linear-gradient(
-    to bottom,
-    oklch(0.55 0.15 50) 0%,
-    oklch(0.55 0.15 50) 20%,
-    transparent 20%,
-    transparent 30%,
-    oklch(0.55 0.15 50) 30%,
-    oklch(0.55 0.15 50) 100%
-  );
-  clip-path: polygon(
-    35% 0%, 65% 0%, 65% 25%, 100% 25%, 100% 45%, 65% 45%, 65% 100%, 35% 100%, 35% 45%, 0% 45%, 0% 25%, 35% 25%
-  );
+  font-size: 2rem;
+  color: oklch(0.60 0.16 70);
+  opacity: 0.6;
 }
 
-/* Rich card styling */
-[data-theme="orthodox"] .memorial-card {
-  border-color: oklch(0.85 0.05 50);
-  background: linear-gradient(
-    135deg,
-    oklch(0.99 0.005 50) 0%,
-    oklch(0.97 0.01 50) 100%
-  );
-}
-
-/* Gold accent on buttons */
-[data-theme="orthodox"] .btn-primary {
-  background: linear-gradient(
-    135deg,
-    oklch(0.55 0.15 50) 0%,
-    oklch(0.50 0.13 45) 100%
-  );
-  box-shadow: 0 2px 10px oklch(0.55 0.15 50 / 0.3);
+/* Background */
+[data-theme="orthodox"] {
+  background-image:
+    linear-gradient(to bottom, oklch(0.97 0.01 50 / 0.2) 0%, transparent 30%, oklch(0.55 0.15 50 / 0.08) 100%),
+    url('/themes/ortodoks.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
