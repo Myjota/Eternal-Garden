@@ -1,0 +1,65 @@
+/* Garden Theme - Free */
+/* Classic forest green theme with natural oak tree imagery */
+
+[data-theme="garden"] {
+  --primary: oklch(0.35 0.12 145);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.95 0.02 145);
+  --secondary-foreground: oklch(0.25 0.08 145);
+  --accent: oklch(0.45 0.10 145);
+  --accent-foreground: oklch(0.98 0 0);
+  --background: oklch(0.99 0.005 145);
+  --foreground: oklch(0.20 0.02 145);
+  --muted: oklch(0.96 0.01 145);
+  --muted-foreground: oklch(0.45 0.05 145);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.20 0.02 145);
+  --border: oklch(0.90 0.02 145);
+  --input: oklch(0.90 0.02 145);
+  --ring: oklch(0.35 0.12 145);
+}
+
+/* Garden theme specific styles */
+[data-theme="garden"] .memorial-hero {
+  background: linear-gradient(
+    180deg,
+    oklch(0.95 0.02 145) 0%,
+    oklch(0.99 0.005 145) 100%
+  );
+}
+
+[data-theme="garden"] .profile-image-ornate {
+  border-color: oklch(0.35 0.12 145);
+  box-shadow: 
+    0 0 0 2px oklch(0.99 0.005 145),
+    0 0 0 4px oklch(0.35 0.12 145),
+    0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="garden"] .memorial-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60'%3E%3Cpath fill='%23e5f0e5' d='M0,30 Q300,0 600,30 T1200,30 V60 H0 Z'/%3E%3C/svg%3E");
+  background-size: cover;
+  opacity: 0.5;
+}
+
+/* Decorative leaf pattern for cards */
+[data-theme="garden"] .memorial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(
+    circle at top right,
+    oklch(0.35 0.12 145 / 0.1) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}

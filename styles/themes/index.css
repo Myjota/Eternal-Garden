@@ -1,0 +1,22 @@
+/* 
+ * Eternal Garden - Theme System
+ * This file imports all theme styles
+ */
+
+/* Base styles and tokens */
+@import './base/tokens.css';
+@import './base/utilities.css';
+@import './base/animations.css';
+@import './base/components.css';
+
+/* Free themes */
+@import './free/garden.css';
+@import './free/marble.css';
+
+/* Premium themes */
+@import './premium/orthodox.css';
+@import './premium/eternal-night.css';
+@import './premium/sunny-window.css';
+
+/* Special themes */
+@import './special/rainbow-bridge.css';
