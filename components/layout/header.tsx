@@ -4,7 +4,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { Menu, X, User, ChevronDown, LogOut } from 'lucide-react'
+import {
+  Menu,
+  X,
+  User,
+  ChevronDown,
+  LogOut,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -14,7 +20,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { type Locale, localeNames, locales } from '@/lib/i18n/config'
+import {
+  type Locale,
+  localeNames,
+  locales,
+} from '@/lib/i18n/config'
+
 import { type Translations } from '@/lib/i18n/locales/lt'
 import { createClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
@@ -32,7 +43,9 @@ export function Header({
   onLocaleChange,
   user,
 }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false)
+
   const router = useRouter()
   const pathname = usePathname()
 
@@ -43,19 +56,24 @@ export function Header({
     login: 'Login',
   }
 
-  const handleLocaleChange = (newLocale: Locale) => {
+  const handleLocaleChange = (
+    newLocale: Locale
+  ) => {
     onLocaleChange?.(newLocale)
   }
 
   const handleLogout = async () => {
     const supabase = createClient()
+
     await supabase.auth.signOut()
+
     router.push('/')
     router.refresh()
   }
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
+
     return pathname.startsWith(href)
   }
 
@@ -71,7 +89,10 @@ export function Header({
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link
+          href="/"
+          className="flex items-center gap-2"
+        >
           <Image
             src="/images/logo.png"
             alt="Eternal Garden"
@@ -83,23 +104,36 @@ export function Header({
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
-          <Link href="/" className={linkClass('/')}>
+          <Link
+            href="/"
+            className={linkClass('/')}
+          >
             {nav.home}
           </Link>
 
-          <Link href="/support" className={linkClass('/support')}>
+          <Link
+            href="/support"
+            className={linkClass('/support')}
+          >
             {nav.supportProject}
           </Link>
         </nav>
 
-        {/* Right Side */}
+        {/* Desktop Right Side */}
         <div className="hidden items-center gap-2 md:flex">
 
           {/* Language */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-1.5 px-2">
-                <span className="text-xs">{locale.toUpperCase()}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5 px-2"
+              >
+                <span className="text-xs">
+                  {locale.toUpperCase()}
+                </span>
+
                 <ChevronDown className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -108,7 +142,9 @@ export function Header({
               {locales.map((loc) => (
                 <DropdownMenuItem
                   key={loc}
-                  onClick={() => handleLocaleChange(loc)}
+                  onClick={() =>
+                    handleLocaleChange(loc)
+                  }
                 >
                   {localeNames[loc]}
                 </DropdownMenuItem>
@@ -116,17 +152,67 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* User actions */}
+          {/* User Logged In */}
           {user ? (
-            <Button size="sm" asChild>
-              <Link href="/create">
-                {nav.createMemorial}
-              </Link>
-            </Button>
+            <>
+              <Button size="sm" asChild>
+                <Link href="/create">
+                  {nav.createMemorial}
+                </Link>
+              </Button>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="gap-2"
+                  >
+                    <User className="h-4 w-4" />
+
+                    <span className="max-w-[120px] truncate">
+                      {user.email ??
+                        'Account'}
+                    </span>
+
+                    <ChevronDown className="h-3 w-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="text-destructive"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Atsijungti
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/auth/login" className="gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                asChild
+              >
+                <Link
+                  href="/auth/login"
+                  className="gap-2"
+                >
                   <User className="h-4 w-4" />
                   {nav.login}
                 </Link>
@@ -144,7 +230,11 @@ export function Header({
         {/* Mobile Button */}
         <button
           className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={() =>
+            setMobileMenuOpen(
+              !mobileMenuOpen
+            )
+          }
         >
           {mobileMenuOpen ? (
             <X className="h-6 w-6" />
@@ -159,24 +249,41 @@ export function Header({
         <div className="border-t border-border md:hidden">
           <nav className="container mx-auto flex flex-col gap-4 p-4">
 
-            <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/"
+              onClick={() =>
+                setMobileMenuOpen(false)
+              }
+            >
               {nav.home}
             </Link>
 
-            <Link href="/support" onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/support"
+              onClick={() =>
+                setMobileMenuOpen(false)
+              }
+            >
               {nav.supportProject}
             </Link>
 
             <div className="pt-4 border-t border-border flex flex-col gap-2">
 
-              <Button size="sm" asChild>
+              <Button
+                size="sm"
+                asChild
+              >
                 <Link href="/create">
                   {nav.createMemorial}
                 </Link>
               </Button>
 
               {!user && (
-                <Button variant="outline" size="sm" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                >
                   <Link href="/auth/login">
                     {nav.login}
                   </Link>
@@ -184,17 +291,40 @@ export function Header({
               )}
 
               {user && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleLogout}
-                  className="text-destructive"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Atsijungti
-                </Button>
-              )}
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                  >
+                    <Link href="/dashboard">
+                      Dashboard
+                    </Link>
+                  </Button>
 
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                  >
+                    <Link href="/profile">
+                      Profile
+                    </Link>
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={
+                      handleLogout
+                    }
+                    className="text-destructive"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Atsijungti
+                  </Button>
+                </>
+              )}
             </div>
 
           </nav>
@@ -202,4 +332,4 @@ export function Header({
       )}
     </header>
   )
-}
+    }
