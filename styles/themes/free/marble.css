@@ -1,69 +1,41 @@
-/* Marble Theme - Free */
-/* Elegant white and gray marble aesthetic */
+/* ============================================
+   MARBLE THEME
+   ============================================ */
+[data-theme="marble"] {
+  --primary: oklch(0.50 0.02 80);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.96 0.005 80);
+  --secondary-foreground: oklch(0.35 0.01 80);
+  --accent: oklch(0.65 0.10 80);
+  --accent-foreground: oklch(0.20 0.02 80);
+  --background: oklch(0.985 0.002 80);
+  --foreground: oklch(0.25 0.01 80);
+  --muted: oklch(0.94 0.005 80);
+  --muted-foreground: oklch(0.50 0.01 80);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.01 80);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.01 80);
+  --border: oklch(0.88 0.01 80);
+  --input: oklch(0.92 0.01 80);
+  --ring: oklch(0.55 0.08 80);
+
+  --theme-gradient-start: oklch(0.50 0.02 80);
+  --theme-gradient-end: oklch(0.60 0.08 70);
+  --theme-pattern-opacity: 0.02;
+  --theme-glow-color: oklch(0.70 0.10 80 / 0.10);
+}
+
+/* styles */
+[data-theme="marble"] .theme-pattern {
+  background-image:
+    url("data:image/svg+xml,%3Csvg ... %3C/svg%3E"),
+    linear-gradient(135deg, oklch(0.98 0.005 80), oklch(0.96 0.008 70));
+}
 
 [data-theme="marble"] {
-  --primary: oklch(0.40 0.01 250);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.005 250);
-  --secondary-foreground: oklch(0.30 0.01 250);
-  --accent: oklch(0.55 0.02 250);
-  --accent-foreground: oklch(0.98 0 0);
-  --background: oklch(0.98 0.002 250);
-  --foreground: oklch(0.25 0.01 250);
-  --muted: oklch(0.94 0.005 250);
-  --muted-foreground: oklch(0.50 0.01 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.01 250);
-  --border: oklch(0.88 0.01 250);
-  --input: oklch(0.88 0.01 250);
-  --ring: oklch(0.40 0.01 250);
-}
-
-/* Marble theme specific styles */
-[data-theme="marble"] .memorial-hero {
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.002 250) 0%,
-    oklch(0.94 0.005 250) 50%,
-    oklch(0.98 0.002 250) 100%
-  );
-}
-
-/* Marble texture overlay */
-[data-theme="marble"] .memorial-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  pointer-events: none;
-}
-
-[data-theme="marble"] .profile-image-ornate {
-  border-color: oklch(0.70 0.01 250);
-  box-shadow: 
-    0 0 0 2px oklch(0.98 0.002 250),
-    0 0 0 4px oklch(0.70 0.01 250),
-    0 15px 30px -10px rgba(0, 0, 0, 0.15);
-}
-
-/* Elegant veining effect for cards */
-[data-theme="marble"] .memorial-card {
-  background: linear-gradient(
-    135deg,
-    oklch(1 0 0) 0%,
-    oklch(0.98 0.002 250) 100%
-  );
-}
-
-[data-theme="marble"] .memorial-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    45deg,
-    transparent 40%,
-    oklch(0.90 0.005 250 / 0.3) 45%,
-    transparent 50%
-  );
-  pointer-events: none;
+  background-image:
+    linear-gradient(to bottom, oklch(0.98 0.002 250 / 0.15), transparent),
+    url('/themes/marble1.jpeg');
+  background-size: cover;
 }
