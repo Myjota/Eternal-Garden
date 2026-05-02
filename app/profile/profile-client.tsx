@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { User, LogOut, Pencil, Users } from 'lucide-react'
+import { User, LogOut, Pencil } from 'lucide-react'
 import { Header } from '@/components/layout/header'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
@@ -77,18 +77,6 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
               </p>
               <p className="text-xs font-mono break-all">
                 {user?.id ?? '-'}
-              </p>
-            </div>
-
-            {/* 🧩 ŠEIMA (PSEUDO LAUKAS) */}
-            <div className="rounded-md border p-3 bg-muted/30">
-              <p className="text-sm text-muted-foreground flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                Šeima
-              </p>
-
-              <p className="font-medium text-foreground mt-1">
-                Pseudo (laikinas laukas)
               </p>
             </div>
 
