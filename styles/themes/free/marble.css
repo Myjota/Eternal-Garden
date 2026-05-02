@@ -104,3 +104,22 @@
   );
   padding: 4px;
 }
+
+[data-theme="marble"] .memorial-hero {
+  position: relative;
+}
+
+[data-theme="marble"] .profile-image {
+  position: relative;
+  border-radius: 12px;
+}
+
+[data-theme="marble"] .profile-image-ornate {
+  padding: 6px;
+  background: linear-gradient(135deg, oklch(0.85 0.03 80), oklch(0.75 0.05 70));
+  box-shadow: 0 10px 30px oklch(0.6 0.05 80 / 0.15);
+}
+
+[data-theme="marble"] .memorial-hero-name {
+  text-shadow: 0 2px 20px oklch(0.6 0.05 80 / 0.15);
+}
