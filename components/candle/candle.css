@@ -14,7 +14,7 @@
   width: 120px;
   height: 240px;
 
-  overflow: visible; /* ❗ FIX: no flame cut */
+  overflow: visible;
 }
 
 /* =========================
@@ -28,7 +28,6 @@
   z-index: 2;
 }
 
-/* 🔥 scale reduction (important) */
 .candle-small {
   transform: scale(0.78);
   transform-origin: bottom center;
@@ -60,7 +59,7 @@
 }
 
 /* =========================
-   🫠 TOP WAX
+   🫠 WAX TOP
    ========================= */
 
 .wax-top {
@@ -72,24 +71,6 @@
 
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #fff2df, #e6caa6);
-}
-
-/* =========================
-   🧯 WICK
-   ========================= */
-
-.wick {
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  width: 2px;
-  height: 14px;
-  background: #222;
-  transform: translateX(-50%);
-}
-
-.wick.cold {
-  background: #555;
 }
 
 /* =========================
@@ -118,24 +99,61 @@
 }
 
 /* =========================
-   🔥 FLAME SYSTEM (FIXED)
+   🔥 FLAME ANCHOR SYSTEM
+   ========================= */
+
+.flame-anchor {
+  position: absolute;
+  left: 50%;
+  top: 22px; /* 🔥 DAGTIES TIKSLUS AUKŠTIS */
+
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  z-index: 10;
+}
+
+/* =========================
+   🧯 WICK
+   ========================= */
+
+.flame-anchor .wick {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 2px;
+  height: 14px;
+
+  background: #222;
+  transform: translateX(-50%);
+}
+
+/* wick hidden when lit */
+.candle.lit .flame-anchor .wick {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* =========================
+   🔥 FLAME
    ========================= */
 
 .flame {
   position: absolute;
-  top: -18px;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
+
+  transform: translateX(calc(-50% + var(--wind, 0) * 6px));
+
   z-index: 10;
   pointer-events: none;
 }
 
-/* wind layer ONLY */
-.flame-wind {
-  transform: translateX(calc(var(--wind, 0) * 6px));
-}
+/* =========================
+   🔥 FLAME LAYERS
+   ========================= */
 
-/* base flame shape */
 .flame-layer {
   position: absolute;
   bottom: 0;
@@ -177,6 +195,7 @@
   position: absolute;
   top: -20px;
   left: 50%;
+
   width: 100px;
   height: 100px;
 
@@ -196,6 +215,6 @@
    ========================= */
 
 @keyframes flicker {
-  0% { transform: translateX(-50%) scale(0.98); opacity: 0.85; }
-  100% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+  0% { opacity: 0.85; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.05); }
 }
