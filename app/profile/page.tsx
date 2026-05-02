@@ -1,134 +1,20 @@
-'use client'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
+import { ProfileClient } from './profile-client'
 
-import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { User, LogOut, Pencil } from 'lucide-react'
-import { Header } from '@/components/layout/header'
-import type { User as SupabaseUser } from '@supabase/supabase-js'
+export default async function ProfilePage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-interface Profile {
-  id: string
-  email: string | null
-  full_name: string | null
-}
-
-export default function ProfilePage() {
-  const [user, setUser] = useState<SupabaseUser | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-
-  useEffect(() => {
-    const supabase = createClient()
-
-    const load = async () => {
-      const { data: userData } = await supabase.auth.getUser()
-      const currentUser = userData.user
-
-      setUser(currentUser)
-
-      if (currentUser) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('id, email, full_name')
-          .eq('id', currentUser.id)
-          .single()
-
-        setProfile(data)
-      }
-    }
-
-    load()
-  }, [])
-
-  const handleLogout = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    window.location.href = '/'
+  if (!user) {
+    redirect('/login')
   }
 
-  const displayName =
-    profile?.full_name ||
-    user?.email?.split('@')[0] ||
-    'User'
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, email, full_name')
+    .eq('id', user.id)
+    .single()
 
-  return (
-    <>
-      {/* HEADER */}
-      <Header user={user} />
-
-      {/* PAGE */}
-      <div className="container mx-auto py-10 max-w-2xl">
-
-        <h1 className="text-2xl font-semibold mb-6">
-          Profile
-        </h1>
-
-        {/* ACCOUNT CARD */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
-              Account info
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent className="space-y-4">
-
-            <div>
-              <p className="text-sm text-muted-foreground">
-                Name
-              </p>
-              <p className="font-medium">
-                {displayName}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">
-                Email
-              </p>
-              <p className="font-medium">
-                {user?.email ?? '-'}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">
-                User ID
-              </p>
-              <p className="text-xs font-mono break-all">
-                {user?.id ?? '-'}
-              </p>
-            </div>
-
-          </CardContent>
-        </Card>
-
-        {/* ACTIONS */}
-        <div className="space-y-3">
-
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={() => alert('Edit profile (TODO)')}
-          >
-            <Pencil className="h-4 w-4" />
-            Edit profile
-          </Button>
-
-          <Button
-            variant="destructive"
-            className="w-full gap-2"
-            onClick={handleLogout}
-          >
-            <LogOut className="h-4 w-4" />
-            Logout
-          </Button>
-
-        </div>
-
-      </div>
-    </>
-  )
-          }
+  return <ProfileClient user={user} profile={profile} />
+}
