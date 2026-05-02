@@ -55,10 +55,10 @@ export function Header({
   const pathname = usePathname()
 
   const nav = t?.nav ?? {
-    home: 'Home',
-    supportProject: 'Support',
-    createMemorial: 'Create Memorial',
-    login: 'Login',
+    home: 'Pradžia',
+    supportProject: 'Parama',
+    createMemorial: 'Sukurti atminimą',
+    login: 'Prisijungti',
   }
 
   const handleLocaleChange = (newLocale: Locale) => {
