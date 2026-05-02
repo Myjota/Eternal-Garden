@@ -29,12 +29,15 @@ import {
 import { type Translations } from '@/lib/i18n/locales/lt'
 import { createClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
+import { type ThemeId } from '@/lib/themes/config'
 
 interface HeaderProps {
   locale?: Locale
   t?: Translations
   onLocaleChange?: (locale: Locale) => void
   user?: SupabaseUser | null
+  theme?: ThemeId
+  onThemeChange?: (theme: ThemeId) => void
 }
 
 export function Header({
@@ -42,6 +45,8 @@ export function Header({
   t,
   onLocaleChange,
   user,
+  theme,
+  onThemeChange,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false)
