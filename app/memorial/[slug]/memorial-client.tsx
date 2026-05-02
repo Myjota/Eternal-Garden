@@ -5,6 +5,7 @@ import { MemorialHero } from '@/components/memorial/MemorialHero'
 import { MemorialStats } from '@/components/memorial/MemorialStats'
 import { MemorialActions } from '@/components/memorial/MemorialActions'
 import { MemorialTabs } from '@/components/memorial/MemorialTabs'
+import { CandleSection } from '@/components/candle/CandleSection' // 🕯️ ADDED
 
 import { useCandles } from '@/hooks/useCandles'
 import { useCondolences } from '@/hooks/useCondolences'
@@ -111,6 +112,11 @@ export function MemorialClient({
         allowCandles={memorial.allow_candles}
         onLightCandle={lightCandle}
       />
+
+      {/* 🕯️ CANDLE SECTION (ADDED - EMOTIONAL LAYER) */}
+      {memorial.allow_candles && (
+        <CandleSection candles={initialCandles} />
+      )}
 
       {/* TABS */}
       <MemorialTabs
