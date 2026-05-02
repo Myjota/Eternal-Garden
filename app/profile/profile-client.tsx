@@ -40,14 +40,14 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
       <div className="container mx-auto py-10 max-w-2xl">
 
         <h1 className="text-2xl font-semibold mb-6">
-          Profile
+          Profilis
         </h1>
 
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
-              Account info
+              Paskyros informacija
             </CardTitle>
           </CardHeader>
 
@@ -55,7 +55,7 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
 
             <div>
               <p className="text-sm text-muted-foreground">
-                Name
+                Vardas
               </p>
               <p className="font-medium">
                 {displayName}
@@ -64,7 +64,7 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
 
             <div>
               <p className="text-sm text-muted-foreground">
-                Email
+                El. paštas
               </p>
               <p className="font-medium">
                 {user?.email ?? '-'}
@@ -73,7 +73,7 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
 
             <div>
               <p className="text-sm text-muted-foreground">
-                User ID
+                Vartotojo ID
               </p>
               <p className="text-xs font-mono break-all">
                 {user?.id ?? '-'}
@@ -88,10 +88,10 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
           <Button
             variant="outline"
             className="w-full gap-2"
-            onClick={() => alert('Edit profile (TODO)')}
+            onClick={() => alert('Redaguoti profilį (TODO)')}
           >
             <Pencil className="h-4 w-4" />
-            Edit profile
+            Redaguoti profilį
           </Button>
 
           <Button
@@ -100,7 +100,7 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
             onClick={handleLogout}
           >
             <LogOut className="h-4 w-4" />
-            Logout
+            Atsijungti
           </Button>
 
         </div>
