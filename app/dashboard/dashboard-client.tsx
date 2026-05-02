@@ -9,6 +9,7 @@ import {
   Edit,
   Trash2,
   ExternalLink,
+  Users,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -97,7 +98,7 @@ export function DashboardClient({
         <main className="flex-1">
           <div className="container mx-auto px-4 py-8">
 
-            {/* HEADER (ONLY INFO) */}
+            {/* HEADER */}
             <div className="mb-8">
               <h1 className="text-3xl font-serif font-bold">
                 {t.dashboard.title}
@@ -111,12 +112,22 @@ export function DashboardClient({
             <Tabs defaultValue="memorials">
 
               <TabsList className="mb-6">
+
+                {/* 1. MEMORIALS */}
                 <TabsTrigger value="memorials" className="gap-2">
                   <Flame className="h-4 w-4" />
                   {t.dashboard.myMemorials}
                 </TabsTrigger>
+
+                {/* 2. FAMILY */}
+                <TabsTrigger value="family" className="gap-2">
+                  <Users className="h-4 w-4" />
+                  Mano šeima
+                </TabsTrigger>
+
               </TabsList>
 
+              {/* MEMORIALS */}
               <TabsContent value="memorials">
 
                 {memorials.length === 0 ? (
@@ -125,7 +136,6 @@ export function DashboardClient({
                     title={t.dashboard.noMemorials}
                     description={t.dashboard.createFirst}
                   >
-                    {/* CREATE ONLY HERE */}
                     <Button asChild className="mt-4">
                       <Link href="/create">
                         Create Memorial
@@ -200,6 +210,31 @@ export function DashboardClient({
 
               </TabsContent>
 
+              {/* FAMILY */}
+              <TabsContent value="family">
+
+                <Card>
+                  <CardContent className="p-6 text-center">
+
+                    <Users className="mx-auto h-10 w-10 text-muted-foreground mb-3" />
+
+                    <h3 className="text-lg font-semibold">
+                      Mano šeima
+                    </h3>
+
+                    <p className="text-muted-foreground mt-2">
+                      Čia bus rodoma jūsų šeimos struktūra ir nariai.
+                    </p>
+
+                    <Button className="mt-4">
+                      Pridėti šeimos narį
+                    </Button>
+
+                  </CardContent>
+                </Card>
+
+              </TabsContent>
+
             </Tabs>
 
           </div>
@@ -209,4 +244,4 @@ export function DashboardClient({
 
     </ThemeProvider>
   )
-}
+              }
