@@ -61,7 +61,7 @@ export default function ProfilePage() {
       <div className="container mx-auto py-10 max-w-2xl">
 
         <h1 className="text-2xl font-semibold mb-6">
-          Profile
+          Asmeninė Paskyra
         </h1>
 
         {/* ACCOUNT CARD */}
@@ -69,7 +69,7 @@ export default function ProfilePage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
-              Account info
+              Paskyros Informacija
             </CardTitle>
           </CardHeader>
 
@@ -77,7 +77,7 @@ export default function ProfilePage() {
 
             <div>
               <p className="text-sm text-muted-foreground">
-                Name
+                Vardas
               </p>
               <p className="font-medium">
                 {displayName}
@@ -86,7 +86,7 @@ export default function ProfilePage() {
 
             <div>
               <p className="text-sm text-muted-foreground">
-                Email
+                Elektroninis Paštas
               </p>
               <p className="font-medium">
                 {user?.email ?? '-'}
@@ -95,7 +95,7 @@ export default function ProfilePage() {
 
             <div>
               <p className="text-sm text-muted-foreground">
-                User ID
+                Naudotojo ID Numeris
               </p>
               <p className="text-xs font-mono break-all">
                 {user?.id ?? '-'}
@@ -114,7 +114,7 @@ export default function ProfilePage() {
             onClick={() => alert('Edit profile (TODO)')}
           >
             <Pencil className="h-4 w-4" />
-            Edit profile
+            Redaguoti Paskyrą
           </Button>
 
           <Button
