@@ -126,27 +126,34 @@
 
 
 /* =========================
-   MARBLE TABS (FULL CLEAN + CENTERED)
+   MARBLE TABS (FULL FIXED + VERTICAL CENTER)
    ========================= */
 
+/* TABS WRAPPER */
 [data-theme="marble"] .theme-tabs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
-  align-items: center;
+
+  align-items: stretch;
+  gap: 4px;
 
   border: 1px solid oklch(0.88 0.01 80);
   border-radius: 12px;
   padding: 6px;
-  gap: 4px;
 }
 
-/* TAB WRAPPER */
+/* TAB BUTTON */
 [data-theme="marble"] [role="tab"] {
   display: flex;
+  flex-direction: row;
+
+  align-items: center;   /* 🔥 vertical center fix */
   justify-content: center;
-  align-items: center;
+
   gap: 6px;
+
+  height: 36px;          /* 🔥 stabilus vertical alignment */
+  line-height: 1;        /* 🔥 removes text baseline shift */
 
   color: oklch(0.45 0.01 80);
   border-radius: 10px;
@@ -154,14 +161,21 @@
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* ACTIVE STATE (NO BACKGROUND LAYERING) */
+/* ICON FIX */
+[data-theme="marble"] [role="tab"] svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ACTIVE STATE (NO BACKGROUND) */
 [data-theme="marble"] [data-state="active"] {
   color: oklch(0.25 0.01 80);
   box-shadow: 0 2px 12px oklch(0.6 0.05 80 / 0.12);
 }
 
-/* HOVER STATE (SUBTLE LIFT ONLY) */
+/* HOVER STATE */
 [data-theme="marble"] [role="tab"]:hover {
   color: oklch(0.3 0.01 80);
   transform: translateY(-1px);
+}ateY(-1px);
 }
