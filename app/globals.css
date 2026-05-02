@@ -91,7 +91,10 @@
   transform: translateY(-2px);
 }
 
-/* Hero (memory focus area) */
+/* ============================================
+   HERO (memory focus area)
+   ============================================ */
+
 .theme-hero {
   position: relative;
   background: radial-gradient(
@@ -99,6 +102,7 @@
     var(--theme-gradient-start),
     transparent 70%
   );
+  overflow: hidden;
 }
 
 /* Glow overlay */
@@ -107,9 +111,53 @@
   inset: 0;
   background: var(--theme-hero-bg, transparent);
   pointer-events: none;
+  z-index: 0;
 }
 
-/* Candle (ritual element) */
+/* Decorative pattern */
+.theme-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: var(--theme-pattern-opacity, 0.05);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   EPITAPH (core emotional element)
+   ============================================ */
+
+.memorial-epitaph {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  max-width: 42rem;
+  margin-inline: auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle glow for emotional focus */
+.memorial-epitaph::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  background: radial-gradient(
+    circle,
+    var(--theme-glow-color, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0.12;
+  z-index: -1;
+}
+
+/* ============================================
+   CANDLE (ritual element)
+   ============================================ */
+
 .candle-glow {
   animation: candleFlicker 2s ease-in-out infinite;
   filter: drop-shadow(0 0 10px var(--theme-glow-color));
@@ -127,7 +175,10 @@
   }
 }
 
-/* Condolence / memory card */
+/* ============================================
+   CONDOLENCE / MEMORY CARD
+   ============================================ */
+
 .condolence-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -141,7 +192,10 @@
   box-shadow: 0 0 60px var(--theme-glow-color);
 }
 
-/* Portrait frame */
+/* ============================================
+   PORTRAIT FRAME
+   ============================================ */
+
 .portrait-frame {
   background: linear-gradient(
     135deg,
@@ -149,9 +203,13 @@
     var(--theme-gradient-end)
   );
   padding: 4px;
+  border-radius: var(--radius-lg);
 }
 
-/* Scrollbar */
+/* ============================================
+   SCROLLBAR (polished)
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -161,22 +219,28 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: color-mix(in oklch, var(--primary), transparent 40%);
   border-radius: var(--radius);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--primary);
 }
 
-/* Feature icon */
+/* ============================================
+   FEATURE ICON
+   ============================================ */
+
 .feature-icon {
   @apply flex items-center justify-center w-14 h-14 rounded-full;
   background: oklch(from var(--primary) l c h / 0.1);
   color: var(--primary);
 }
 
-/* Timeline (memory storytelling) */
+/* ============================================
+   TIMELINE (memory storytelling)
+   ============================================ */
+
 .timeline-line {
   background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
 }
@@ -189,13 +253,10 @@
   box-shadow: 0 0 0 4px var(--background), 0 0 0 6px var(--primary);
 }
 
-/* Decorative overlay */
-.theme-pattern {
-  opacity: var(--theme-pattern-opacity, 0.05);
-  pointer-events: none;
-}
+/* ============================================
+   CARD BASE
+   ============================================ */
 
-/* Card base */
 .card {
   background: var(--card);
   color: var(--card-foreground);
