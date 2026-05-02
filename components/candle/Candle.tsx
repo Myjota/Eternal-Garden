@@ -1,28 +1,27 @@
 "use client";
 
 import type { MouseEvent, CSSProperties } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./candle.css";
 
 /* ========================= 🕯️ DEGANČIA ŽVAKĖ ========================= */
 
 export function CandleLit() {
-  const [wind, setWind] = useState<number>(0);
-  const [flicker, setFlicker] = useState<number>(1);
+  const [wind, setWind] = useState(0);
+  const [flicker, setFlicker] = useState(1);
 
-  /* 🔥 natural flicker */
-  useState(() => {
+  /* 🔥 FIXED: proper flicker */
+  useEffect(() => {
     const interval = setInterval(() => {
-      setFlicker(0.85 + Math.random() * 0.3);
+      setFlicker(0.88 + Math.random() * 0.25);
     }, 90);
 
     return () => clearInterval(interval);
-  });
+  }, []);
 
   function handleMove(e: MouseEvent<HTMLDivElement>) {
     const x = e.clientX;
     const center = window.innerWidth / 2;
-
     const diff = (x - center) / center;
 
     setWind((prev) => prev * 0.85 + diff * 0.15);
@@ -30,8 +29,10 @@ export function CandleLit() {
 
   return (
     <div className="candle-wrapper" onMouseMove={handleMove}>
+      
+      {/* 🧱 SCALE DOWN ONLY HERE */}
       <div
-        className="candle lit"
+        className="candle lit candle-small"
         style={
           {
             "--wind": wind,
@@ -42,7 +43,6 @@ export function CandleLit() {
         {/* WAX */}
         <div className="wax">
           <div className="wax-top" />
-
           <div className="wax-drip drip1" />
           <div className="wax-drip drip2" />
           <div className="wax-drip drip3" />
@@ -51,12 +51,11 @@ export function CandleLit() {
         {/* WICK */}
         <div className="wick" />
 
-        {/* 🔥 FLAME */}
+        {/* FLAME */}
         <div className="flame">
           <div className="flame-layer outer" />
           <div className="flame-layer mid" />
           <div className="flame-layer core" />
-          <div className="flame-glow" />
         </div>
 
         {/* GLOW */}
@@ -71,7 +70,7 @@ export function CandleLit() {
 export function CandleUnlit() {
   return (
     <div className="candle-wrapper">
-      <div className="candle unlit">
+      <div className="candle unlit candle-small">
         <div className="wax">
           <div className="wax-top cold" />
         </div>
