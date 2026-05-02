@@ -10,7 +10,6 @@ export function CandleLit() {
   const [wind, setWind] = useState(0);
   const [flicker, setFlicker] = useState(1);
 
-  /* 🔥 FIXED: proper flicker */
   useEffect(() => {
     const interval = setInterval(() => {
       setFlicker(0.88 + Math.random() * 0.25);
@@ -29,8 +28,6 @@ export function CandleLit() {
 
   return (
     <div className="candle-wrapper" onMouseMove={handleMove}>
-      
-      {/* 🧱 SCALE DOWN ONLY HERE */}
       <div
         className="candle lit candle-small"
         style={
@@ -48,10 +45,7 @@ export function CandleLit() {
           <div className="wax-drip drip3" />
         </div>
 
-        {/* WICK */}
-        <div className="wick" />
-
-        {/* FLAME */}
+        {/* FLAME (dagtis paslepta vizualiai po liepsna) */}
         <div className="flame">
           <div className="flame-layer outer" />
           <div className="flame-layer mid" />
@@ -75,7 +69,9 @@ export function CandleUnlit() {
           <div className="wax-top cold" />
         </div>
 
-        <div className="wick cold" />
+        {/* WICK matoma tik kai žvakė NEDEGA */}
+        <div className="wick" />
+
         <div className="glow" />
       </div>
     </div>
