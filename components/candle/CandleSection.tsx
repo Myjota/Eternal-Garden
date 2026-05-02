@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CandleLit } from "./Candle";
-import { CandleUnlit } from "./CandleUnlit";
+import { CandleLit, CandleUnlit } from "./Candle";
 
 type CandleSectionProps = {
   initialLit?: boolean;
@@ -22,7 +21,9 @@ export function CandleSection({
     if (isLit) return;
 
     setLoading(true);
+
     await new Promise((res) => setTimeout(res, 800));
+
     setIsLit(true);
     setLoading(false);
 
@@ -31,8 +32,8 @@ export function CandleSection({
 
   return (
     <section className="candle-section py-12 flex flex-col items-center">
-      
-      {/* 🧱 HARD CONTAINER (REAL FIX) */}
+
+      {/* CONTAINER */}
       <div className="relative isolate flex flex-col items-center">
 
         {/* TITLE */}
@@ -43,14 +44,11 @@ export function CandleSection({
           </p>
         </div>
 
-        {/* 🕯️ CANDLE BOX (IMPORTANT FIX) */}
+        {/* 🕯️ CANDLE BOX */}
         <div className="relative z-20 mb-6 flex justify-center">
-          
-          {/* 🔥 REAL VISUAL BOUNDARY */}
           <div className="relative w-[120px] h-[240px] overflow-hidden flex justify-center items-start">
             {isLit ? <CandleLit /> : <CandleUnlit />}
           </div>
-
         </div>
 
         {/* BUTTON */}
