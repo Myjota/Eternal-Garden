@@ -2,17 +2,11 @@
 
 import { Header } from '@/components/layout/header'
 import { MemorialHero } from '@/components/memorial/MemorialHero'
-import { MemorialStats } from '@/components/memorial/MemorialStats'
-import { MemorialActions } from '@/components/memorial/MemorialActions'
 import { MemorialTabs } from '@/components/memorial/MemorialTabs'
-import { CandleSection } from '@/components/candle/CandleSection' // 🕯️ ADDED
-
-import { useCandles } from '@/hooks/useCandles'
-import { useCondolences } from '@/hooks/useCondolences'
+import { CandleSection } from '@/components/candle/CandleSection'
 
 import type { User } from '@supabase/supabase-js'
 import type { ThemeId } from '@/lib/themes/config'
-
 import type { Locale } from '@/lib/i18n/config'
 import type { Translations } from '@/lib/i18n/locales/lt'
 
@@ -60,29 +54,6 @@ export function MemorialClient({
   locale,
   t,
 }: MemorialClientProps) {
-  const {
-    hasLitCandle,
-    isLoading,
-    lightCandle,
-  } = useCandles({
-    memorialId: memorial.id,
-    initialCandles,
-    userId: currentUser?.id,
-    userEmail: currentUser?.email,
-  })
-
-  const {
-    items: condolenceItems,
-    isSubmitting,
-    submitCondolence,
-  } = useCondolences({
-    memorialId: memorial.id,
-    initialItems: initialCondolences,
-    userId: currentUser?.id,
-  })
-
-  const totalCandles =
-    memorial.candle_count + (hasLitCandle ? 1 : 0)
 
   return (
     <div
@@ -90,41 +61,21 @@ export function MemorialClient({
       className="min-h-screen bg-background relative overflow-hidden"
     >
       {/* HEADER */}
-      <Header
-        locale={locale}
-        t={t}
-        user={currentUser}
-      />
+      <Header locale={locale} t={t} user={currentUser} />
 
       {/* HERO */}
       <MemorialHero memorial={memorial} />
 
-      {/* STATS */}
-      <MemorialStats
-        candles={totalCandles}
-        views={memorial.view_count}
-      />
-
-      {/* ACTIONS */}
-      <MemorialActions
-        hasLitCandle={hasLitCandle}
-        isLoading={isLoading}
-        allowCandles={memorial.allow_candles}
-        onLightCandle={lightCandle}
-      />
-
-      {/* 🕯️ CANDLE SECTION (ADDED - EMOTIONAL LAYER) */}
+      {/* 🕯️ SINGLE CANDLE SYSTEM (NEW CORE UX) */}
       {memorial.allow_candles && (
-        <CandleSection candles={initialCandles} />
+        <CandleSection initialLit={false} />
       )}
 
       {/* TABS */}
       <MemorialTabs
         timelineEvents={timelineEvents}
         galleryItems={galleryItems}
-        condolences={condolenceItems}
-        onSubmitCondolence={submitCondolence}
-        isSubmittingCondolence={isSubmitting}
+        condolences={initialCondolences}
       />
     </div>
   )
