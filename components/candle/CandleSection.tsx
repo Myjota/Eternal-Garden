@@ -22,10 +22,7 @@ export function CandleSection({
     if (isLit) return;
 
     setLoading(true);
-
-    // simulate API / Supabase call
     await new Promise((res) => setTimeout(res, 800));
-
     setIsLit(true);
     setLoading(false);
 
@@ -35,7 +32,7 @@ export function CandleSection({
   return (
     <section className="candle-section py-12 flex flex-col items-center">
       
-      {/* 🧱 ISOLATION CONTAINER (FIX FOR FLAME OVERFLOW) */}
+      {/* 🧱 HARD CONTAINER (REAL FIX) */}
       <div className="relative isolate flex flex-col items-center">
 
         {/* TITLE */}
@@ -46,11 +43,14 @@ export function CandleSection({
           </p>
         </div>
 
-        {/* 🕯️ CANDLE WRAPPER */}
+        {/* 🕯️ CANDLE BOX (IMPORTANT FIX) */}
         <div className="relative z-20 mb-6 flex justify-center">
-          <div className="relative">
+          
+          {/* 🔥 REAL VISUAL BOUNDARY */}
+          <div className="relative w-[120px] h-[240px] overflow-hidden flex justify-center items-start">
             {isLit ? <CandleLit /> : <CandleUnlit />}
           </div>
+
         </div>
 
         {/* BUTTON */}
@@ -70,6 +70,7 @@ export function CandleSection({
             🕯️ Žvakė uždegta atminimui
           </p>
         )}
+
       </div>
     </section>
   );
