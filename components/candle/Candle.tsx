@@ -37,8 +37,17 @@ export function CandleLit() {
           } as CSSProperties
         }
       >
-        {/* 🌿 GARDEN HOLDER (NEW BASE) */}
+
+        {/* 🌿 GARDEN HOLDER */}
         <div className="candle-holder" />
+
+        {/* 🌿 GRASS TUFT */}
+        <div className="grass-tuft">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
 
         {/* 🧈 WAX */}
         <div className="wax">
@@ -48,9 +57,8 @@ export function CandleLit() {
           <div className="wax-drip drip3" />
         </div>
 
-        {/* 🔥 ANCHOR SYSTEM */}
+        {/* 🔥 FLAME */}
         <div className="flame-anchor">
-          {/* wick hidden via CSS in lit mode */}
           <div className="wick" />
 
           <div className="flame">
@@ -60,7 +68,7 @@ export function CandleLit() {
           </div>
         </div>
 
-        {/* ✨ LIGHT */}
+        {/* ✨ GLOW */}
         <div className="glow" />
       </div>
     </div>
@@ -73,19 +81,31 @@ export function CandleUnlit() {
   return (
     <div className="candle-wrapper">
       <div className="candle unlit candle-small">
+
         {/* 🌿 GARDEN HOLDER */}
         <div className="candle-holder" />
+
+        {/* 🌿 GRASS TUFT */}
+        <div className="grass-tuft">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
 
         {/* 🧈 WAX */}
         <div className="wax">
           <div className="wax-top cold" />
         </div>
 
-        {/* 🕯️ WICK visible only when unlit */}
-        <div className="wick" />
+        {/* 🕯️ WICK */}
+        <div className="flame-anchor">
+          <div className="wick cold" />
+        </div>
 
-        {/* ✨ minimal glow */}
+        {/* ✨ GLOW */}
         <div className="glow" />
+
       </div>
     </div>
   );
