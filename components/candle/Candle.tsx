@@ -1,29 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { MouseEvent, CSSProperties } from "react";
+import { useState } from "react";
 import "./candle.css";
 
 /* ========================= 🕯️ DEGANČIA ŽVAKĖ ========================= */
 
 export function CandleLit() {
-  const [igniting, setIgniting] = useState<boolean>(true);
   const [wind, setWind] = useState<number>(0);
   const [flicker, setFlicker] = useState<number>(1);
 
-  useEffect(() => {
-    const t = setTimeout(() => setIgniting(false), 1200);
-    return () => clearTimeout(t);
-  }, []);
-
-  /* 🔥 natural flicker (not CSS-only) */
-  useEffect(() => {
+  /* 🔥 natural flicker */
+  useState(() => {
     const interval = setInterval(() => {
       setFlicker(0.85 + Math.random() * 0.3);
     }, 90);
 
     return () => clearInterval(interval);
-  }, []);
+  });
 
   function handleMove(e: MouseEvent<HTMLDivElement>) {
     const x = e.clientX;
@@ -31,14 +25,13 @@ export function CandleLit() {
 
     const diff = (x - center) / center;
 
-    // 🔥 smooth wind damping (less jitter)
     setWind((prev) => prev * 0.85 + diff * 0.15);
   }
 
   return (
     <div className="candle-wrapper" onMouseMove={handleMove}>
       <div
-        className={`candle lit ${igniting ? "igniting" : ""}`}
+        className="candle lit"
         style={
           {
             "--wind": wind,
@@ -58,7 +51,7 @@ export function CandleLit() {
         {/* WICK */}
         <div className="wick" />
 
-        {/* 🔥 FLAME (IMPROVED STRUCTURE) */}
+        {/* 🔥 FLAME */}
         <div className="flame">
           <div className="flame-layer outer" />
           <div className="flame-layer mid" />
