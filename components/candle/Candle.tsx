@@ -37,6 +37,9 @@ export function CandleLit() {
           } as CSSProperties
         }
       >
+        {/* 🌿 GARDEN HOLDER (NEW BASE) */}
+        <div className="candle-holder" />
+
         {/* 🧈 WAX */}
         <div className="wax">
           <div className="wax-top" />
@@ -45,9 +48,11 @@ export function CandleLit() {
           <div className="wax-drip drip3" />
         </div>
 
-        {/* 🔥 ANCHOR (critical fix) */}
+        {/* 🔥 ANCHOR SYSTEM */}
         <div className="flame-anchor">
+          {/* wick hidden via CSS in lit mode */}
           <div className="wick" />
+
           <div className="flame">
             <div className="flame-layer outer" />
             <div className="flame-layer mid" />
@@ -68,6 +73,10 @@ export function CandleUnlit() {
   return (
     <div className="candle-wrapper">
       <div className="candle unlit candle-small">
+        {/* 🌿 GARDEN HOLDER */}
+        <div className="candle-holder" />
+
+        {/* 🧈 WAX */}
         <div className="wax">
           <div className="wax-top cold" />
         </div>
