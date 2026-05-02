@@ -174,9 +174,10 @@ export function DashboardClient({
                           <h3 className="font-semibold flex items-center gap-2">
                             {m.first_name} {m.last_name}
 
-                            <span className="text-xs text-muted-foreground font-mono">
-                              #{m.id.slice(0, 8)}
-                            </span>
+                            <span className="text-xs text-muted-foreground font-mono flex items-center gap-1">
+  <span>Memorial ID:</span>
+  <span>#{m.id.slice(0, 8)}</span>
+</span>
                           </h3>
 
                           <div className="flex gap-2 mt-4">
