@@ -5,7 +5,7 @@ import { MemorialHero } from '@/components/memorial/MemorialHero'
 import { MemorialStats } from '@/components/memorial/MemorialStats'
 import { MemorialActions } from '@/components/memorial/MemorialActions'
 import { MemorialTabs } from '@/components/memorial/MemorialTabs'
-import { CandleSection } from '@/components/memorial/CandleSection' // 🕯️ ADDED
+import { CandleSection } from '@/components/candle/CandleSection' // 🕯️ ADDED
 
 import { useCandles } from '@/hooks/useCandles'
 import { useCondolences } from '@/hooks/useCondolences'
