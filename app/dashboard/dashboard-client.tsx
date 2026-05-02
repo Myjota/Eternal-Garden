@@ -113,13 +113,13 @@ export function DashboardClient({
 
               <TabsList className="mb-6">
 
-                {/* 1. MEMORIALS */}
+                {/* MEMORIALS */}
                 <TabsTrigger value="memorials" className="gap-2">
                   <Flame className="h-4 w-4" />
                   {t.dashboard.myMemorials}
                 </TabsTrigger>
 
-                {/* 2. FAMILY */}
+                {/* FAMILY */}
                 <TabsTrigger value="family" className="gap-2">
                   <Users className="h-4 w-4" />
                   Mano šeima
@@ -170,8 +170,13 @@ export function DashboardClient({
 
                         <CardContent className="p-4">
 
-                          <h3 className="font-semibold">
+                          {/* NAME + MEMORIAL ID */}
+                          <h3 className="font-semibold flex items-center gap-2">
                             {m.first_name} {m.last_name}
+
+                            <span className="text-xs text-muted-foreground font-mono">
+                              #{m.id.slice(0, 8)}
+                            </span>
                           </h3>
 
                           <div className="flex gap-2 mt-4">
@@ -244,4 +249,4 @@ export function DashboardClient({
 
     </ThemeProvider>
   )
-              }
+}
