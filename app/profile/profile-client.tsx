@@ -80,13 +80,14 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
               </p>
             </div>
 
-            {/* 🧩 LAIKINAS PSEUDO LAUKAS */}
-            <div>
+            {/* 🧩 ŠEIMA (PSEUDO LAUKAS) */}
+            <div className="rounded-md border p-3 bg-muted/30">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
                 <Users className="h-4 w-4" />
                 Šeima
               </p>
-              <p className="font-medium text-muted-foreground">
+
+              <p className="font-medium text-foreground mt-1">
                 Pseudo (laikinas laukas)
               </p>
             </div>
