@@ -35,7 +35,7 @@ export function SettingsClient({ user }: SettingsClientProps) {
       <div className="container mx-auto py-10 max-w-2xl">
 
         <h1 className="text-2xl font-semibold mb-6">
-          Settings
+          Nustatymai
         </h1>
 
         {/* PRIVACY */}
@@ -82,10 +82,10 @@ export function SettingsClient({ user }: SettingsClientProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">
-                  Email notifications
+                  El. pašto pranešimai
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Gaukite naujausius pranešimus
+                  Gaukite naujausius pranešimus el. paštu
                 </p>
               </div>
 
@@ -114,7 +114,7 @@ export function SettingsClient({ user }: SettingsClientProps) {
                   {isLithuanian ? 'Lietuvių' : 'English'}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Interface language
+                  Sąsajos kalba
                 </p>
               </div>
 

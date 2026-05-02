@@ -13,28 +13,28 @@ interface ServicesClientProps {
 
 const services = [
   {
-    title: 'Candle Memory',
-    desc: 'Light virtual candles on memorials',
-    price: 'Free',
-    status: 'Available',
+    title: 'Žvakutės uždegimas',
+    desc: 'Uždekite virtualias žvakutes atminimo puslapiuose',
+    price: 'Nemokama',
+    status: 'Galima',
   },
   {
-    title: 'Memorial Boost',
-    desc: 'Increase visibility of a memorial',
+    title: 'Atminimo puslapio išryškinimas',
+    desc: 'Padidinkite atminimo puslapio matomumą',
     price: '€4.99',
-    status: 'Coming soon',
+    status: 'Netrukus',
   },
   {
-    title: 'Family Badge',
-    desc: 'Verified family member badge',
+    title: 'Šeimos ženklelis',
+    desc: 'Patvirtintas šeimos nario ženklelis',
     price: '€9.99',
-    status: 'Coming soon',
+    status: 'Netrukus',
   },
   {
-    title: 'Legacy Page Export',
-    desc: 'Download memorial as printable page',
+    title: 'Atminimo puslapio eksportas',
+    desc: 'Atsisiųskite atminimo puslapį kaip spausdinamą dokumentą',
     price: '€2.99',
-    status: 'Planned',
+    status: 'Planuojama',
   },
 ]
 
@@ -52,10 +52,10 @@ export function ServicesClient({ user }: ServicesClientProps) {
       />
 
       <div className="container mx-auto py-10 max-w-5xl">
-        <h1 className="text-2xl font-semibold mb-2">Services</h1>
+        <h1 className="text-2xl font-semibold mb-2">Paslaugos</h1>
 
         <p className="text-sm text-muted-foreground mb-6">
-          Optional services to enhance memorials and legacy pages
+          Papildomos paslaugos atminimo puslapiams tobulinti
         </p>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -75,9 +75,9 @@ export function ServicesClient({ user }: ServicesClientProps) {
 
               <Button
                 className="w-full"
-                disabled={service.status !== 'Available'}
+                disabled={service.status !== 'Galima'}
               >
-                {service.status === 'Available' ? 'Activate' : 'Not available'}
+                {service.status === 'Galima' ? 'Aktyvuoti' : 'Nepasiekiama'}
               </Button>
             </Card>
           ))}
