@@ -123,3 +123,25 @@
 [data-theme="marble"] .memorial-hero-name {
   text-shadow: 0 2px 20px oklch(0.6 0.05 80 / 0.15);
 }
+
+[data-theme="marble"] .theme-tabs {
+  background: oklch(1 0 0 / 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid oklch(0.88 0.01 80);
+  border-radius: 12px;
+  padding: 6px;
+}
+
+[data-theme="marble"] [role="tab"] {
+  color: oklch(0.45 0.01 80);
+  border-radius: 10px;
+}
+
+[data-theme="marble"] [data-state="active"] {
+  background: oklch(0.96 0.005 80);
+  box-shadow: 0 2px 12px oklch(0.6 0.05 80 / 0.12);
+}
+
+[data-theme="marble"] [role="tab"]:hover {
+  background: oklch(0.97 0.005 80);
+}
