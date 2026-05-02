@@ -1,5 +1,5 @@
 /* ============================================
-   GARDEN THEME - MEMORIAL CORE (CLEAN)
+   GARDEN THEME - MEMORIAL CORE (ENHANCED)
    ============================================ */
 :root,
 [data-theme="garden"] {
@@ -34,15 +34,24 @@
   --theme-gradient-start: oklch(0.35 0.12 145);
   --theme-gradient-end: oklch(0.45 0.08 160);
 
-  --theme-pattern-opacity: 0.03;
-  --theme-glow-color: oklch(0.50 0.15 145 / 0.15);
+  --theme-pattern-opacity: 0.04;
+
+  /* ✨ svarbus – švelnesnis glow */
+  --theme-glow-color: oklch(0.50 0.15 145 / 0.12);
+
+  /* ✨ nauja – light mist overlay */
+  --theme-hero-bg: linear-gradient(
+    180deg,
+    oklch(0.35 0.08 145 / 0.05) 0%,
+    transparent 40%,
+    oklch(0.35 0.08 145 / 0.04) 100%
+  );
 }
 
 /* ============================================
-   VISUAL STYLE (Garden only)
+   BACKGROUND
    ============================================ */
 
-/* Background */
 [data-theme="garden"] {
   background-image:
     linear-gradient(
@@ -61,28 +70,79 @@
   min-height: 100vh;
 }
 
-/* Pattern */
+/* ============================================
+   PATTERN (subtle nature symbol)
+   ============================================ */
+
 [data-theme="garden"] .theme-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.03'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.04'/%3E%3C/svg%3E");
   background-size: 80px 80px;
 }
 
-/* Hero glow */
+/* ============================================
+   HERO GLOW
+   ============================================ */
+
 [data-theme="garden"] .theme-hero-bg {
-  background: linear-gradient(
-    135deg,
-    oklch(0.35 0.12 145 / 0.03) 0%,
-    transparent 50%,
-    oklch(0.45 0.10 145 / 0.02) 100%
-  );
+  background: var(--theme-hero-bg);
 }
 
-/* Card glow */
+/* ============================================
+   EPITAPH (garden specific feel)
+   ============================================ */
+
+[data-theme="garden"] .memorial-epitaph {
+  color: oklch(0.35 0.08 145);
+  text-shadow: 0 0 10px oklch(0.50 0.15 145 / 0.1);
+}
+
+/* ============================================
+   PORTRAIT FRAME (soft nature glow)
+   ============================================ */
+
+[data-theme="garden"] .portrait-frame {
+  box-shadow:
+    0 0 20px oklch(0.45 0.12 145 / 0.2),
+    inset 0 0 10px oklch(0.45 0.10 145 / 0.1);
+}
+
+/* ============================================
+   CARD GLOW
+   ============================================ */
+
 [data-theme="garden"] .theme-card-glow {
-  box-shadow: 0 0 40px var(--theme-glow-color);
+  box-shadow: 0 0 30px var(--theme-glow-color);
 }
 
-/* Border accent */
+/* ============================================
+   BORDER ACCENT
+   ============================================ */
+
 [data-theme="garden"] .theme-border-accent {
   border-color: oklch(0.45 0.12 145 / 0.3);
+}
+
+/* ============================================
+   CANDLE (softer, warmer)
+   ============================================ */
+
+[data-theme="garden"] .candle-glow {
+  filter: drop-shadow(0 0 8px oklch(0.60 0.18 145 / 0.6));
+}
+
+/* ============================================
+   EXTRA (subtle ambient layer)
+   ============================================ */
+
+[data-theme="garden"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 20%,
+    oklch(0.50 0.10 145 / 0.06),
+    transparent 60%
+  );
+  z-index: 0;
 }
