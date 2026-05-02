@@ -1,7 +1,6 @@
 /* ============================================
-   MARBLE THEME - MEMORIAL CORE (PREMIUM v2)
+   MARBLE THEME - MEMORIAL CORE (CLEAN)
    ============================================ */
-
 [data-theme="marble"] {
 
   /* Core neutral palette */
@@ -22,10 +21,10 @@
   --muted-foreground: oklch(0.50 0.01 80);
 
   /* UI surfaces */
-  --card: oklch(1 0 0 / 0.85);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.25 0.01 80);
 
-  --border: oklch(0.88 0.01 80 / 0.4);
+  --border: oklch(0.88 0.01 80);
 
   /* Radius */
   --radius: 0.625rem;
@@ -34,180 +33,69 @@
   --theme-gradient-start: oklch(0.50 0.02 80);
   --theme-gradient-end: oklch(0.60 0.08 70);
 
-  --theme-pattern-opacity: 0.03;
-  --theme-glow-color: oklch(0.70 0.10 80 / 0.14);
-
-  /* Stone depth system */
-  --stone-light: oklch(0.99 0.002 80);
-  --stone-mid: oklch(0.96 0.004 80);
-  --stone-dark: oklch(0.92 0.006 75);
+  --theme-pattern-opacity: 0.02;
+  --theme-glow-color: oklch(0.70 0.10 80 / 0.10);
 }
 
-/* ============================================
-   BACKGROUND LAYER (MOBILE SAFE FIXED)
-   ============================================ */
-
-@media (min-width: 768px) {
-  [data-theme="marble"] {
-    background-attachment: fixed;
-  }
-}
-
+/* Background */
 [data-theme="marble"] {
-  position: relative;
-
   background-image:
-    radial-gradient(circle at 20% 10%, oklch(1 0 0 / 0.5), transparent 45%),
-    radial-gradient(circle at 80% 70%, oklch(0.90 0.02 80 / 0.35), transparent 60%),
-    linear-gradient(180deg, var(--stone-light), var(--stone-mid)),
+    linear-gradient(
+      to bottom,
+      oklch(0.98 0.002 250 / 0.15),
+      transparent
+    ),
     url('/themes/marble1.jpeg');
 
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   background-repeat: no-repeat;
 
   min-height: 100vh;
 }
 
-/* ============================================
-   STONE DEPTH SHADER LAYER (REALISM CORE)
-   ============================================ */
-
-[data-theme="marble"]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  background:
-    /* marble veins */
-    repeating-linear-gradient(
-      135deg,
-      transparent 0px,
-      rgba(160,160,160,0.04) 2px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      45deg,
-      transparent 0px,
-      rgba(120,120,120,0.03) 1px,
-      transparent 10px
-    ),
-
-    /* micro noise feel */
-    url("/noise.png");
-
-  opacity: 0.35;
-  mix-blend-mode: overlay;
-}
-
-/* ============================================
-   DEPTH LIGHT FIELD (MEMORIAL ATMOSPHERE)
-   ============================================ */
-
-[data-theme="marble"]::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(circle at 50% 20%, rgba(255,255,255,0.10), transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08), transparent 65%);
-
-  mix-blend-mode: soft-light;
-  opacity: 0.7;
-}
-
-/* ============================================
-   PATTERN LAYER (SOFT VEINS)
-   ============================================ */
-
+/* Pattern */
 [data-theme="marble"] .theme-pattern {
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M0 100 Q50 80 100 100 T200 100' stroke='%23aaaaaa' stroke-width='0.5' fill='none' stroke-opacity='0.08'/%3E%3Cpath d='M0 120 Q60 100 120 120 T200 120' stroke='%23bbbbbb' stroke-width='0.5' fill='none' stroke-opacity='0.06'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M0 100 Q50 80 100 100 T200 100' stroke='%23aaaaaa' stroke-width='0.5' fill='none' stroke-opacity='0.08'/%3E%3Cpath d='M0 120 Q60 100 120 120 T200 120' stroke='%23bbbbbb' stroke-width='0.5' fill='none' stroke-opacity='0.06'/%3E%3Cpath d='M0 80 Q40 60 80 80 T160 80 T200 80' stroke='%23999999' stroke-width='0.5' fill='none' stroke-opacity='0.05'/%3E%3C/svg%3E"),
     linear-gradient(
       135deg,
-      var(--stone-light),
-      var(--stone-mid)
+      oklch(0.98 0.005 80),
+      oklch(0.96 0.008 70)
     );
 
   background-size: 200px 200px, 100% 100%;
-  opacity: var(--theme-pattern-opacity);
 }
 
-/* ============================================
-   HERO DEPTH
-   ============================================ */
-
+/* Hero */
 [data-theme="marble"] .theme-hero-bg {
   background:
     radial-gradient(
       ellipse at top,
-      oklch(0.90 0.02 80 / 0.25),
-      transparent 65%
+      oklch(0.90 0.02 80 / 0.2),
+      transparent 60%
     ),
     linear-gradient(
       180deg,
-      var(--stone-light),
-      var(--stone-mid)
+      oklch(0.985 0.002 80),
+      oklch(0.97 0.004 70)
     );
 }
 
-/* ============================================
-   CARD SYSTEM (STONE CUT FEEL)
-   ============================================ */
-
+/* Card glow */
 [data-theme="marble"] .theme-card-glow {
   box-shadow:
-    0 0 25px oklch(0.70 0.10 80 / 0.12),
-    0 0 60px oklch(0.65 0.08 70 / 0.06);
+    0 0 30px oklch(0.70 0.10 80 / 0.08),
+    0 0 60px oklch(0.65 0.08 70 / 0.05);
 }
 
-[data-theme="marble"] .card {
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  backdrop-filter: blur(14px);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.5),
-    inset 0 -2px 10px rgba(0,0,0,0.05),
-    0 12px 30px rgba(0,0,0,0.08);
-
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-/* subtle stone highlight */
-[data-theme="marble"] .card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.06) 40%,
-    transparent 70%
-  );
-
-  opacity: 0.5;
-}
-
-/* ============================================
-   ACCENTS
-   ============================================ */
-
+/* Border accent */
 [data-theme="marble"] .theme-border-accent {
-  border-color: oklch(0.65 0.08 80 / 0.35);
+  border-color: oklch(0.65 0.08 80 / 0.3);
 }
 
-/* ============================================
-   PORTRAIT FRAME (MEMORIAL STONE BORDER)
-   ============================================ */
-
+/* Portrait frame */
 [data-theme="marble"] .theme-portrait-frame {
   background: linear-gradient(
     135deg,
@@ -215,5 +103,4 @@
     oklch(0.75 0.05 70)
   );
   padding: 4px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
 }
