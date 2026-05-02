@@ -165,3 +165,18 @@
   color: oklch(0.3 0.01 80);
   transform: translateY(-1px);
 }
+
+[data-theme="marble"] .condolence-card {
+  background: oklch(1 0 0 / 0.7);
+  border: 1px solid oklch(0.9 0.01 80);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px oklch(0.6 0.05 80 / 0.08);
+}
+
+[data-theme="marble"] .condolence-card p {
+  color: oklch(0.35 0.01 80);
+}
+
+[data-theme="marble"] .condolence-card time {
+  opacity: 0.7;
+}
