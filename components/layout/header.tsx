@@ -174,31 +174,31 @@ export function Header({
 
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">
-                      Dashboard
+                      Valdymas
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/profile">
-                      Profile
+                      Paskyra
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/settings">
-                      Settings
+                      Nustatymai
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/services">
-                      Services
+                      Paslaugos
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/create">
-                      Create Memorial
+                      Sukurti Atminimą
                     </Link>
                   </DropdownMenuItem>
 
@@ -280,25 +280,25 @@ export function Header({
                 <>
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/dashboard">
-                      Dashboard
+                      Valdymas
                     </Link>
                   </Button>
 
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/profile">
-                      Profile
+                      Paskyra
                     </Link>
                   </Button>
 
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/settings">
-                      Settings
+                      Nustatymai
                     </Link>
                   </Button>
 
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/services">
-                      Services
+                      Paslaugos
                     </Link>
                   </Button>
 
