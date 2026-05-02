@@ -1,7 +1,7 @@
 /* ============================================
-   GARDEN THEME - MEMORIAL CORE (ENHANCED)
+   GARDEN THEME - MEMORIAL CORE (FIXED)
    ============================================ */
-:root,
+
 [data-theme="garden"] {
 
   /* Core colors */
@@ -35,11 +35,8 @@
   --theme-gradient-end: oklch(0.45 0.08 160);
 
   --theme-pattern-opacity: 0.04;
-
-  /* ✨ svarbus – švelnesnis glow */
   --theme-glow-color: oklch(0.50 0.15 145 / 0.12);
 
-  /* ✨ nauja – light mist overlay */
   --theme-hero-bg: linear-gradient(
     180deg,
     oklch(0.35 0.08 145 / 0.05) 0%,
@@ -53,6 +50,8 @@
    ============================================ */
 
 [data-theme="garden"] {
+  position: relative;
+
   background-image:
     linear-gradient(
       to bottom,
@@ -71,7 +70,7 @@
 }
 
 /* ============================================
-   PATTERN (subtle nature symbol)
+   PATTERN
    ============================================ */
 
 [data-theme="garden"] .theme-pattern {
@@ -83,12 +82,12 @@
    HERO GLOW
    ============================================ */
 
-[data-theme="garden"] .theme-hero-bg {
+[data-theme="garden"] .theme-glow-bg {
   background: var(--theme-hero-bg);
 }
 
 /* ============================================
-   EPITAPH (garden specific feel)
+   EPITAPH
    ============================================ */
 
 [data-theme="garden"] .memorial-epitaph {
@@ -97,7 +96,7 @@
 }
 
 /* ============================================
-   PORTRAIT FRAME (soft nature glow)
+   PORTRAIT FRAME
    ============================================ */
 
 [data-theme="garden"] .portrait-frame {
@@ -123,7 +122,7 @@
 }
 
 /* ============================================
-   CANDLE (softer, warmer)
+   CANDLE
    ============================================ */
 
 [data-theme="garden"] .candle-glow {
@@ -131,7 +130,7 @@
 }
 
 /* ============================================
-   EXTRA (subtle ambient layer)
+   AMBIENT OVERLAY (fixed layering)
    ============================================ */
 
 [data-theme="garden"]::before {
@@ -139,10 +138,12 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
+
   background: radial-gradient(
     circle at 50% 20%,
     oklch(0.50 0.10 145 / 0.06),
     transparent 60%
   );
-  z-index: 0;
-}
+
+  z-index: -1; /* 🔥 svarbu */
+                         }
