@@ -4,7 +4,7 @@ import type { MouseEvent, CSSProperties } from "react";
 import { useEffect, useState } from "react";
 import "./candle.css";
 
-/* ========================= 🕯️ DEGANČIA ŽVAKĖ ========================= */
+/* ========================= 🕯️ LIT ========================= */
 
 export function CandleLit() {
   const [wind, setWind] = useState(0);
@@ -37,7 +37,7 @@ export function CandleLit() {
           } as CSSProperties
         }
       >
-        {/* WAX */}
+        {/* 🧈 WAX */}
         <div className="wax">
           <div className="wax-top" />
           <div className="wax-drip drip1" />
@@ -45,21 +45,24 @@ export function CandleLit() {
           <div className="wax-drip drip3" />
         </div>
 
-        {/* FLAME (dagtis paslepta vizualiai po liepsna) */}
-        <div className="flame">
-          <div className="flame-layer outer" />
-          <div className="flame-layer mid" />
-          <div className="flame-layer core" />
+        {/* 🔥 ANCHOR (critical fix) */}
+        <div className="flame-anchor">
+          <div className="wick" />
+          <div className="flame">
+            <div className="flame-layer outer" />
+            <div className="flame-layer mid" />
+            <div className="flame-layer core" />
+          </div>
         </div>
 
-        {/* GLOW */}
+        {/* ✨ LIGHT */}
         <div className="glow" />
       </div>
     </div>
   );
 }
 
-/* ========================= ⚫ NEUŽDEGTA ŽVAKĖ ========================= */
+/* ========================= ⚫ UNLIT ========================= */
 
 export function CandleUnlit() {
   return (
@@ -69,9 +72,10 @@ export function CandleUnlit() {
           <div className="wax-top cold" />
         </div>
 
-        {/* WICK matoma tik kai žvakė NEDEGA */}
+        {/* 🕯️ WICK visible only when unlit */}
         <div className="wick" />
 
+        {/* ✨ minimal glow */}
         <div className="glow" />
       </div>
     </div>
