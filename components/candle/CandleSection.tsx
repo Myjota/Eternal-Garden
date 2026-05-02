@@ -1,47 +1,68 @@
 "use client";
 
+import { useState } from "react";
 import { CandleLit } from "./Candle";
 import { CandleUnlit } from "./CandleUnlit";
 
 type CandleSectionProps = {
-  candles?: Array<{
-    id: string;
-    is_lit: boolean;
-  }>;
+  initialLit?: boolean;
+  onLight?: () => void;
 };
 
-/* ========================= 🕯️ CANDLE SECTION ========================= */
+/* ========================= 🕯️ SINGLE CANDLE SECTION ========================= */
 
-export function CandleSection({ candles }: CandleSectionProps) {
-  // fallback demo jei dar nėra data
-  const demo = candles?.length
-    ? candles
-    : [
-        { id: "1", is_lit: true },
-        { id: "2", is_lit: false },
-        { id: "3", is_lit: true },
-        { id: "4", is_lit: false },
-      ];
+export function CandleSection({
+  initialLit = false,
+  onLight,
+}: CandleSectionProps) {
+  const [isLit, setIsLit] = useState(initialLit);
+  const [loading, setLoading] = useState(false);
+
+  async function handleLight() {
+    if (isLit) return;
+
+    setLoading(true);
+
+    // simulate API / Supabase call
+    await new Promise((res) => setTimeout(res, 800));
+
+    setIsLit(true);
+    setLoading(false);
+
+    onLight?.();
+  }
 
   return (
-    <section className="candle-section py-12">
-      <div className="text-center mb-8">
-        <h2 className="text-xl font-serif">🕯️ Žvakių sekcija</h2>
+    <section className="candle-section py-12 flex flex-col items-center">
+      <div className="text-center mb-6">
+        <h2 className="text-xl font-serif">🕯️ Uždegti žvakę</h2>
         <p className="text-sm text-muted-foreground">
-          Uždegtos ir neuždegtos atminimo žvakės
+          Pagerbk atminimą uždegdamas žvakę
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-items-center">
-        {demo.map((candle) => (
-          <div
-            key={candle.id}
-            className="scale-90 hover:scale-105 transition duration-300"
-          >
-            {candle.is_lit ? <CandleLit /> : <CandleUnlit />}
-          </div>
-        ))}
+      {/* CANDLE */}
+      <div className="mb-6">
+        {isLit ? <CandleLit /> : <CandleUnlit />}
       </div>
+
+      {/* BUTTON */}
+      {!isLit && (
+        <button
+          onClick={handleLight}
+          disabled={loading}
+          className="px-6 py-2 rounded-md bg-black text-white hover:bg-gray-800 transition disabled:opacity-50"
+        >
+          {loading ? "Uždegama..." : "Uždegti žvakę"}
+        </button>
+      )}
+
+      {/* MESSAGE */}
+      {isLit && (
+        <p className="text-sm text-muted-foreground mt-2">
+          🕯️ Žvakė uždegta atminimui
+        </p>
+      )}
     </section>
   );
-}
+      }
