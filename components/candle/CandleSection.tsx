@@ -1,6 +1,6 @@
 "use client";
 
-import { Candle } from "./Candle";
+import { CandleLit } from "./Candle";
 import { CandleUnlit } from "./CandleUnlit";
 
 type CandleSectionProps = {
@@ -38,7 +38,7 @@ export function CandleSection({ candles }: CandleSectionProps) {
             key={candle.id}
             className="scale-90 hover:scale-105 transition duration-300"
           >
-            {candle.is_lit ? <Candle /> : <CandleUnlit />}
+            {candle.is_lit ? <CandleLit /> : <CandleUnlit />}
           </div>
         ))}
       </div>
