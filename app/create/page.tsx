@@ -4,7 +4,7 @@ import { useState, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChevronLeft, Upload, Check, X, Star } from 'lucide-react'
+import { ChevronLeft, Upload, Check, X, Star, Plus, Trash2, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -18,6 +18,14 @@ import { type ThemeId } from '@/lib/themes/config'
 import { getTranslations, defaultLocale } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
+
+interface TimelineEvent {
+  id: string
+  title: string
+  event_date: string
+  location: string
+  description: string
+}
 
 function generateSlug(firstName: string, lastName: string): string {
   const base = `${firstName}-${lastName}`
@@ -44,6 +52,7 @@ function CreateMemorialContent() {
   const [step, setStep] = useState(1)
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null)
+  const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([])
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -51,6 +60,7 @@ function CreateMemorialContent() {
     deathDate: '',
     biography: '',
     shortDescription: '',
+    epitaph: '',
     theme: 'garden' as ThemeId,
     isPublic: true,
   })
@@ -89,6 +99,29 @@ function CreateMemorialContent() {
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
+  }
+
+  const addTimelineEvent = () => {
+    const newEvent: TimelineEvent = {
+      id: crypto.randomUUID(),
+      title: '',
+      event_date: '',
+      location: '',
+      description: ''
+    }
+    setTimelineEvents([...timelineEvents, newEvent])
+  }
+
+  const updateTimelineEvent = (id: string, field: keyof TimelineEvent, value: string) => {
+    setTimelineEvents(events => 
+      events.map(event => 
+        event.id === id ? { ...event, [field]: value } : event
+      )
+    )
+  }
+
+  const removeTimelineEvent = (id: string) => {
+    setTimelineEvents(events => events.filter(event => event.id !== id))
   }
 
   const uploadImage = async (file: File, userId: string): Promise<string | null> => {
@@ -157,6 +190,7 @@ function CreateMemorialContent() {
           death_date: formData.deathDate || null,
           biography: formData.biography || null,
           short_description: formData.shortDescription || null,
+          epitaph: formData.epitaph || null,
           theme: formData.theme,
           privacy: formData.isPublic ? 'public' : 'private',
           is_public: formData.isPublic,
@@ -171,6 +205,30 @@ function CreateMemorialContent() {
         console.error('Insert error:', insertError)
         setError(insertError.message)
         return
+      }
+
+      // Insert timeline events if any
+      if (timelineEvents.length > 0 && memorial) {
+        const validEvents = timelineEvents.filter(e => e.title.trim())
+        if (validEvents.length > 0) {
+          const { error: timelineError } = await supabase
+            .from('timeline_events')
+            .insert(
+              validEvents.map((event, index) => ({
+                memorial_id: memorial.id,
+                title: event.title,
+                event_date: event.event_date || null,
+                location: event.location || null,
+                description: event.description || null,
+                sort_order: index
+              }))
+            )
+
+          if (timelineError) {
+            console.error('Timeline insert error:', timelineError)
+            // Don't block the redirect, timeline can be added later
+          }
+        }
       }
 
       router.push(`/memorial/${slug}`)
@@ -229,22 +287,22 @@ function CreateMemorialContent() {
         {/* Progress Steps */}
         <div className="border-b border-border">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-center gap-4">
-              {[1, 2, 3].map((s) => (
-                <div key={s} className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+            <div className="flex items-center justify-center gap-2 sm:gap-4">
+              {[1, 2, 3, 4].map((s) => (
+                <div key={s} className="flex items-center gap-1 sm:gap-2">
+                  <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     step > s 
                       ? 'bg-primary text-primary-foreground' 
                       : step === s 
                         ? 'bg-primary text-primary-foreground' 
                         : 'bg-muted text-muted-foreground'
                   }`}>
-                    {step > s ? <Check className="h-4 w-4" /> : s}
+                    {step > s ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : s}
                   </div>
-                  <span className={`text-sm hidden sm:block ${step >= s ? 'text-foreground' : 'text-muted-foreground'}`}>
-                    {s === 1 ? 'Informacija' : s === 2 ? 'Tema' : 'Peržiūra'}
+                  <span className={`text-xs sm:text-sm hidden md:block ${step >= s ? 'text-foreground' : 'text-muted-foreground'}`}>
+                    {s === 1 ? 'Informacija' : s === 2 ? 'Tema' : s === 3 ? 'Gyvenimas' : 'Peržiūra'}
                   </span>
-                  {s < 3 && <div className="w-8 h-px bg-border mx-2" />}
+                  {s < 4 && <div className="w-4 sm:w-8 h-px bg-border mx-1 sm:mx-2" />}
                 </div>
               ))}
             </div>
@@ -344,6 +402,20 @@ function CreateMemorialContent() {
                   </div>
 
                   <div className="space-y-2">
+                    <Label htmlFor="epitaph">Epitafija</Label>
+                    <Textarea
+                      id="epitaph"
+                      value={formData.epitaph}
+                      onChange={(e) => updateFormData('epitaph', e.target.value)}
+                      placeholder="Pvz.: Amžinai gyvas mūsų širdyse..."
+                      rows={2}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Trumpa frazė ar citata, kuri bus rodoma atminimo puslapyje
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
                     <Label>Nuotrauka</Label>
                     <input
                       ref={fileInputRef}
@@ -406,8 +478,115 @@ function CreateMemorialContent() {
               </div>
             )}
 
-            {/* Step 3: Review */}
+            {/* Step 3: Timeline */}
             {step === 3 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="font-serif flex items-center gap-2">
+                        <Calendar className="h-5 w-5" />
+                        Gyvenimo įvykiai
+                      </CardTitle>
+                      <CardDescription>
+                        Pridėkite svarbius gyvenimo momentus (nebūtina)
+                      </CardDescription>
+                    </div>
+                    <Button onClick={addTimelineEvent} variant="outline" size="sm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Pridėti
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {timelineEvents.length === 0 ? (
+                    <div className="text-center py-8 border-2 border-dashed border-border rounded-lg">
+                      <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
+                      <p className="text-muted-foreground mb-2">
+                        Dar nepridėta jokių gyvenimo įvykių
+                      </p>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Galite pridėti svarbius gyvenimo momentus: gimimas, mokslai, vestuvės, pasiekimai ir kt.
+                      </p>
+                      <Button onClick={addTimelineEvent} variant="outline">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Pridėti pirmąjį įvykį
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {timelineEvents.map((event, index) => (
+                        <div key={event.id} className="border border-border rounded-lg p-4 relative">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive"
+                            onClick={() => removeTimelineEvent(event.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                          
+                          <div className="pr-10 space-y-4">
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-medium">
+                                {index + 1}
+                              </span>
+                              Įvykis
+                            </div>
+                            
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label>Pavadinimas *</Label>
+                                <Input
+                                  value={event.title}
+                                  onChange={(e) => updateTimelineEvent(event.id, 'title', e.target.value)}
+                                  placeholder="Pvz.: Gimimas, Vestuvės"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Data</Label>
+                                <Input
+                                  type="date"
+                                  value={event.event_date}
+                                  onChange={(e) => updateTimelineEvent(event.id, 'event_date', e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <Label>Vieta</Label>
+                              <Input
+                                value={event.location}
+                                onChange={(e) => updateTimelineEvent(event.id, 'location', e.target.value)}
+                                placeholder="Pvz.: Vilnius, Lietuva"
+                              />
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <Label>Aprašymas</Label>
+                              <Textarea
+                                value={event.description}
+                                onChange={(e) => updateTimelineEvent(event.id, 'description', e.target.value)}
+                                placeholder="Trumpas įvykio aprašymas..."
+                                rows={2}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      <Button onClick={addTimelineEvent} variant="outline" className="w-full">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Pridėti dar vieną įvykį
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Step 4: Review */}
+            {step === 4 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="font-serif">Peržiūra</CardTitle>
@@ -462,17 +641,47 @@ function CreateMemorialContent() {
                         <p className="text-sm">{formData.shortDescription}</p>
                       </div>
                     )}
+                    {formData.epitaph && (
+                      <div className="py-3 border-b border-border">
+                        <span className="text-muted-foreground block mb-2">Epitafija</span>
+                        <p className="text-sm italic">&quot;{formData.epitaph}&quot;</p>
+                      </div>
+                    )}
                     {formData.biography && (
-                      <div className="py-3">
+                      <div className="py-3 border-b border-border">
                         <span className="text-muted-foreground block mb-2">Biografija</span>
                         <p className="text-sm">{formData.biography}</p>
+                      </div>
+                    )}
+                    {timelineEvents.length > 0 && (
+                      <div className="py-3">
+                        <span className="text-muted-foreground block mb-2">
+                          Gyvenimo įvykiai ({timelineEvents.length})
+                        </span>
+                        <div className="space-y-2">
+                          {timelineEvents.filter(e => e.title).map((event, index) => (
+                            <div key={event.id} className="flex items-start gap-2 text-sm">
+                              <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs">
+                                {index + 1}
+                              </span>
+                              <div>
+                                <span className="font-medium">{event.title}</span>
+                                {event.event_date && (
+                                  <span className="text-muted-foreground ml-2">
+                                    ({event.event_date})
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
 
                   <div className="bg-muted/50 rounded-lg p-4">
                     <p className="text-sm text-muted-foreground">
-                      Sukūrus atminimą, galėsite pridėti nuotraukų, gyvenimo įvykių ir 
+                      Sukūrus atminimą, galėsite pridėti nuotraukų ir 
                       daugiau informacijos per redagavimo puslapį.
                     </p>
                   </div>
@@ -492,9 +701,9 @@ function CreateMemorialContent() {
                 </Button>
               )}
 
-              {step < 3 ? (
+              {step < 4 ? (
                 <Button onClick={() => setStep(step + 1)} disabled={!canProceed()}>
-                  {t.common.next}
+                  {step === 3 ? 'Peržiūrėti' : t.common.next}
                 </Button>
               ) : (
                 <Button onClick={handleSubmit} disabled={loading}>
