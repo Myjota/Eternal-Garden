@@ -46,7 +46,7 @@ interface Profile {
 interface Memorial {
   id: string
   slug: string
-  name: string
+  name: string | null
   first_name: string
   last_name: string
   is_public: boolean
@@ -54,11 +54,6 @@ interface Memorial {
   photo_url: string | null
   created_at: string
   user_id: string
-  profiles?: {
-    email: string | null
-    first_name: string | null
-    last_name: string | null
-  }
 }
 
 export default function AdminPage() {
@@ -117,26 +112,10 @@ export default function AdminPage() {
         setUsers(allUsers)
       }
 
-      // Load all memorials with creator info
+      // Load all memorials (without join to avoid 400 error)
       const { data: allMemorials } = await supabase
         .from('memorials')
-        .select(`
-          id,
-          slug,
-          name,
-          first_name,
-          last_name,
-          is_public,
-          is_famous,
-          photo_url,
-          created_at,
-          user_id,
-          profiles:user_id (
-            email,
-            first_name,
-            last_name
-          )
-        `)
+        .select('id, slug, name, first_name, last_name, is_public, is_famous, photo_url, created_at, user_id')
         .order('created_at', { ascending: false })
 
       if (allMemorials) {
@@ -371,7 +350,7 @@ export default function AdminPage() {
                             {memorial.first_name} {memorial.last_name}
                           </td>
                           <td className="py-3 px-2 text-muted-foreground">
-                            {memorial.profiles?.email || '-'}
+                            {users.find(u => u.id === memorial.user_id)?.email || '-'}
                           </td>
                           <td className="py-3 px-2">
                             {memorial.is_public ? (
