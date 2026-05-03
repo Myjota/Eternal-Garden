@@ -26,78 +26,88 @@ interface MemorialSearchProps {
   variant?: 'hero' | 'header' | 'page'
 }
 
-export function MemorialSearch({ 
-  placeholder = 'Ieškoti atminimų...', 
+export function MemorialSearch({
+  placeholder = 'Ieškoti atminimų...',
   className,
   variant = 'hero'
 }: MemorialSearchProps) {
   const router = useRouter()
+
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Memorial[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
+
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const debounceRef = useRef<NodeJS.Timeout>()
 
-  const searchMemorials = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim() || searchQuery.length < 3) {
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>()
+  const latestQueryRef = useRef('')
+
+  const supabase = createClient()
+
+  const searchMemorials = useCallback(async (raw: string) => {
+    const searchQuery = raw.trim()
+
+    if (searchQuery.length < 3) {
       setResults([])
       setIsOpen(false)
       return
     }
 
+    latestQueryRef.current = searchQuery
     setIsLoading(true)
-    const supabase = createClient()
 
     try {
       const { data, error } = await supabase
         .from('memorials')
-        .select('id, slug, first_name, last_name, birth_date, death_date, profile_image_url, biography')
+        .select('id, slug, first_name, last_name, birth_date, death_date, profile_image_url')
         .eq('privacy', 'public')
         .or(`first_name.ilike.%${searchQuery}%,last_name.ilike.%${searchQuery}%`)
         .order('last_name', { ascending: true })
         .limit(6)
 
+      if (latestQueryRef.current !== searchQuery) return
+
       if (error) {
-        console.error('Search error:', error)
         setResults([])
       } else {
         setResults(data || [])
         setIsOpen(true)
       }
-    } catch (err) {
-      console.error('Search failed:', err)
-      setResults([])
     } finally {
-      setIsLoading(false)
+      if (latestQueryRef.current === searchQuery) {
+        setIsLoading(false)
+      }
     }
-  }, [])
+  }, [supabase])
 
   useEffect(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current)
-    }
+    if (debounceRef.current) clearTimeout(debounceRef.current)
 
     debounceRef.current = setTimeout(() => {
       searchMemorials(query)
     }, 300)
 
     return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current)
-      }
+      if (debounceRef.current) clearTimeout(debounceRef.current)
     }
   }, [query, searchMemorials])
 
   useEffect(() => {
+    setSelectedIndex(-1)
+  }, [query])
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node
+
       if (
-        dropdownRef.current && 
-        !dropdownRef.current.contains(event.target as Node) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target) &&
         inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
+        !inputRef.current.contains(target)
       ) {
         setIsOpen(false)
       }
@@ -118,22 +128,25 @@ export function MemorialSearch({
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault()
-        setSelectedIndex(prev => Math.min(prev + 1, results.length - 1))
+        setSelectedIndex((p) => Math.min(p + 1, results.length - 1))
         break
+
       case 'ArrowUp':
         e.preventDefault()
-        setSelectedIndex(prev => Math.max(prev - 1, -1))
+        setSelectedIndex((p) => Math.max(p - 1, -1))
         break
+
       case 'Enter':
         e.preventDefault()
+
         if (selectedIndex >= 0 && results[selectedIndex]) {
           router.push(`/memorial/${results[selectedIndex].slug}`)
-          setIsOpen(false)
-          setQuery('')
-        } else if (query.trim()) {
+          reset()
+        } else {
           router.push(`/search?q=${encodeURIComponent(query.trim())}`)
         }
         break
+
       case 'Escape':
         setIsOpen(false)
         setSelectedIndex(-1)
@@ -141,22 +154,26 @@ export function MemorialSearch({
     }
   }
 
-  const formatYears = (birthDate: string | null, deathDate: string | null) => {
-    const birth = birthDate ? new Date(birthDate).getFullYear() : null
-    const death = deathDate ? new Date(deathDate).getFullYear() : null
-    
-    if (birth && death) return `${birth} - ${death}`
-    if (birth) return `g. ${birth}`
-    if (death) return `m. ${death}`
-    return null
-  }
-
-  const clearSearch = () => {
+  const reset = () => {
     setQuery('')
     setResults([])
     setIsOpen(false)
     setSelectedIndex(-1)
+  }
+
+  const clearSearch = () => {
+    reset()
     inputRef.current?.focus()
+  }
+
+  const formatYears = (b: string | null, d: string | null) => {
+    const birth = b ? new Date(b).getFullYear() : null
+    const death = d ? new Date(d).getFullYear() : null
+
+    if (birth && death) return `${birth} - ${death}`
+    if (birth) return `g. ${birth}`
+    if (death) return `m. ${death}`
+    return null
   }
 
   const variantStyles = {
@@ -167,32 +184,33 @@ export function MemorialSearch({
 
   return (
     <div className={cn('relative', className)}>
+      {/* INPUT */}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-          <Search className={cn(
-            'text-muted-foreground',
-            variant === 'header' ? 'h-4 w-4' : 'h-5 w-5'
-          )} />
+          <Search className="h-5 w-5 text-muted-foreground" />
         </div>
+
         <Input
           ref={inputRef}
-          type="search"
-          placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => results.length > 0 && setIsOpen(true)}
+          placeholder={placeholder}
           className={variantStyles[variant]}
+          role="combobox"
+          aria-expanded={isOpen}
+          aria-autocomplete="list"
         />
+
         {(query || isLoading) && (
           <div className="absolute inset-y-0 right-0 flex items-center pr-4">
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-            ) : query && (
+            ) : (
               <button
-                type="button"
                 onClick={clearSearch}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -201,75 +219,59 @@ export function MemorialSearch({
         )}
       </div>
 
-      {/* Dropdown Results */}
+      {/* DROPDOWN */}
       {isOpen && (
-        <div 
+        <div
           ref={dropdownRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50"
+          className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden"
         >
           {results.length > 0 ? (
-            <>
-              <ul className="divide-y divide-border">
-                {results.map((memorial, index) => (
-                  <li key={memorial.id}>
-                    <Link
-                      href={`/memorial/${memorial.slug}`}
-                      className={cn(
-                        'flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors',
-                        selectedIndex === index && 'bg-muted/50'
+            <ul className="divide-y divide-border">
+              {results.map((m, i) => (
+                <li key={m.id}>
+                  <Link
+                    href={`/memorial/${m.slug}`}
+                    className={cn(
+                      'flex items-center gap-4 p-4 hover:bg-muted/50',
+                      selectedIndex === i && 'bg-muted/50'
+                    )}
+                    onClick={reset}
+                    role="option"
+                    aria-selected={selectedIndex === i}
+                  >
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                      {m.profile_image_url ? (
+                        <Image
+                          src={m.profile_image_url}
+                          alt=""
+                          width={48}
+                          height={48}
+                          className="object-cover"
+                        />
+                      ) : (
+                        <User className="h-6 w-6 text-muted-foreground" />
                       )}
-                      onClick={() => {
-                        setIsOpen(false)
-                        setQuery('')
-                      }}
-                    >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-muted overflow-hidden">
-                        {memorial.profile_image_url ? (
-                          <Image
-                            src={memorial.profile_image_url}
-                            alt={`${memorial.first_name} ${memorial.last_name}`}
-                            width={48}
-                            height={48}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <User className="h-6 w-6 text-muted-foreground" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-foreground truncate">
-                          {memorial.first_name} {memorial.last_name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {formatYears(memorial.birth_date, memorial.death_date)}
-                        </p>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              {query.trim() && (
-                <Link
-                  href={`/search?q=${encodeURIComponent(query.trim())}`}
-                  className="block p-3 text-center text-sm text-primary hover:bg-muted/50 border-t border-border transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Rodyti visus rezultatus &rarr;
-                </Link>
-              )}
-            </>
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="font-medium truncate">
+                        {m.first_name} {m.last_name}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {formatYears(m.birth_date, m.death_date)}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           ) : query.length >= 3 && !isLoading ? (
-            <div className="p-6 text-center">
-              <p className="text-muted-foreground">Nieko nerasta pagal &ldquo;{query}&rdquo;</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Bandykite ieškoti kitu vardu
-              </p>
+            <div className="p-6 text-center text-muted-foreground">
+              Nieko nerasta pagal „{query}“
             </div>
           ) : null}
         </div>
       )}
     </div>
   )
-}
+    }
