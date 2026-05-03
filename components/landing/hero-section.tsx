@@ -67,7 +67,8 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
           </div>
 
           {/* RIGHT: IMAGE */}
-          <div className="relative w-full h-full min-h-[300px] md:min-h-full rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative w-full h-full min-h-[300px] md:min-h-full overflow-hidden shadow-lg">
+            
             <Image
               src={heroImage}
               alt="Hero image"
@@ -76,7 +77,14 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
               priority
             />
 
-            {/* Soft overlay */}
+            {/* Soft blend into left side */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${
+              isMarble
+                ? 'from-[#faf8f5] via-transparent to-transparent'
+                : 'from-background via-transparent to-transparent'
+            }`} />
+
+            {/* Soft bottom overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
