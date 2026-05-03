@@ -9,8 +9,9 @@ export async function POST() {
 
   await supabase.auth.signOut()
 
+  // IMPORTANT: redirect to neutral page, NOT /auth/login
   return NextResponse.redirect(
-    new URL('/auth/login', SITE_URL),
+    new URL('/', SITE_URL),
     { status: 302 }
   )
 }
@@ -20,8 +21,9 @@ export async function GET() {
 
   await supabase.auth.signOut()
 
+  // same behavior for GET
   return NextResponse.redirect(
-    new URL('/auth/login', SITE_URL),
+    new URL('/', SITE_URL),
     { status: 302 }
   )
 }
