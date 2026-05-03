@@ -24,7 +24,7 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
   const isMarble = theme === 'marble'
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -52,6 +52,7 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
       {/* Content */}
       <div className="relative container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-xl">
+          
           {/* Logo */}
           <div className="mb-6">
             <Image
@@ -108,4 +109,4 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
       />
     </section>
   )
-          }
+}
