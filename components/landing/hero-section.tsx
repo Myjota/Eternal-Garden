@@ -26,61 +26,49 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden">
       <div className="container mx-auto px-4 py-20 md:py-32">
-
-        {/* GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-stretch md:min-h-[500px]">
-
+        
+        {/* GRID LAYOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch md:min-h-[500px]">
+          
           {/* LEFT: CONTENT */}
-          <div className="relative max-w-xl flex flex-col justify-center pr-6 md:pr-10">
-
-            {/* SINGLE controlled blend edge */}
-            <div className="absolute right-0 top-0 h-full w-16 md:w-24 bg-gradient-to-r from-transparent to-background pointer-events-none" />
-
-            <div className="relative z-10">
-              {/* Logo */}
-              <div className="mb-6">
-                <Image
-                  src="/images/logo.png"
-                  alt="Eternal Garden"
-                  width={128}
-                  height={128}
-                  className="h-24 w-auto md:h-32"
-                />
-              </div>
-
-              {/* Title */}
-              <h1 className={`font-serif text-4xl font-bold md:text-5xl lg:text-6xl ${
-                isMarble ? 'text-[#1a1a1a]' : 'text-foreground'
-              }`}>
-                {t.hero.title}
-              </h1>
-
-              {/* Subtitle */}
-              <p className={`mt-2 font-serif text-xl italic md:text-2xl ${
-                isMarble ? 'text-[#2d5a3d]' : 'text-primary'
-              }`}>
-                {t.hero.subtitle}
-              </p>
-
-              {/* Description */}
-              <p className={`mt-6 text-lg leading-relaxed ${
-                isMarble ? 'text-[#4a4a4a]' : 'text-muted-foreground'
-              }`}>
-                {t.hero.description}
-              </p>
-
-              {/* Search */}
-              <MemorialSearch
-                placeholder={t.hero.searchPlaceholder}
-                variant="hero"
-                className="mt-8 max-w-md"
+          <div className="max-w-xl flex flex-col justify-center">
+            {/* Logo */}
+            <div className="mb-6">
+              <Image
+                src="/images/logo.png"
+                alt="Eternal Garden"
+                width={128}
+                height={128}
+                className="h-24 w-auto md:h-32"
               />
             </div>
+
+            {/* Title */}
+            <h1 className={`font-serif text-4xl font-bold md:text-5xl lg:text-6xl ${isMarble ? 'text-[#1a1a1a]' : 'text-foreground'}`}>
+              {t.hero.title}
+            </h1>
+
+            {/* Subtitle */}
+            <p className={`mt-2 font-serif text-xl italic md:text-2xl ${isMarble ? 'text-[#2d5a3d]' : 'text-primary'}`}>
+              {t.hero.subtitle}
+            </p>
+
+            {/* Description */}
+            <p className={`mt-6 text-lg leading-relaxed ${isMarble ? 'text-[#4a4a4a]' : 'text-muted-foreground'}`}>
+              {t.hero.description}
+            </p>
+
+            {/* Search */}
+            <MemorialSearch 
+              placeholder={t.hero.searchPlaceholder}
+              variant="hero"
+              className="mt-8 max-w-md"
+            />
           </div>
 
           {/* RIGHT: IMAGE */}
-          <div className="relative w-full h-full min-h-[300px] md:min-h-full overflow-hidden">
-
+          <div className="relative w-full h-full min-h-[300px] md:min-h-full overflow-hidden shadow-lg">
+            
             <Image
               src={heroImage}
               alt="Hero image"
@@ -89,10 +77,19 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
               priority
             />
 
+            {/* Soft blend into left side */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${
+              isMarble
+                ? 'from-[#faf8f5] via-transparent to-transparent'
+                : 'from-background via-transparent to-transparent'
+            }`} />
+
+            {/* Soft bottom overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
         </div>
       </div>
     </section>
   )
-      }
+}
