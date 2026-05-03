@@ -26,13 +26,12 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden">
       <div className="container mx-auto px-4 py-20 md:py-32">
-        
-        {/* GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch md:min-h-[500px]">
-          
-          {/* LEFT: CONTENT */}
-          <div className="max-w-xl flex flex-col justify-center">
-            {/* Logo */}
+
+        {/* GRID LAYOUT (removed gap to eliminate seam line) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 items-stretch md:min-h-[500px]">
+
+          {/* LEFT SIDE */}
+          <div className="max-w-xl flex flex-col justify-center pr-8 md:pr-16">
             <div className="mb-6">
               <Image
                 src="/images/logo.png"
@@ -43,48 +42,49 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
               />
             </div>
 
-            {/* Title */}
-            <h1 className={`font-serif text-4xl font-bold md:text-5xl lg:text-6xl ${isMarble ? 'text-[#1a1a1a]' : 'text-foreground'}`}>
+            <h1 className={`font-serif text-4xl font-bold md:text-5xl lg:text-6xl ${
+              isMarble ? 'text-[#1a1a1a]' : 'text-foreground'
+            }`}>
               {t.hero.title}
             </h1>
 
-            {/* Subtitle */}
-            <p className={`mt-2 font-serif text-xl italic md:text-2xl ${isMarble ? 'text-[#2d5a3d]' : 'text-primary'}`}>
+            <p className={`mt-2 font-serif text-xl italic md:text-2xl ${
+              isMarble ? 'text-[#2d5a3d]' : 'text-primary'
+            }`}>
               {t.hero.subtitle}
             </p>
 
-            {/* Description */}
-            <p className={`mt-6 text-lg leading-relaxed ${isMarble ? 'text-[#4a4a4a]' : 'text-muted-foreground'}`}>
+            <p className={`mt-6 text-lg leading-relaxed ${
+              isMarble ? 'text-[#4a4a4a]' : 'text-muted-foreground'
+            }`}>
               {t.hero.description}
             </p>
 
-            {/* Search */}
-            <MemorialSearch 
+            <MemorialSearch
               placeholder={t.hero.searchPlaceholder}
               variant="hero"
               className="mt-8 max-w-md"
             />
           </div>
 
-          {/* RIGHT: IMAGE */}
-          <div className="relative w-full h-full min-h-[300px] md:min-h-full overflow-hidden shadow-lg">
-            
+          {/* RIGHT SIDE */}
+          <div className="relative w-full min-h-[320px] md:min-h-[500px]">
+
             <Image
               src={heroImage}
               alt="Hero image"
               fill
-              className="object-cover object-center"
               priority
+              className="object-cover object-center"
             />
 
-            {/* Soft blend into left side */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${
-              isMarble
-                ? 'from-[#faf8f5] via-transparent to-transparent'
-                : 'from-background via-transparent to-transparent'
-            }`} />
+            {/* STRONG LEFT FADE (fixes sharp edge) */}
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/90" />
 
-            {/* Soft bottom overlay */}
+            {/* EXTRA BLEND STRIP (removes visible seam line) */}
+            <div className="absolute left-0 top-0 h-full w-10 md:w-16 bg-gradient-to-r from-background to-transparent blur-sm" />
+
+            {/* SOFT TOP/BOTTOM LIGHTING */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
