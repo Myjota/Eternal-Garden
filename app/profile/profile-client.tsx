@@ -12,7 +12,9 @@ import type { User as SupabaseUser } from '@supabase/supabase-js'
 interface Profile {
   id: string
   email: string | null
-  full_name: string | null
+  first_name: string | null
+  last_name: string | null
+  is_admin: boolean
 }
 
 interface ProfileClientProps {
@@ -31,10 +33,9 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
     window.location.href = '/'
   }
 
-  const displayName =
-    currentProfile?.full_name ||
-    user?.email?.split('@')[0] ||
-    'User'
+  const displayName = currentProfile?.first_name && currentProfile?.last_name
+    ? `${currentProfile.first_name} ${currentProfile.last_name}`
+    : currentProfile?.first_name || user?.email?.split('@')[0] || 'Vartotojas'
 
   return (
     <>

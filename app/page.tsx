@@ -16,19 +16,42 @@ export default function HomePage() {
   const [locale, setLocale] = useState<Locale>(defaultLocale)
   const [theme, setTheme] = useState<ThemeId>('garden')
   const [user, setUser] = useState<User | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const t = getTranslations(locale)
 
   useEffect(() => {
     const supabase = createClient()
     
-    // Get initial user
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    // Get initial user and check admin status
+    const loadUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
-    })
+      
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', user.id)
+          .single()
+        setIsAdmin(profile?.is_admin ?? false)
+      }
+    }
+    
+    loadUser()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null)
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single()
+        setIsAdmin(profile?.is_admin ?? false)
+      } else {
+        setIsAdmin(false)
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -51,7 +74,8 @@ export default function HomePage() {
           onLocaleChange={handleLocaleChange} 
           theme={theme}
           onThemeChange={handleThemeChange}
-          user={user} 
+          user={user}
+          isAdmin={isAdmin}
         />
         <main className="flex-1">
           <HeroSection t={t} theme={theme} />

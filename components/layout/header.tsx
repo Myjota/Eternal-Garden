@@ -10,6 +10,7 @@ import {
   User,
   ChevronDown,
   LogOut,
+  Shield,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -36,6 +37,7 @@ interface HeaderProps {
   t?: Translations
   onLocaleChange?: (locale: Locale) => void
   user?: SupabaseUser | null
+  isAdmin?: boolean
   theme?: ThemeId
   onThemeChange?: (theme: ThemeId) => void
 }
@@ -45,6 +47,7 @@ export function Header({
   t,
   onLocaleChange,
   user,
+  isAdmin = false,
   theme,
   onThemeChange,
 }: HeaderProps) {
@@ -203,6 +206,18 @@ export function Header({
                     </Link>
                   </DropdownMenuItem>
 
+                  {isAdmin && (
+                    <>
+                      <div className="my-1 border-t border-border" />
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="text-primary">
+                          <Shield className="h-4 w-4 mr-2" />
+                          Administravimas
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+
                   <div className="my-1 border-t border-border" />
 
                   <DropdownMenuItem
@@ -302,6 +317,15 @@ export function Header({
                       Paslaugos
                     </Link>
                   </Button>
+
+                  {isAdmin && (
+                    <Button variant="outline" size="sm" asChild className="text-primary">
+                      <Link href="/admin">
+                        <Shield className="h-4 w-4 mr-2" />
+                        Administravimas
+                      </Link>
+                    </Button>
+                  )}
 
                   <Button
                     variant="outline"

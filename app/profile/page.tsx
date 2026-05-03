@@ -11,7 +11,9 @@ import type { User as SupabaseUser } from '@supabase/supabase-js'
 interface Profile {
   id: string
   email: string | null
-  full_name: string | null
+  first_name: string | null
+  last_name: string | null
+  is_admin: boolean
 }
 
 export default function ProfilePage() {
@@ -30,7 +32,7 @@ export default function ProfilePage() {
       if (currentUser) {
         const { data } = await supabase
           .from('profiles')
-          .select('id, email, full_name')
+          .select('id, email, first_name, last_name, is_admin')
           .eq('id', currentUser.id)
           .single()
 
@@ -47,10 +49,9 @@ export default function ProfilePage() {
     window.location.href = '/'
   }
 
-  const displayName =
-    profile?.full_name ||
-    user?.email?.split('@')[0] ||
-    'User'
+  const displayName = profile?.first_name && profile?.last_name
+    ? `${profile.first_name} ${profile.last_name}`
+    : profile?.first_name || user?.email?.split('@')[0] || 'Vartotojas'
 
   return (
     <>
