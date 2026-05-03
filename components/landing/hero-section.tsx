@@ -28,10 +28,10 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
       <div className="container mx-auto px-4 py-20 md:py-32">
         
         {/* GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch md:min-h-[500px]">
           
           {/* LEFT: CONTENT */}
-          <div className="max-w-xl">
+          <div className="max-w-xl flex flex-col justify-center">
             {/* Logo */}
             <div className="mb-6">
               <Image
@@ -67,16 +67,16 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
           </div>
 
           {/* RIGHT: IMAGE */}
-          <div className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative w-full h-full min-h-[300px] md:min-h-full rounded-2xl overflow-hidden shadow-lg">
             <Image
               src={heroImage}
               alt="Hero image"
               fill
-              className="object-contain"
+              className="object-cover object-center"
               priority
             />
 
-            {/* Optional soft overlay */}
+            {/* Soft overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
