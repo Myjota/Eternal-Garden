@@ -30,7 +30,6 @@ import {
 import { type Translations } from '@/lib/i18n/locales/lt'
 import { createClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
-import { type ThemeId } from '@/lib/themes/config'
 
 interface HeaderProps {
   locale?: Locale
@@ -38,8 +37,6 @@ interface HeaderProps {
   onLocaleChange?: (locale: Locale) => void
   user?: SupabaseUser | null
   isAdmin?: boolean
-  theme?: ThemeId
-  onThemeChange?: (theme: ThemeId) => void
 }
 
 export function Header({
@@ -48,8 +45,6 @@ export function Header({
   onLocaleChange,
   user,
   isAdmin = false,
-  theme,
-  onThemeChange,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -63,17 +58,34 @@ export function Header({
     login: 'Prisijungti',
   }
 
+  // ✅ 1 SOURCE OF TRUTH - PUBLIC NAV
+  const NAV_ITEMS = [
+    { href: '/', label: nav.home },
+    { href: '/support', label: nav.supportProject },
+  ]
+
+  // ✅ USER MENU CONFIG
+  const USER_MENU = [
+    { href: '/dashboard', label: 'Valdymas' },
+    { href: '/profile', label: 'Paskyra' },
+    { href: '/settings', label: 'Nustatymai' },
+    { href: '/services', label: 'Paslaugos' },
+    { href: '/create', label: 'Sukurti Atminimą' },
+  ]
+
+  const ADMIN_ITEM = {
+    href: '/admin',
+    label: 'Administravimas',
+  }
+
   const handleLocaleChange = (newLocale: Locale) => {
     onLocaleChange?.(newLocale)
   }
 
-  // ✅ CLEAN LOGOUT (NO SERVER ROUTE)
   const handleLogout = async () => {
     const supabase = createClient()
-
     await supabase.auth.signOut()
 
-    // instant UI redirect
     router.replace('/auth/login')
     router.refresh()
   }
@@ -94,7 +106,7 @@ export function Header({
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
-        {/* Logo */}
+        {/* LOGO */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo.png"
@@ -106,26 +118,28 @@ export function Header({
           />
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* DESKTOP NAV (PUBLIC) */}
         <nav className="hidden items-center gap-8 md:flex">
-          <Link href="/" className={linkClass('/')}>
-            {nav.home}
-          </Link>
-
-          <Link href="/support" className={linkClass('/support')}>
-            {nav.supportProject}
-          </Link>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={linkClass(item.href)}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Desktop Right Side */}
+        {/* RIGHT SIDE */}
         <div className="hidden items-center gap-2 md:flex">
 
-          {/* Language */}
+          {/* LANGUAGE */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-1.5 px-2">
-                <span className="text-xs">{locale.toUpperCase()}</span>
-                <ChevronDown className="h-3 w-3" />
+              <Button variant="ghost" size="sm">
+                {locale.toUpperCase()}
+                <ChevronDown className="h-3 w-3 ml-1" />
               </Button>
             </DropdownMenuTrigger>
 
@@ -150,9 +164,9 @@ export function Header({
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-2">
+                  <Button variant="ghost" size="sm">
                     <User className="h-4 w-4" />
-                    <ChevronDown className="h-3 w-3" />
+                    <ChevronDown className="h-3 w-3 ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
 
@@ -162,33 +176,19 @@ export function Header({
                     {user.email ?? 'Account'}
                   </div>
 
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard">Valdymas</Link>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile">Paskyra</Link>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem asChild>
-                    <Link href="/settings">Nustatymai</Link>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem asChild>
-                    <Link href="/services">Paslaugos</Link>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem asChild>
-                    <Link href="/create">Sukurti Atminimą</Link>
-                  </DropdownMenuItem>
+                  {USER_MENU.map((item) => (
+                    <DropdownMenuItem key={item.href} asChild>
+                      <Link href={item.href}>{item.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
 
                   {isAdmin && (
                     <>
                       <div className="my-1 border-t border-border" />
                       <DropdownMenuItem asChild>
-                        <Link href="/admin" className="text-primary flex items-center gap-2">
+                        <Link href={ADMIN_ITEM.href} className="text-primary flex items-center gap-2">
                           <Shield className="h-4 w-4" />
-                          Administravimas
+                          {ADMIN_ITEM.label}
                         </Link>
                       </DropdownMenuItem>
                     </>
@@ -220,16 +220,12 @@ export function Header({
           )}
         </div>
 
-        {/* Mobile Button */}
+        {/* MOBILE BUTTON */}
         <button
           className="md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
+          {mobileMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
 
@@ -238,13 +234,16 @@ export function Header({
         <div className="border-t border-border md:hidden">
           <nav className="container mx-auto flex flex-col gap-4 p-4">
 
-            <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-              {nav.home}
-            </Link>
-
-            <Link href="/support" onClick={() => setMobileMenuOpen(false)}>
-              {nav.supportProject}
-            </Link>
+            {/* PUBLIC NAV */}
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
 
             <div className="pt-4 border-t border-border flex flex-col gap-2">
 
@@ -260,27 +259,17 @@ export function Header({
 
               {user && (
                 <>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/dashboard">Valdymas</Link>
-                  </Button>
-
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/profile">Paskyra</Link>
-                  </Button>
-
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/settings">Nustatymai</Link>
-                  </Button>
-
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/services">Paslaugos</Link>
-                  </Button>
+                  {USER_MENU.map((item) => (
+                    <Button key={item.href} variant="outline" size="sm" asChild>
+                      <Link href={item.href}>{item.label}</Link>
+                    </Button>
+                  ))}
 
                   {isAdmin && (
                     <Button variant="outline" size="sm" asChild className="text-primary">
-                      <Link href="/admin">
+                      <Link href={ADMIN_ITEM.href}>
                         <Shield className="h-4 w-4 mr-2" />
-                        Administravimas
+                        {ADMIN_ITEM.label}
                       </Link>
                     </Button>
                   )}
