@@ -51,6 +51,7 @@ function CreateMemorialContent() {
     deathDate: '',
     biography: '',
     shortDescription: '',
+    epitaph: '',
     theme: 'garden' as ThemeId,
     isPublic: true,
   })
@@ -157,6 +158,7 @@ function CreateMemorialContent() {
           death_date: formData.deathDate || null,
           biography: formData.biography || null,
           short_description: formData.shortDescription || null,
+          epitaph: formData.epitaph || null,
           theme: formData.theme,
           privacy: formData.isPublic ? 'public' : 'private',
           is_public: formData.isPublic,
@@ -344,6 +346,20 @@ function CreateMemorialContent() {
                   </div>
 
                   <div className="space-y-2">
+                    <Label htmlFor="epitaph">Epitafija</Label>
+                    <Textarea
+                      id="epitaph"
+                      value={formData.epitaph}
+                      onChange={(e) => updateFormData('epitaph', e.target.value)}
+                      placeholder="Pvz.: Amžinai gyvas mūsų širdyse..."
+                      rows={2}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Trumpa frazė ar citata, kuri bus rodoma atminimo puslapyje
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
                     <Label>Nuotrauka</Label>
                     <input
                       ref={fileInputRef}
@@ -460,6 +476,12 @@ function CreateMemorialContent() {
                       <div className="py-3 border-b border-border">
                         <span className="text-muted-foreground block mb-2">Trumpas aprašymas</span>
                         <p className="text-sm">{formData.shortDescription}</p>
+                      </div>
+                    )}
+                    {formData.epitaph && (
+                      <div className="py-3 border-b border-border">
+                        <span className="text-muted-foreground block mb-2">Epitafija</span>
+                        <p className="text-sm italic">&quot;{formData.epitaph}&quot;</p>
                       </div>
                     )}
                     {formData.biography && (
