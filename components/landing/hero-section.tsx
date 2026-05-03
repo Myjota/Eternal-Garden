@@ -11,7 +11,7 @@ interface HeroSectionProps {
 }
 
 const heroImages: Record<ThemeId, string> = {
-  garden: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1920&q=80',
+  garden: '/tree.jpeg',
   marble: '/images/themes/marble-hero.png',
   orthodox: '/images/themes/orthodox-hero.jpg',
   'eternal-night': '/images/themes/night-hero.jpg',
