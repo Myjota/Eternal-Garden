@@ -75,23 +75,25 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
               alt="Hero image"
               fill
               priority
-              className="object-cover object-center scale-[1.03]"
+              className="object-cover object-center scale-[1.08]"
             />
 
-            {/* 🔥 STRONG MASK (main fix) */}
+            {/* 🔥 STIPRIAI IŠPLĖSTAS MASK (pagrindinis suliejimas) */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 55%, rgba(250,248,245,0.9) 80%, rgba(250,248,245,1) 100%)',
-                mixBlendMode: 'normal',
+                  'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 25%, rgba(250,248,245,0.85) 60%, rgba(250,248,245,1) 100%)',
               }}
             />
 
-            {/* EXTRA SOFT BLUR BRIDGE (removes any visible seam) */}
-            <div className="absolute left-0 top-0 h-full w-24 md:w-32 backdrop-blur-sm bg-background/10" />
+            {/* 🔥 DIDELIS SOFT BLEND SLUOKSNIS */}
+            <div className="absolute left-0 top-0 h-full w-56 md:w-72 bg-background/30 blur-2xl" />
 
-            {/* TOP LIGHTING */}
+            {/* 🔥 MICRO EDGE FIX (panaikina likutinę liniją) */}
+            <div className="absolute left-0 top-0 h-full w-10 bg-background/40" />
+
+            {/* TOP LIGHT OVERLAY */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
 
           </div>
@@ -100,4 +102,4 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
       </div>
     </section>
   )
-            }
+}
