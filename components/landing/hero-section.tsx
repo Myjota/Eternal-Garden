@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
@@ -21,8 +23,17 @@ const heroImages: Record<ThemeId, string> = {
 }
 
 export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
+  const router = useRouter()
+  const [searchQuery, setSearchQuery] = useState('')
   const heroImage = heroImages[theme] || heroImages.garden
   const isMarble = theme === 'marble'
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+    }
+  }
 
   return (
     <section className="relative overflow-hidden">
@@ -79,12 +90,14 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
           </p>
 
           {/* Search Box */}
-          <div className="mt-8 relative max-w-md">
+          <form onSubmit={handleSearch} className="mt-8 relative max-w-md">
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
               <Search className="h-5 w-5 text-muted-foreground" />
             </div>
             <Input
               type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t.hero.searchPlaceholder}
               className={`pl-12 pr-4 py-6 text-base backdrop-blur border-border rounded-full shadow-lg ${
                 isMarble 
@@ -92,7 +105,7 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
                   : 'bg-background/90'
               }`}
             />
-          </div>
+          </form>
         </div>
       </div>
 
