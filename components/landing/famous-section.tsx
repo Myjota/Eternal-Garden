@@ -36,7 +36,7 @@ export function FamousSection({ t }: FamousSectionProps) {
         .select('id, slug, name, birth_date, death_date, short_description, photo_url')
         .eq('is_famous', true)
         .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .order('created_at', { ascending: true })
 
       if (!error && data) {
         setFamousMemorials(data)
