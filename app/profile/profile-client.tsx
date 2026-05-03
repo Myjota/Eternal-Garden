@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { User, LogOut, Pencil } from 'lucide-react'
 import { Header } from '@/components/layout/header'
+import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface Profile {
@@ -21,6 +22,8 @@ interface ProfileClientProps {
 
 export function ProfileClient({ user, profile }: ProfileClientProps) {
   const [currentProfile] = useState<Profile | null>(profile)
+  const [locale, setLocale] = useState<Locale>(defaultLocale)
+  const t = getTranslations(locale)
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -35,7 +38,7 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
 
   return (
     <>
-      <Header user={user} />
+      <Header locale={locale} t={t} onLocaleChange={setLocale} user={user} />
 
       <div className="container mx-auto py-10 max-w-2xl">
 

@@ -57,7 +57,7 @@ export function Header({
   const nav = t?.nav ?? {
     home: 'Pradžia',
     supportProject: 'Parama',
-    createMemorial: 'Sukurti Atminimą',
+    createMemorial: 'Sukurti atminimą',
     login: 'Prisijungti',
   }
 

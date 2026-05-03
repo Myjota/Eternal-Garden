@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { MemorialClient } from './memorial-client'
+import { getTranslations, defaultLocale } from '@/lib/i18n'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -73,6 +74,9 @@ export default async function MemorialPage({ params }: Props) {
 
   /* ================= RENDER ================= */
 
+  const locale = defaultLocale
+  const t = getTranslations(locale)
+
   return (
     <MemorialClient
       memorial={memorial}
@@ -81,6 +85,8 @@ export default async function MemorialPage({ params }: Props) {
       candles={candles || []}
       condolences={condolences || []}
       currentUser={user}
+      locale={locale}
+      t={t}
     />
   )
 }

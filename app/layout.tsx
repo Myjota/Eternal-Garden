@@ -126,7 +126,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="lt" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="lt" className={`${inter.variable} ${playfair.variable} bg-background`}>
       <body className="font-sans antialiased bg-background text-foreground">
 
         {/* Structured Data (SEO boost) */}
