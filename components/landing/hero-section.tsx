@@ -72,7 +72,7 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
               src={heroImage}
               alt="Hero image"
               fill
-              className="object-cover"
+              className="object-contain"
               priority
             />
 
