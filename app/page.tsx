@@ -58,7 +58,7 @@ export default function HomePage() {
           <FeaturesSection t={t} theme={theme} />
           <FamousSection t={t} theme={theme} />
         </main>
-        <Footer t={t} theme={theme} />
+        <Footer t={t} />
       </div>
     </ThemeProvider>
   )

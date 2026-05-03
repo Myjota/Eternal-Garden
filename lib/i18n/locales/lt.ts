@@ -2,7 +2,7 @@ export const lt = {
   nav: {
     home: 'Pradžia',
     memories: 'Atminimai',
-    supportProject: 'Paremti projektą',
+    supportProject: 'Parama',
     login: 'Prisijungti',
     createMemorial: 'Sukurti atminimą',
     logout: 'Atsijungti',

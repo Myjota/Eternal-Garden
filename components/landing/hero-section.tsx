@@ -15,9 +15,9 @@ const heroImages: Record<ThemeId, string> = {
   garden: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1920&q=80',
   marble: '/images/themes/marble-hero.png',
   orthodox: '/images/themes/orthodox-hero.jpg',
-  eternal_night: '/images/themes/night-hero.jpg',
-  rainbow_bridge: '/images/themes/rainbow-hero.jpg',
-  sunny_window: '/images/themes/sunny-hero.jpg',
+  'eternal-night': '/images/themes/night-hero.jpg',
+  'rainbow-bridge': '/images/themes/rainbow-hero.jpg',
+  'sunny-window': '/images/themes/sunny-hero.jpg',
 }
 
 export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
