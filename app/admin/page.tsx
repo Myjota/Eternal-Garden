@@ -17,8 +17,13 @@ import {
   Eye,
   Trash2,
   MoreVertical,
-  AlertTriangle
+  AlertTriangle,
+  Star,
+  Plus,
+  Check,
+  X
 } from 'lucide-react'
+import Link from 'next/link'
 import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
@@ -41,9 +46,12 @@ interface Profile {
 interface Memorial {
   id: string
   slug: string
+  name: string
   first_name: string
   last_name: string
   is_public: boolean
+  is_famous: boolean
+  photo_url: string | null
   created_at: string
   user_id: string
   profiles?: {
@@ -68,6 +76,7 @@ export default function AdminPage() {
     totalUsers: 0,
     totalMemorials: 0,
     publicMemorials: 0,
+    famousMemorials: 0,
     adminCount: 0
   })
 
@@ -114,9 +123,12 @@ export default function AdminPage() {
         .select(`
           id,
           slug,
+          name,
           first_name,
           last_name,
           is_public,
+          is_famous,
+          photo_url,
           created_at,
           user_id,
           profiles:user_id (
@@ -136,6 +148,7 @@ export default function AdminPage() {
         totalUsers: allUsers?.length || 0,
         totalMemorials: allMemorials?.length || 0,
         publicMemorials: allMemorials?.filter(m => m.is_public).length || 0,
+        famousMemorials: allMemorials?.filter(m => m.is_famous).length || 0,
         adminCount: allUsers?.filter(u => u.is_admin).length || 0
       })
 
@@ -161,6 +174,26 @@ export default function AdminPage() {
       setStats(prev => ({
         ...prev,
         totalMemorials: prev.totalMemorials - 1
+      }))
+    }
+  }
+
+  const handleToggleFamous = async (id: string, currentValue: boolean) => {
+    const supabase = createClient()
+    const { error } = await supabase
+      .from('memorials')
+      .update({ is_famous: !currentValue })
+      .eq('id', id)
+
+    if (!error) {
+      setMemorials(memorials.map(m => 
+        m.id === id ? { ...m, is_famous: !currentValue } : m
+      ))
+      setStats(prev => ({
+        ...prev,
+        famousMemorials: currentValue 
+          ? prev.famousMemorials - 1 
+          : prev.famousMemorials + 1
       }))
     }
   }
@@ -195,7 +228,7 @@ export default function AdminPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
           <Card>
             <CardHeader className="pb-2">
               <CardDescription>Viso vartotojų</CardDescription>
@@ -216,6 +249,12 @@ export default function AdminPage() {
           </Card>
           <Card>
             <CardHeader className="pb-2">
+              <CardDescription>Žymūs žmonės</CardDescription>
+              <CardTitle className="text-3xl">{stats.famousMemorials}</CardTitle>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
               <CardDescription>Administratoriai</CardDescription>
               <CardTitle className="text-3xl">{stats.adminCount}</CardTitle>
             </CardHeader>
@@ -232,6 +271,10 @@ export default function AdminPage() {
             <TabsTrigger value="memorials" className="gap-2">
               <FileText className="h-4 w-4" />
               Atminimai
+            </TabsTrigger>
+            <TabsTrigger value="famous" className="gap-2">
+              <Star className="h-4 w-4" />
+              Žymūs žmonės
             </TabsTrigger>
             <TabsTrigger value="settings" className="gap-2">
               <Settings className="h-4 w-4" />
@@ -372,6 +415,111 @@ export default function AdminPage() {
                   {memorials.length === 0 && (
                     <p className="text-center py-8 text-muted-foreground">
                       Nėra sukurtų atminimų
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Famous Tab */}
+          <TabsContent value="famous">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="h-5 w-5 text-amber-500" />
+                      Žymūs Lietuviai
+                    </CardTitle>
+                    <CardDescription>
+                      Valdykite žymių žmonių atminimus, kurie rodomi pagrindiniame puslapyje
+                    </CardDescription>
+                  </div>
+                  <Button asChild>
+                    <Link href="/create?famous=true">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Sukurti žymaus žmogaus atminimą
+                    </Link>
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Vardas</th>
+                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Statusas</th>
+                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Žymus</th>
+                        <th className="text-right py-3 px-2 text-sm font-medium text-muted-foreground">Veiksmai</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {memorials.filter(m => m.is_famous || m.is_public).map((memorial) => (
+                        <tr key={memorial.id} className="border-b last:border-0">
+                          <td className="py-3 px-2 font-medium">
+                            {memorial.name || `${memorial.first_name} ${memorial.last_name}`}
+                          </td>
+                          <td className="py-3 px-2">
+                            {memorial.is_public ? (
+                              <Badge variant="default">Viešas</Badge>
+                            ) : (
+                              <Badge variant="secondary">Privatus</Badge>
+                            )}
+                          </td>
+                          <td className="py-3 px-2">
+                            <Button
+                              variant={memorial.is_famous ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => handleToggleFamous(memorial.id, memorial.is_famous)}
+                              className="gap-1"
+                            >
+                              {memorial.is_famous ? (
+                                <>
+                                  <Check className="h-3 w-3" />
+                                  Žymus
+                                </>
+                              ) : (
+                                <>
+                                  <X className="h-3 w-3" />
+                                  Ne
+                                </>
+                              )}
+                            </Button>
+                          </td>
+                          <td className="py-3 px-2 text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem 
+                                  onClick={() => router.push(`/memorial/${memorial.slug}`)}
+                                >
+                                  <Eye className="h-4 w-4 mr-2" />
+                                  Peržiūrėti
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={() => handleDeleteMemorial(memorial.id)}
+                                  className="text-destructive"
+                                >
+                                  <Trash2 className="h-4 w-4 mr-2" />
+                                  Ištrinti
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  
+                  {memorials.length === 0 && (
+                    <p className="text-center py-8 text-muted-foreground">
+                      Nėra sukurtų atminimų. Sukurkite pirmąjį žymaus žmogaus atminimą.
                     </p>
                   )}
                 </div>

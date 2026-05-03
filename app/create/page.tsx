@@ -3,14 +3,15 @@
 import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { ChevronLeft, Upload, Check, X } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ChevronLeft, Upload, Check, X, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { ThemePicker } from '@/components/theme-picker'
 import { type ThemeId } from '@/lib/themes/config'
@@ -32,6 +33,8 @@ function generateSlug(firstName: string, lastName: string): string {
 
 export default function CreateMemorialPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const isFamous = searchParams.get('famous') === 'true'
   const t = getTranslations(defaultLocale)
   const fileInputRef = useRef<HTMLInputElement>(null)
   
@@ -47,6 +50,7 @@ export default function CreateMemorialPage() {
     birthDate: '',
     deathDate: '',
     biography: '',
+    shortDescription: '',
     theme: 'garden' as ThemeId,
     isPublic: true,
   })
@@ -146,13 +150,18 @@ export default function CreateMemorialPage() {
         .insert({
           user_id: user.id,
           slug,
+          name: `${formData.firstName} ${formData.lastName}`,
           first_name: formData.firstName,
           last_name: formData.lastName,
           birth_date: formData.birthDate || null,
           death_date: formData.deathDate || null,
           biography: formData.biography || null,
+          short_description: formData.shortDescription || null,
           theme: formData.theme,
           privacy: formData.isPublic ? 'public' : 'private',
+          is_public: formData.isPublic,
+          is_famous: isFamous,
+          photo_url: profileImageUrl,
           profile_image_url: profileImageUrl,
         })
         .select()
@@ -176,7 +185,11 @@ export default function CreateMemorialPage() {
 
   const canProceed = () => {
     if (step === 1) {
-      return formData.firstName && formData.lastName && formData.birthDate && formData.deathDate
+      const basicFieldsFilled = formData.firstName && formData.lastName && formData.birthDate && formData.deathDate
+      if (isFamous) {
+        return basicFieldsFilled && formData.shortDescription
+      }
+      return basicFieldsFilled
     }
     return true
   }
@@ -199,7 +212,15 @@ export default function CreateMemorialPage() {
                 height={24}
                 style={{ width: 'auto', height: '24px' }}
               />
-              <span className="font-serif text-lg font-semibold">Naujas atminimas</span>
+              <span className="font-serif text-lg font-semibold">
+                {isFamous ? 'Žymaus žmogaus atminimas' : 'Naujas atminimas'}
+              </span>
+              {isFamous && (
+                <Badge variant="secondary" className="gap-1">
+                  <Star className="h-3 w-3 text-amber-500" />
+                  Žymus
+                </Badge>
+              )}
             </div>
             <div className="w-20" />
           </div>
@@ -294,6 +315,22 @@ export default function CreateMemorialPage() {
                       />
                     </div>
                   </div>
+
+                  {isFamous && (
+                    <div className="space-y-2">
+                      <Label htmlFor="shortDescription">Trumpas aprašymas (rodomas kortelėje) *</Label>
+                      <Input
+                        id="shortDescription"
+                        value={formData.shortDescription}
+                        onChange={(e) => updateFormData('shortDescription', e.target.value)}
+                        placeholder="Pvz.: Lietuvos poetas, rašytojas, visuomenininkas"
+                        required={isFamous}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Šis aprašymas bus rodomas žymių žmonių kortelėje pagrindiniame puslapyje
+                      </p>
+                    </div>
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="biography">Biografija</Label>
@@ -410,6 +447,21 @@ export default function CreateMemorialPage() {
                       <span className="text-muted-foreground">Tema</span>
                       <span className="font-medium capitalize">{formData.theme.replace('-', ' ')}</span>
                     </div>
+                    {isFamous && (
+                      <div className="flex items-center justify-between py-3 border-b border-border">
+                        <span className="text-muted-foreground">Tipas</span>
+                        <Badge variant="secondary" className="gap-1">
+                          <Star className="h-3 w-3 text-amber-500" />
+                          Žymus žmogus
+                        </Badge>
+                      </div>
+                    )}
+                    {formData.shortDescription && (
+                      <div className="py-3 border-b border-border">
+                        <span className="text-muted-foreground block mb-2">Trumpas aprašymas</span>
+                        <p className="text-sm">{formData.shortDescription}</p>
+                      </div>
+                    )}
                     {formData.biography && (
                       <div className="py-3">
                         <span className="text-muted-foreground block mb-2">Biografija</span>
