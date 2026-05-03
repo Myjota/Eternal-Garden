@@ -42,7 +42,7 @@ export function MemorialSearch({
   const debounceRef = useRef<NodeJS.Timeout>()
 
   const searchMemorials = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim() || searchQuery.length < 2) {
+    if (!searchQuery.trim() || searchQuery.length < 3) {
       setResults([])
       setIsOpen(false)
       return
@@ -260,7 +260,7 @@ export function MemorialSearch({
                 </Link>
               )}
             </>
-          ) : query.length >= 2 && !isLoading ? (
+          ) : query.length >= 3 && !isLoading ? (
             <div className="p-6 text-center">
               <p className="text-muted-foreground">Nieko nerasta pagal &ldquo;{query}&rdquo;</p>
               <p className="text-sm text-muted-foreground mt-1">

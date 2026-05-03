@@ -1,12 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Search } from 'lucide-react'
-import { Input } from '@/components/ui/input'
 import { type Translations } from '@/lib/i18n/locales/lt'
 import { type ThemeId } from '@/lib/themes/config'
+import { MemorialSearch } from '@/components/search/memorial-search'
 
 interface HeroSectionProps {
   t: Translations
@@ -23,17 +20,8 @@ const heroImages: Record<ThemeId, string> = {
 }
 
 export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
-  const router = useRouter()
-  const [searchQuery, setSearchQuery] = useState('')
   const heroImage = heroImages[theme] || heroImages.garden
   const isMarble = theme === 'marble'
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-    }
-  }
 
   return (
     <section className="relative overflow-hidden">
@@ -90,22 +78,11 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
           </p>
 
           {/* Search Box */}
-          <form onSubmit={handleSearch} className="mt-8 relative max-w-md">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-              <Search className="h-5 w-5 text-muted-foreground" />
-            </div>
-            <Input
-              type="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t.hero.searchPlaceholder}
-              className={`pl-12 pr-4 py-6 text-base backdrop-blur border-border rounded-full shadow-lg ${
-                isMarble 
-                  ? 'bg-white/90 border-[#d4c4a8]' 
-                  : 'bg-background/90'
-              }`}
-            />
-          </form>
+          <MemorialSearch 
+            placeholder={t.hero.searchPlaceholder}
+            variant="hero"
+            className="mt-8 max-w-md"
+          />
         </div>
       </div>
 
