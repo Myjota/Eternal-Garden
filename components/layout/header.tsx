@@ -51,8 +51,7 @@ export function Header({
   theme,
   onThemeChange,
 }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] =
-    useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const router = useRouter()
   const pathname = usePathname()
@@ -68,9 +67,15 @@ export function Header({
     onLocaleChange?.(newLocale)
   }
 
-  const handleLogout = () => {
-    // Use full page navigation to ensure cookies are properly cleared server-side
-    window.location.href = '/auth/logout'
+  // ✅ CLEAN LOGOUT (NO SERVER ROUTE)
+  const handleLogout = async () => {
+    const supabase = createClient()
+
+    await supabase.auth.signOut()
+
+    // instant UI redirect
+    router.replace('/auth/login')
+    router.refresh()
   }
 
   const isActive = (href: string) => {
@@ -90,10 +95,7 @@ export function Header({
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2"
-        >
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo.png"
             alt="Eternal Garden"
@@ -121,14 +123,8 @@ export function Header({
           {/* Language */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5 px-2"
-              >
-                <span className="text-xs">
-                  {locale.toUpperCase()}
-                </span>
+              <Button variant="ghost" size="sm" className="gap-1.5 px-2">
+                <span className="text-xs">{locale.toUpperCase()}</span>
                 <ChevronDown className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -149,18 +145,12 @@ export function Header({
           {user ? (
             <>
               <Button size="sm" asChild>
-                <Link href="/create">
-                  {nav.createMemorial}
-                </Link>
+                <Link href="/create">{nav.createMemorial}</Link>
               </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="gap-2"
-                  >
+                  <Button variant="ghost" size="sm" className="gap-2">
                     <User className="h-4 w-4" />
                     <ChevronDown className="h-3 w-3" />
                   </Button>
@@ -173,41 +163,31 @@ export function Header({
                   </div>
 
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard">
-                      Valdymas
-                    </Link>
+                    <Link href="/dashboard">Valdymas</Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
-                    <Link href="/profile">
-                      Paskyra
-                    </Link>
+                    <Link href="/profile">Paskyra</Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
-                    <Link href="/settings">
-                      Nustatymai
-                    </Link>
+                    <Link href="/settings">Nustatymai</Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
-                    <Link href="/services">
-                      Paslaugos
-                    </Link>
+                    <Link href="/services">Paslaugos</Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
-                    <Link href="/create">
-                      Sukurti Atminimą
-                    </Link>
+                    <Link href="/create">Sukurti Atminimą</Link>
                   </DropdownMenuItem>
 
                   {isAdmin && (
                     <>
                       <div className="my-1 border-t border-border" />
                       <DropdownMenuItem asChild>
-                        <Link href="/admin" className="text-primary">
-                          <Shield className="h-4 w-4 mr-2" />
+                        <Link href="/admin" className="text-primary flex items-center gap-2">
+                          <Shield className="h-4 w-4" />
                           Administravimas
                         </Link>
                       </DropdownMenuItem>
@@ -218,9 +198,9 @@ export function Header({
 
                   <DropdownMenuItem
                     onClick={handleLogout}
-                    className="text-destructive"
+                    className="text-destructive flex items-center gap-2"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
+                    <LogOut className="h-4 w-4" />
                     Atsijungti
                   </DropdownMenuItem>
 
@@ -230,15 +210,11 @@ export function Header({
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/auth/login">
-                  {nav.login}
-                </Link>
+                <Link href="/auth/login">{nav.login}</Link>
               </Button>
 
               <Button size="sm" asChild>
-                <Link href="/create">
-                  {nav.createMemorial}
-                </Link>
+                <Link href="/create">{nav.createMemorial}</Link>
               </Button>
             </>
           )}
@@ -247,9 +223,7 @@ export function Header({
         {/* Mobile Button */}
         <button
           className="md:hidden"
-          onClick={() =>
-            setMobileMenuOpen(!mobileMenuOpen)
-          }
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? (
             <X className="h-6 w-6" />
@@ -275,43 +249,31 @@ export function Header({
             <div className="pt-4 border-t border-border flex flex-col gap-2">
 
               <Button size="sm" asChild>
-                <Link href="/create">
-                  {nav.createMemorial}
-                </Link>
+                <Link href="/create">{nav.createMemorial}</Link>
               </Button>
 
               {!user && (
                 <Button variant="outline" size="sm" asChild>
-                  <Link href="/auth/login">
-                    {nav.login}
-                  </Link>
+                  <Link href="/auth/login">{nav.login}</Link>
                 </Button>
               )}
 
               {user && (
                 <>
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/dashboard">
-                      Valdymas
-                    </Link>
+                    <Link href="/dashboard">Valdymas</Link>
                   </Button>
 
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/profile">
-                      Paskyra
-                    </Link>
+                    <Link href="/profile">Paskyra</Link>
                   </Button>
 
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/settings">
-                      Nustatymai
-                    </Link>
+                    <Link href="/settings">Nustatymai</Link>
                   </Button>
 
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/services">
-                      Paslaugos
-                    </Link>
+                    <Link href="/services">Paslaugos</Link>
                   </Button>
 
                   {isAdmin && (
@@ -327,9 +289,9 @@ export function Header({
                     variant="outline"
                     size="sm"
                     onClick={handleLogout}
-                    className="text-destructive"
+                    className="text-destructive flex items-center gap-2"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
+                    <LogOut className="h-4 w-4" />
                     Atsijungti
                   </Button>
                 </>
@@ -342,4 +304,4 @@ export function Header({
       )}
     </header>
   )
-      }
+    }
