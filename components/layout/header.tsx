@@ -68,13 +68,9 @@ export function Header({
     onLocaleChange?.(newLocale)
   }
 
-  const handleLogout = async () => {
-    const supabase = createClient()
-
-    await supabase.auth.signOut()
-
-    router.push('/')
-    router.refresh()
+  const handleLogout = () => {
+    // Use full page navigation to ensure cookies are properly cleared server-side
+    window.location.href = '/auth/logout'
   }
 
   const isActive = (href: string) => {
