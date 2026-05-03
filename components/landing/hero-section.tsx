@@ -27,11 +27,11 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
     <section className="relative overflow-hidden">
       <div className="container mx-auto px-4 py-20 md:py-32">
 
-        {/* GRID LAYOUT (removed gap to eliminate seam line) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 items-stretch md:min-h-[500px]">
+        {/* GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 items-stretch md:min-h-[520px]">
 
-          {/* LEFT SIDE */}
-          <div className="max-w-xl flex flex-col justify-center pr-8 md:pr-16">
+          {/* LEFT */}
+          <div className="max-w-xl flex flex-col justify-center pr-10 md:pr-20">
             <div className="mb-6">
               <Image
                 src="/images/logo.png"
@@ -67,29 +67,37 @@ export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
             />
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="relative w-full min-h-[320px] md:min-h-[500px]">
+          {/* RIGHT */}
+          <div className="relative w-full min-h-[320px] md:min-h-full overflow-hidden">
 
             <Image
               src={heroImage}
               alt="Hero image"
               fill
               priority
-              className="object-cover object-center"
+              className="object-cover object-center scale-[1.03]"
             />
 
-            {/* STRONG LEFT FADE (fixes sharp edge) */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/90" />
+            {/* 🔥 STRONG MASK (main fix) */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 55%, rgba(250,248,245,0.9) 80%, rgba(250,248,245,1) 100%)',
+                mixBlendMode: 'normal',
+              }}
+            />
 
-            {/* EXTRA BLEND STRIP (removes visible seam line) */}
-            <div className="absolute left-0 top-0 h-full w-10 md:w-16 bg-gradient-to-r from-background to-transparent blur-sm" />
+            {/* EXTRA SOFT BLUR BRIDGE (removes any visible seam) */}
+            <div className="absolute left-0 top-0 h-full w-24 md:w-32 backdrop-blur-sm bg-background/10" />
 
-            {/* SOFT TOP/BOTTOM LIGHTING */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            {/* TOP LIGHTING */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+
           </div>
 
         </div>
       </div>
     </section>
   )
-}
+            }
