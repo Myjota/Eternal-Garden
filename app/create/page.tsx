@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -31,7 +31,7 @@ function generateSlug(firstName: string, lastName: string): string {
   return `${base}-${randomSuffix}`
 }
 
-export default function CreateMemorialPage() {
+function CreateMemorialContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const isFamous = searchParams.get('famous') === 'true'
@@ -513,5 +513,21 @@ export default function CreateMemorialPage() {
         </main>
       </div>
     </ThemeProvider>
+  )
+}
+
+function CreateMemorialLoading() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <Spinner className="h-8 w-8" />
+    </div>
+  )
+}
+
+export default function CreateMemorialPage() {
+  return (
+    <Suspense fallback={<CreateMemorialLoading />}>
+      <CreateMemorialContent />
+    </Suspense>
   )
 }
