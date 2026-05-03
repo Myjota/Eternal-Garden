@@ -69,7 +69,6 @@ export function FamousSection({ t }: FamousSectionProps) {
     setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : prev))
   }
 
-  // Don't render section if no famous memorials and not loading
   if (!isLoading && famousMemorials.length === 0) {
     return null
   }
@@ -86,21 +85,22 @@ export function FamousSection({ t }: FamousSectionProps) {
         </div>
 
         {isLoading ? (
-          /* Loading skeleton */
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="overflow-hidden border-2 border-primary/20 bg-card animate-pulse">
+              <Card
+                key={i}
+                className="overflow-hidden border border-primary/20 bg-card animate-pulse rounded-none p-0"
+              >
                 <div className="aspect-[3/4] bg-muted" />
                 <CardContent className="p-4">
-                  <div className="h-5 bg-muted rounded w-3/4 mx-auto mb-2" />
-                  <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-2" />
-                  <div className="h-8 bg-muted rounded w-full mt-4" />
+                  <div className="h-5 bg-muted w-3/4 mx-auto mb-2" />
+                  <div className="h-4 bg-muted w-1/2 mx-auto mb-2" />
+                  <div className="h-8 bg-muted w-full mt-4" />
                 </CardContent>
               </Card>
             ))}
           </div>
         ) : (
-          /* Carousel */
           <div className="relative">
 
             {/* Prev */}
@@ -109,7 +109,6 @@ export function FamousSection({ t }: FamousSectionProps) {
                 onClick={goPrev}
                 disabled={currentPage === 0}
                 className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-40 md:-translate-x-6"
-                aria-label="Previous"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -121,7 +120,6 @@ export function FamousSection({ t }: FamousSectionProps) {
                 onClick={goNext}
                 disabled={currentPage === totalPages - 1}
                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-40 md:translate-x-6"
-                aria-label="Next"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -132,9 +130,12 @@ export function FamousSection({ t }: FamousSectionProps) {
               {currentItems.map((memorial) => (
                 <Card
                   key={memorial.id}
-                  className="overflow-hidden border-2 border-primary/20 bg-card hover:border-primary/40 transition-all duration-300"
+                  className="overflow-hidden border border-primary/30 bg-card 
+                             hover:border-primary/60 transition-all duration-300
+                             rounded-none p-0 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:-translate-y-1"
                 >
-                  <div className="aspect-[3/4] relative overflow-hidden bg-muted">
+                  {/* Image */}
+                  <div className="aspect-[3/4] relative overflow-hidden bg-muted m-0 p-0">
                     {memorial.photo_url ? (
                       <Image
                         src={memorial.photo_url}
@@ -149,10 +150,14 @@ export function FamousSection({ t }: FamousSectionProps) {
                         </span>
                       </div>
                     )}
-                    <div className="absolute inset-2 border border-primary/20 pointer-events-none" />
+
+                    {/* Double frame */}
+                    <div className="absolute inset-0 border border-black/20 pointer-events-none" />
+                    <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
                   </div>
 
-                  <CardContent className="p-4 text-center">
+                  {/* Content */}
+                  <CardContent className="p-4 text-center border-t border-primary/20">
                     <h3 className="font-serif font-semibold text-foreground">
                       {memorial.name}
                     </h3>
@@ -187,12 +192,11 @@ export function FamousSection({ t }: FamousSectionProps) {
                   <button
                     key={index}
                     onClick={() => goToPage(index)}
-                    className={`w-3 h-3 rounded-full transition-colors ${
+                    className={`w-3 h-3 transition-colors ${
                       currentPage === index
                         ? 'bg-primary'
                         : 'bg-primary/30 hover:bg-primary/50'
                     }`}
-                    aria-label={`Go to page ${index + 1}`}
                   />
                 ))}
               </div>
@@ -203,4 +207,4 @@ export function FamousSection({ t }: FamousSectionProps) {
       </div>
     </section>
   )
-}
+        }
