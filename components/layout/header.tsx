@@ -4,14 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import {
-  Menu,
-  X,
-  User,
-  ChevronDown,
-  LogOut,
-  Shield,
-} from 'lucide-react'
+import { Menu, X, User, ChevronDown, LogOut, Shield } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -22,18 +15,23 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import {
-  type Locale,
-  localeNames,
   locales,
+  localeNames,
+  type Locale,
 } from '@/lib/i18n/config'
 
-import { type Translations } from '@/lib/i18n/locales/lt'
+import {
+  getNavItems,
+  getUserMenu,
+  adminItem,
+} from '@/lib/nav/nav.config'
+
 import { createClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface HeaderProps {
   locale?: Locale
-  t?: Translations
+  t?: any
   onLocaleChange?: (locale: Locale) => void
   user?: SupabaseUser | null
   isAdmin?: boolean
@@ -46,85 +44,50 @@ export function Header({
   user,
   isAdmin = false,
 }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const router = useRouter()
   const pathname = usePathname()
 
-  const nav = t?.nav ?? {
-    home: 'Pradžia',
-    supportProject: 'Parama',
-    createMemorial: 'Sukurti atminimą',
-    login: 'Prisijungti',
-  }
+  const NAV = getNavItems(t)
+  const USER_MENU = getUserMenu()
 
-  // ✅ 1 SOURCE OF TRUTH - PUBLIC NAV
-  const NAV_ITEMS = [
-    { href: '/', label: nav.home },
-    { href: '/support', label: nav.supportProject },
-  ]
-
-  // ✅ USER MENU CONFIG
-  const USER_MENU = [
-    { href: '/dashboard', label: 'Valdymas' },
-    { href: '/profile', label: 'Paskyra' },
-    { href: '/settings', label: 'Nustatymai' },
-    { href: '/services', label: 'Paslaugos' },
-    { href: '/create', label: 'Sukurti Atminimą' },
-  ]
-
-  const ADMIN_ITEM = {
-    href: '/admin',
-    label: 'Administravimas',
-  }
-
-  const handleLocaleChange = (newLocale: Locale) => {
-    onLocaleChange?.(newLocale)
-  }
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-
     router.replace('/auth/login')
     router.refresh()
   }
 
-  const isActive = (href: string) => {
-    if (href === '/') return pathname === '/'
-    return pathname.startsWith(href)
-  }
-
-  const linkClass = (href: string) =>
-    `text-sm font-medium transition-colors ${
-      isActive(href)
-        ? 'text-foreground underline underline-offset-4 decoration-primary decoration-2'
-        : 'text-muted-foreground hover:text-foreground'
-    }`
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
         {/* LOGO */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo.png"
-            alt="Eternal Garden"
+            alt="Logo"
             width={40}
             height={40}
             className="h-10"
-            style={{ width: 'auto', height: '40px' }}
           />
         </Link>
 
-        {/* DESKTOP NAV (PUBLIC) */}
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_ITEMS.map((item) => (
+        {/* DESKTOP NAV */}
+        <nav className="hidden md:flex gap-8">
+          {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={linkClass(item.href)}
+              className={
+                isActive(item.href)
+                  ? 'text-foreground underline'
+                  : 'text-muted-foreground hover:text-foreground'
+              }
             >
               {item.label}
             </Link>
@@ -132,7 +95,7 @@ export function Header({
         </nav>
 
         {/* RIGHT SIDE */}
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden md:flex items-center gap-2">
 
           {/* LANGUAGE */}
           <DropdownMenu>
@@ -147,7 +110,7 @@ export function Header({
               {locales.map((loc) => (
                 <DropdownMenuItem
                   key={loc}
-                  onClick={() => handleLocaleChange(loc)}
+                  onClick={() => onLocaleChange?.(loc)}
                 >
                   {localeNames[loc]}
                 </DropdownMenuItem>
@@ -157,64 +120,53 @@ export function Header({
 
           {/* USER */}
           {user ? (
-            <>
-              <Button size="sm" asChild>
-                <Link href="/create">{nav.createMemorial}</Link>
-              </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <User className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <User className="h-4 w-4" />
-                    <ChevronDown className="h-3 w-3 ml-1" />
-                  </Button>
-                </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
 
-                <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5 text-xs text-muted-foreground truncate">
+                  {user.email}
+                </div>
 
-                  <div className="px-2 py-1.5 text-xs text-muted-foreground truncate">
-                    {user.email ?? 'Account'}
-                  </div>
-
-                  {USER_MENU.map((item) => (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <Link href={item.href}>{item.label}</Link>
-                    </DropdownMenuItem>
-                  ))}
-
-                  {isAdmin && (
-                    <>
-                      <div className="my-1 border-t border-border" />
-                      <DropdownMenuItem asChild>
-                        <Link href={ADMIN_ITEM.href} className="text-primary flex items-center gap-2">
-                          <Shield className="h-4 w-4" />
-                          {ADMIN_ITEM.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    </>
-                  )}
-
-                  <div className="my-1 border-t border-border" />
-
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="text-destructive flex items-center gap-2"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Atsijungti
+                {USER_MENU.map((item) => (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link href={item.href}>{item.label}</Link>
                   </DropdownMenuItem>
+                ))}
 
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
+                {isAdmin && (
+                  <>
+                    <div className="my-1 border-t" />
+                    <DropdownMenuItem asChild>
+                      <Link href={adminItem.href} className="text-primary flex gap-2">
+                        <Shield className="h-4 w-4" />
+                        {adminItem.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+
+                <div className="my-1 border-t" />
+
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-destructive flex gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Atsijungti
+                </DropdownMenuItem>
+
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/auth/login">{nav.login}</Link>
-              </Button>
-
-              <Button size="sm" asChild>
-                <Link href="/create">{nav.createMemorial}</Link>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/auth/login">Prisijungti</Link>
               </Button>
             </>
           )}
@@ -223,74 +175,64 @@ export function Header({
         {/* MOBILE BUTTON */}
         <button
           className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={() => setMobileOpen(!mobileOpen)}
         >
-          {mobileMenuOpen ? <X /> : <Menu />}
+          {mobileOpen ? <X /> : <Menu />}
         </button>
       </div>
 
       {/* MOBILE MENU */}
-      {mobileMenuOpen && (
-        <div className="border-t border-border md:hidden">
-          <nav className="container mx-auto flex flex-col gap-4 p-4">
+      {mobileOpen && (
+        <div className="border-t md:hidden">
+          <nav className="flex flex-col gap-3 p-4">
 
-            {/* PUBLIC NAV */}
-            {NAV_ITEMS.map((item) => (
+            {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMobileOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
 
-            <div className="pt-4 border-t border-border flex flex-col gap-2">
+            <div className="border-t pt-3 flex flex-col gap-2">
 
-              <Button size="sm" asChild>
-                <Link href="/create">{nav.createMemorial}</Link>
-              </Button>
-
-              {!user && (
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/auth/login">{nav.login}</Link>
-                </Button>
-              )}
-
-              {user && (
+              {user ? (
                 <>
                   {USER_MENU.map((item) => (
-                    <Button key={item.href} variant="outline" size="sm" asChild>
-                      <Link href={item.href}>{item.label}</Link>
-                    </Button>
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
                   ))}
 
                   {isAdmin && (
-                    <Button variant="outline" size="sm" asChild className="text-primary">
-                      <Link href={ADMIN_ITEM.href}>
-                        <Shield className="h-4 w-4 mr-2" />
-                        {ADMIN_ITEM.label}
-                      </Link>
-                    </Button>
+                    <Link href={adminItem.href}>
+                      {adminItem.label}
+                    </Link>
                   )}
 
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  <button
                     onClick={handleLogout}
-                    className="text-destructive flex items-center gap-2"
+                    className="text-red-500 text-left"
                   >
-                    <LogOut className="h-4 w-4" />
                     Atsijungti
-                  </Button>
+                  </button>
                 </>
+              ) : (
+                <Link href="/auth/login">
+                  Prisijungti
+                </Link>
               )}
 
             </div>
-
           </nav>
         </div>
       )}
     </header>
   )
-    }
+  }
