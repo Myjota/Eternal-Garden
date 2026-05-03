@@ -104,13 +104,11 @@ export function MemorialSearch({
       const target = event.target as Node
 
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(target) &&
-        inputRef.current &&
-        !inputRef.current.contains(target)
-      ) {
-        setIsOpen(false)
-      }
+        dropdownRef.current?.contains(target) ||
+        inputRef.current?.contains(target)
+      ) return
+
+      setIsOpen(false)
     }
 
     document.addEventListener('mousedown', handleClickOutside)
@@ -138,6 +136,11 @@ export function MemorialSearch({
 
       case 'Enter':
         e.preventDefault()
+
+        if (selectedIndex < 0 && results.length > 0) {
+          setSelectedIndex(0)
+          return
+        }
 
         if (selectedIndex >= 0 && results[selectedIndex]) {
           router.push(`/memorial/${results[selectedIndex].slug}`)
@@ -223,7 +226,7 @@ export function MemorialSearch({
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden"
+          className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-50 max-h-80 overflow-y-auto"
         >
           {results.length > 0 ? (
             <ul className="divide-y divide-border">
@@ -232,14 +235,14 @@ export function MemorialSearch({
                   <Link
                     href={`/memorial/${m.slug}`}
                     className={cn(
-                      'flex items-center gap-4 p-4 hover:bg-muted/50',
+                      'flex items-center gap-4 p-4 hover:bg-muted/50 min-h-[72px]',
                       selectedIndex === i && 'bg-muted/50'
                     )}
                     onClick={reset}
                     role="option"
                     aria-selected={selectedIndex === i}
                   >
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-muted flex items-center justify-center flex-shrink-0">
                       {m.profile_image_url ? (
                         <Image
                           src={m.profile_image_url}
@@ -274,4 +277,4 @@ export function MemorialSearch({
       )}
     </div>
   )
-    }
+                                     }
