@@ -40,7 +40,7 @@ export function MemorialHero({ memorial }) {
           />
         </div>
 
-        {/* ✨ subtle glow */}
+        {/* subtle glow */}
         <div className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.15)]" />
       </div>
 
@@ -61,12 +61,12 @@ export function MemorialHero({ memorial }) {
         </p>
       )}
 
-      {/* CTA */}
-      <div className="mt-8 flex justify-center">
-        <button className="px-6 py-3 rounded-full bg-green-700 text-white text-sm shadow-md hover:bg-green-800 transition">
-          Uždegti žvakę
-        </button>
-      </div>
+      {/* OPTIONAL BIO */}
+      {memorial.biography && (
+        <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
+          {memorial.biography}
+        </p>
+      )}
 
     </section>
   )
