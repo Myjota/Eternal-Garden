@@ -1,8 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import { ThemeId, themeConfigs } from '@/lib/themes/config'
 
-export function MemorialHero({ memorial }) {
+export function MemorialHero({
+  memorial,
+  theme = 'garden' as ThemeId,
+}) {
   const birthDate = memorial.birth_date
     ? new Date(memorial.birth_date).toLocaleDateString('lt-LT')
     : null
@@ -14,21 +18,30 @@ export function MemorialHero({ memorial }) {
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
+  // 🧠 HERO IMAGE PRIORITY SYSTEM (FIXED)
+  const heroImage =
+    memorial.cover_image_url ||
+    themeConfigs[theme]?.heroImage ||
+    '/images/logo.png'
+
   return (
     <section className="relative py-20 text-center overflow-hidden">
 
-      {/* 🌿 BACKGROUND */}
+      {/* 🌿 HERO BACKGROUND (THEME + MEMORIAL COVER) */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src={memorial.profile_image_url || '/images/logo.png'}
+          src={heroImage}
           alt=""
           fill
-          className="object-cover blur-2xl scale-110 opacity-30"
+          priority
+          className="object-cover scale-110 blur-sm opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white" />
+
+        {/* readability layer */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white" />
       </div>
 
-      {/* PROFILE IMAGE */}
+      {/* PROFILE IMAGE (identity layer ONLY) */}
       <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">
         <div className="relative h-full w-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
           <Image
@@ -40,7 +53,7 @@ export function MemorialHero({ memorial }) {
           />
         </div>
 
-        {/* subtle glow */}
+        {/* glow */}
         <div className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.15)]" />
       </div>
 
@@ -61,7 +74,7 @@ export function MemorialHero({ memorial }) {
         </p>
       )}
 
-      {/* OPTIONAL BIO */}
+      {/* BIO */}
       {memorial.biography && (
         <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
           {memorial.biography}
