@@ -6,7 +6,7 @@
   position: relative;
   isolation: isolate;
 
-  /* Core colors (SAND / MUSEUM GLASS SAFE) */
+  /* Core colors */
   --primary: oklch(0.35 0.08 55);
   --primary-foreground: oklch(0.98 0 0);
 
@@ -35,7 +35,7 @@
 }
 
 /* ============================================
-   BACKGROUND IMAGE (NO OVERLAY BUGS)
+   BACKGROUND IMAGE (OPTIONAL - REMOVE IF USING coverImage)
    ============================================ */
 
 [data-theme="garden"] {
@@ -46,20 +46,67 @@
 }
 
 /* ============================================
-   HERO SECTION (SAFE FLAT GLASS)
+   MEMORIAL COVER (LAYOUT + IMAGE EFFECTS)
+   ============================================ */
+
+[data-theme="garden"] .memorial-cover {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  min-height: 70vh;
+  padding: 5rem 1rem;
+}
+
+/* Background image effects (FROM JSX) */
+[data-theme="garden"] .memorial-cover img {
+  object-fit: cover;
+  transform: scale(1.1);
+  filter: blur(4px);
+  opacity: 0.4;
+}
+
+/* Ensure content stays above image */
+[data-theme="garden"] .memorial-cover > *:not(img) {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================
+   HERO GLASS LAYER
    ============================================ */
 
 [data-theme="garden"] .theme-glow-bg {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
+  padding: 2rem;
+  border-radius: var(--radius);
 }
 
 /* ============================================
-   EPITAPH
+   TYPOGRAPHY
    ============================================ */
+
+[data-theme="garden"] h1 {
+  font-size: 3rem;
+  font-family: serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
 
 [data-theme="garden"] .memorial-epitaph {
   color: oklch(0.30 0.04 55);
+  font-size: 1.25rem;
+  font-style: italic;
+  margin-top: 1.5rem;
+}
+
+[data-theme="garden"] .memorial-cover p {
+  margin-top: 1rem;
 }
 
 /* ============================================
@@ -72,16 +119,27 @@
   padding: 6px;
 
   border: 1px solid oklch(0.80 0.01 55 / 0.4);
-
   background: oklch(0.995 0.002 55);
 
   box-shadow:
-    0 6px 20px rgba(0,0,0,0.08),
+    0 10px 30px rgba(0,0,0,0.15), /* upgraded shadow */
     inset 0 0 0 1px white;
 }
 
+/* Inner image */
 [data-theme="garden"] .portrait-frame img {
   border-radius: 9999px;
+  display: block;
+}
+
+/* Outer glow (FROM JSX custom shadow) */
+[data-theme="garden"] .portrait-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.15);
+  pointer-events: none;
 }
 
 /* ============================================
@@ -98,14 +156,4 @@
 
 [data-theme="garden"] .theme-border-accent {
   border-color: oklch(0.85 0.01 55);
-}
-
-/* ============================================
-   MEMORIAL COVER (CLEAN ONLY)
-   ============================================ */
-
-[data-theme="garden"] .memorial-cover {
-  position: relative;
-  overflow: hidden;
-  min-height: 100%;
 }
