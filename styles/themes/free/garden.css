@@ -205,35 +205,43 @@
    MEMORIAL FONT SYSTEM
    ============================================ */
 
+/* ============================================
+   GARDEN THEME FONT SYSTEM
+   ============================================ */
+
 [data-theme="garden"] .memorial-font-base {
-  font-family: var(--font-sans);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--foreground);
+  color: oklch(0.25 0.02 55);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
 [data-theme="garden"] .memorial-font-heading {
-  font-family: var(--font-serif);
-  font-weight: 600;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--foreground);
+  letter-spacing: -0.025em;
+  color: oklch(0.20 0.03 55);
+  font-variation-settings: 'wght' 700;
 }
 
 [data-theme="garden"] .memorial-font-body {
-  font-family: var(--font-sans);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
-  color: var(--muted-foreground);
+  color: oklch(0.35 0.02 55);
+  font-feature-settings: 'rlig' 1, 'calt' 1;
 }
 
 [data-theme="garden"] .memorial-font-accent {
-  font-family: var(--font-sans);
-  font-weight: 500;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-weight: 600;
   font-size: 0.875rem;
-  color: var(--muted-foreground);
-  letter-spacing: 0.02em;
+  color: oklch(0.45 0.08 55);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
+  font-feature-settings: 'ss01' 1;
 }
 
 /* ============================================

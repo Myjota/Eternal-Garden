@@ -159,36 +159,47 @@
    MEMORIAL FONT SYSTEM
    ============================================ */
 
+/* ============================================
+   SUNNY WINDOW THEME FONT SYSTEM
+   ============================================ */
+
 [data-theme="sunny-window"] .memorial-font-base {
-  font-family: var(--font-sans);
+  font-family: 'Lato', 'Open Sans', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--foreground);
+  color: oklch(0.25 0.02 75);
+  font-feature-settings: 'ss01' 1, 'ss02' 1;
 }
 
 [data-theme="sunny-window"] .memorial-font-heading {
-  font-family: var(--font-serif);
-  font-weight: 600;
+  font-family: 'Merriweather', 'Georgia', serif;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.01em;
-  color: var(--foreground);
-  text-shadow: 0 0 12px oklch(0.75 0.16 75 / 0.15);
+  letter-spacing: -0.02em;
+  color: oklch(0.20 0.03 75);
+  text-shadow: 
+    0 0 15px oklch(0.75 0.16 75 / 0.25),
+    0 2px 6px oklch(0.68 0.16 75 / 0.2);
+  font-variation-settings: 'wght' 700;
 }
 
 [data-theme="sunny-window"] .memorial-font-body {
-  font-family: var(--font-sans);
+  font-family: 'Lato', 'Open Sans', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
-  color: var(--muted-foreground);
+  color: oklch(0.35 0.02 75);
+  font-feature-settings: 'rlig' 1, 'calt' 1;
 }
 
 [data-theme="sunny-window"] .memorial-font-accent {
-  font-family: var(--font-sans);
-  font-weight: 500;
+  font-family: 'Lato', 'Open Sans', system-ui, sans-serif;
+  font-weight: 600;
   font-size: 0.875rem;
-  color: var(--accent);
-  letter-spacing: 0.02em;
+  color: oklch(0.68 0.16 75);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
+  text-shadow: 0 0 8px oklch(0.75 0.16 75 / 0.2);
+  font-feature-settings: 'ss01' 1;
 }
 
 /* ============================================
