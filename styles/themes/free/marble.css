@@ -338,6 +338,128 @@
 }
 
 /* ============================================
+   MEMORIAL FONT SYSTEM
+   ============================================ */
+
+[data-theme="marble"] .memorial-font-base {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+[data-theme="marble"] .memorial-font-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-shadow: 0 2px 20px oklch(0.6 0.05 80 / 0.15);
+}
+
+[data-theme="marble"] .memorial-font-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+[data-theme="marble"] .memorial-font-accent {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   THEME GLOW BACKGROUND
+   ============================================ */
+
+[data-theme="marble"] .theme-glow-bg {
+  background: rgba(250, 250, 250, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.88 0.01 80 / 0.3);
+}
+
+/* ============================================
+   CARD GLOW
+   ============================================ */
+
+[data-theme="marble"] .theme-card-glow {
+  box-shadow: 
+    0 0 25px oklch(0.6 0.05 80 / 0.15),
+    inset 0 0 10px oklch(0.80 0.02 80 / 0.1);
+}
+
+/* ============================================
+   BORDER ACCENT
+   ============================================ */
+
+[data-theme="marble"] .theme-border-accent {
+  border-color: oklch(0.88 0.01 80 / 0.4);
+}
+
+/* ============================================
+   MEMORIAL STRUCTURE CLASSES
+   ============================================ */
+
+[data-theme="marble"] .memorial-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+[data-theme="marble"] .memorial-section-top {
+  position: relative;
+  padding-top: 5rem;
+}
+
+[data-theme="marble"] .memorial-section-bottom {
+  position: relative;
+  padding-bottom: 5rem;
+  margin-top: 3rem;
+}
+
+/* ============================================
+   MEMORIAL INTERACTIVE AREAS
+   ============================================ */
+
+[data-theme="marble"] .memorial-candle-area {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 0 40px oklch(0.6 0.05 80 / 0.2);
+}
+
+[data-theme="marble"] .memorial-comments {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 20px oklch(0.6 0.05 80 / 0.1);
+}
+
+[data-theme="marble"] .memorial-tributes {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 20px oklch(0.6 0.05 80 / 0.1);
+}
+
+/* ============================================
    PORTRAIT FRAME
    ============================================ */
 

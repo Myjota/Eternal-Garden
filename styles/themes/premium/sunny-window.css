@@ -150,6 +150,140 @@
    AMBIENT OVERLAY
    ============================================ */
 
+[data-theme="sunny-window"] .timeline-card {
+  border: 1px solid oklch(0.90 0.04 85);
+  background: oklch(1 0 0 / 0.9);
+}
+
+/* ============================================
+   MEMORIAL FONT SYSTEM
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-font-base {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+[data-theme="sunny-window"] .memorial-font-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-shadow: 0 0 12px oklch(0.75 0.16 75 / 0.15);
+}
+
+[data-theme="sunny-window"] .memorial-font-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+[data-theme="sunny-window"] .memorial-font-accent {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   THEME GLOW BACKGROUND
+   ============================================ */
+
+[data-theme="sunny-window"] .theme-glow-bg {
+  background: rgba(255, 253, 231, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.75 0.16 75 / 0.3);
+  box-shadow: inset 0 0 25px oklch(0.80 0.18 75 / 0.08);
+}
+
+/* ============================================
+   CARD GLOW
+   ============================================ */
+
+[data-theme="sunny-window"] .theme-card-glow {
+  box-shadow:
+    0 0 60px oklch(0.80 0.18 75 / 0.15),
+    0 0 120px oklch(0.75 0.15 80 / 0.08),
+    inset 0 0 20px oklch(0.85 0.20 75 / 0.1);
+}
+
+/* ============================================
+   BORDER ACCENT
+   ============================================ */
+
+[data-theme="sunny-window"] .theme-border-accent {
+  border-color: oklch(0.75 0.16 75 / 0.4);
+}
+
+/* ============================================
+   MEMORIAL STRUCTURE CLASSES
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+  color: var(--accent);
+}
+
+[data-theme="sunny-window"] .memorial-section-top {
+  position: relative;
+  padding-top: 5rem;
+}
+
+[data-theme="sunny-window"] .memorial-section-bottom {
+  position: relative;
+  padding-bottom: 5rem;
+  margin-top: 3rem;
+}
+
+/* ============================================
+   MEMORIAL INTERACTIVE AREAS
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-candle-area {
+  background: var(--card);
+  border: 1px solid oklch(0.90 0.04 85);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 0 80px oklch(0.80 0.18 75 / 0.25);
+}
+
+[data-theme="sunny-window"] .memorial-comments {
+  background: var(--card);
+  border: 1px solid oklch(0.90 0.04 85);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 50px oklch(0.80 0.18 75 / 0.2);
+}
+
+[data-theme="sunny-window"] .memorial-tributes {
+  background: var(--card);
+  border: 1px solid oklch(0.90 0.04 85);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 50px oklch(0.80 0.18 75 / 0.2);
+}
+
+/* ============================================
+   AMBIENT OVERLAY
+   ============================================ */
+
 [data-theme="sunny-window"]::before {
   content: '';
   position: fixed;

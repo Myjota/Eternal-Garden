@@ -144,6 +144,140 @@
    AMBIENT OVERLAY
    ============================================ */
 
+[data-theme="rainbow-bridge"] .timeline-card {
+  border: 1px solid oklch(0.90 0.04 300);
+  background: oklch(0.995 0.01 300 / 0.9);
+}
+
+/* ============================================
+   MEMORIAL FONT SYSTEM
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .memorial-font-base {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+[data-theme="rainbow-bridge"] .memorial-font-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-shadow: 0 0 10px oklch(0.75 0.14 290 / 0.15);
+}
+
+[data-theme="rainbow-bridge"] .memorial-font-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+[data-theme="rainbow-bridge"] .memorial-font-accent {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   THEME GLOW BACKGROUND
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .theme-glow-bg {
+  background: rgba(252, 228, 236, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.80 0.14 290 / 0.3);
+  box-shadow: inset 0 0 20px oklch(0.90 0.12 350 / 0.1);
+}
+
+/* ============================================
+   CARD GLOW
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .theme-card-glow {
+  box-shadow:
+    0 0 40px oklch(0.80 0.15 290 / 0.12),
+    0 0 80px oklch(0.75 0.12 210 / 0.08),
+    inset 0 0 15px oklch(0.85 0.08 350 / 0.1);
+}
+
+/* ============================================
+   BORDER ACCENT
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .theme-border-accent {
+  border-color: oklch(0.80 0.14 290 / 0.4);
+}
+
+/* ============================================
+   MEMORIAL STRUCTURE CLASSES
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .memorial-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+  color: var(--accent);
+}
+
+[data-theme="rainbow-bridge"] .memorial-section-top {
+  position: relative;
+  padding-top: 5rem;
+}
+
+[data-theme="rainbow-bridge"] .memorial-section-bottom {
+  position: relative;
+  padding-bottom: 5rem;
+  margin-top: 3rem;
+}
+
+/* ============================================
+   MEMORIAL INTERACTIVE AREAS
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .memorial-candle-area {
+  background: var(--card);
+  border: 1px solid oklch(0.90 0.04 300);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 0 60px oklch(0.80 0.15 290 / 0.2);
+}
+
+[data-theme="rainbow-bridge"] .memorial-comments {
+  background: var(--card);
+  border: 1px solid oklch(0.90 0.04 300);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 40px oklch(0.80 0.14 290 / 0.15);
+}
+
+[data-theme="rainbow-bridge"] .memorial-tributes {
+  background: var(--card);
+  border: 1px solid oklch(0.90 0.04 300);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 40px oklch(0.80 0.14 290 / 0.15);
+}
+
+/* ============================================
+   AMBIENT OVERLAY
+   ============================================ */
+
 [data-theme="rainbow-bridge"]::before {
   content: '';
   position: fixed;

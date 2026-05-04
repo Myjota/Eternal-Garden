@@ -192,6 +192,129 @@
 }
 
 /* ============================================
+   MEMORIAL FONT SYSTEM
+   ============================================ */
+
+[data-theme="orthodox"] .memorial-font-base {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+[data-theme="orthodox"] .memorial-font-heading {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  text-shadow: 0 2px 20px oklch(0.65 0.16 70 / 0.15);
+}
+
+[data-theme="orthodox"] .memorial-font-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+[data-theme="orthodox"] .memorial-font-accent {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--secondary-foreground);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   THEME GLOW BACKGROUND
+   ============================================ */
+
+[data-theme="orthodox"] .theme-glow-bg {
+  background: rgba(255, 248, 225, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.85 0.03 50 / 0.4);
+  box-shadow: inset 0 0 20px oklch(0.55 0.12 25 / 0.1);
+}
+
+/* ============================================
+   CARD GLOW
+   ============================================ */
+
+[data-theme="orthodox"] .theme-card-glow {
+  box-shadow:
+    0 0 25px oklch(0.65 0.16 70 / 0.25),
+    inset 0 0 12px oklch(0.55 0.14 60 / 0.15);
+}
+
+/* ============================================
+   BORDER ACCENT
+   ============================================ */
+
+[data-theme="orthodox"] .theme-border-accent {
+  border-color: oklch(0.85 0.03 50 / 0.4);
+}
+
+/* ============================================
+   MEMORIAL STRUCTURE CLASSES
+   ============================================ */
+
+[data-theme="orthodox"] .memorial-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+[data-theme="orthodox"] .memorial-section-top {
+  position: relative;
+  padding-top: 5rem;
+}
+
+[data-theme="orthodox"] .memorial-section-bottom {
+  position: relative;
+  padding-bottom: 5rem;
+  margin-top: 3rem;
+}
+
+/* ============================================
+   MEMORIAL INTERACTIVE AREAS
+   ============================================ */
+
+[data-theme="orthodox"] .memorial-candle-area {
+  background: var(--card);
+  border: 2px solid oklch(0.55 0.12 25 / 0.3);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 0 50px oklch(0.65 0.16 70 / 0.3);
+}
+
+[data-theme="orthodox"] .memorial-comments {
+  background: var(--card);
+  border: 1px solid oklch(0.85 0.03 50 / 0.3);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 30px oklch(0.65 0.16 70 / 0.2);
+}
+
+[data-theme="orthodox"] .memorial-tributes {
+  background: var(--card);
+  border: 1px solid oklch(0.85 0.03 50 / 0.3);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 30px oklch(0.65 0.16 70 / 0.2);
+}
+
+/* ============================================
    PORTRAIT FRAME
    ============================================ */
 
