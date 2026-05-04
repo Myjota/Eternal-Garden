@@ -81,7 +81,7 @@ export const themeConfigs: Record<ThemeId, ThemeConfig> = {
     id: 'orthodox',
     name: 'Orthodox',
     nameKey: 'themes.orthodox',
-    isPremium: true,
+    isPremium: false,
     description: 'Traditional Orthodox Christian theme with gold and deep red',
     colors: {
       primary: 'oklch(0.55 0.15 50)', // Gold

@@ -111,3 +111,57 @@
   color: oklch(0.60 0.16 70);
   opacity: 0.6;
 }
+
+/* ============================================
+   EPITAPH
+   ============================================ */
+
+[data-theme="orthodox"] .memorial-epitaph {
+  color: oklch(0.40 0.10 40);
+  text-shadow: 0 0 12px oklch(0.65 0.16 70 / 0.15);
+}
+
+/* ============================================
+   PORTRAIT FRAME
+   ============================================ */
+
+[data-theme="orthodox"] .portrait-frame {
+  box-shadow:
+    0 0 25px oklch(0.65 0.16 70 / 0.25),
+    inset 0 0 12px oklch(0.55 0.14 60 / 0.15);
+}
+
+/* ============================================
+   TIMELINE
+   ============================================ */
+
+[data-theme="orthodox"] .timeline-line {
+  background: linear-gradient(180deg, oklch(0.60 0.16 70), oklch(0.45 0.12 40));
+}
+
+[data-theme="orthodox"] .timeline-dot {
+  background: oklch(0.60 0.16 70);
+  box-shadow: 0 0 0 4px oklch(0.97 0.01 60), 0 0 0 6px oklch(0.60 0.16 70);
+}
+
+[data-theme="orthodox"] .timeline-card {
+  border: 1px solid oklch(0.85 0.04 60);
+  background: oklch(0.98 0.008 60 / 0.9);
+}
+
+/* ============================================
+   AMBIENT OVERLAY
+   ============================================ */
+
+[data-theme="orthodox"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 20%,
+    oklch(0.65 0.16 70 / 0.08),
+    transparent 60%
+  );
+  z-index: -1;
+}

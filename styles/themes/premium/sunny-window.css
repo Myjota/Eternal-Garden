@@ -108,3 +108,57 @@
   pointer-events: none;
   opacity: 0.6;
 }
+
+/* ============================================
+   EPITAPH
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-epitaph {
+  color: oklch(0.45 0.10 75);
+  text-shadow: 0 0 12px oklch(0.75 0.16 75 / 0.15);
+}
+
+/* ============================================
+   PORTRAIT FRAME
+   ============================================ */
+
+[data-theme="sunny-window"] .portrait-frame {
+  box-shadow:
+    0 0 25px oklch(0.80 0.18 75 / 0.25),
+    inset 0 0 12px oklch(0.70 0.14 60 / 0.15);
+}
+
+/* ============================================
+   TIMELINE
+   ============================================ */
+
+[data-theme="sunny-window"] .timeline-line {
+  background: linear-gradient(180deg, oklch(0.75 0.15 70), oklch(0.70 0.12 50));
+}
+
+[data-theme="sunny-window"] .timeline-dot {
+  background: oklch(0.68 0.16 75);
+  box-shadow: 0 0 0 4px oklch(0.995 0.01 85), 0 0 0 6px oklch(0.68 0.16 75);
+}
+
+[data-theme="sunny-window"] .timeline-card {
+  border: 1px solid oklch(0.90 0.04 85);
+  background: oklch(1 0 0 / 0.9);
+}
+
+/* ============================================
+   AMBIENT OVERLAY
+   ============================================ */
+
+[data-theme="sunny-window"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 10%,
+    oklch(0.85 0.18 75 / 0.08),
+    transparent 50%
+  );
+  z-index: -1;
+}
