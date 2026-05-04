@@ -43,35 +43,61 @@
 }
 
 /* ============================================
-   MEMORIAL COVER (LAYER SYSTEM)
+   MEMORIAL COVER & HERO
    ============================================ */
 
 [data-theme="garden"] .memorial-cover {
   position: relative;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
   min-height: 70vh;
-  padding: 5rem 1rem;
+  padding: 5rem 0;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    oklch(0.92 0.03 120 / 0.95),
+    oklch(0.96 0.02 140 / 0.98)
+  );
+  backdrop-filter: blur(2px);
 }
 
 /* 🔥 COVER IMAGE (LAYER 1) */
-[data-theme="garden"] .memorial-bg-image {
+[data-theme="garden"] .memorial-bg-wrapper {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
+}
 
+[data-theme="garden"] .memorial-bg-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+[data-theme="garden"] .memorial-hero-image {
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
 
-  transform: scale(1.1);
-  filter: blur(4px);
-  opacity: 0.4;
+[data-theme="garden"] .memorial-profile-container {
+  position: relative;
+  margin: 0 auto 2rem;
+  height: 10rem;
+  width: 10rem;
+}
+
+@media (min-width: 640px) {
+  [data-theme="garden"] .memorial-profile-container {
+    height: 12rem;
+    width: 12rem;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-theme="garden"] .memorial-profile-container {
+    height: 14rem;
+    width: 14rem;
+  }
 }
 
 /* 🔥 CONTENT (LAYER 2) */
@@ -80,16 +106,6 @@
   z-index: 2;
 }
 
-/* ============================================
-   HERO GLASS
-   ============================================ */
-
-[data-theme="garden"] .theme-glow-bg {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  padding: 2rem;
-  border-radius: var(--radius);
-}
 
 /* ============================================
    TYPOGRAPHY
@@ -103,10 +119,15 @@
 }
 
 [data-theme="garden"] .memorial-epitaph {
-  color: oklch(0.30 0.04 55);
-  font-size: 1.25rem;
-  font-style: italic;
   margin-top: 1.5rem;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  font-style: italic;
+  max-width: 20rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  color: var(--foreground);
+  opacity: 0.9;
 }
 
 [data-theme="garden"] .memorial-cover p {
@@ -118,11 +139,13 @@
    ============================================ */
 
 [data-theme="garden"] .memorial-name {
-  font-size: 3rem;
-  font-family: serif;
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-family: var(--font-serif);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--foreground);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
 }
 
 /* ============================================
@@ -139,9 +162,17 @@
    ============================================ */
 
 [data-theme="garden"] .memorial-bio {
-  color: var(--muted-foreground);
+  margin-top: 1.5rem;
   font-size: 0.875rem;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
   line-height: 1.6;
+  color: var(--muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ============================================
@@ -227,7 +258,18 @@
    ============================================ */
 
 [data-theme="garden"] .theme-card-glow {
-  box-shadow: 0 0 20px rgba(0,0,0,0.06);
+  box-shadow: 
+    0 0 40px rgba(34, 197, 94, 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+[data-theme="garden"] .theme-card-glow:hover {
+  box-shadow: 
+    0 0 60px rgba(34, 197, 94, 0.25),
+    0 30px 80px rgba(0, 0, 0, 0.15),
+    inset 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
 /* ============================================
