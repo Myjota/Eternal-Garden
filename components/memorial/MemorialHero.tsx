@@ -24,7 +24,7 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // 🔐 ONLY REAL COVER FROM SUPABASE
+  // 🔐 SAFE CHECK
   const hasCover =
     typeof memorial.cover_image_url === 'string' &&
     memorial.cover_image_url.trim().length > 0
@@ -38,10 +38,12 @@ export function MemorialHero({
   return (
     <section className="relative py-20 text-center overflow-hidden">
 
-      {/* 🌿 COVER AREA (CSS fallback ALWAYS active when no image) */}
-      <div className="absolute inset-0 -z-10 memorial-cover">
+      {/* ============================================
+         HERO COVER LAYER (ALWAYS EXISTS)
+         ============================================ */}
+      <div className="absolute inset-0 memorial-cover">
 
-        {/* ONLY render image if exists */}
+        {/* REAL IMAGE (only if exists) */}
         {hasCover && (
           <Image
             src={memorial.cover_image_url}
@@ -52,11 +54,13 @@ export function MemorialHero({
           />
         )}
 
-        {/* readability layer */}
+        {/* readability overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white" />
       </div>
 
-      {/* PROFILE IMAGE */}
+      {/* ============================================
+         PROFILE IMAGE
+         ============================================ */}
       <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">
         <div className="relative h-full w-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
 
@@ -72,24 +76,32 @@ export function MemorialHero({
         <div className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.15)]" />
       </div>
 
-      {/* NAME */}
+      {/* ============================================
+         NAME
+         ============================================ */}
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">
         {memorial.first_name} {memorial.last_name}
       </h1>
 
-      {/* EPITAPH */}
+      {/* ============================================
+         EPITAPH
+         ============================================ */}
       <p className="mt-6 text-lg sm:text-xl italic text-muted-foreground max-w-xl mx-auto leading-relaxed">
         “{epitaph}”
       </p>
 
-      {/* DATES */}
+      {/* ============================================
+         DATES
+         ============================================ */}
       {(birthDate || deathDate) && (
         <p className="mt-4 text-sm text-muted-foreground">
           {birthDate || '—'} – {deathDate || '—'}
         </p>
       )}
 
-      {/* BIO */}
+      {/* ============================================
+         BIO
+         ============================================ */}
       {memorial.biography && (
         <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
           {memorial.biography}
@@ -98,4 +110,4 @@ export function MemorialHero({
 
     </section>
   )
-}
+        }
