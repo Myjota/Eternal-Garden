@@ -2,12 +2,7 @@
 
 import Image from 'next/image'
 
-interface MemorialHeroProps {
-  memorial: any
-  theme?: string
-}
-
-export function MemorialHero({ memorial }: MemorialHeroProps) {
+export function MemorialHero({ memorial }) {
   const birthDate = memorial.birth_date
     ? new Date(memorial.birth_date).toLocaleDateString('lt-LT')
     : null
@@ -16,85 +11,51 @@ export function MemorialHero({ memorial }: MemorialHeroProps) {
     ? new Date(memorial.death_date).toLocaleDateString('lt-LT')
     : null
 
+  // ✨ Epitaph fallback (labai svarbu UX)
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  const normalizeImage = (url: any) => {
-    if (typeof url !== 'string') return null
-
-    const cleaned = url.trim().toLowerCase()
-
-    if (
-      !cleaned ||
-      cleaned === 'null' ||
-      cleaned === 'undefined' ||
-      cleaned === 'false'
-    ) return null
-
-    return url
-  }
-
-  const coverImage = normalizeImage(memorial.cover_image_url)
-  const profileImage =
-    normalizeImage(memorial.profile_image_url) || '/images/logo.png'
-
   return (
-    <section className="relative min-h-[70vh] py-20 text-center">
-
-      {/* BACKGROUND */}
-      <div className="absolute inset-0">
-        {coverImage && (
+    <section className="memorial-hero relative py-16 text-center">
+      
+      {/* PROFILE IMAGE */}
+      <div className="profile-image profile-image-ornate mx-auto mb-8 h-64 w-48 sm:h-72 sm:w-56 md:h-80 md:w-64 shadow-lg">
+        <div className="relative h-full w-full rounded-md overflow-hidden">
           <Image
-            src={coverImage}
-            alt=""
+            src={memorial.profile_image_url || '/images/logo.png'}
+            alt={`${memorial.first_name} ${memorial.last_name}`}
             fill
-            priority
             className="object-cover"
+            sizes="(max-width: 768px) 192px, 256px"
+            priority
           />
-        )}
-      </div>
-
-      {/* CONTENT */}
-      <div className="relative z-10">
-
-        {/* PROFILE IMAGE */}
-        <div className="relative mx-auto mb-8 h-40 w-40">
-          <div className="relative h-full w-full rounded-full overflow-hidden">
-            <Image
-              src={profileImage}
-              alt={`${memorial.first_name} ${memorial.last_name}`}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
         </div>
-
-        {/* NAME */}
-        <h1>
-          {memorial.first_name} {memorial.last_name}
-        </h1>
-
-        {/* EPITAPH */}
-        <p>
-          “{epitaph}”
-        </p>
-
-        {/* DATES */}
-        {(birthDate || deathDate) && (
-          <p>
-            {birthDate || '—'} – {deathDate || '—'}
-          </p>
-        )}
-
-        {/* BIO */}
-        {memorial.biography && (
-          <p>
-            {memorial.biography}
-          </p>
-        )}
-
       </div>
+
+      {/* NAME */}
+      <h1 className="memorial-hero-name text-2xl sm:text-3xl md:text-4xl font-serif font-semibold">
+        {memorial.first_name} {memorial.last_name}
+      </h1>
+
+      {/* ✨ EPITAPH (core element) */}
+      <p className="mt-6 text-xl italic text-muted-foreground max-w-xl mx-auto leading-relaxed">
+        “{epitaph}”
+      </p>
+
+      {/* DATES */}
+      {(birthDate || deathDate) && (
+        <p className="memorial-hero-dates mt-4 text-sm text-muted-foreground">
+          {birthDate || '—'} – {deathDate || '—'}
+        </p>
+      )}
+
+      {/* OPTIONAL: SHORT BIO (trimmed) */}
+      {memorial.biography && (
+        <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
+          {memorial.biography}
+        </p>
+      )}
+
     </section>
   )
 }
