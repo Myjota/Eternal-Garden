@@ -1,11 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { ThemeId } from '@/lib/themes/config'
 
 interface MemorialHeroProps {
   memorial: any
-  theme?: ThemeId
+  theme?: string
 }
 
 export function MemorialHero({
@@ -24,7 +23,7 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // 🔐 SAFE CHECK
+  // ✅ SAFE CHECK
   const hasCover =
     typeof memorial.cover_image_url === 'string' &&
     memorial.cover_image_url.trim().length > 0
@@ -36,14 +35,13 @@ export function MemorialHero({
       : '/images/logo.png'
 
   return (
-    <section className="relative py-20 text-center overflow-hidden">
+    <section className="relative min-h-[70vh] py-20 text-center overflow-hidden">
 
       {/* ============================================
-         HERO COVER LAYER (ALWAYS EXISTS)
+         HERO BACKGROUND LAYER
          ============================================ */}
       <div className="absolute inset-0 memorial-cover">
 
-        {/* REAL IMAGE (only if exists) */}
         {hasCover && (
           <Image
             src={memorial.cover_image_url}
@@ -54,60 +52,54 @@ export function MemorialHero({
           />
         )}
 
-        {/* readability overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white" />
       </div>
 
       {/* ============================================
-         PROFILE IMAGE
+         CONTENT (always above background)
          ============================================ */}
-      <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">
-        <div className="relative h-full w-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
+      <div className="relative z-10">
 
-          <Image
-            src={profileImage}
-            alt={`${memorial.first_name} ${memorial.last_name}`}
-            fill
-            className="object-cover"
-            priority
-          />
+        {/* PROFILE IMAGE */}
+        <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">
+          <div className="relative h-full w-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
+
+            <Image
+              src={profileImage}
+              alt={`${memorial.first_name} ${memorial.last_name}`}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          <div className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.15)]" />
         </div>
 
-        <div className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.15)]" />
+        {/* NAME */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">
+          {memorial.first_name} {memorial.last_name}
+        </h1>
+
+        {/* EPITAPH */}
+        <p className="mt-6 text-lg sm:text-xl italic text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          “{epitaph}”
+        </p>
+
+        {/* DATES */}
+        {(birthDate || deathDate) && (
+          <p className="mt-4 text-sm text-muted-foreground">
+            {birthDate || '—'} – {deathDate || '—'}
+          </p>
+        )}
+
+        {/* BIO */}
+        {memorial.biography && (
+          <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
+            {memorial.biography}
+          </p>
+        )}
+
       </div>
-
-      {/* ============================================
-         NAME
-         ============================================ */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">
-        {memorial.first_name} {memorial.last_name}
-      </h1>
-
-      {/* ============================================
-         EPITAPH
-         ============================================ */}
-      <p className="mt-6 text-lg sm:text-xl italic text-muted-foreground max-w-xl mx-auto leading-relaxed">
-        “{epitaph}”
-      </p>
-
-      {/* ============================================
-         DATES
-         ============================================ */}
-      {(birthDate || deathDate) && (
-        <p className="mt-4 text-sm text-muted-foreground">
-          {birthDate || '—'} – {deathDate || '—'}
-        </p>
-      )}
-
-      {/* ============================================
-         BIO
-         ============================================ */}
-      {memorial.biography && (
-        <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
-          {memorial.biography}
-        </p>
-      )}
-
     </section>
   )
-        }
+}
