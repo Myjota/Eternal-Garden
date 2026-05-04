@@ -102,3 +102,65 @@
   background-repeat: no-repeat;
   min-height: 100vh;
 }
+
+/* ============================================
+   EPITAPH
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .memorial-epitaph {
+  color: oklch(0.50 0.10 290);
+  text-shadow: 0 0 10px oklch(0.75 0.14 290 / 0.15);
+}
+
+/* ============================================
+   PORTRAIT FRAME
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .portrait-frame {
+  box-shadow:
+    0 0 25px oklch(0.80 0.14 290 / 0.2),
+    inset 0 0 12px oklch(0.75 0.12 210 / 0.1);
+}
+
+/* ============================================
+   CANDLE
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .candle-glow {
+  filter: drop-shadow(0 0 10px oklch(0.80 0.15 290 / 0.6));
+}
+
+/* ============================================
+   TIMELINE
+   ============================================ */
+
+[data-theme="rainbow-bridge"] .timeline-line {
+  background: linear-gradient(180deg, oklch(0.85 0.12 350), oklch(0.80 0.12 210));
+}
+
+[data-theme="rainbow-bridge"] .timeline-dot {
+  background: oklch(0.68 0.14 290);
+  box-shadow: 0 0 0 4px oklch(0.98 0.015 300), 0 0 0 6px oklch(0.68 0.14 290);
+}
+
+[data-theme="rainbow-bridge"] .timeline-card {
+  border: 1px solid oklch(0.90 0.04 300);
+  background: oklch(0.995 0.01 300 / 0.9);
+}
+
+/* ============================================
+   AMBIENT OVERLAY
+   ============================================ */
+
+[data-theme="rainbow-bridge"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 20%,
+    oklch(0.80 0.12 290 / 0.06),
+    transparent 60%
+  );
+  z-index: -1;
+}

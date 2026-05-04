@@ -258,3 +258,47 @@
   width: 100%;
   height: auto;
 }
+
+/* ============================================
+   EPITAPH
+   ============================================ */
+
+[data-theme="marble"] .memorial-epitaph {
+  color: oklch(0.40 0.01 80);
+  text-shadow: 0 1px 2px oklch(0.90 0.01 80 / 0.5);
+}
+
+/* ============================================
+   PORTRAIT FRAME
+   ============================================ */
+
+[data-theme="marble"] .portrait-frame {
+  box-shadow:
+    0 0 20px oklch(0.70 0.05 80 / 0.15),
+    inset 0 0 10px oklch(0.80 0.02 80 / 0.1);
+}
+
+/* ============================================
+   CANDLE
+   ============================================ */
+
+[data-theme="marble"] .candle-glow {
+  filter: drop-shadow(0 0 8px oklch(0.70 0.10 80 / 0.5));
+}
+
+/* ============================================
+   AMBIENT OVERLAY
+   ============================================ */
+
+[data-theme="marble"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 20%,
+    oklch(0.70 0.05 80 / 0.04),
+    transparent 60%
+  );
+  z-index: -1;
+}
