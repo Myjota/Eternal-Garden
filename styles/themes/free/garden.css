@@ -54,10 +54,29 @@
   overflow: hidden;
   background: linear-gradient(
     135deg,
-    oklch(0.92 0.03 120 / 0.95),
-    oklch(0.96 0.02 140 / 0.98)
+    oklch(0.88 0.04 120 / 0.95),
+    oklch(0.94 0.03 140 / 0.98)
   );
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
+}
+
+/* Garden ambient overlay */
+[data-theme="garden"] .memorial-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 20%,
+    oklch(0.65 0.16 70 / 0.15),
+    transparent 40%
+  ),
+  radial-gradient(
+    circle at 70% 80%,
+    oklch(0.45 0.18 75 / 0.1),
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* 🔥 COVER IMAGE (LAYER 1) */
@@ -128,6 +147,9 @@
   line-height: 1.6;
   color: var(--foreground);
   opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
 }
 
 [data-theme="garden"] .memorial-cover p {
@@ -141,11 +163,15 @@
 [data-theme="garden"] .memorial-name {
   font-size: clamp(1.875rem, 4vw, 3rem);
   font-family: var(--font-serif);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--foreground);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-shadow: 
+    0 2px 12px rgba(0, 0, 0, 0.15),
+    0 0 30px oklch(0.65 0.16 70 / 0.2);
   margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 /* ============================================
@@ -216,30 +242,65 @@
 
 [data-theme="garden"] .portrait-frame {
   position: relative;
-  border-radius: 9999px;
-  padding: 6px;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 8px;
+  background: linear-gradient(
+    135deg,
+    oklch(0.92 0.02 120),
+    oklch(0.96 0.01 140)
+  );
+  border: 2px solid oklch(0.85 0.03 120 / 0.3);
+  box-shadow: 
+    0 15px 35px rgba(34, 197, 94, 0.2),
+    0 5px 15px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px oklch(0.98 0.002 120 / 0.4);
+  transition: all 0.3s ease;
+}
 
-  border: 1px solid oklch(0.80 0.01 55 / 0.4);
-  background: oklch(0.995 0.002 55);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.15),
-    inset 0 0 0 1px white;
+[data-theme="garden"] .portrait-frame:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 20px 45px rgba(34, 197, 94, 0.3),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px oklch(0.98 0.002 120 / 0.6);
 }
 
 [data-theme="garden"] .portrait-frame img {
-  border-radius: 9999px;
+  border-radius: 50%;
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Avatar glow */
 [data-theme="garden"] .portrait-frame::after {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  box-shadow: 0 0 60px rgba(0,0,0,0.15);
-  pointer-events: none;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(
+    45deg,
+    oklch(0.65 0.16 70 / 0.3),
+    oklch(0.45 0.18 75 / 0.2),
+    oklch(0.65 0.16 70 / 0.3)
+  );
+  z-index: -1;
+  animation: garden-glow 3s ease-in-out infinite;
+}
+
+@keyframes garden-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 
 /* ============================================
@@ -247,10 +308,14 @@
    ============================================ */
 
 [data-theme="garden"] .theme-glow-bg {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
   padding: 2rem;
   border-radius: var(--radius);
+  border: 1px solid oklch(0.85 0.03 120 / 0.3);
+  box-shadow: 
+    0 8px 32px rgba(34, 197, 94, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 /* ============================================

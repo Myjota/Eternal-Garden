@@ -95,33 +95,136 @@
   border-color: oklch(0.65 0.08 80 / 0.3);
 }
 
-/* Portrait frame */
-[data-theme="marble"] .theme-portrait-frame {
+/* ============================================
+   MEMORIAL HERO & PORTRAIT
+   ============================================ */
+
+[data-theme="marble"] .memorial-cover {
+  position: relative;
+  min-height: 70vh;
+  padding: 5rem 0;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    oklch(0.95 0.02 80 / 0.9),
+    oklch(0.98 0.01 70 / 0.95)
+  );
+  backdrop-filter: blur(3px);
+}
+
+[data-theme="marble"] .memorial-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+[data-theme="marble"] .memorial-bg-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+[data-theme="marble"] .memorial-hero-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+[data-theme="marble"] .memorial-content {
+  position: relative;
+  z-index: 20;
+}
+
+[data-theme="marble"] .memorial-profile-container {
+  position: relative;
+  margin: 0 auto 2rem;
+  height: 10rem;
+  width: 10rem;
+}
+
+@media (min-width: 640px) {
+  [data-theme="marble"] .memorial-profile-container {
+    height: 12rem;
+    width: 12rem;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-theme="marble"] .memorial-profile-container {
+    height: 14rem;
+    width: 14rem;
+  }
+}
+
+[data-theme="marble"] .portrait-frame {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 6px;
   background: linear-gradient(
     135deg,
     oklch(0.85 0.03 80),
     oklch(0.75 0.05 70)
   );
-  padding: 4px;
+  box-shadow: 
+    0 10px 30px oklch(0.6 0.05 80 / 0.15),
+    inset 0 0 0 1px oklch(0.98 0.002 80 / 0.3);
 }
 
-[data-theme="marble"] .memorial-hero {
-  position: relative;
-}
-
-[data-theme="marble"] .profile-image {
-  position: relative;
-  border-radius: 12px;
-}
-
-[data-theme="marble"] .profile-image-ornate {
-  padding: 6px;
-  background: linear-gradient(135deg, oklch(0.85 0.03 80), oklch(0.75 0.05 70));
-  box-shadow: 0 10px 30px oklch(0.6 0.05 80 / 0.15);
-}
-
-[data-theme="marble"] .memorial-hero-name {
+[data-theme="marble"] .memorial-name {
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
   text-shadow: 0 2px 20px oklch(0.6 0.05 80 / 0.15);
+  margin-bottom: 0.5rem;
+}
+
+[data-theme="marble"] .memorial-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--accent);
+  opacity: 0.9;
+}
+
+[data-theme="marble"] .memorial-epitaph {
+  margin-top: 1.5rem;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  font-style: italic;
+  max-width: 20rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  color: var(--foreground);
+  opacity: 0.9;
+}
+
+[data-theme="marble"] .memorial-dates {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+[data-theme="marble"] .memorial-bio {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 
