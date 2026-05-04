@@ -282,84 +282,129 @@
 
 [data-theme="marble"] .condolence-card time {
   opacity: 0.7;
-}
 
 
-/* =========================
-   MARBLE TIMELINE SYSTEM
-   ========================= */
+/* ============================================
+   MARBLE MEMORIAL TIMELINE
+   ============================================ */
 
-/* WRAPPER */
-[data-theme="marble"] .timeline {
-  position: relative;
-  max-width: 42rem;
+[data-theme="marble"] .memorial-timeline {
+  max-width: 32rem;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
+  padding-left: 2rem;
 }
 
-/* VERTICAL LINE (MAIN AXIS) */
-[data-theme="marble"] .timeline-line {
+[data-theme="marble"] .memorial-timeline-line {
   position: absolute;
-  left: 20px;   /* 🔥 single shared axis */
+  left: 2.75rem;
   top: 0;
   bottom: 0;
-  width: 2px;
-
-  background: oklch(0.85 0.02 80);
-  opacity: 0.6;
+  width: 0.125rem;
+  background: linear-gradient(
+    to bottom,
+    oklch(0.85 0.02 80),
+    oklch(0.75 0.05 70)
+  );
+  opacity: 0.7;
 }
 
-/* EVENT WRAPPER */
-[data-theme="marble"] .timeline-item {
+[data-theme="marble"] .memorial-timeline-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+[data-theme="marble"] .memorial-timeline-item {
   position: relative;
-  padding-left: 3rem; /* space for line + dot */
 }
 
-/* DOT (ALIGNED TO LINE) */
-[data-theme="marble"] .timeline-dot {
+[data-theme="marble"] .memorial-timeline-dot {
   position: absolute;
-
-  left: 20px; /* 🔥 MUST MATCH LINE */
-  top: 1.5rem; /* aligns with card top */
-
-  transform: translateX(-50%);
-
-  width: 10px;
-  height: 10px;
-
-  border-radius: 999px;
-
-  background: oklch(0.65 0.08 80);
-
-  box-shadow: 0 0 0 4px oklch(0.95 0.01 80);
+  left: -2rem;
+  top: 1.5rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.08 80),
+    oklch(0.60 0.10 70)
+  );
+  border: 4px solid oklch(0.985 0.002 80);
+  box-shadow: 
+    0 0 0 4px oklch(0.85 0.02 80 / 0.3),
+    0 2px 8px oklch(0.6 0.05 80 / 0.15);
 }
 
-/* CARD (OFFSET FROM AXIS) */
-[data-theme="marble"] .timeline-card {
-  border: 1px solid oklch(0.9 0.01 80);
-  border-radius: 14px;
-
-  background: oklch(1 0 0 / 0.85);
-
-  margin-bottom: 2rem;
+[data-theme="marble"] .memorial-timeline-card {
+  border: 1px solid oklch(0.88 0.01 80);
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.95),
+    oklch(0.985 0.002 80 / 0.9)
+  );
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 
+    0 4px 20px oklch(0.6 0.05 80 / 0.1),
+    inset 0 0 20px oklch(0.85 0.02 80 / 0.05);
+  transition: all 0.3s ease;
 }
 
-/* YEAR BADGE */
-[data-theme="marble"] .timeline-year {
-  background: oklch(0.96 0.005 80);
-  color: oklch(0.3 0.01 80);
-
-  border: 1px solid oklch(0.9 0.01 80);
-
-  border-radius: 999px;
-  padding: 2px 10px;
+[data-theme="marble"] .memorial-timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px oklch(0.6 0.05 80 / 0.15),
+    inset 0 0 30px oklch(0.85 0.02 80 / 0.08);
 }
 
-/* IMAGE FIX */
-[data-theme="marble"] .timeline-card img {
-  display: block;
+[data-theme="marble"] .memorial-timeline-image {
+  position: relative;
+  height: 12rem;
   width: 100%;
-  height: auto;
+}
+
+[data-theme="marble"] .memorial-timeline-year {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    135deg,
+    oklch(0.96 0.005 80),
+    oklch(0.94 0.008 70)
+  );
+  color: oklch(0.30 0.01 80);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  border: 1px solid oklch(0.85 0.02 80 / 0.4);
+  font-family: var(--font-serif);
+}
+
+[data-theme="marble"] .memorial-timeline-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: oklch(0.25 0.01 80);
+  line-height: 1.4;
+}
+
+[data-theme="marble"] .memorial-timeline-description {
+  color: oklch(0.35 0.01 80);
+  margin-top: 0.75rem;
+  line-height: 1.6;
+  font-family: var(--font-serif);
+}
+
+[data-theme="marble"] .memorial-timeline-location {
+  color: oklch(0.50 0.01 80);
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+  font-style: italic;
 }
 
 /* ============================================

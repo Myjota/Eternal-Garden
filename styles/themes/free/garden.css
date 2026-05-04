@@ -559,10 +559,26 @@
 }
 
 [data-theme="garden"] .memorial-timeline-card {
-  border: 1px solid var(--border / 0.5);
-  background: var(--card / 0.9);
-  backdrop-filter: blur(8px);
+  border: 1px solid oklch(0.85 0.03 120 / 0.4);
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 120 / 0.95),
+    oklch(0.96 0.02 140 / 0.9)
+  );
+  backdrop-filter: blur(12px);
   overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 
+    0 4px 20px rgba(34, 197, 94, 0.1),
+    inset 0 0 20px rgba(34, 197, 94, 0.05);
+  transition: all 0.3s ease;
+}
+
+[data-theme="garden"] .memorial-timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px rgba(34, 197, 94, 0.15),
+    inset 0 0 30px rgba(34, 197, 94, 0.08);
 }
 
 [data-theme="garden"] .memorial-timeline-image {
@@ -576,30 +592,39 @@
   align-items: center;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  background: var(--primary / 0.1);
-  color: var(--primary);
+  background: linear-gradient(
+    135deg,
+    oklch(0.92 0.02 120),
+    oklch(0.96 0.01 140)
+  );
+  color: oklch(0.35 0.08 55);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.75rem;
+  border: 1px solid oklch(0.85 0.03 120 / 0.3);
+  font-family: var(--font-serif);
 }
 
 [data-theme="garden"] .memorial-timeline-title {
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--foreground);
+  color: oklch(0.20 0.03 55);
+  line-height: 1.4;
 }
 
 [data-theme="garden"] .memorial-timeline-description {
-  color: var(--muted-foreground);
+  color: oklch(0.35 0.02 55);
   margin-top: 0.75rem;
   line-height: 1.6;
+  font-family: var(--font-sans);
 }
 
 [data-theme="garden"] .memorial-timeline-location {
-  color: var(--muted-foreground / 0.7);
+  color: oklch(0.45 0.08 55);
   font-size: 0.875rem;
   margin-top: 0.75rem;
+  font-style: italic;
 }
 
 /* ============================================
@@ -630,11 +655,24 @@
 [data-theme="garden"] .memorial-gallery-item {
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid oklch(0.85 0.03 120 / 0.4);
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 120 / 0.95),
+    oklch(0.96 0.02 140 / 0.9)
+  );
+  box-shadow: 
+    0 4px 15px rgba(34, 197, 94, 0.08),
+    inset 0 0 15px rgba(34, 197, 94, 0.03);
 }
 
 [data-theme="garden"] .memorial-gallery-item:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 25px rgba(34, 197, 94, 0.15),
+    inset 0 0 25px rgba(34, 197, 94, 0.06);
 }
 
 [data-theme="garden"] .memorial-gallery-image {
@@ -655,8 +693,12 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  background: var(--foreground / 0.1);
+  transition: opacity 0.3s ease;
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.16 70 / 0.15),
+    oklch(0.45 0.18 75 / 0.1)
+  );
 }
 
 [data-theme="garden"] .memorial-gallery-item:hover .memorial-gallery-overlay {
@@ -665,11 +707,14 @@
 
 [data-theme="garden"] .memorial-gallery-caption {
   font-size: 0.875rem;
-  color: var(--muted-foreground);
+  color: oklch(0.35 0.02 55);
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding: 0.75rem;
+  font-family: var(--font-sans);
+  font-style: italic;
 }
 
 /* ============================================
@@ -689,58 +734,66 @@
   max-width: 32rem;
   margin-left: auto;
   margin-right: auto;
+  border: 1px solid oklch(0.85 0.03 120 / 0.4);
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 120 / 0.95),
+    oklch(0.96 0.02 140 / 0.9)
+  );
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  box-shadow: 
+    0 4px 20px rgba(34, 197, 94, 0.1),
+    inset 0 0 20px rgba(34, 197, 94, 0.05);
+  transition: all 0.3s ease;
 }
 
-[data-theme="garden"] .memorial-condolences-form {
-  /* Card styling handled by theme-card-glow if needed */
+[data-theme="garden"] .memorial-condolences-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px rgba(34, 197, 94, 0.15),
+    inset 0 0 30px rgba(34, 197, 94, 0.08);
 }
 
 [data-theme="garden"] .memorial-condolences-title {
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--foreground);
+  color: oklch(0.20 0.03 55);
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(34, 197, 94, 0.2);
 }
 
 [data-theme="garden"] .memorial-condolences-submit {
   width: 100%;
   gap: 0.5rem;
-}
-
-@media (min-width: 640px) {
-  [data-theme="garden"] .memorial-condolences-submit {
-    width: auto;
-  }
-}
-
-[data-theme="garden"] .memorial-condolences-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-[data-theme="garden"] .memorial-condolences-item {
-  /* Card styling handled by theme classes */
-}
-
-[data-theme="garden"] .memorial-condolences-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
-}
-
-[data-theme="garden"] .memorial-condolences-author {
+  background: linear-gradient(
+    135deg,
+    oklch(0.65 0.16 70),
+    oklch(0.45 0.18 75)
+  );
+  color: oklch(0.98 0 0);
+  border: 1px solid oklch(0.85 0.03 120 / 0.3);
+  font-family: var(--font-serif);
   font-weight: 600;
-  color: var(--foreground);
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="garden"] .memorial-condolences-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
 }
 
 [data-theme="garden"] .memorial-condolences-date {
   font-size: 0.75rem;
-  color: var(--muted-foreground);
+  color: oklch(0.45 0.08 55);
+  font-style: italic;
 }
 
 [data-theme="garden"] .memorial-condolences-message {
-  color: var(--muted-foreground);
+  color: oklch(0.35 0.02 55);
   line-height: 1.6;
+  font-family: var(--font-sans);
 }

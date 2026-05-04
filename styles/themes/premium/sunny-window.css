@@ -260,6 +260,385 @@
 }
 
 /* ============================================
+   SUNNY WINDOW MEMORIAL TIMELINE
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-timeline {
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-left: 2rem;
+}
+
+[data-theme="sunny-window"] .memorial-timeline-line {
+  position: absolute;
+  left: 2.75rem;
+  top: 0;
+  bottom: 0;
+  width: 0.125rem;
+  background: linear-gradient(
+    to bottom,
+    oklch(0.68 0.16 75),
+    oklch(0.60 0.15 85)
+  );
+  opacity: 0.8;
+  box-shadow: 0 0 15px oklch(0.80 0.18 75 / 0.3);
+}
+
+[data-theme="sunny-window"] .memorial-timeline-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+[data-theme="sunny-window"] .memorial-timeline-item {
+  position: relative;
+}
+
+[data-theme="sunny-window"] .memorial-timeline-dot {
+  position: absolute;
+  left: -2rem;
+  top: 1.5rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    oklch(0.68 0.16 75),
+    oklch(0.60 0.15 85)
+  );
+  border: 4px solid oklch(0.995 0.01 85);
+  box-shadow: 
+    0 0 0 4px oklch(0.80 0.18 75 / 0.3),
+    0 2px 8px oklch(0.80 0.18 75 / 0.2);
+}
+
+[data-theme="sunny-window"] .memorial-timeline-card {
+  border: 1px solid oklch(0.90 0.04 85);
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.95),
+    oklch(0.985 0.002 85 / 0.9)
+  );
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 
+    0 4px 20px oklch(0.80 0.18 75 / 0.12),
+    inset 0 0 20px oklch(0.80 0.18 75 / 0.05);
+  transition: all 0.3s ease;
+}
+
+[data-theme="sunny-window"] .memorial-timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px oklch(0.80 0.18 75 / 0.2),
+    inset 0 0 30px oklch(0.80 0.18 75 / 0.08);
+}
+
+[data-theme="sunny-window"] .memorial-timeline-image {
+  position: relative;
+  height: 12rem;
+  width: 100%;
+}
+
+[data-theme="sunny-window"] .memorial-timeline-year {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    135deg,
+    oklch(0.68 0.16 75),
+    oklch(0.60 0.15 85)
+  );
+  color: oklch(0.98 0 0);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  border: 1px solid oklch(0.90 0.04 85 / 0.4);
+  font-family: 'Lato', sans-serif;
+  text-shadow: 0 1px 2px oklch(0.80 0.18 75 / 0.3);
+}
+
+[data-theme="sunny-window"] .memorial-timeline-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: oklch(0.20 0.03 75);
+  line-height: 1.4;
+  text-shadow: 0 1px 2px oklch(0.80 0.18 75 / 0.2);
+}
+
+[data-theme="sunny-window"] .memorial-timeline-description {
+  color: oklch(0.35 0.02 75);
+  margin-top: 0.75rem;
+  line-height: 1.6;
+  font-family: 'Lato', sans-serif;
+}
+
+[data-theme="sunny-window"] .memorial-timeline-location {
+  color: oklch(0.68 0.16 75);
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+  font-style: italic;
+  text-shadow: 0 1px 2px oklch(0.80 0.18 75 / 0.2);
+}
+
+/* ============================================
+   SUNNY WINDOW MEMORIAL GALLERY
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  [data-theme="sunny-window"] .memorial-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-theme="sunny-window"] .memorial-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+[data-theme="sunny-window"] .memorial-gallery-item {
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid oklch(0.90 0.04 85);
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.95),
+    oklch(0.985 0.002 85 / 0.9)
+  );
+  box-shadow: 
+    0 4px 15px oklch(0.80 0.18 75 / 0.08),
+    inset 0 0 15px oklch(0.80 0.18 75 / 0.03);
+}
+
+[data-theme="sunny-window"] .memorial-gallery-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 25px oklch(0.80 0.18 75 / 0.15),
+    inset 0 0 25px oklch(0.80 0.18 75 / 0.06);
+}
+
+[data-theme="sunny-window"] .memorial-gallery-image {
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+[data-theme="sunny-window"] .memorial-gallery-img {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+[data-theme="sunny-window"] .memorial-gallery-item:hover .memorial-gallery-img {
+  transform: scale(1.05);
+}
+
+[data-theme="sunny-window"] .memorial-gallery-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: linear-gradient(
+    135deg,
+    oklch(0.80 0.18 75 / 0.2),
+    oklch(0.68 0.16 75 / 0.15)
+  );
+}
+
+[data-theme="sunny-window"] .memorial-gallery-item:hover .memorial-gallery-overlay {
+  opacity: 1;
+}
+
+[data-theme="sunny-window"] .memorial-gallery-caption {
+  font-size: 0.875rem;
+  color: oklch(0.35 0.02 75);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.75rem;
+  font-family: 'Lato', sans-serif;
+  font-style: italic;
+}
+
+/* ============================================
+   SUNNY WINDOW MEMORIAL CONDOLENCES
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-condolences {
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+[data-theme="sunny-window"] .memorial-condolences-card {
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid oklch(0.90 0.04 85);
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.95),
+    oklch(0.985 0.002 85 / 0.9)
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 0.75rem;
+  box-shadow: 
+    0 4px 20px oklch(0.80 0.18 75 / 0.12),
+    inset 0 0 20px oklch(0.80 0.18 75 / 0.05);
+  transition: all 0.3s ease;
+}
+
+[data-theme="sunny-window"] .memorial-condolences-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px oklch(0.80 0.18 75 / 0.2),
+    inset 0 0 30px oklch(0.80 0.18 75 / 0.08);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-form {
+  padding: 1.5rem;
+}
+
+[data-theme="sunny-window"] .memorial-condolences-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: oklch(0.20 0.03 75);
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 0 1px 4px oklch(0.80 0.18 75 / 0.3);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-submit {
+  width: 100%;
+  gap: 0.5rem;
+  background: linear-gradient(
+    135deg,
+    oklch(0.68 0.16 75),
+    oklch(0.60 0.15 85)
+  );
+  color: oklch(0.98 0 0);
+  border: 1px solid oklch(0.90 0.04 85 / 0.4);
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px oklch(0.80 0.18 75 / 0.3);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px oklch(0.80 0.18 75 / 0.25);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+[data-theme="sunny-window"] .memorial-condolences-item {
+  border: 1px solid oklch(0.90 0.04 85);
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.95),
+    oklch(0.985 0.002 85 / 0.9)
+  );
+  border-radius: 0.75rem;
+  box-shadow: 
+    0 2px 10px oklch(0.80 0.18 75 / 0.08),
+    inset 0 0 15px oklch(0.80 0.18 75 / 0.05);
+  transition: all 0.3s ease;
+}
+
+[data-theme="sunny-window"] .memorial-condolences-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 20px oklch(0.80 0.18 75 / 0.15),
+    inset 0 0 25px oklch(0.80 0.18 75 / 0.08);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid oklch(0.80 0.18 75 / 0.3);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-author {
+  font-weight: 600;
+  color: oklch(0.20 0.03 75);
+  font-family: 'Lato', sans-serif;
+}
+
+[data-theme="sunny-window"] .memorial-condolences-date {
+  font-size: 0.75rem;
+  color: oklch(0.68 0.16 75);
+  font-style: italic;
+  text-shadow: 0 1px 2px oklch(0.80 0.18 75 / 0.2);
+}
+
+[data-theme="sunny-window"] .memorial-condolences-message {
+  color: oklch(0.35 0.02 75);
+  line-height: 1.6;
+  font-family: 'Lato', sans-serif;
+  padding: 0 1rem 1rem;
+}
+
+/* ============================================
+   SUNNY WINDOW MEMORIAL TABS
+   ============================================ */
+
+[data-theme="sunny-window"] .memorial-tabs-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+[data-theme="sunny-window"] .memorial-tabs-nav {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 18rem;
+  margin-left: auto;
+  margin-right: auto;
+  background: linear-gradient(
+    135deg,
+    oklch(1 0 0 / 0.95),
+    oklch(0.985 0.002 85 / 0.9)
+  );
+  border: 1px solid oklch(0.90 0.04 85);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  box-shadow: 
+    0 4px 20px oklch(0.80 0.18 75 / 0.12),
+    inset 0 0 15px oklch(0.80 0.18 75 / 0.05);
+}
+
+/* ============================================
    MEMORIAL INTERACTIVE AREAS
    ============================================ */
 
