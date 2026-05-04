@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ThemeId, themeConfigs } from '@/lib/themes/config'
+import { ThemeId } from '@/lib/themes/config'
 
 interface MemorialHeroProps {
   memorial: any
@@ -24,34 +24,33 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // 🔐 SAFE IMAGE VALIDATION
-  const isValidImage = (url?: string | null) =>
-    typeof url === 'string' && url.trim().length > 0
+  // 🔐 ONLY REAL COVER FROM SUPABASE
+  const hasCover =
+    typeof memorial.cover_image_url === 'string' &&
+    memorial.cover_image_url.trim().length > 0
 
-  // 🧠 HERO IMAGE PRIORITY SYSTEM (SAFE)
-  const heroImage = isValidImage(memorial.cover_image_url)
-    ? memorial.cover_image_url
-    : themeConfigs?.[theme]?.heroImage ||
-      '/images/logo.png'
-
-  // 🧠 PROFILE IMAGE SAFETY (optional improvement)
-  const profileImage = isValidImage(memorial.profile_image_url)
-    ? memorial.profile_image_url
-    : '/images/logo.png'
+  const profileImage =
+    typeof memorial.profile_image_url === 'string' &&
+    memorial.profile_image_url.trim().length > 0
+      ? memorial.profile_image_url
+      : '/images/logo.png'
 
   return (
     <section className="relative py-20 text-center overflow-hidden">
 
-      {/* 🌿 HERO BACKGROUND */}
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src={heroImage}
-          alt=""
-          fill
-          priority
-          unoptimized={!heroImage.startsWith('/')}
-          className="object-cover scale-110 blur-sm opacity-40"
-        />
+      {/* 🌿 COVER AREA (CSS fallback ALWAYS active when no image) */}
+      <div className="absolute inset-0 -z-10 memorial-cover">
+
+        {/* ONLY render image if exists */}
+        {hasCover && (
+          <Image
+            src={memorial.cover_image_url}
+            alt=""
+            fill
+            priority
+            className="object-cover scale-110 blur-sm opacity-40"
+          />
+        )}
 
         {/* readability layer */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white" />
@@ -70,7 +69,6 @@ export function MemorialHero({
           />
         </div>
 
-        {/* glow */}
         <div className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(0,0,0,0.15)]" />
       </div>
 
