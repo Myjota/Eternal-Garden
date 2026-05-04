@@ -27,27 +27,17 @@ export function MemorialHero({ memorial }) {
   return (
     <section className="relative py-20 text-center overflow-hidden theme-hero">
 
-      {/* 🌿 CINEMATIC BACKGROUND */}
+      {/* 🌿 CINEMATIC OVERLAY (keeps garden.webp from CSS) */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
 
-        {/* base image */}
-        <Image
-          src={imageSrc}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover scale-105 opacity-40"
-        />
+        {/* soft depth */}
+        <div className="absolute inset-0 backdrop-blur-[4px]" />
 
-        {/* soft depth blur */}
-        <div className="absolute inset-0 backdrop-blur-[6px]" />
-
-        {/* vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.25))]" />
+        {/* vignette (focus center) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_45%,rgba(0,0,0,0.25))]" />
 
         {/* light gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/30 to-white" />
 
       </div>
 
