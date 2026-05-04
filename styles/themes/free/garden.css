@@ -7,7 +7,7 @@
   isolation: isolate;
 
   /* Core colors */
-  --primary: oklch(0.35 0.12 145);
+  --primary: oklch(0.35 0.12 40);
   --primary-foreground: oklch(0.98 0 0);
 
   --secondary: oklch(0.95 0.02 145);
