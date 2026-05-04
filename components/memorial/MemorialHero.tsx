@@ -3,10 +3,16 @@
 import Image from 'next/image'
 import { ThemeId, themeConfigs } from '@/lib/themes/config'
 
+interface MemorialHeroProps {
+  memorial: any
+  theme?: ThemeId
+}
+
 export function MemorialHero({
   memorial,
-  theme = 'garden' as ThemeId,
-}) {
+  theme = 'garden',
+}: MemorialHeroProps) {
+
   const birthDate = memorial.birth_date
     ? new Date(memorial.birth_date).toLocaleDateString('lt-LT')
     : null
@@ -18,22 +24,32 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // 🧠 HERO IMAGE PRIORITY SYSTEM (FIXED)
-  const heroImage =
-    memorial.cover_image_url ||
-    themeConfigs[theme]?.heroImage ||
-    '/images/logo.png'
+  // 🔐 SAFE IMAGE VALIDATION
+  const isValidImage = (url?: string | null) =>
+    typeof url === 'string' && url.trim().length > 0
+
+  // 🧠 HERO IMAGE PRIORITY SYSTEM (SAFE)
+  const heroImage = isValidImage(memorial.cover_image_url)
+    ? memorial.cover_image_url
+    : themeConfigs?.[theme]?.heroImage ||
+      '/images/logo.png'
+
+  // 🧠 PROFILE IMAGE SAFETY (optional improvement)
+  const profileImage = isValidImage(memorial.profile_image_url)
+    ? memorial.profile_image_url
+    : '/images/logo.png'
 
   return (
     <section className="relative py-20 text-center overflow-hidden">
 
-      {/* 🌿 HERO BACKGROUND (THEME + MEMORIAL COVER) */}
+      {/* 🌿 HERO BACKGROUND */}
       <div className="absolute inset-0 -z-10">
         <Image
           src={heroImage}
           alt=""
           fill
           priority
+          unoptimized={!heroImage.startsWith('/')}
           className="object-cover scale-110 blur-sm opacity-40"
         />
 
@@ -41,11 +57,12 @@ export function MemorialHero({
         <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white" />
       </div>
 
-      {/* PROFILE IMAGE (identity layer ONLY) */}
+      {/* PROFILE IMAGE */}
       <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">
         <div className="relative h-full w-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
+
           <Image
-            src={memorial.profile_image_url || '/images/logo.png'}
+            src={profileImage}
             alt={`${memorial.first_name} ${memorial.last_name}`}
             fill
             className="object-cover"
