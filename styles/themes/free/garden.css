@@ -114,6 +114,37 @@
 }
 
 /* ============================================
+   MEMORIAL NAME
+   ============================================ */
+
+[data-theme="garden"] .memorial-name {
+  font-size: 3rem;
+  font-family: serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+/* ============================================
+   MEMORIAL DATES
+   ============================================ */
+
+[data-theme="garden"] .memorial-dates {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   MEMORIAL BIO
+   ============================================ */
+
+[data-theme="garden"] .memorial-bio {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* ============================================
    PORTRAIT FRAME
    ============================================ */
 

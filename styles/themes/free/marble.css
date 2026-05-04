@@ -269,6 +269,75 @@
 }
 
 /* ============================================
+   MEMORIAL COVER STRUCTURE
+   ============================================ */
+
+[data-theme="marble"] .memorial-cover {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 70vh;
+  padding: 5rem 1rem;
+}
+
+[data-theme="marble"] .memorial-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+[data-theme="marble"] .memorial-bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.1);
+  filter: blur(4px);
+  opacity: 0.4;
+}
+
+[data-theme="marble"] .memorial-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================
+   MEMORIAL NAME
+   ============================================ */
+
+[data-theme="marble"] .memorial-name {
+  font-size: 3rem;
+  font-family: serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+/* ============================================
+   MEMORIAL DATES
+   ============================================ */
+
+[data-theme="marble"] .memorial-dates {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   MEMORIAL BIO
+   ============================================ */
+
+[data-theme="marble"] .memorial-bio {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* ============================================
    PORTRAIT FRAME
    ============================================ */
 

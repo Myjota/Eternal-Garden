@@ -42,34 +42,36 @@ export function MemorialHero({
     normalizeImage(memorial.profile_image_url) || '/images/logo.png'  
   
   return (  
-    <section className="relative min-h-[70vh] py-20 text-center overflow-hidden">  
+    <section className="memorial-cover min-h-[70vh] py-20 text-center overflow-hidden">  
   
       {/* ============================================  
           BACKGROUND (CSS THEME HANDLES EVERYTHING)  
           ============================================ */}  
-      <div className="absolute inset-0 z-0">  
+      <div className="memorial-bg-wrapper absolute inset-0 z-0">  
   
-        {/* ONLY IMAGE OVERLAY (NO COLORS) */}  
+        {/* COVER IMAGE (LAYER 1) */}  
         {coverImage && (  
-          <Image  
-            src={coverImage}  
-            alt=""  
-            fill  
-            priority  
-            className="object-cover scale-110 blur-sm opacity-40"  
-          />  
+          <div className="memorial-bg-image">  
+            <Image  
+              src={coverImage}  
+              alt=""  
+              fill  
+              priority  
+              className="object-cover"  
+            />  
+          </div>  
         )}  
   
       </div>  
   
       {/* ============================================  
-          CONTENT  
+          CONTENT (LAYER 2)  
           ============================================ */}  
-      <div className="relative z-20">  
+      <div className="memorial-content relative z-20">  
   
         {/* PROFILE IMAGE */}  
         <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">  
-          <div className="relative h-full w-full rounded-full overflow-hidden border-4 border-white shadow-2xl">  
+          <div className="portrait-frame relative h-full w-full rounded-full overflow-hidden">  
   
             <Image  
               src={profileImage}  
@@ -84,25 +86,25 @@ export function MemorialHero({
         </div>  
   
         {/* NAME */}  
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">  
+        <h1 className="memorial-name text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">  
           {memorial.first_name} {memorial.last_name}  
         </h1>  
   
         {/* EPITAPH */}  
-        <p className="mt-6 text-lg sm:text-xl italic text-muted-foreground max-w-xl mx-auto leading-relaxed">  
-          “{epitaph}”  
+        <p className="memorial-epitaph mt-6 text-lg sm:text-xl italic max-w-xl mx-auto leading-relaxed">  
+          "{epitaph}"  
         </p>  
   
         {/* DATES */}  
         {(birthDate || deathDate) && (  
-          <p className="mt-4 text-sm text-muted-foreground">  
+          <p className="memorial-dates mt-4 text-sm text-muted-foreground">  
             {birthDate || '—'} – {deathDate || '—'}  
           </p>  
         )}  
   
         {/* BIO */}  
         {memorial.biography && (  
-          <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">  
+          <p className="memorial-bio mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">  
             {memorial.biography}  
           </p>  
         )}  
