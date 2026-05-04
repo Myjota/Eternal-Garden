@@ -68,16 +68,6 @@
   transform: translateZ(0);
   will-change: transform;
 }
-
-/* ============================================
-   PATTERN
-   ============================================ */
-
-[data-theme="garden"] .theme-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.05'/%3E%3C/svg%3E");
-  background-size: 80px 80px;
-}
-
 /* ============================================
    HERO GLOW
    ============================================ */
