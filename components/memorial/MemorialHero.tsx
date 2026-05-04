@@ -23,14 +23,18 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // ✅ SAFE CHECK
+  // ✅ STRICT SAFE CHECK (Supabase dažnai duoda "null" string arba whitespace)
   const hasCover =
     typeof memorial.cover_image_url === 'string' &&
-    memorial.cover_image_url.trim().length > 0
+    memorial.cover_image_url.trim() !== '' &&
+    memorial.cover_image_url.trim().toLowerCase() !== 'null'
+
+  const coverImage = hasCover ? memorial.cover_image_url : null
 
   const profileImage =
     typeof memorial.profile_image_url === 'string' &&
-    memorial.profile_image_url.trim().length > 0
+    memorial.profile_image_url.trim() !== '' &&
+    memorial.profile_image_url.trim().toLowerCase() !== 'null'
       ? memorial.profile_image_url
       : '/images/logo.png'
 
@@ -38,26 +42,27 @@ export function MemorialHero({
     <section className="relative min-h-[70vh] py-20 text-center overflow-hidden">
 
       {/* ============================================
-         HERO BACKGROUND LAYER
-         ============================================ */}
-      <div className="absolute inset-0 memorial-cover">
+          HERO BACKGROUND LAYER (ALWAYS VISIBLE)
+          ============================================ */}
+      <div className="absolute inset-0 memorial-cover z-0">
 
-        {hasCover && (
+        {/* ONLY render image if valid */}
+        {coverImage && (
           <Image
-            src={memorial.cover_image_url}
+            src={coverImage}
             alt=""
             fill
             priority
-            className="object-cover scale-110 blur-sm opacity-40"
+            className="object-cover scale-110 blur-sm opacity-40 z-10"
           />
         )}
 
       </div>
 
       {/* ============================================
-         CONTENT (always above background)
-         ============================================ */}
-      <div className="relative z-10">
+          CONTENT
+          ============================================ */}
+      <div className="relative z-20">
 
         {/* PROFILE IMAGE */}
         <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56">
