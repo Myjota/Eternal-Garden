@@ -48,16 +48,17 @@
 
 [data-theme="garden"] .memorial-cover {
   position: relative;
-  min-height: 70vh;
-  padding: 5rem 0;
+  min-height: 85vh;
+  padding: 6rem 0;
   text-align: center;
   overflow: hidden;
   background: linear-gradient(
     135deg,
-    oklch(0.88 0.04 120 / 0.95),
-    oklch(0.94 0.03 140 / 0.98)
+    oklch(0.92 0.02 120 / 0.98),
+    oklch(0.96 0.01 140 / 0.95),
+    oklch(0.94 0.03 130 / 0.92)
   );
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
 }
 
 /* Garden ambient overlay */
@@ -66,17 +67,34 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at 30% 20%,
-    oklch(0.65 0.16 70 / 0.15),
-    transparent 40%
+    circle at 20% 15%,
+    oklch(0.65 0.16 70 / 0.25),
+    transparent 45%
   ),
   radial-gradient(
-    circle at 70% 80%,
-    oklch(0.45 0.18 75 / 0.1),
-    transparent 50%
+    circle at 80% 85%,
+    oklch(0.45 0.18 75 / 0.18),
+    transparent 55%
+  ),
+  radial-gradient(
+    circle at 50% 50%,
+    oklch(0.75 0.12 120 / 0.08),
+    transparent 70%
   );
   pointer-events: none;
   z-index: 1;
+  animation: garden-ambient 8s ease-in-out infinite alternate;
+}
+
+@keyframes garden-ambient {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 /* 🔥 COVER IMAGE (LAYER 1) */
@@ -138,18 +156,30 @@
 }
 
 [data-theme="garden"] .memorial-epitaph {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   font-size: clamp(1.125rem, 3vw, 1.5rem);
   font-style: italic;
-  max-width: 20rem;
+  max-width: 24rem;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
-  color: var(--foreground);
-  opacity: 0.9;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  color: oklch(0.35 0.02 55);
+  opacity: 0.95;
+  text-shadow: 
+    0 1px 4px rgba(34, 197, 94, 0.15),
+    0 0 20px oklch(0.65 0.16 70 / 0.1);
   position: relative;
   z-index: 2;
+  font-family: var(--font-sans);
+  padding: 1rem;
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 120 / 0.4),
+    oklch(0.96 0.02 140 / 0.3)
+  );
+  border-radius: 0.75rem;
+  border: 1px solid oklch(0.85 0.03 120 / 0.3);
+  backdrop-filter: blur(12px);
 }
 
 [data-theme="garden"] .memorial-cover p {
@@ -161,17 +191,27 @@
    ============================================ */
 
 [data-theme="garden"] .memorial-name {
-  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-family: var(--font-serif);
   font-weight: 700;
   letter-spacing: -0.025em;
-  color: var(--foreground);
+  color: oklch(0.20 0.03 55);
   text-shadow: 
-    0 2px 12px rgba(0, 0, 0, 0.15),
-    0 0 30px oklch(0.65 0.16 70 / 0.2);
-  margin-bottom: 0.5rem;
+    0 2px 12px rgba(34, 197, 94, 0.2),
+    0 0 40px oklch(0.65 0.16 70 / 0.3),
+    0 4px 20px oklch(0.45 0.18 75 / 0.15);
+  margin-bottom: 1rem;
   position: relative;
   z-index: 2;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 120 / 0.2),
+    oklch(0.96 0.02 140 / 0.15)
+  );
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid oklch(0.85 0.03 120 / 0.2);
 }
 
 /* ============================================
@@ -179,8 +219,20 @@
    ============================================ */
 
 [data-theme="garden"] .memorial-dates {
-  color: var(--muted-foreground);
+  color: oklch(0.45 0.08 55);
   font-size: 0.875rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px oklch(0.65 0.16 70 / 0.2);
+  padding: 0.5rem 1rem;
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 120 / 0.3),
+    oklch(0.96 0.02 140 / 0.25)
+  );
+  border-radius: 2rem;
+  border: 1px solid oklch(0.85 0.03 120 / 0.3);
+  backdrop-filter: blur(8px);
+  display: inline-block;
 }
 
 /* ============================================
