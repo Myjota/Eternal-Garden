@@ -20,12 +20,14 @@ export function MemorialHero({ memorial }) {
     memorial.profile_image_url ||
     'https://images.unsplash.com/photo-1520975922284-9d5d0c8f5c1b?q=80&w=1200&auto=format&fit=crop'
 
-  const fullName = `${memorial.first_name ?? ''} ${memorial.last_name ?? ''}`.trim()
+  const fullName =
+    `${memorial.first_name ?? ''} ${memorial.last_name ?? ''}`.trim() ||
+    'Nežinomas asmuo'
 
   return (
     <section className="relative py-20 text-center overflow-hidden theme-hero">
 
-      {/* 🌿 BACKGROUND */}
+      {/* BACKGROUND */}
       <div className="absolute inset-0 -z-10">
         <Image
           src={imageSrc}
@@ -38,40 +40,40 @@ export function MemorialHero({ memorial }) {
         <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white" />
       </div>
 
-      {/* 🌿 PROFILE IMAGE WRAPPER */}
+      {/* PORTRAIT */}
       <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56 portrait-frame">
 
-        <div className="relative h-full w-full overflow-hidden">
+        <div className="relative h-full w-full overflow-hidden rounded-full">
           <Image
             src={imageSrc}
             alt={fullName}
             fill
             sizes="(max-width: 768px) 40vw, 220px"
-            className="object-cover rounded-full"
+            className="object-cover"
             priority
           />
         </div>
 
       </div>
 
-      {/* 🌿 NAME */}
+      {/* NAME */}
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">
         {fullName}
       </h1>
 
-      {/* 🌿 EPITAPH */}
+      {/* EPITAPH */}
       <p className="mt-6 text-lg sm:text-xl italic max-w-xl mx-auto leading-relaxed memorial-epitaph">
         “{epitaph}”
       </p>
 
-      {/* 🌿 DATES */}
+      {/* DATES */}
       {(birthDate || deathDate) && (
         <p className="mt-4 text-sm text-muted-foreground">
           {birthDate || '—'} – {deathDate || '—'}
         </p>
       )}
 
-      {/* 🌿 BIO */}
+      {/* BIO */}
       {memorial.biography && (
         <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
           {memorial.biography}
