@@ -33,33 +33,33 @@ export function GalleryTab({ items }: GalleryTabProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+    <div className="memorial-gallery">
 
       {items.map((item) => (
         <Card
           key={item.id}
-          className="overflow-hidden theme-card group cursor-pointer transition-transform hover:scale-[1.02]"
+          className="memorial-gallery-item"
         >
 
           {/* Media */}
-          <div className="aspect-square relative">
+          <div className="memorial-gallery-image">
 
             <Image
               src={item.thumbnail_url || item.url}
               alt={item.caption || 'Gallery image'}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="memorial-gallery-img"
             />
 
             {/* Theme-aware overlay */}
-            <div className="absolute inset-0 theme-image-overlay opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="memorial-gallery-overlay" />
 
           </div>
 
           {/* Caption */}
           {item.caption && (
             <CardContent className="p-3">
-              <p className="text-sm text-muted-foreground text-center truncate">
+              <p className="memorial-gallery-caption">
                 {item.caption}
               </p>
             </CardContent>

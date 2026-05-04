@@ -25,7 +25,7 @@ export function MemorialActions({
   alreadyLitLabel = 'Žvakė jau uždegta',
 }: MemorialActionsProps) {
   return (
-    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+    <div className="memorial-actions">
 
       {/* Candle button */}
       {allowCandles && (
@@ -33,10 +33,10 @@ export function MemorialActions({
           onClick={onLightCandle}
           disabled={hasLitCandle || isLoading}
           size="lg"
-          className="gap-3 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-shadow"
+          className="memorial-candle-button"
         >
           {/* Theme-driven effect ONLY via CSS */}
-          <Flame className="h-6 w-6 candle-glow" />
+          <Flame className="h-6 w-6 memorial-candle-icon" />
 
           {hasLitCandle ? alreadyLitLabel : lightLabel}
         </Button>
@@ -47,7 +47,7 @@ export function MemorialActions({
         variant="ghost"
         size="lg"
         onClick={onShare}
-        className="gap-2"
+        className="memorial-share-button"
       >
         <Share2 className="h-5 w-5" />
         Share

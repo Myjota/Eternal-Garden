@@ -20,12 +20,12 @@ export function MemorialTabs({
   condolences,
 }: MemorialTabsProps) {
   return (
-    <section className="container mx-auto px-4 py-12 relative z-10">
+    <section className="memorial-tabs-container">
 
       <Tabs defaultValue="timeline" className="w-full">
 
         {/* NAV */}
-        <TabsList className="grid w-full grid-cols-3 max-w-lg mx-auto theme-tabs">
+        <TabsList className="memorial-tabs-nav">
 
           <TabsTrigger value="timeline" className="gap-2">
             <Clock className="h-4 w-4" />

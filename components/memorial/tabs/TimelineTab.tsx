@@ -34,24 +34,24 @@ export function TimelineTab({ events }: TimelineTabProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto relative pl-8">
+    <div className="memorial-timeline">
 
       {/* Timeline line (theme-driven) */}
-      <div className="timeline-line absolute left-[11px] top-0 bottom-0 w-0.5" />
+      <div className="memorial-timeline-line" />
 
-      <div className="space-y-8">
+      <div className="memorial-timeline-events">
 
         {events.map((event) => (
-          <div key={event.id} className="relative">
+          <div key={event.id} className="memorial-timeline-item">
 
             {/* Dot (theme-driven) */}
-            <div className="timeline-dot absolute -left-8 top-6" />
+            <div className="memorial-timeline-dot" />
 
-            <Card className="border-border/50 bg-card/90 backdrop-blur overflow-hidden">
+            <Card className="memorial-timeline-card">
 
               {/* Optional image */}
               {event.image_url && (
-                <div className="relative h-48 w-full">
+                <div className="memorial-timeline-image">
                   <Image
                     src={event.image_url}
                     alt={event.title}
@@ -65,26 +65,26 @@ export function TimelineTab({ events }: TimelineTabProps) {
 
                 {/* Year badge */}
                 {event.event_date && (
-                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
+                  <div className="memorial-timeline-year">
                     {new Date(event.event_date).getFullYear()}
                   </div>
                 )}
 
                 {/* Title */}
-                <h3 className="font-serif text-xl font-semibold text-foreground">
+                <h3 className="memorial-timeline-title">
                   {event.title}
                 </h3>
 
                 {/* Description */}
                 {event.description && (
-                  <p className="text-muted-foreground mt-3 leading-relaxed">
+                  <p className="memorial-timeline-description">
                     {event.description}
                   </p>
                 )}
 
                 {/* Location */}
                 {event.location && (
-                  <p className="text-muted-foreground/70 text-sm mt-3">
+                  <p className="memorial-timeline-location">
                     📍 {event.location}
                   </p>
                 )}

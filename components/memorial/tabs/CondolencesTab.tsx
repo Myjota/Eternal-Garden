@@ -45,7 +45,7 @@ export function CondolencesTab({
 
   if (!items.length && !allowCondolences) {
     return (
-      <Card className="condolence-card max-w-2xl mx-auto">
+      <Card className="memorial-condolences-card">
         <CardContent className="p-12">
           <Empty
             icon={MessageCircle}
@@ -58,15 +58,15 @@ export function CondolencesTab({
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
+    <div className="memorial-condolences">
 
       {/* FORM */}
       {allowCondolences && (
-        <Card className="condolence-card">
+        <Card className="memorial-condolences-form">
 
           <CardContent className="p-6 space-y-4">
 
-            <h3 className="font-serif text-xl font-semibold text-foreground">
+            <h3 className="memorial-condolences-title">
               Palikti žinutę
             </h3>
 
@@ -86,7 +86,7 @@ export function CondolencesTab({
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting || !name.trim() || !message.trim()}
-              className="w-full sm:w-auto gap-2"
+              className="memorial-condolences-submit"
             >
               <Heart className="h-4 w-4" />
               Siųsti
@@ -99,33 +99,33 @@ export function CondolencesTab({
       {/* LIST */}
       {items.length === 0 ? (
         allowCondolences ? null : (
-          <Card className="condolence-card">
+          <Card className="memorial-condolences-card">
             <CardContent className="p-12 text-center text-muted-foreground">
               Dar nėra paliktų žinučių
             </CardContent>
           </Card>
         )
       ) : (
-        <div className="space-y-4">
+        <div className="memorial-condolences-list">
 
           {items.map((c) => (
-            <Card key={c.id} className="condolence-card">
+            <Card key={c.id} className="memorial-condolences-item">
 
               <CardContent className="p-5">
 
-                <div className="flex items-center justify-between mb-3">
+                <div className="memorial-condolences-header">
 
-                  <span className="font-semibold text-foreground">
+                  <span className="memorial-condolences-author">
                     {c.author_name}
                   </span>
 
-                  <time className="text-xs text-muted-foreground">
+                  <time className="memorial-condolences-date">
                     {format(new Date(c.created_at), 'yyyy-MM-dd', { locale: lt })}
                   </time>
 
                 </div>
 
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="memorial-condolences-message">
                   {c.message}
                 </p>
 
