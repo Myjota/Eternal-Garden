@@ -1,141 +1,83 @@
-/* ============================================
-   GARDEN THEME - MEMORIAL CORE (FIXED)
-   ============================================ */
+'use client'
 
-[data-theme="garden"] {
+import Image from 'next/image'
 
-  /* Core colors */
-  --primary: oklch(0.35 0.12 145);
-  --primary-foreground: oklch(0.98 0 0);
+export function MemorialHero({ memorial }) {
+  if (!memorial) return null
 
-  --secondary: oklch(0.95 0.02 145);
-  --secondary-foreground: oklch(0.25 0.08 145);
+  const birthDate = memorial.birth_date
+    ? new Date(memorial.birth_date).toLocaleDateString('lt-LT')
+    : null
 
-  --accent: oklch(0.45 0.10 145);
-  --accent-foreground: oklch(0.98 0 0);
+  const deathDate = memorial.death_date
+    ? new Date(memorial.death_date).toLocaleDateString('lt-LT')
+    : null
 
-  /* Background */
-  --background: oklch(0.99 0.005 145);
-  --foreground: oklch(0.20 0.02 145);
+  const epitaph =
+    memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  --muted: oklch(0.96 0.01 145);
-  --muted-foreground: oklch(0.45 0.05 145);
+  const imageSrc =
+    memorial.profile_image_url ||
+    'https://images.unsplash.com/photo-1520975922284-9d5d0c8f5c1b?q=80&w=1200&auto=format&fit=crop'
 
-  /* UI surfaces */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.02 145);
+  const fullName = `${memorial.first_name ?? ''} ${memorial.last_name ?? ''}`.trim()
 
-  --border: oklch(0.90 0.02 145);
+  return (
+    <section className="relative py-20 text-center overflow-hidden theme-hero">
 
-  /* Radius */
-  --radius: 0.625rem;
+      {/* 🌿 BACKGROUND */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src={imageSrc}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover blur-2xl scale-110 opacity-30"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white" />
+      </div>
 
-  /* Memorial effects */
-  --theme-gradient-start: oklch(0.35 0.12 145);
-  --theme-gradient-end: oklch(0.45 0.08 160);
+      {/* 🌿 PROFILE IMAGE WRAPPER */}
+      <div className="relative mx-auto mb-8 h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56 portrait-frame">
 
-  --theme-pattern-opacity: 0.04;
-  --theme-glow-color: oklch(0.50 0.15 145 / 0.12);
+        <div className="relative h-full w-full overflow-hidden">
+          <Image
+            src={imageSrc}
+            alt={fullName}
+            fill
+            sizes="(max-width: 768px) 40vw, 220px"
+            className="object-cover rounded-full"
+            priority
+          />
+        </div>
 
-  --theme-hero-bg: linear-gradient(
-    180deg,
-    oklch(0.35 0.08 145 / 0.05) 0%,
-    transparent 40%,
-    oklch(0.35 0.08 145 / 0.04) 100%
-  );
+      </div>
+
+      {/* 🌿 NAME */}
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold tracking-tight">
+        {fullName}
+      </h1>
+
+      {/* 🌿 EPITAPH */}
+      <p className="mt-6 text-lg sm:text-xl italic max-w-xl mx-auto leading-relaxed memorial-epitaph">
+        “{epitaph}”
+      </p>
+
+      {/* 🌿 DATES */}
+      {(birthDate || deathDate) && (
+        <p className="mt-4 text-sm text-muted-foreground">
+          {birthDate || '—'} – {deathDate || '—'}
+        </p>
+      )}
+
+      {/* 🌿 BIO */}
+      {memorial.biography && (
+        <p className="mt-6 text-sm text-muted-foreground max-w-2xl mx-auto line-clamp-3">
+          {memorial.biography}
+        </p>
+      )}
+
+    </section>
+  )
 }
-
-/* ============================================
-   BACKGROUND
-   ============================================ */
-
-[data-theme="garden"] {
-  position: relative;
-
-  background-image:
-    linear-gradient(
-      to bottom,
-      oklch(0.35 0.08 145 / 0.08) 0%,
-      transparent 30%,
-      oklch(0.35 0.08 145 / 0.05) 100%
-    ),
-    url('/themes/garden.jpeg');
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-
-  min-height: 100vh;
-}
-
-/* ============================================
-   PATTERN
-   ============================================ */
-
-[data-theme="garden"] .theme-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 80px 80px;
-}
-
-/* ============================================
-   HERO GLOW
-   ============================================ */
-
-[data-theme="garden"] .theme-glow-bg {
-  background: var(--theme-hero-bg);
-}
-
-/* ============================================
-   EPITAPH
-   ============================================ */
-
-[data-theme="garden"] .memorial-epitaph {
-  color: oklch(0.35 0.08 145);
-  text-shadow: 0 0 10px oklch(0.50 0.15 145 / 0.1);
-}
-
-/* ============================================
-   PORTRAIT FRAME
-   ============================================ */
-
-[data-theme="garden"] .portrait-frame {
-  box-shadow:
-    0 0 20px oklch(0.45 0.12 145 / 0.2),
-    inset 0 0 10px oklch(0.45 0.10 145 / 0.1);
-}
-
-/* ============================================
-   CARD GLOW
-   ============================================ */
-
-[data-theme="garden"] .theme-card-glow {
-  box-shadow: 0 0 30px var(--theme-glow-color);
-}
-
-/* ============================================
-   BORDER ACCENT
-   ============================================ */
-
-[data-theme="garden"] .theme-border-accent {
-  border-color: oklch(0.45 0.12 145 / 0.3);
-}
-
-/* ============================================
-   AMBIENT OVERLAY (fixed layering)
-   ============================================ */
-
-[data-theme="garden"]::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-
-  background: radial-gradient(
-    circle at 50% 20%,
-    oklch(0.50 0.10 145 / 0.06),
-    transparent 60%
-  );
-
-  z-index: -1; /* 🔥 svarbu */
-                         }
