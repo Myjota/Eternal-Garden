@@ -9,7 +9,6 @@ interface MemorialHeroProps {
 
 export function MemorialHero({
   memorial,
-  theme = 'garden',
 }: MemorialHeroProps) {
 
   const birthDate = memorial.birth_date
@@ -23,7 +22,6 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // 🔥 HARD SAFE NORMALIZER (Supabase-proof)
   const normalizeImage = (url: any) => {
     if (typeof url !== 'string') return null
 
@@ -40,20 +38,18 @@ export function MemorialHero({
   }
 
   const coverImage = normalizeImage(memorial.cover_image_url)
-  const profileImage = normalizeImage(memorial.profile_image_url) || '/images/logo.png'
+  const profileImage =
+    normalizeImage(memorial.profile_image_url) || '/images/logo.png'
 
   return (
     <section className="relative min-h-[70vh] py-20 text-center overflow-hidden">
 
       {/* ============================================
-          HERO BACKGROUND (ALWAYS HAS VISUAL)
+          BACKGROUND (CSS THEME HANDLES EVERYTHING)
           ============================================ */}
       <div className="absolute inset-0 z-0">
 
-        {/* 🔥 FALLBACK ALWAYS FIRST (NEVER DEPENDS ON DATA) */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(20,80,50,0.25),transparent_60%),radial-gradient(circle_at_70%_60%,rgba(10,60,40,0.18),transparent_65%),linear-gradient(to_bottom,#f7faf7,#eaf3ee)]" />
-
-        {/* OPTIONAL IMAGE OVERLAY */}
+        {/* ONLY IMAGE OVERLAY (NO COLORS) */}
         {coverImage && (
           <Image
             src={coverImage}
@@ -114,4 +110,4 @@ export function MemorialHero({
       </div>
     </section>
   )
-}
+            }
