@@ -1,5 +1,5 @@
 /* ============================================
-   GARDEN THEME - MEMORIAL CORE (CINEMATIC v6)
+   GARDEN THEME - MEMORIAL CORE (MUSEUM GLASS v7)
    ============================================ */
 
 [data-theme="garden"] {
@@ -7,37 +7,36 @@
   isolation: isolate;
 
   /* Core colors */
-  --primary: oklch(0.35 0.12 145);
+  --primary: oklch(0.35 0.10 90);
   --primary-foreground: oklch(0.98 0 0);
 
-  --secondary: oklch(0.95 0.02 145);
-  --secondary-foreground: oklch(0.25 0.08 145);
+  --secondary: oklch(0.97 0.01 90);
+  --secondary-foreground: oklch(0.25 0.05 90);
 
-  --accent: oklch(0.45 0.10 145);
+  --accent: oklch(0.45 0.08 90);
   --accent-foreground: oklch(0.98 0 0);
 
   /* Background tokens */
-  --background: oklch(0.99 0.005 145);
-  --foreground: oklch(0.20 0.02 145);
+  --background: oklch(0.985 0.003 90);
+  --foreground: oklch(0.22 0.02 90);
 
-  --muted: oklch(0.96 0.01 145);
-  --muted-foreground: oklch(0.45 0.05 145);
+  --muted: oklch(0.96 0.005 90);
+  --muted-foreground: oklch(0.45 0.04 90);
 
   /* UI surfaces */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.02 145);
+  --card: oklch(0.995 0.002 90);
+  --card-foreground: oklch(0.22 0.02 90);
 
-  --border: oklch(0.90 0.02 145);
+  --border: oklch(0.90 0.01 90);
 
   --radius: 0.625rem;
 
-  --theme-glow-color: oklch(0.50 0.15 145 / 0.12);
+  --theme-glow-color: oklch(0.60 0.05 90 / 0.08);
 
   --theme-hero-bg: linear-gradient(
     180deg,
-    oklch(0.35 0.08 145 / 0.05) 0%,
-    transparent 40%,
-    oklch(0.35 0.08 145 / 0.04) 100%
+    oklch(0.985 0.003 90),
+    oklch(0.97 0.003 90)
   );
 }
 
@@ -55,22 +54,18 @@
   background:
     linear-gradient(
       to bottom,
-      oklch(0.35 0.08 145 / 0.08),
-      transparent 40%,
-      oklch(0.35 0.08 145 / 0.05)
+      oklch(0.985 0.003 90),
+      oklch(0.97 0.003 90)
     ),
     url('/themes/garden.jpeg');
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  transform: translateZ(0);
-  will-change: transform;
 }
 
 /* ============================================
-   AMBIENT OVERLAY
+   AMBIENT OVERLAY (VERY SUBTLE)
    ============================================ */
 
 [data-theme="garden"]::after {
@@ -81,23 +76,23 @@
   z-index: -1;
 
   background: radial-gradient(
-    circle at 50% 20%,
-    oklch(0.50 0.10 145 / 0.05),
+    circle at 50% 30%,
+    oklch(0.60 0.03 90 / 0.04),
     transparent 60%
   );
 }
 
 /* ============================================
-   PATTERN
+   PATTERN (SOFT ONLY)
    ============================================ */
 
 [data-theme="garden"] .theme-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23166534' fill-opacity='0.05'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40 10c-3 10-15 18-30 22 15-3 27 3 30 22 3-19 15-25 30-22-15-4-27-12-30-22z' fill='%23999999' fill-opacity='0.03'/%3E%3C/svg%3E");
   background-size: 80px 80px;
 }
 
 /* ============================================
-   HERO GLOW
+   HERO GLOW (MINIMAL)
    ============================================ */
 
 [data-theme="garden"] .theme-glow-bg {
@@ -109,8 +104,7 @@
    ============================================ */
 
 [data-theme="garden"] .memorial-epitaph {
-  color: oklch(0.35 0.08 145);
-  text-shadow: 0 2px 10px oklch(0.50 0.15 145 / 0.1);
+  color: oklch(0.30 0.04 90);
 }
 
 /* ============================================
@@ -122,45 +116,25 @@
   border-radius: 9999px;
   padding: 6px;
 
-  border: 2px solid oklch(0.45 0.10 145 / 0.35);
+  border: 1px solid oklch(0.70 0.01 90 / 0.4);
 
-  background: radial-gradient(
-    circle at 30% 20%,
-    oklch(0.99 0.005 145),
-    oklch(0.96 0.01 145)
-  );
+  background: oklch(0.995 0.002 90);
 
   box-shadow:
-    0 8px 25px oklch(0.20 0.02 145 / 0.15),
-    inset 0 0 0 2px oklch(0.99 0.005 145);
+    0 6px 20px oklch(0 0 0 / 0.08),
+    inset 0 0 0 1px oklch(1 0 0);
 }
 
 [data-theme="garden"] .portrait-frame img {
   border-radius: 9999px;
 }
 
-[data-theme="garden"] .portrait-frame::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border-radius: 9999px;
-  z-index: -1;
-
-  background: radial-gradient(
-    circle,
-    oklch(0.45 0.10 145 / 0.15),
-    transparent 70%
-  );
-
-  filter: blur(8px);
-}
-
 /* ============================================
-   CARD GLOW
+   CARD GLOW (VERY SUBTLE)
    ============================================ */
 
 [data-theme="garden"] .theme-card-glow {
-  box-shadow: 0 0 30px var(--theme-glow-color);
+  box-shadow: 0 0 20px oklch(0.6 0.05 90 / 0.06);
 }
 
 /* ============================================
@@ -168,98 +142,45 @@
    ============================================ */
 
 [data-theme="garden"] .theme-border-accent {
-  border-color: oklch(0.45 0.12 145 / 0.3);
+  border-color: oklch(0.85 0.01 90);
 }
 
 /* ============================================
-   MEMORIAL COVER CONTAINER
+   MEMORIAL COVER (CLEAN GLASS STYLE)
    ============================================ */
 
 [data-theme="garden"] .memorial-cover {
   position: relative;
   overflow: hidden;
   min-height: 100%;
-  transform: translateZ(0);
 }
 
-/* ============================================
-   CINEMATIC BACKGROUND FALLBACK + DEPTH
-   ============================================ */
-
+/* CLEAN BACKGROUND ONLY */
 [data-theme="garden"] .memorial-cover::before {
   content: '';
   position: absolute;
-  inset: -10%;
+  inset: 0;
   z-index: 0;
 
   background:
-     radial-gradient(
-  circle at 50% 35%,
-  oklch(0.70 0.02 220 / 0.18),
-  transparent 45%
-),
-radial-gradient(
-  circle at 15% 30%,
-  oklch(0.40 0.01 220 / 0.22),
-  transparent 60%
-),
-radial-gradient(
-  circle at 85% 70%,
-  oklch(0.45 0.01 220 / 0.18),
-  transparent 65%
-),
-radial-gradient(
-  circle at 50% 110%,
-  oklch(0.20 0.01 220 / 0.25),
-  transparent 60%
-),
     linear-gradient(
       180deg,
-      oklch(0.99 0 0),
-      oklch(0.96 0.005 220),
-      oklch(0.92 0.01 220)
+      oklch(0.99 0.003 90),
+      oklch(0.96 0.003 90)
     );
-
-  box-shadow:
-    inset 0 0 80px oklch(0.10 0.02 145 / 0.15),
-    inset 0 0 180px oklch(0.10 0.02 145 / 0.25),
-    inset 0 0 300px oklch(0.10 0.02 145 / 0.35);
 }
 
-/* ============================================
-   CINEMATIC DRIFT ANIMATION
-   ============================================ */
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-theme="garden"] .memorial-cover::before {
-    animation: cinematicDrift 22s ease-in-out infinite alternate;
-  }
-
-  @keyframes cinematicDrift {
-    0% {
-      transform: scale(1.05) translateY(-8px);
-      filter: saturate(1.02) brightness(0.98);
-    }
-    100% {
-      transform: scale(1.1) translateY(12px);
-      filter: saturate(1.08) brightness(1.02);
-    }
-  }
-}
-
-/* ============================================
-   FILM GRAIN
-   ============================================ */
-
+/* VERY LIGHT DEPTH ONLY (NO CINEMATIC DRIFT) */
 [data-theme="garden"] .memorial-cover::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-
-  opacity: 0.20;
-  mix-blend-mode: overlay;
+  background: radial-gradient(
+    circle at 50% 40%,
+    oklch(0 0 0 / 0.04),
+    transparent 60%
+  );
 }
