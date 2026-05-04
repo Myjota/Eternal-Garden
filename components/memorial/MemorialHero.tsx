@@ -23,37 +23,44 @@ export function MemorialHero({
   const epitaph =
     memorial.epitaph?.trim() || 'Visada liks mūsų širdyse'
 
-  // ✅ STRICT SAFE CHECK (Supabase dažnai duoda "null" string arba whitespace)
-  const hasCover =
-    typeof memorial.cover_image_url === 'string' &&
-    memorial.cover_image_url.trim() !== '' &&
-    memorial.cover_image_url.trim().toLowerCase() !== 'null'
+  // 🔥 HARD SAFE NORMALIZER (Supabase-proof)
+  const normalizeImage = (url: any) => {
+    if (typeof url !== 'string') return null
 
-  const coverImage = hasCover ? memorial.cover_image_url : null
+    const cleaned = url.trim().toLowerCase()
 
-  const profileImage =
-    typeof memorial.profile_image_url === 'string' &&
-    memorial.profile_image_url.trim() !== '' &&
-    memorial.profile_image_url.trim().toLowerCase() !== 'null'
-      ? memorial.profile_image_url
-      : '/images/logo.png'
+    if (
+      !cleaned ||
+      cleaned === 'null' ||
+      cleaned === 'undefined' ||
+      cleaned === 'false'
+    ) return null
+
+    return url
+  }
+
+  const coverImage = normalizeImage(memorial.cover_image_url)
+  const profileImage = normalizeImage(memorial.profile_image_url) || '/images/logo.png'
 
   return (
     <section className="relative min-h-[70vh] py-20 text-center overflow-hidden">
 
       {/* ============================================
-          HERO BACKGROUND LAYER (ALWAYS VISIBLE)
+          HERO BACKGROUND (ALWAYS HAS VISUAL)
           ============================================ */}
-      <div className="absolute inset-0 memorial-cover z-0">
+      <div className="absolute inset-0 z-0">
 
-        {/* ONLY render image if valid */}
+        {/* 🔥 FALLBACK ALWAYS FIRST (NEVER DEPENDS ON DATA) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(20,80,50,0.25),transparent_60%),radial-gradient(circle_at_70%_60%,rgba(10,60,40,0.18),transparent_65%),linear-gradient(to_bottom,#f7faf7,#eaf3ee)]" />
+
+        {/* OPTIONAL IMAGE OVERLAY */}
         {coverImage && (
           <Image
             src={coverImage}
             alt=""
             fill
             priority
-            className="object-cover scale-110 blur-sm opacity-40 z-10"
+            className="object-cover scale-110 blur-sm opacity-40"
           />
         )}
 
