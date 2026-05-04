@@ -1,5 +1,5 @@
 /* ============================================
-   GARDEN THEME - MEMORIAL CORE (STABLE v2)
+   GARDEN THEME - MEMORIAL CORE (STABLE v3)
    ============================================ */
 
 [data-theme="garden"] {
@@ -33,10 +33,6 @@
   --radius: 0.625rem;
 
   /* Effects */
-  --theme-gradient-start: oklch(0.35 0.12 145);
-  --theme-gradient-end: oklch(0.45 0.08 160);
-
-  --theme-pattern-opacity: 0.04;
   --theme-glow-color: oklch(0.50 0.15 145 / 0.12);
 
   --theme-hero-bg: linear-gradient(
@@ -48,7 +44,7 @@
 }
 
 /* ============================================
-   BACKGROUND LAYER (FIXED PERFORMANCE MODEL)
+   BACKGROUND LAYER (FULL WORLD IMAGE)
    ============================================ */
 
 [data-theme="garden"]::before {
@@ -73,6 +69,24 @@
 
   transform: translateZ(0);
   will-change: transform;
+}
+
+/* ============================================
+   AMBIENT OVERLAY (LIGHT AURA)
+   ============================================ */
+
+[data-theme="garden"]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background: radial-gradient(
+    circle at 50% 20%,
+    oklch(0.50 0.10 145 / 0.05),
+    transparent 60%
+  );
 }
 
 /* ============================================
@@ -157,22 +171,4 @@
 
 [data-theme="garden"] .theme-border-accent {
   border-color: oklch(0.45 0.12 145 / 0.3);
-}
-
-/* ============================================
-   AMBIENT OVERLAY (LIGHT AURA ONLY)
-   ============================================ */
-
-[data-theme="garden"]::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-
-  background: radial-gradient(
-    circle at 50% 20%,
-    oklch(0.50 0.10 145 / 0.05),
-    transparent 60%
-  );
 }
