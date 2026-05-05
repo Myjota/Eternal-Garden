@@ -115,18 +115,16 @@ export function CandleSection({
         </div>
 
         {/* Bottom recent activity */}
-        <div className="w-full flex items-center justify-between text-white/70 text-xs">
-          <div className="flex items-center gap-3">
-            <span>Paskutinę žvakę uždegė <strong>{recentUsers[0]?.name}</strong> {recentUsers[0]?.timeAgo}</span>
+        <div className="w-full flex items-center justify-between text-amber-400 text-xs p-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10">
+          <div>
+            Paskutinę žvakę uždegė <span className="text-amber-300 font-medium">{recentUsers[0]?.name}</span> {recentUsers[0]?.timeAgo}
           </div>
           <div className="flex gap-2">
             {recentUsers.slice(0, 2).map((user) => (
               <div
                 key={user.id}
-                className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-amber-400 flex items-center justify-center text-white font-semibold text-xs"
-              >
-                {user.name.charAt(0).toUpperCase()}
-              </div>
+                className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 border border-amber-300/50"
+              ></div>
             ))}
           </div>
         </div>
