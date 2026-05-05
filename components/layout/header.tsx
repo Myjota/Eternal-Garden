@@ -57,14 +57,20 @@ export function Header({
 
   const handleLogout = async () => {
     const supabase = createClient()
-    const { error } = await supabase.auth.signOut()
     
-    if (!error) {
-      // Redirect to homepage instead of login to avoid middleware redirect loop
-      router.replace('/')
-      router.refresh()
-    } else {
-      console.error('Logout error:', error)
+    try {
+      // Clear session
+      const { error } = await supabase.auth.signOut()
+      
+      if (error) {
+        console.error('Logout error:', error)
+        return
+      }
+
+      // Force complete page reload to clear all auth state
+      window.location.href = '/'
+    } catch (error) {
+      console.error('Logout failed:', error)
     }
   }
 
