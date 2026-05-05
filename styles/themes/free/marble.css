@@ -475,14 +475,74 @@
   font-size: 0.875rem;
 }
 
-/* ============================================
-   MEMORIAL BIO
-   ============================================ */
+/* =========================================
+   MARBLE THEME — BIOGRAPHY
+   ========================================= */
 
-[data-theme="marble"] .memorial-bio {
-  color: var(--muted-foreground);
-  font-size: 0.875rem;
-  line-height: 1.6;
+[data-theme="marble"] .memorial-biography-section {
+  padding: 60px 20px;
+  background: linear-gradient(
+    180deg,
+    #f5f5f7 0%,
+    #ececef 100%
+  );
+  position: relative;
+}
+
+/* subtle marble texture */
+[data-theme="marble"] .memorial-biography-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/marble.png");
+}
+
+/* container */
+[data-theme="marble"] .memorial-container {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* title */
+[data-theme="marble"] .memorial-section-title {
+  font-size: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+/* biography text */
+[data-theme="marble"] .memorial-biography {
+  line-height: 1.9;
+  color: #2a2a2a;
+  font-size: 16px;
+}
+
+/* paragraphs */
+[data-theme="marble"] .memorial-biography-paragraph {
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+
+/* subtle fade-in (optional but nice) */
+[data-theme="marble"] .memorial-biography-section {
+  animation: marbleFadeIn 0.6s ease;
+}
+
+@keyframes marbleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================
