@@ -10,11 +10,13 @@ import { Clock, Heart } from 'lucide-react'
 interface MemorialTabsProps {
   timelineEvents: any[]
   condolences: any[]
+  memorialId: string
 }
 
 export function MemorialTabs({
   timelineEvents,
   condolences,
+  memorialId,
 }: MemorialTabsProps) {
   return (
     <section className="memorial-tabs-container">
@@ -42,7 +44,7 @@ export function MemorialTabs({
         </TabsContent>
 
         <TabsContent value="condolences">
-          <CondolencesTab items={condolences} />
+          <CondolencesTab items={condolences} memorialId={memorialId} />
         </TabsContent>
 
       </Tabs>

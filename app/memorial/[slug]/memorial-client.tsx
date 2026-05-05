@@ -69,18 +69,18 @@ export function MemorialClient({
 
       {/* 🕯️ CANDLE SYSTEM */}
       {memorial.allow_candles && (
-        <CandleSection initialLit={false} />
+        <CandleSection memorialId={memorial.id} initialLit={false} />
       )}
 
       {/* 🧩 BIOGRAPHY – būtent čia (po žvakių) */}
-      <MemorialBiography biography={memorial.biography} />
+      <MemorialBiography biography={memorial.biography || undefined} />
 
       {/* TABS */}
       <MemorialTabs
         timelineEvents={timelineEvents}
-        galleryItems={galleryItems}
         condolences={initialCondolences}
+        memorialId={memorial.id}
       />
     </div>
   )
-      }
+}

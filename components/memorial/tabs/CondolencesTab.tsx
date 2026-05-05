@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
 import { lt } from 'date-fns/locale'
 
@@ -21,26 +21,74 @@ interface Condolence {
 
 interface CondolencesTabProps {
   items: Condolence[]
+  memorialId: string
   allowCondolences?: boolean
-  isSubmitting?: boolean
-  onSubmit?: (data: { name: string; message: string }) => void
 }
 
 export function CondolencesTab({
-  items,
+  items: initialItems,
+  memorialId,
   allowCondolences = true,
-  isSubmitting = false,
-  onSubmit,
 }: CondolencesTabProps) {
 
+  const [items, setItems] = useState(initialItems)
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = () => {
+  // Fetch condolences from API
+  const fetchCondolences = async () => {
+    try {
+      const response = await fetch(`/api/condolences?memorial_id=${memorialId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setItems(data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching condolences:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (memorialId) {
+      fetchCondolences()
+    }
+  }, [memorialId])
+
+  const handleSubmit = async () => {
     if (!name.trim() || !message.trim()) return
-    onSubmit?.({ name, message })
-    setName('')
-    setMessage('')
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/condolences', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          memorialId,
+          authorName: name.trim(),
+          message: message.trim()
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        // Add new condolence to the list
+        setItems(prev => [data.data, ...prev])
+        setName('')
+        setMessage('')
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Nepavyko išsiųsti žinutės')
+      }
+    } catch (error) {
+      console.error('Error submitting condolence:', error)
+      alert('Nepavyko išsiųsti žinutės')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (!items.length && !allowCondolences) {
