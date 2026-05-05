@@ -7,7 +7,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
 import { type Translations } from '@/lib/i18n/locales/lt'
-import { usePathname } from 'next/navigation'
 
 interface FamousMemorial {
   id: string
@@ -28,11 +27,10 @@ export function FamousSection({ t }: FamousSectionProps) {
   const [famousMemorials, setFamousMemorials] = useState<FamousMemorial[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const pathname = usePathname()
   const itemsPerPage = 4
 
   const fetchFamousMemorials = async () => {
-    setIsLoading(true) // 🔥 FIX loading glitch
+    setIsLoading(true)
 
     const supabase = createClient()
 
@@ -50,19 +48,55 @@ export function FamousSection({ t }: FamousSectionProps) {
     setIsLoading(false)
   }
 
-  // 🔥 FIX: refetch when coming back / route changes
+  // ✅ FIX: stable fetch (NO pathname dependency)
   useEffect(() => {
-    fetchFamousMemorials()
-  }, [pathname])
+    let isActive = true
 
-  // 🔥 FIX: reset page when data changes
+    const load = async () => {
+      setIsLoading(true)
+
+      const supabase = createClient()
+
+      const { data, error } = await supabase
+        .from('memorials')
+        .select('id, slug, name, birth_date, death_date, short_description, photo_url')
+        .eq('is_famous', true)
+        .eq('is_public', true)
+        .order('created_at', { ascending: false })
+
+      if (!isActive) return
+
+      if (!error && data) {
+        setFamousMemorials(data)
+      }
+
+      setIsLoading(false)
+    }
+
+    load()
+
+    // ✅ FIX: refetch when user comes back to tab / page
+    const onFocus = () => load()
+    const onPageShow = () => load()
+
+    window.addEventListener('focus', onFocus)
+    window.addEventListener('pageshow', onPageShow)
+
+    return () => {
+      isActive = false
+      window.removeEventListener('focus', onFocus)
+      window.removeEventListener('pageshow', onPageShow)
+    }
+  }, [])
+
+  // reset page when data changes
   useEffect(() => {
     setCurrentPage(0)
   }, [famousMemorials])
 
   const totalPages = Math.ceil(famousMemorials.length / itemsPerPage)
 
-  // 🔥 FIX: prevent invalid page after data change
+  // prevent invalid page
   useEffect(() => {
     if (currentPage > totalPages - 1) {
       setCurrentPage(0)
