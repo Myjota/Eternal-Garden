@@ -70,13 +70,13 @@ export function CandleSection({
       <div className="relative z-10 p-8 flex flex-col items-center justify-between min-h-[400px]">
         
         {/* Top stats */}
-        <div className="w-full flex justify-between items-center text-white/90 text-sm">
+        <div className="w-full flex justify-between items-center text-amber-400 text-sm">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></span>
-            <span>Dega dabar <strong>{stats.currentlyBurning}</strong> žmonių</span>
+            <span>Dega dabar <span className="text-amber-300 font-bold text-base">{stats.currentlyBurning}</span> žvakių</span>
           </div>
           <div>
-            Viso uždegta <strong>{stats.totalLit}</strong> žvakės
+            Viso uždegta <span className="text-amber-300 font-bold text-base">{stats.totalLit}</span> žvakės
           </div>
         </div>
 
