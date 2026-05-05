@@ -1,13 +1,12 @@
 'use client'
 
-import useSWR from 'swr'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
 import { type Translations } from '@/lib/i18n/locales/lt'
-import { useState, useMemo } from 'react'
 
 interface FamousMemorial {
   id: string
@@ -23,54 +22,106 @@ interface FamousSectionProps {
   t: Translations
 }
 
-const fetcher = async () => {
-  const supabase = createClient()
-
-  const { data, error } = await supabase
-    .from('memorials')
-    .select('id, slug, name, birth_date, death_date, short_description, photo_url')
-    .eq('is_famous', true)
-    .eq('is_public', true)
-    .order('created_at', { ascending: false })
-
-  if (error) throw error
-  return data as FamousMemorial[]
-}
-
 export function FamousSection({ t }: FamousSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
+  const [famousMemorials, setFamousMemorials] = useState<FamousMemorial[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
   const itemsPerPage = 4
 
-  // 🔥 SWR MAGIC
-  const { data: famousMemorials = [], isLoading } = useSWR(
-    'famous-memorials',
-    fetcher,
-    {
-      revalidateOnFocus: true,      // 👈 FIX back navigation bug
-      dedupingInterval: 60000,      // 👈 avoids spam fetch
-      revalidateOnReconnect: true,
+  const fetchFamousMemorials = async () => {
+    setIsLoading(true)
+
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+      .from('memorials')
+      .select('id, slug, name, birth_date, death_date, short_description, photo_url')
+      .eq('is_famous', true)
+      .eq('is_public', true)
+      .order('created_at', { ascending: false })
+
+    if (!error && data) {
+      setFamousMemorials(data)
     }
-  )
+
+    setIsLoading(false)
+  }
+
+  // ✅ FIX: stable fetch (NO pathname dependency)
+  useEffect(() => {
+    let isActive = true
+
+    const load = async () => {
+      setIsLoading(true)
+
+      const supabase = createClient()
+
+      const { data, error } = await supabase
+        .from('memorials')
+        .select('id, slug, name, birth_date, death_date, short_description, photo_url')
+        .eq('is_famous', true)
+        .eq('is_public', true)
+        .order('created_at', { ascending: false })
+
+      if (!isActive) return
+
+      if (!error && data) {
+        setFamousMemorials(data)
+      }
+
+      setIsLoading(false)
+    }
+
+    load()
+
+    // ✅ FIX: refetch when user comes back to tab / page
+    const onFocus = () => load()
+    const onPageShow = () => load()
+
+    window.addEventListener('focus', onFocus)
+    window.addEventListener('pageshow', onPageShow)
+
+    return () => {
+      isActive = false
+      window.removeEventListener('focus', onFocus)
+      window.removeEventListener('pageshow', onPageShow)
+    }
+  }, [])
+
+  // reset page when data changes
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [famousMemorials])
 
   const totalPages = Math.ceil(famousMemorials.length / itemsPerPage)
 
+  // prevent invalid page
+  useEffect(() => {
+    if (currentPage > totalPages - 1) {
+      setCurrentPage(0)
+    }
+  }, [totalPages, currentPage])
+
   const currentItems = useMemo(() => {
+    if (!famousMemorials.length) return []
+
     return famousMemorials.slice(
       currentPage * itemsPerPage,
       (currentPage + 1) * itemsPerPage
     )
-  }, [currentPage, famousMemorials])
+  }, [currentPage, famousMemorials, itemsPerPage])
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(0, Math.min(page, totalPages - 1)))
   }
 
   const goPrev = () => {
-    setCurrentPage((p) => (p > 0 ? p - 1 : p))
+    setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev))
   }
 
   const goNext = () => {
-    setCurrentPage((p) => (p < totalPages - 1 ? p + 1 : p))
+    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : prev))
   }
 
   if (!isLoading && famousMemorials.length === 0) {
@@ -88,11 +139,13 @@ export function FamousSection({ t }: FamousSectionProps) {
           </h2>
         </div>
 
-        {/* Loading */}
         {isLoading ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="animate-pulse">
+              <Card
+                key={i}
+                className="overflow-hidden border border-primary/20 bg-card animate-pulse rounded-none p-0"
+              >
                 <div className="aspect-[3/4] bg-muted" />
                 <CardContent className="p-4">
                   <div className="h-5 bg-muted w-3/4 mx-auto mb-2" />
@@ -107,24 +160,42 @@ export function FamousSection({ t }: FamousSectionProps) {
 
             {/* Prev */}
             {totalPages > 1 && (
-              <button onClick={goPrev} className="absolute left-0 top-1/2">
-                <ChevronLeft />
+              <button
+                onClick={goPrev}
+                disabled={currentPage === 0}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-40 md:-translate-x-6"
+              >
+                <ChevronLeft className="h-5 w-5" />
               </button>
             )}
 
             {/* Next */}
             {totalPages > 1 && (
-              <button onClick={goNext} className="absolute right-0 top-1/2">
-                <ChevronRight />
+              <button
+                onClick={goNext}
+                disabled={currentPage === totalPages - 1}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-40 md:translate-x-6"
+              >
+                <ChevronRight className="h-5 w-5" />
               </button>
             )}
 
             {/* Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
               {currentItems.map((memorial) => (
-                <Link key={memorial.id} href={`/memorial/${memorial.slug}`}>
-                  <Card className="overflow-hidden border border-primary/30 bg-card hover:border-primary/60 transition-all duration-300">
+                <Link
+                  key={memorial.id}
+                  href={`/memorial/${memorial.slug}`}
+                  className="group block"
+                >
+                  <Card
+                    className="overflow-hidden border border-primary/30 bg-card 
+                               hover:border-primary/60 transition-all duration-300
+                               rounded-none p-0 shadow-[0_4px_20px_rgba(0,0,0,0.25)]
+                               hover:-translate-y-1 cursor-pointer"
+                  >
 
+                    {/* Image */}
                     <div className="aspect-[3/4] relative overflow-hidden bg-muted">
                       {memorial.photo_url ? (
                         <Image
@@ -140,12 +211,24 @@ export function FamousSection({ t }: FamousSectionProps) {
                           </span>
                         </div>
                       )}
+
+                      <div className="absolute inset-0 border border-black/20 pointer-events-none" />
+                      <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
                     </div>
 
-                    <CardContent className="p-4 text-center">
-                      <h3 className="font-serif font-semibold">
+                    {/* Content */}
+                    <CardContent className="p-4 text-center border-t border-primary/20">
+                      <h3 className="font-serif font-semibold text-foreground group-hover:text-primary transition-colors">
                         {memorial.name}
                       </h3>
+
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {memorial.birth_date ? new Date(memorial.birth_date).getFullYear() : '?'} – {memorial.death_date ? new Date(memorial.death_date).getFullYear() : '?'}
+                      </p>
+
+                      <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                        {memorial.short_description || 'Žymus Lietuvos žmogus'}
+                      </p>
                     </CardContent>
 
                   </Card>
@@ -153,9 +236,26 @@ export function FamousSection({ t }: FamousSectionProps) {
               ))}
             </div>
 
+            {/* Dots */}
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToPage(index)}
+                    className={`w-3 h-3 transition-colors ${
+                      currentPage === index
+                        ? 'bg-primary'
+                        : 'bg-primary/30 hover:bg-primary/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+
           </div>
         )}
       </div>
     </section>
   )
-                      }
+}
