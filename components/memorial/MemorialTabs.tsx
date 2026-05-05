@@ -3,20 +3,17 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { TimelineTab } from './tabs/TimelineTab'
-import { GalleryTab } from './tabs/GalleryTab'
 import { CondolencesTab } from './tabs/CondolencesTab'
 
-import { Clock, ImageIcon, Heart } from 'lucide-react'
+import { Clock, Heart } from 'lucide-react'
 
 interface MemorialTabsProps {
   timelineEvents: any[]
-  galleryItems: any[]
   condolences: any[]
 }
 
 export function MemorialTabs({
   timelineEvents,
-  galleryItems,
   condolences,
 }: MemorialTabsProps) {
   return (
@@ -32,11 +29,6 @@ export function MemorialTabs({
             <span className="hidden sm:inline">Timeline</span>
           </TabsTrigger>
 
-          <TabsTrigger value="gallery" className="gap-2">
-            <ImageIcon className="h-4 w-4" />
-            <span className="hidden sm:inline">Gallery</span>
-          </TabsTrigger>
-
           <TabsTrigger value="condolences" className="gap-2">
             <Heart className="h-4 w-4" />
             <span className="hidden sm:inline">Messages</span>
@@ -47,10 +39,6 @@ export function MemorialTabs({
         {/* CONTENT */}
         <TabsContent value="timeline">
           <TimelineTab events={timelineEvents} />
-        </TabsContent>
-
-        <TabsContent value="gallery">
-          <GalleryTab items={galleryItems} />
         </TabsContent>
 
         <TabsContent value="condolences">
