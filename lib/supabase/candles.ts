@@ -36,16 +36,16 @@ export async function getCandleStats(memorialId: string): Promise<CandleStats> {
     .eq('is_lit', true)
     .or('expires_at.is.null,expires_at.gt.now()')
   
-  // Get total candles ever lit
-  const { count: totalLit } = await supabase
-    .from('candles')
-    .select('*', { count: 'exact', head: true })
-    .eq('memorial_id', memorialId)
-    .eq('is_lit', true)
+  // Get total candles from memorial table (candle_count field)
+  const { data: memorial } = await supabase
+    .from('memorials')
+    .select('candle_count')
+    .eq('id', memorialId)
+    .single()
   
   return {
     currently_burning: currentlyBurning || 0,
-    total_lit: totalLit || 0
+    total_lit: memorial?.candle_count || 0
   }
 }
 
