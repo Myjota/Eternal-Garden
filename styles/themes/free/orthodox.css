@@ -182,16 +182,6 @@
 }
 
 /* ============================================
-   MEMORIAL BIO
-   ============================================ */
-
-[data-theme="orthodox"] .memorial-bio {
-  color: var(--muted-foreground);
-  font-size: 0.875rem;
-  line-height: 1.6;
-}
-
-/* ============================================
    MEMORIAL FONT SYSTEM
    ============================================ */
 
@@ -421,96 +411,6 @@
 }
 
 /* ============================================
-   ORTHODOX MEMORIAL GALLERY
-   ============================================ */
-
-[data-theme="orthodox"] .memorial-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-@media (min-width: 768px) {
-  [data-theme="orthodox"] .memorial-gallery {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  [data-theme="orthodox"] .memorial-gallery {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-[data-theme="orthodox"] .memorial-gallery-item {
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid oklch(0.85 0.03 50 / 0.4);
-  border-radius: 0.75rem;
-  background: linear-gradient(
-    135deg,
-    oklch(1 0 0 / 0.95),
-    oklch(0.985 0.002 50 / 0.9)
-  );
-  box-shadow: 
-    0 4px 15px oklch(0.65 0.16 70 / 0.1),
-    inset 0 0 15px oklch(0.75 0.15 70 / 0.05);
-}
-
-[data-theme="orthodox"] .memorial-gallery-item:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 
-    0 12px 25px oklch(0.65 0.16 70 / 0.2),
-    inset 0 0 25px oklch(0.75 0.15 70 / 0.08);
-}
-
-[data-theme="orthodox"] .memorial-gallery-image {
-  aspect-ratio: 1 / 1;
-  position: relative;
-}
-
-[data-theme="orthodox"] .memorial-gallery-img {
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-[data-theme="orthodox"] .memorial-gallery-item:hover .memorial-gallery-img {
-  transform: scale(1.05);
-}
-
-[data-theme="orthodox"] .memorial-gallery-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background: linear-gradient(
-    135deg,
-    oklch(0.75 0.15 70 / 0.2),
-    oklch(0.65 0.16 70 / 0.15)
-  );
-}
-
-[data-theme="orthodox"] .memorial-gallery-item:hover .memorial-gallery-overlay {
-  opacity: 1;
-}
-
-[data-theme="orthodox"] .memorial-gallery-caption {
-  font-size: 0.875rem;
-  color: oklch(0.35 0.02 45);
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0.75rem;
-  font-family: 'Times New Roman', serif;
-  font-style: italic;
-}
-
-/* ============================================
    ORTHODOX MEMORIAL CONDOLENCES
    ============================================ */
 
@@ -676,16 +576,6 @@
    MEMORIAL INTERACTIVE AREAS
    ============================================ */
 
-[data-theme="orthodox"] .memorial-candle-area {
-  background: var(--card);
-  border: 2px solid oklch(0.55 0.12 25 / 0.3);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin: 2rem 0;
-  text-align: center;
-  box-shadow: 0 0 50px oklch(0.65 0.16 70 / 0.3);
-}
-
 [data-theme="orthodox"] .memorial-comments {
   background: var(--card);
   border: 1px solid oklch(0.85 0.03 50 / 0.3);
@@ -712,24 +602,6 @@
   box-shadow:
     0 0 25px oklch(0.65 0.16 70 / 0.25),
     inset 0 0 12px oklch(0.55 0.14 60 / 0.15);
-}
-
-/* ============================================
-   TIMELINE
-   ============================================ */
-
-[data-theme="orthodox"] .timeline-line {
-  background: linear-gradient(180deg, oklch(0.60 0.16 70), oklch(0.45 0.12 40));
-}
-
-[data-theme="orthodox"] .timeline-dot {
-  background: oklch(0.60 0.16 70);
-  box-shadow: 0 0 0 4px oklch(0.97 0.01 60), 0 0 0 6px oklch(0.60 0.16 70);
-}
-
-[data-theme="orthodox"] .timeline-card {
-  border: 1px solid oklch(0.85 0.04 60);
-  background: oklch(0.98 0.008 60 / 0.9);
 }
 
 /* ============================================
