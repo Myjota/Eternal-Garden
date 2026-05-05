@@ -112,11 +112,11 @@
 }
 
 /* Portrait */
-[data-theme="eternal-night"] .theme-portrait-frame {
+[data-theme="eternal-night"] .portrait-frame {
   background: linear-gradient(
     135deg,
     oklch(0.55 0.12 260),
-    oklch(0.35 0.08 280)
+    oklch(0.45 0.10 280)
   );
   padding: 4px;
 }
@@ -227,7 +227,7 @@
    ============================================ */
 
 [data-theme="eternal-night"] .theme-glow-bg {
-  background: rgba(21, 33, 62, 0.8);
+  background: oklch(0.18 0.03 270 / 0.8);
   backdrop-filter: blur(15px);
   padding: 2rem;
   border-radius: var(--radius);
