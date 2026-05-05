@@ -249,15 +249,6 @@
   50% { opacity: 1; }
 }
 
-[data-theme="marble"] .memorial-name {
-  font-size: clamp(1.875rem, 4vw, 3rem);
-  font-family: var(--font-serif);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  color: var(--foreground);
-  text-shadow: 0 2px 20px oklch(0.6 0.05 80 / 0.15);
-  margin-bottom: 0.5rem;
-}
 
 [data-theme="marble"] .memorial-location {
   display: flex;
@@ -295,11 +286,6 @@
   text-shadow: 0 1px 4px oklch(0.70 0.05 250 / 0.2);
 }
 
-[data-theme="marble"] .memorial-dates {
-  margin-top: 1rem;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-}
 
 
 /* =========================
@@ -363,18 +349,18 @@
    ============================================ */
 
 [data-theme="marble"] .memorial-timeline {
-  max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 36rem;
+  margin: 0 auto;
   position: relative;
-  padding-left: 2rem;
+  padding: 2rem 0 2rem 2.5rem;
+  width: 100%;
 }
 
 [data-theme="marble"] .memorial-timeline-line {
   position: absolute;
-  left: 2.75rem;
-  top: 0;
-  bottom: 0;
+  left: 1.25rem;
+  top: 2rem;
+  bottom: 2rem;
   width: 0.125rem;
   background: linear-gradient(
     to bottom,
@@ -396,8 +382,8 @@
 
 [data-theme="marble"] .memorial-timeline-dot {
   position: absolute;
-  left: -2rem;
-  top: 1.5rem;
+  left: -1.75rem;
+  top: 1.25rem;
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
@@ -485,10 +471,6 @@
    EPITAPH
    ============================================ */
 
-[data-theme="marble"] .memorial-epitaph {
-  color: oklch(0.40 0.01 80);
-  text-shadow: 0 1px 2px oklch(0.90 0.01 80 / 0.5);
-}
 
 /* ============================================
    MEMORIAL COVER STRUCTURE
@@ -581,7 +563,7 @@
    ========================================= */
 
 [data-theme="marble"] .memorial-biography-section {
-  padding: 70px 20px;
+  padding: 4rem 1rem;
   background: linear-gradient(
     180deg,
     oklch(0.99 0.005 250 / 0.98),
@@ -590,6 +572,8 @@
   );
   position: relative;
   overflow: hidden;
+  max-width: 48rem;
+  margin: 0 auto;
 }
 
 /* Marble ambient overlay */
@@ -666,34 +650,6 @@
   letter-spacing: 0.5px;
 }
 
-/* biography text */
-[data-theme="marble"] .memorial-biography {
-  line-height: 1.9;
-  color: oklch(0.35 0.01 80);
-  font-size: 16px;
-}
-
-/* paragraphs */
-[data-theme="marble"] .memorial-biography-paragraph {
-  margin-bottom: 16px;
-  opacity: 0.9;
-}
-
-/* subtle fade-in (optional but nice) */
-[data-theme="marble"] .memorial-biography-section {
-  animation: marbleFadeIn 0.6s ease;
-}
-
-@keyframes marbleFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 /* ============================================
    MARBLE THEME FONT SYSTEM

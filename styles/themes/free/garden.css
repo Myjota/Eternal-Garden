@@ -142,14 +142,17 @@
    ========================================= */
 
 [data-theme="garden"] .memorial-biography-section {
-  padding: 70px 20px;
+  padding: 4rem 1rem;
   background: linear-gradient(
     180deg,
-    #f3f8f4 0%,
-    #e6efe8 100%
+    oklch(0.98 0.01 145 / 0.98),
+    oklch(0.96 0.025 145 / 0.95),
+    oklch(0.94 0.03 145 / 0.92)
   );
   position: relative;
   overflow: hidden;
+  max-width: 48rem;
+  margin: 0 auto;
 }
 
 /* soft nature glow overlay */
@@ -158,9 +161,22 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(120, 180, 140, 0.15), transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(160, 210, 170, 0.12), transparent 60%);
+    radial-gradient(circle at 20% 20%, oklch(0.50 0.12 145 / 0.15), transparent 60%),
+    radial-gradient(circle at 80% 70%, oklch(0.60 0.08 145 / 0.12), transparent 60%);
   pointer-events: none;
+  z-index: 1;
+  animation: garden-biography-ambient 10s ease-in-out infinite alternate;
+}
+
+@keyframes garden-biography-ambient {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
 }
 
 /* subtle leaf texture */
@@ -186,15 +202,16 @@
   font-size: 28px;
   margin-bottom: 24px;
   text-align: center;
-  color: #1f3a2a;
+  color: var(--foreground);
   letter-spacing: 0.4px;
 }
 
 /* biography text */
 [data-theme="garden"] .memorial-biography {
   line-height: 1.95;
-  color: #2b3b33;
+  color: var(--foreground);
   font-size: 16px;
+  font-family: var(--font-serif);
 }
 
 /* paragraphs */
