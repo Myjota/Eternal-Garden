@@ -28,7 +28,12 @@ export function CandleSection({
   }
 
   return (
-    <section className="candle-section pt-2 pb-10 flex flex-col items-center">
+    <section
+      className="candle-section pt-4 pb-10 px-6 flex flex-col items-center
+                 rounded-2xl border border-amber-200
+                 bg-amber-50/60 backdrop-blur-sm
+                 shadow-sm"
+    >
       <div className="relative isolate flex flex-col items-center max-w-md text-center">
 
         {/* TITLE (hide after lit) */}
@@ -47,9 +52,9 @@ export function CandleSection({
             onClick={handleLight}
             disabled={loading}
             aria-busy={loading}
-            className="mt-4 px-6 py-2 rounded-md 
-                       bg-amber-500 text-white 
-                       hover:bg-amber-600 
+            className="mt-4 px-6 py-2 rounded-md
+                       bg-amber-500 text-white
+                       hover:bg-amber-600
                        transition disabled:opacity-50"
           >
             {loading ? "Uždegama..." : "Uždegti žvakę"}
