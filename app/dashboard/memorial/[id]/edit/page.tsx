@@ -78,7 +78,10 @@ export default function EditMemorialPage() {
   
   const [profileImage, setProfileImage] = useState<string | null>(null)
   const [newProfileImage, setNewProfileImage] = useState<File | null>(null)
+  const [coverImage, setCoverImage] = useState<string | null>(null)
+  const [newCoverImage, setNewCoverImage] = useState<File | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const coverInputRef = useRef<HTMLInputElement>(null)
   
   const t = getTranslations(locale)
   const supabase = createClient()
@@ -127,6 +130,7 @@ export default function EditMemorialPage() {
       allow_condolences: memorial.allow_condolences ?? true,
     })
     setProfileImage(memorial.profile_image_url)
+    setCoverImage(memorial.cover_image_url)
     
     // Get timeline events
     const { data: events } = await supabase
@@ -150,6 +154,14 @@ export default function EditMemorialPage() {
     }
   }
 
+  const handleCoverImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setNewCoverImage(file)
+      setCoverImage(URL.createObjectURL(file))
+    }
+  }
+
   const handleSave = async () => {
     if (!user || !memorial) return
     
@@ -157,8 +169,9 @@ export default function EditMemorialPage() {
     
     try {
       let profile_image_url = memorial.profile_image_url
+      let cover_image_url = memorial.cover_image_url
       
-      // Upload new image if selected
+      // Upload new profile image if selected
       if (newProfileImage) {
         const fileExt = newProfileImage.name.split('.').pop()
         const fileName = `${user.id}/${memorial.id}/profile.${fileExt}`
@@ -172,6 +185,23 @@ export default function EditMemorialPage() {
             .from('memorials')
             .getPublicUrl(fileName)
           profile_image_url = publicUrl
+        }
+      }
+
+      // Upload new cover image if selected
+      if (newCoverImage) {
+        const fileExt = newCoverImage.name.split('.').pop()
+        const fileName = `${user.id}/${memorial.id}/cover.${fileExt}`
+        
+        const { error: uploadError } = await supabase.storage
+          .from('memorials')
+          .upload(fileName, newCoverImage, { upsert: true })
+        
+        if (!uploadError) {
+          const { data: { publicUrl } } = supabase.storage
+            .from('memorials')
+            .getPublicUrl(fileName)
+          cover_image_url = publicUrl
         }
       }
       
@@ -192,6 +222,7 @@ export default function EditMemorialPage() {
           allow_candles: formData.allow_candles,
           allow_condolences: formData.allow_condolences,
           profile_image_url,
+          cover_image_url,
           updated_at: new Date().toISOString(),
         })
         .eq('id', memorialId)
@@ -301,11 +332,53 @@ export default function EditMemorialPage() {
 
             {/* General Info Tab */}
             <TabsContent value="general" className="space-y-6">
+              {/* Cover Image */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Virsaus nuotrauka</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div
+                    className="aspect-[3/1] relative rounded-lg overflow-hidden bg-muted cursor-pointer group"
+                    onClick={() => coverInputRef.current?.click()}
+                  >
+                    {coverImage ? (
+                      <>
+                        <Image
+                          src={coverImage}
+                          alt="Cover"
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <Upload className="h-8 w-8 text-white" />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
+                        <Upload className="h-8 w-8 mb-2" />
+                        <span className="text-sm">Pasirinkti virsaus nuotrauka</span>
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    ref={coverInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleCoverImageSelect}
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Rekomenduojama: 1200x400 pikselių arba 3:1 proporcija
+                  </p>
+                </CardContent>
+              </Card>
+
               <div className="grid gap-6 lg:grid-cols-3">
                 {/* Profile Image */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Nuotrauka</CardTitle>
+                    <CardTitle>Profilio nuotrauka</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div
