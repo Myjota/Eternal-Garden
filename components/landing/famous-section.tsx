@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
 import { type Translations } from '@/lib/i18n/locales/lt'
+import { usePathname } from 'next/navigation'
 
 interface FamousMemorial {
   id: string
@@ -27,37 +28,41 @@ export function FamousSection({ t }: FamousSectionProps) {
   const [famousMemorials, setFamousMemorials] = useState<FamousMemorial[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const pathname = usePathname()
   const itemsPerPage = 4
 
-  useEffect(() => {
-    const fetchFamousMemorials = async () => {
-      const supabase = createClient()
+  const fetchFamousMemorials = async () => {
+    setIsLoading(true) // 🔥 FIX loading glitch
 
-      const { data, error } = await supabase
-        .from('memorials')
-        .select('id, slug, name, birth_date, death_date, short_description, photo_url')
-        .eq('is_famous', true)
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+    const supabase = createClient()
 
-      if (!error && data) {
-        setFamousMemorials(data)
-      }
+    const { data, error } = await supabase
+      .from('memorials')
+      .select('id, slug, name, birth_date, death_date, short_description, photo_url')
+      .eq('is_famous', true)
+      .eq('is_public', true)
+      .order('created_at', { ascending: false })
 
-      setIsLoading(false)
+    if (!error && data) {
+      setFamousMemorials(data)
     }
 
-    fetchFamousMemorials()
-  }, [])
+    setIsLoading(false)
+  }
 
-  // 🔥 FIX 1: reset page when data changes
+  // 🔥 FIX: refetch when coming back / route changes
+  useEffect(() => {
+    fetchFamousMemorials()
+  }, [pathname])
+
+  // 🔥 FIX: reset page when data changes
   useEffect(() => {
     setCurrentPage(0)
   }, [famousMemorials])
 
   const totalPages = Math.ceil(famousMemorials.length / itemsPerPage)
 
-  // 🔥 FIX 2: clamp invalid page
+  // 🔥 FIX: prevent invalid page after data change
   useEffect(() => {
     if (currentPage > totalPages - 1) {
       setCurrentPage(0)
