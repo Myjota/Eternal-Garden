@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Search, X, Loader2, User } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
 interface Memorial {
@@ -45,8 +44,6 @@ export function MemorialSearch({
   const debounceRef = useRef<ReturnType<typeof setTimeout>>()
   const latestQueryRef = useRef('')
 
-  const supabase = createClient()
-
   const searchMemorials = useCallback(async (raw: string) => {
     const searchQuery = raw.trim()
 
@@ -60,28 +57,27 @@ export function MemorialSearch({
     setIsLoading(true)
 
     try {
-      const { data, error } = await supabase
-        .from('memorials')
-        .select('id, slug, first_name, last_name, birth_date, death_date, profile_image_url')
-        .eq('privacy', 'public')
-        .or(`first_name.ilike.%${searchQuery}%,last_name.ilike.%${searchQuery}%`)
-        .order('last_name', { ascending: true })
-        .limit(6)
+      const response = await fetch(`/api/search-memorials?q=${encodeURIComponent(searchQuery)}`)
+      const result = await response.json()
 
       if (latestQueryRef.current !== searchQuery) return
 
-      if (error) {
+      if (!response.ok) {
+        console.error('Search API error:', result.error)
         setResults([])
       } else {
-        setResults(data || [])
+        setResults(result.data || [])
         setIsOpen(true)
       }
+    } catch (error) {
+      console.error('Search error:', error)
+      setResults([])
     } finally {
       if (latestQueryRef.current === searchQuery) {
         setIsLoading(false)
       }
     }
-  }, [supabase])
+  }, [])
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
