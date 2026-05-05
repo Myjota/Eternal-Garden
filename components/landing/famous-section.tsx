@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { createClient } from '@/lib/supabase/client'
 import { type Translations } from '@/lib/i18n/locales/lt'
 
 interface FamousMemorial {
@@ -20,6 +19,7 @@ interface FamousMemorial {
 
 interface FamousSectionProps {
   t: Translations
+  theme?: string
 }
 
 export function FamousSection({ t }: FamousSectionProps) {
@@ -29,25 +29,6 @@ export function FamousSection({ t }: FamousSectionProps) {
 
   const itemsPerPage = 4
 
-  const fetchFamousMemorials = async () => {
-    setIsLoading(true)
-
-    const supabase = createClient()
-
-    const { data, error } = await supabase
-      .from('memorials')
-      .select('id, slug, name, birth_date, death_date, short_description, photo_url')
-      .eq('is_famous', true)
-      .eq('is_public', true)
-      .order('created_at', { ascending: false })
-
-    if (!error && data) {
-      setFamousMemorials(data)
-    }
-
-    setIsLoading(false)
-  }
-
   // ✅ FIX: stable fetch (NO pathname dependency)
   useEffect(() => {
     let isActive = true
@@ -55,19 +36,22 @@ export function FamousSection({ t }: FamousSectionProps) {
     const load = async () => {
       setIsLoading(true)
 
-      const supabase = createClient()
+      try {
+        const response = await fetch('/api/famous-memorials')
+        const result = await response.json()
+        
+        if (!response.ok) {
+          console.error('FamousSection - API error:', result.error)
+          throw new Error(result.error || 'Failed to fetch famous memorials')
+        }
 
-      const { data, error } = await supabase
-        .from('memorials')
-        .select('id, slug, name, birth_date, death_date, short_description, photo_url')
-        .eq('is_famous', true)
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        if (!isActive) return
 
-      if (!isActive) return
-
-      if (!error && data) {
-        setFamousMemorials(data)
+        if (result.data) {
+          setFamousMemorials(result.data)
+        }
+      } catch (error) {
+        console.error('FamousSection - Error:', error)
       }
 
       setIsLoading(false)
