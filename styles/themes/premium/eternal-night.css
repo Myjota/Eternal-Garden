@@ -170,10 +170,6 @@
   box-shadow: 0 0 0 4px oklch(0.15 0.02 270), 0 0 0 6px oklch(0.70 0.12 260);
 }
 
-[data-theme="eternal-night"] .timeline-card {
-  border: 1px solid oklch(0.28 0.04 270);
-  background: oklch(0.18 0.03 270 / 0.9);
-}
 
 /* ============================================
    MEMORIAL FONT SYSTEM

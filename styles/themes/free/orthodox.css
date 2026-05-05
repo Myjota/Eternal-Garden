@@ -90,15 +90,6 @@
 }
 
 /* Portrait */
-[data-theme="orthodox"] .portrait-frame {
-  background: linear-gradient(
-    135deg,
-    oklch(0.65 0.16 70),
-    oklch(0.55 0.14 60)
-  );
-  padding: 4px;
-  border-radius: 0;
-}
 
 /* Cross */
 [data-theme="orthodox"] .theme-cross::before {
@@ -424,16 +415,14 @@
 }
 
 [data-theme="orthodox"] .memorial-condolences-card {
-  max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
   border: 1px solid oklch(0.85 0.03 50 / 0.4);
   background: linear-gradient(
     135deg,
-    oklch(1 0 0 / 0.95),
-    oklch(0.985 0.002 50 / 0.9)
+    oklch(0.18 0.03 45 / 0.95),
+    oklch(0.15 0.04 60 / 0.9)
   );
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(15px);
+  overflow: hidden;
   border-radius: 0.75rem;
   box-shadow: 
     0 4px 20px oklch(0.65 0.16 70 / 0.15),

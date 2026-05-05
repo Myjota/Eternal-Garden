@@ -133,19 +133,9 @@
   box-shadow: 0 0 0 4px oklch(0.98 0.015 300), 0 0 0 6px oklch(0.68 0.14 290);
 }
 
-[data-theme="rainbow-bridge"] .timeline-card {
-  border: 1px solid oklch(0.90 0.04 300);
-  background: oklch(0.995 0.01 300 / 0.9);
-}
-
 /* ============================================
    AMBIENT OVERLAY
    ============================================ */
-
-[data-theme="rainbow-bridge"] .timeline-card {
-  border: 1px solid oklch(0.90 0.04 300);
-  background: oklch(0.995 0.01 300 / 0.9);
-}
 
 /* ============================================
    MEMORIAL FONT SYSTEM
