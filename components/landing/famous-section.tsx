@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
 import { type Translations } from '@/lib/i18n/locales/lt'
@@ -128,60 +127,56 @@ export function FamousSection({ t }: FamousSectionProps) {
             {/* Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
               {currentItems.map((memorial) => (
-                <Card
+                <Link
                   key={memorial.id}
-                  className="overflow-hidden border border-primary/30 bg-card 
-                             hover:border-primary/60 transition-all duration-300
-                             rounded-none p-0 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:-translate-y-1"
+                  href={`/memorial/${memorial.slug}`}
+                  className="group block"
                 >
-                  {/* Image */}
-                  <div className="aspect-[3/4] relative overflow-hidden bg-muted m-0 p-0">
-                    {memorial.photo_url ? (
-                      <Image
-                        src={memorial.photo_url}
-                        alt={memorial.name}
-                        fill
-                        className="object-cover sepia-[0.3]"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                        <span className="text-6xl font-serif text-primary/50">
-                          {memorial.name.charAt(0)}
-                        </span>
-                      </div>
-                    )}
+                  <Card
+                    className="overflow-hidden border border-primary/30 bg-card 
+                               hover:border-primary/60 transition-all duration-300
+                               rounded-none p-0 shadow-[0_4px_20px_rgba(0,0,0,0.25)]
+                               hover:-translate-y-1 cursor-pointer"
+                  >
 
-                    {/* Double frame */}
-                    <div className="absolute inset-0 border border-black/20 pointer-events-none" />
-                    <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
-                  </div>
+                    {/* Image */}
+                    <div className="aspect-[3/4] relative overflow-hidden bg-muted m-0 p-0">
+                      {memorial.photo_url ? (
+                        <Image
+                          src={memorial.photo_url}
+                          alt={memorial.name}
+                          fill
+                          className="object-cover sepia-[0.3]"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-primary/10">
+                          <span className="text-6xl font-serif text-primary/50">
+                            {memorial.name.charAt(0)}
+                          </span>
+                        </div>
+                      )}
 
-                  {/* Content */}
-                  <CardContent className="p-4 text-center border-t border-primary/20">
-                    <h3 className="font-serif font-semibold text-foreground">
-                      {memorial.name}
-                    </h3>
+                      {/* Frame */}
+                      <div className="absolute inset-0 border border-black/20 pointer-events-none" />
+                      <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
+                    </div>
 
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {memorial.birth_date ? new Date(memorial.birth_date).getFullYear() : '?'} – {memorial.death_date ? new Date(memorial.death_date).getFullYear() : '?'}
-                    </p>
+                    {/* Content */}
+                    <CardContent className="p-4 text-center border-t border-primary/20">
+                      <h3 className="font-serif font-semibold text-foreground group-hover:text-primary transition-colors">
+                        {memorial.name}
+                      </h3>
 
-                    <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                      {memorial.short_description || 'Žymus Lietuvos žmogus'}
-                    </p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {memorial.birth_date ? new Date(memorial.birth_date).getFullYear() : '?'} – {memorial.death_date ? new Date(memorial.death_date).getFullYear() : '?'}
+                      </p>
 
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="mt-4 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                      asChild
-                    >
-                      <Link href={`/memorial/${memorial.slug}`}>
-                        {t.famousSection?.viewMemorial || 'Peržiūrėti'}
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+                      <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                        {memorial.short_description || 'Žymus Lietuvos žmogus'}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
 
@@ -207,4 +202,4 @@ export function FamousSection({ t }: FamousSectionProps) {
       </div>
     </section>
   )
-        }
+                        }
