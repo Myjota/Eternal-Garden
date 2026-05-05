@@ -2,6 +2,7 @@
 
 import { Header } from '@/components/layout/header'
 import { MemorialHero } from '@/components/memorial/MemorialHero'
+import { MemorialBiography } from '@/components/memorial/MemorialBiography'
 import { MemorialTabs } from '@/components/memorial/MemorialTabs'
 import { CandleSection } from '@/components/candle/CandleSection'
 
@@ -66,10 +67,13 @@ export function MemorialClient({
       {/* HERO */}
       <MemorialHero memorial={memorial} />
 
-      {/* 🕯️ SINGLE CANDLE SYSTEM (NEW CORE UX) */}
+      {/* 🕯️ CANDLE SYSTEM */}
       {memorial.allow_candles && (
         <CandleSection initialLit={false} />
       )}
+
+      {/* 🧩 BIOGRAPHY – būtent čia (po žvakių) */}
+      <MemorialBiography biography={memorial.biography} />
 
       {/* TABS */}
       <MemorialTabs
@@ -79,4 +83,4 @@ export function MemorialClient({
       />
     </div>
   )
-}
+      }
