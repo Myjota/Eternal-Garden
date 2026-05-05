@@ -51,26 +51,31 @@
 }
 
 /* ============================================
-   BASE THEME DEFAULTS (prevents color flash)
+   BASE THEME DEFAULTS (Garden - prevents flash)
    ============================================ */
 :root {
-  /* Default to garden theme colors */
-  --primary: oklch(0.35 0.12 145);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.95 0.02 145);
-  --secondary-foreground: oklch(0.25 0.08 145);
-  --accent: oklch(0.45 0.10 145);
-  --accent-foreground: oklch(0.98 0 0);
-  --background: oklch(0.99 0.005 145);
-  --foreground: oklch(0.20 0.02 145);
-  --muted: oklch(0.96 0.01 145);
-  --muted-foreground: oklch(0.45 0.05 145);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.02 145);
-  --border: oklch(0.90 0.02 145);
-  --destructive: oklch(0.55 0.2 25);
+  /* Garden theme - Forest Green (hue 145) */
+  --primary: oklch(0.40 0.12 145);
+  --primary-foreground: oklch(0.98 0.005 145);
+  --secondary: oklch(0.94 0.03 145);
+  --secondary-foreground: oklch(0.30 0.08 145);
+  --accent: oklch(0.50 0.10 145);
+  --accent-foreground: oklch(0.98 0.005 145);
+  --background: oklch(0.985 0.008 145);
+  --foreground: oklch(0.22 0.03 145);
+  --muted: oklch(0.95 0.015 145);
+  --muted-foreground: oklch(0.48 0.05 145);
+  --card: oklch(0.995 0.005 145);
+  --card-foreground: oklch(0.22 0.03 145);
+  --border: oklch(0.88 0.025 145);
+  --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
   --radius: 0.625rem;
+  
+  /* Theme-specific */
+  --theme-glow-color: oklch(0.50 0.12 145 / 0.15);
+  --theme-gradient-start: oklch(0.92 0.04 145);
+  --theme-gradient-end: oklch(0.96 0.02 145);
 }
 
 /* ============================================
