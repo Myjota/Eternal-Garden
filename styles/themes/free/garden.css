@@ -137,6 +137,87 @@
   z-index: 2;
 }
 
+/* =========================================
+   GARDEN THEME — BIOGRAPHY
+   ========================================= */
+
+[data-theme="garden"] .memorial-biography-section {
+  padding: 70px 20px;
+  background: linear-gradient(
+    180deg,
+    #f3f8f4 0%,
+    #e6efe8 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+/* soft nature glow overlay */
+[data-theme="garden"] .memorial-biography-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(120, 180, 140, 0.15), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(160, 210, 170, 0.12), transparent 60%);
+  pointer-events: none;
+}
+
+/* subtle leaf texture */
+[data-theme="garden"] .memorial-biography-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/green-fibers.png");
+}
+
+/* container */
+[data-theme="garden"] .memorial-container {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* title */
+[data-theme="garden"] .memorial-section-title {
+  font-size: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #1f3a2a;
+  letter-spacing: 0.4px;
+}
+
+/* biography text */
+[data-theme="garden"] .memorial-biography {
+  line-height: 1.95;
+  color: #2b3b33;
+  font-size: 16px;
+}
+
+/* paragraphs */
+[data-theme="garden"] .memorial-biography-paragraph {
+  margin-bottom: 16px;
+  opacity: 0.92;
+}
+
+/* gentle fade-in */
+[data-theme="garden"] .memorial-biography-section {
+  animation: gardenFadeIn 0.7s ease;
+}
+
+@keyframes gardenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* ============================================
    TYPOGRAPHY
@@ -351,107 +432,6 @@
 }
 
 /* ============================================
-   INTERACTIVE AREAS
-   ============================================ */
-
-[data-theme="garden"] .memorial-candle-area,
-[data-theme="garden"] .memorial-comments,
-[data-theme="garden"] .memorial-tributes {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin: 2rem 0;
-}
-
-[data-theme="garden"] .memorial-candle-area {
-  text-align: center;
-  box-shadow: 0 4px 20px var(--theme-glow-color);
-}
-
-/* ============================================
-   ACTIONS
-   ============================================ */
-
-[data-theme="garden"] .memorial-actions {
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-@media (min-width: 640px) {
-  [data-theme="garden"] .memorial-actions {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-
-[data-theme="garden"] .memorial-candle-button {
-  gap: 0.75rem;
-  font-size: 1rem;
-  padding: 1.25rem 1.75rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
-  box-shadow: 0 8px 20px oklch(0.50 0.12 145 / 0.2);
-  transition: all 0.25s ease;
-}
-
-[data-theme="garden"] .memorial-candle-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px oklch(0.50 0.12 145 / 0.25);
-}
-
-[data-theme="garden"] .memorial-candle-icon {
-  filter: drop-shadow(0 0 6px oklch(0.55 0.12 145 / 0.4));
-}
-
-[data-theme="garden"] .memorial-share-button {
-  gap: 0.5rem;
-}
-
-/* ============================================
-   STATS
-   ============================================ */
-
-[data-theme="garden"] .memorial-stats {
-  margin-top: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-}
-
-[data-theme="garden"] .memorial-stat-item {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-[data-theme="garden"] .memorial-stat-icon {
-  padding: 0.625rem;
-  border-radius: 50%;
-  background: oklch(0.50 0.12 145 / 0.1);
-  color: var(--primary);
-}
-
-[data-theme="garden"] .memorial-stat-content {
-  text-align: left;
-}
-
-[data-theme="garden"] .memorial-stat-number {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: var(--foreground);
-}
-
-[data-theme="garden"] .memorial-stat-label {
-  font-size: 0.8rem;
-  color: var(--muted-foreground);
-}
-
-/* ============================================
    TABS
    ============================================ */
 
@@ -568,81 +548,6 @@
   font-size: 0.8rem;
   margin-top: 0.5rem;
   font-style: italic;
-}
-
-/* ============================================
-   GALLERY
-   ============================================ */
-
-[data-theme="garden"] .memorial-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  [data-theme="garden"] .memorial-gallery {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  [data-theme="garden"] .memorial-gallery {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-[data-theme="garden"] .memorial-gallery-item {
-  overflow: hidden;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: 0 2px 12px oklch(0.50 0.12 145 / 0.06);
-  transition: all 0.3s ease;
-}
-
-[data-theme="garden"] .memorial-gallery-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.12);
-}
-
-[data-theme="garden"] .memorial-gallery-image {
-  aspect-ratio: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-[data-theme="garden"] .memorial-gallery-img {
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-[data-theme="garden"] .memorial-gallery-item:hover .memorial-gallery-img {
-  transform: scale(1.05);
-}
-
-[data-theme="garden"] .memorial-gallery-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  background: oklch(0.50 0.12 145 / 0.1);
-  transition: opacity 0.3s ease;
-}
-
-[data-theme="garden"] .memorial-gallery-item:hover .memorial-gallery-overlay {
-  opacity: 1;
-}
-
-[data-theme="garden"] .memorial-gallery-caption {
-  font-size: 0.8rem;
-  color: var(--muted-foreground);
-  text-align: center;
-  padding: 0.625rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* ============================================
