@@ -56,21 +56,24 @@ export function Header({
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   const handleLogout = async () => {
-    const supabase = createClient()
-    
     try {
-      // Clear session
-      const { error } = await supabase.auth.signOut()
-      
-      if (error) {
-        console.error('Logout error:', error)
+      // Use dedicated logout route for proper server-side session clearing
+      const response = await fetch('/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        console.error('Logout failed')
         return
       }
 
-      // Force complete page reload to clear all auth state
+      // Redirect to homepage after successful logout
       window.location.href = '/'
     } catch (error) {
-      console.error('Logout failed:', error)
+      console.error('Logout error:', error)
     }
   }
 
