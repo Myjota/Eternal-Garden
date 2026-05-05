@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { CandleLit, CandleUnlit } from "./Candle";
+import { useCandlesData } from "@/hooks/useCandlesData";
+import { createClient } from "@/lib/supabase/client";
 
 type CandleSectionProps = {
+  memorialId: string;
   initialLit?: boolean;
   onLight?: () => void;
 };
@@ -21,45 +24,71 @@ type CandleStats = {
 };
 
 export function CandleSection({
+  memorialId,
   initialLit = false,
   onLight,
 }: CandleSectionProps) {
   const [isLit, setIsLit] = useState(initialLit);
   const [loading, setLoading] = useState(false);
-  const [stats, setStats] = useState<CandleStats>({
-    currentlyBurning: 12,
-    totalLit: 2853
-  });
-  const [recentUsers, setRecentUsers] = useState<RecentUser[]>([
-    { id: "1", name: "Agnė", timeAgo: "prieš 2 min.", avatar: "/api/placeholder/32/32" },
-    { id: "2", name: "Marius", timeAgo: "prieš 5 min.", avatar: "/api/placeholder/32/32" }
-  ]);
+  
+  // Use real data from Supabase
+  const { stats, recentUsers, currentUser, loading: dataLoading, error, lightCandle, getUserCandleStatus } = useCandlesData(memorialId);
+
+  // Check if current user has already lit a candle
+  useEffect(() => {
+    if (currentUser && !dataLoading) {
+      getUserCandleStatus().then(setIsLit);
+    }
+  }, [currentUser, dataLoading, getUserCandleStatus]);
 
   async function handleLight() {
     if (isLit || loading) return;
 
+    // If no current user, ask for name
+    if (!currentUser) {
+      const name = prompt('Įveskite savo vardą:');
+      if (!name || !name.trim()) {
+        return;
+      }
+      
+      setLoading(true);
+      
+      try {
+        const result = await lightCandle(name.trim());
+        
+        if (result.success) {
+          setIsLit(true);
+          onLight?.();
+        } else {
+          alert(result.error || 'Nepavyko uždegti žvakės');
+        }
+      } catch (error) {
+        console.error('Error lighting candle:', error);
+        alert('Nepavyko uždegti žvakės');
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Authenticated user flow
     setLoading(true);
-    await new Promise((res) => setTimeout(res, 800));
-
-    setIsLit(true);
-    setLoading(false);
-
-    // Update stats
-    setStats(prev => ({
-      currentlyBurning: prev.currentlyBurning + 1,
-      totalLit: prev.totalLit + 1
-    }));
-
-    // Add current user to recent
-    const newUser: RecentUser = {
-      id: Date.now().toString(),
-      name: "Jūs",
-      timeAgo: "ką tik",
-      avatar: "/api/placeholder/32/32"
-    };
-    setRecentUsers(prev => [newUser, ...prev.slice(0, 1)]);
-
-    onLight?.();
+    
+    try {
+      const result = await lightCandle(currentUser.name);
+      
+      if (result.success) {
+        setIsLit(true);
+        onLight?.();
+      } else {
+        alert(result.error || 'Nepavyko uždegti žvakės');
+      }
+    } catch (error) {
+      console.error('Error lighting candle:', error);
+      alert('Nepavyko uždegti žvakės');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -79,12 +108,12 @@ export function CandleSection({
               <span className="w-3 h-3 bg-orange-400 rounded-full animate-pulse shadow-lg shadow-orange-400/50"></span>
               <span className="font-semibold">Dega dabar</span>
             </div>
-            <span className="text-amber-300 font-bold text-2xl ml-5">{stats.currentlyBurning}</span>
+            <span className="text-amber-300 font-bold text-2xl ml-5">{stats.currently_burning}</span>
             <span className="text-amber-400 text-xs ml-5">žmonių</span>
           </div>
           <div className="flex flex-col items-end">
             <span className="font-semibold mb-1">Viso uždegta</span>
-            <span className="text-amber-300 font-bold text-2xl">{stats.totalLit.toLocaleString()}</span>
+            <span className="text-amber-300 font-bold text-2xl">{stats.total_lit.toLocaleString()}</span>
             <span className="text-amber-400 text-xs">žvakės</span>
           </div>
         </div>
@@ -106,7 +135,7 @@ export function CandleSection({
           {!isLit && (
             <button
               onClick={handleLight}
-              disabled={loading}
+              disabled={loading || dataLoading}
               aria-busy={loading}
               className="mt-8 px-8 py-3 rounded-full
                          bg-gradient-to-r from-orange-500 to-amber-500 text-white
@@ -116,6 +145,14 @@ export function CandleSection({
             >
               {loading ? "Uždegama..." : "Uždegti žvakę"}
             </button>
+          )}
+
+          {!currentUser && !dataLoading && (
+            <div className="mt-4 p-3 bg-amber-900/20 rounded-lg border border-amber-500/30">
+              <p className="text-amber-300 text-center text-xs">
+                Neprisijungusiems vartotojams reikės įvesti vardą
+              </p>
+            </div>
           )}
 
           {isLit && (
@@ -141,10 +178,25 @@ export function CandleSection({
             <div>
               <span className="text-amber-400">Paskutinę žvakę uždegė </span>
               <span className="text-amber-300 font-semibold">{recentUsers[0]?.name}</span>
-              <span className="text-amber-400 ml-1">{recentUsers[0]?.timeAgo}</span>
+              <span className="text-amber-400 ml-1">{recentUsers[0]?.time_ago}</span>
             </div>
           </div>
         </div>
+
+        {/* Error display */}
+        {error && (
+          <div className="absolute inset-0 bg-red-900/20 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-red-900/80 p-4 rounded-lg border border-red-500/50">
+              <p className="text-red-200 text-center">{error}</p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="mt-2 w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Bandyti iš naujo
+              </button>
+            </div>
+          </div>
+        )}
 
       </div>
     </section>
