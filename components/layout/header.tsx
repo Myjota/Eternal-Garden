@@ -70,6 +70,10 @@ export function Header({
         return
       }
 
+      // Also call client-side signOut to trigger auth state change immediately
+      const supabase = createClient()
+      await supabase.auth.signOut()
+
       // Redirect to homepage after successful logout
       window.location.href = '/'
     } catch (error) {
