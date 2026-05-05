@@ -89,25 +89,8 @@ export async function lightCandle(memorialId: string, userId: string | null, use
     if (existingCandle) {
       return { success: false, error: 'Jūs jau uždegėte žvakę šiam memorialui' }
     }
-  } else {
-    // For anonymous users, check by name and recent time (within last hour)
-    const oneHourAgo = new Date()
-    oneHourAgo.setHours(oneHourAgo.getHours() - 1)
-    
-    const { data: existingCandle } = await supabase
-      .from('candles')
-      .select('id')
-      .eq('memorial_id', memorialId)
-      .eq('user_id', null)
-      .eq('user_name', userName)
-      .eq('is_lit', true)
-      .gte('lit_at', oneHourAgo.toISOString())
-      .single()
-    
-    if (existingCandle) {
-      return { success: false, error: 'Jūs jau neseniai uždegėte žvakę šiam memorialui' }
-    }
   }
+  // For anonymous users, no restrictions - allow multiple candles
   
   // Create new candle
   const expiresAt = new Date()

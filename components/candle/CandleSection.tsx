@@ -44,38 +44,12 @@ export function CandleSection({
   async function handleLight() {
     if (isLit || loading) return;
 
-    // If no current user, ask for name
-    if (!currentUser) {
-      const name = prompt('Įveskite savo vardą:');
-      if (!name || !name.trim()) {
-        return;
-      }
-      
-      setLoading(true);
-      
-      try {
-        const result = await lightCandle(name.trim());
-        
-        if (result.success) {
-          setIsLit(true);
-          onLight?.();
-        } else {
-          alert(result.error || 'Nepavyko uždegti žvakės');
-        }
-      } catch (error) {
-        console.error('Error lighting candle:', error);
-        alert('Nepavyko uždegti žvakės');
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
-
-    // Authenticated user flow
     setLoading(true);
     
     try {
-      const result = await lightCandle(currentUser.name);
+      // For both authenticated and anonymous users, use name or default
+      const userName = currentUser?.name || 'Anonymous';
+      const result = await lightCandle(userName);
       
       if (result.success) {
         setIsLit(true);
@@ -150,7 +124,7 @@ export function CandleSection({
           {!currentUser && !dataLoading && (
             <div className="mt-4 p-3 bg-amber-900/20 rounded-lg border border-amber-500/30">
               <p className="text-amber-300 text-center text-xs">
-                Neprisijungusiems vartotojams reikės įvesti vardą
+                Žvakė bus uždegta anonimiškai
               </p>
             </div>
           )}

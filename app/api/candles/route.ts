@@ -40,18 +40,21 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient()
     const { memorialId, userName, userAvatar } = await request.json()
     
-    if (!memorialId || !userName) {
-      return NextResponse.json({ error: 'memorial_id and userName are required' }, { status: 400 })
+    if (!memorialId) {
+      return NextResponse.json({ error: 'memorial_id is required' }, { status: 400 })
     }
     
     // Get authenticated user (optional - allow anonymous like condolences)
     const { data: { user } } = await supabase.auth.getUser()
     
+    // Use provided userName or default to "Anonymous"
+    const finalUserName = userName || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Anonymous'
+    
     // Light the candle (allow anonymous users)
     const result = await lightCandle(
       memorialId,
       user?.id || null,
-      userName,
+      finalUserName,
       userAvatar || user?.user_metadata?.avatar
     )
     
