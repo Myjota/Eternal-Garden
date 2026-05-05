@@ -27,34 +27,51 @@ export function FamousSection({ t }: FamousSectionProps) {
   const [famousMemorials, setFamousMemorials] = useState<FamousMemorial[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const itemsPerPage = 4
+
   useEffect(() => {
     const fetchFamousMemorials = async () => {
       const supabase = createClient()
+
       const { data, error } = await supabase
         .from('memorials')
         .select('id, slug, name, birth_date, death_date, short_description, photo_url')
         .eq('is_famous', true)
         .eq('is_public', true)
-        .order('created_at', { ascending: true })
+        .order('created_at', { ascending: false })
 
       if (!error && data) {
         setFamousMemorials(data)
       }
+
       setIsLoading(false)
     }
 
     fetchFamousMemorials()
   }, [])
 
-  const itemsPerPage = 4
+  // 🔥 FIX 1: reset page when data changes
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [famousMemorials])
+
   const totalPages = Math.ceil(famousMemorials.length / itemsPerPage)
 
+  // 🔥 FIX 2: clamp invalid page
+  useEffect(() => {
+    if (currentPage > totalPages - 1) {
+      setCurrentPage(0)
+    }
+  }, [totalPages, currentPage])
+
   const currentItems = useMemo(() => {
+    if (!famousMemorials.length) return []
+
     return famousMemorials.slice(
       currentPage * itemsPerPage,
       (currentPage + 1) * itemsPerPage
     )
-  }, [currentPage, famousMemorials])
+  }, [currentPage, famousMemorials, itemsPerPage])
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(0, Math.min(page, totalPages - 1)))
@@ -73,7 +90,7 @@ export function FamousSection({ t }: FamousSectionProps) {
   }
 
   return (
-    <section className="py-16 md:py-24 bg-muted/30">
+    <section className="py-16 md:py-24 bg-muted/30 min-h-[600px]">
       <div className="container mx-auto px-4">
 
         {/* Header */}
@@ -140,7 +157,7 @@ export function FamousSection({ t }: FamousSectionProps) {
                   >
 
                     {/* Image */}
-                    <div className="aspect-[3/4] relative overflow-hidden bg-muted m-0 p-0">
+                    <div className="aspect-[3/4] relative overflow-hidden bg-muted">
                       {memorial.photo_url ? (
                         <Image
                           src={memorial.photo_url}
@@ -156,7 +173,6 @@ export function FamousSection({ t }: FamousSectionProps) {
                         </div>
                       )}
 
-                      {/* Frame */}
                       <div className="absolute inset-0 border border-black/20 pointer-events-none" />
                       <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
                     </div>
@@ -175,6 +191,7 @@ export function FamousSection({ t }: FamousSectionProps) {
                         {memorial.short_description || 'Žymus Lietuvos žmogus'}
                       </p>
                     </CardContent>
+
                   </Card>
                 </Link>
               ))}
@@ -202,4 +219,4 @@ export function FamousSection({ t }: FamousSectionProps) {
       </div>
     </section>
   )
-                        }
+      }
