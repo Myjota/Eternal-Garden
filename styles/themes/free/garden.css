@@ -1,38 +1,42 @@
 /* ============================================
-   GARDEN THEME - MEMORIAL CORE (CLEAN CINEMATIC v7)
+   GARDEN THEME - MEMORIAL (v8 CLEAN)
+   Forest green natural aesthetic
    ============================================ */
 
 [data-theme="garden"] {
   position: relative;
   isolation: isolate;
 
-  /* Core colors */
-  --primary: oklch(0.35 0.08 55);
-  --primary-foreground: oklch(0.98 0 0);
+  /* Core palette - Forest Green (hue 145) */
+  --primary: oklch(0.40 0.12 145);
+  --primary-foreground: oklch(0.98 0.005 145);
 
-  --secondary: oklch(0.95 0.02 55);
-  --secondary-foreground: oklch(0.25 0.05 55);
+  --secondary: oklch(0.94 0.03 145);
+  --secondary-foreground: oklch(0.30 0.08 145);
 
-  --accent: oklch(0.45 0.08 55);
-  --accent-foreground: oklch(0.98 0 0);
+  --accent: oklch(0.50 0.10 145);
+  --accent-foreground: oklch(0.98 0.005 145);
 
-  --background: oklch(0.99 0.005 55);
-  --foreground: oklch(0.20 0.02 55);
+  --background: oklch(0.985 0.008 145);
+  --foreground: oklch(0.22 0.03 145);
 
-  --muted: oklch(0.96 0.01 55);
-  --muted-foreground: oklch(0.45 0.04 55);
+  --muted: oklch(0.95 0.015 145);
+  --muted-foreground: oklch(0.48 0.05 145);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.02 55);
+  --card: oklch(0.995 0.005 145);
+  --card-foreground: oklch(0.22 0.03 145);
 
-  --border: oklch(0.90 0.02 55);
+  --border: oklch(0.88 0.025 145);
   --radius: 0.625rem;
 
-  --theme-glow-color: rgba(0,0,0,0.06);
+  /* Theme-specific */
+  --theme-glow-color: oklch(0.50 0.12 145 / 0.15);
+  --theme-gradient-start: oklch(0.92 0.04 145);
+  --theme-gradient-end: oklch(0.96 0.02 145);
 }
 
 /* ============================================
-   GLOBAL BACKGROUND (LAYER 0)
+   GLOBAL BACKGROUND
    ============================================ */
 
 [data-theme="garden"] {
@@ -40,6 +44,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* ============================================
@@ -53,51 +58,40 @@
   text-align: center;
   overflow: hidden;
   background: linear-gradient(
-    135deg,
-    oklch(0.92 0.02 120 / 0.98),
-    oklch(0.96 0.01 140 / 0.95),
-    oklch(0.94 0.03 130 / 0.92)
+    160deg,
+    oklch(0.94 0.035 145 / 0.97),
+    oklch(0.96 0.025 145 / 0.95),
+    oklch(0.93 0.04 145 / 0.93)
   );
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
 }
 
-/* Garden ambient overlay */
+/* Subtle garden ambient glow */
 [data-theme="garden"] .memorial-cover::before {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at 20% 15%,
-    oklch(0.65 0.16 70 / 0.25),
-    transparent 45%
+    ellipse at 30% 20%,
+    oklch(0.55 0.12 145 / 0.12),
+    transparent 50%
   ),
   radial-gradient(
-    circle at 80% 85%,
-    oklch(0.45 0.18 75 / 0.18),
-    transparent 55%
-  ),
-  radial-gradient(
-    circle at 50% 50%,
-    oklch(0.75 0.12 120 / 0.08),
-    transparent 70%
+    ellipse at 70% 80%,
+    oklch(0.45 0.10 145 / 0.08),
+    transparent 50%
   );
   pointer-events: none;
   z-index: 1;
-  animation: garden-ambient 8s ease-in-out infinite alternate;
+  animation: garden-ambient 10s ease-in-out infinite alternate;
 }
 
 @keyframes garden-ambient {
-  0% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
 }
 
-/* 🔥 COVER IMAGE (LAYER 1) */
+/* Background wrapper */
 [data-theme="garden"] .memorial-bg-wrapper {
   position: absolute;
   inset: 0;
@@ -116,6 +110,7 @@
   height: 100%;
 }
 
+/* Profile container */
 [data-theme="garden"] .memorial-profile-container {
   position: relative;
   margin: 0 auto 2rem;
@@ -137,7 +132,7 @@
   }
 }
 
-/* 🔥 CONTENT (LAYER 2) */
+/* Content layer */
 [data-theme="garden"] .memorial-content {
   position: relative;
   z-index: 2;
@@ -148,104 +143,63 @@
    TYPOGRAPHY
    ============================================ */
 
-[data-theme="garden"] h1 {
-  font-size: 3rem;
-  font-family: serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
 [data-theme="garden"] .memorial-epitaph {
   margin-top: 2rem;
-  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
   font-style: italic;
-  max-width: 24rem;
+  max-width: 28rem;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.6;
-  color: oklch(0.35 0.02 55);
-  opacity: 0.95;
-  text-shadow: 
-    0 1px 4px rgba(34, 197, 94, 0.15),
-    0 0 20px oklch(0.65 0.16 70 / 0.1);
+  line-height: 1.7;
+  color: var(--muted-foreground);
   position: relative;
   z-index: 2;
-  font-family: var(--font-sans);
-  padding: 1rem;
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.01 120 / 0.4),
-    oklch(0.96 0.02 140 / 0.3)
-  );
+  font-family: var(--font-serif);
+  padding: 1.25rem 1.5rem;
+  background: oklch(0.98 0.01 145 / 0.6);
   border-radius: 0.75rem;
-  border: 1px solid oklch(0.85 0.03 120 / 0.3);
-  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
 }
 
 [data-theme="garden"] .memorial-cover p {
   margin-top: 1rem;
 }
 
-/* ============================================
-   MEMORIAL NAME
-   ============================================ */
-
+/* Memorial name */
 [data-theme="garden"] .memorial-name {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 5vw, 3.25rem);
   font-family: var(--font-serif);
   font-weight: 700;
-  letter-spacing: -0.025em;
-  color: oklch(0.20 0.03 55);
-  text-shadow: 
-    0 2px 12px rgba(34, 197, 94, 0.2),
-    0 0 40px oklch(0.65 0.16 70 / 0.3),
-    0 4px 20px oklch(0.45 0.18 75 / 0.15);
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  text-shadow: 0 2px 8px oklch(0.50 0.12 145 / 0.15);
   margin-bottom: 1rem;
   position: relative;
   z-index: 2;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.01 120 / 0.2),
-    oklch(0.96 0.02 140 / 0.15)
-  );
-  border-radius: 1rem;
-  backdrop-filter: blur(8px);
-  border: 1px solid oklch(0.85 0.03 120 / 0.2);
 }
 
-/* ============================================
-   MEMORIAL DATES
-   ============================================ */
-
+/* Memorial dates */
 [data-theme="garden"] .memorial-dates {
-  color: oklch(0.45 0.08 55);
-  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
   font-weight: 500;
-  text-shadow: 0 1px 2px oklch(0.65 0.16 70 / 0.2);
-  padding: 0.5rem 1rem;
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.01 120 / 0.3),
-    oklch(0.96 0.02 140 / 0.25)
-  );
+  padding: 0.5rem 1.25rem;
+  background: oklch(0.96 0.02 145 / 0.7);
   border-radius: 2rem;
-  border: 1px solid oklch(0.85 0.03 120 / 0.3);
+  border: 1px solid var(--border);
   backdrop-filter: blur(8px);
   display: inline-block;
 }
 
-/* ============================================
-   MEMORIAL BIO
-   ============================================ */
-
+/* Memorial bio */
 [data-theme="garden"] .memorial-bio {
   margin-top: 1.5rem;
-  font-size: 0.875rem;
-  max-width: 40rem;
+  font-size: 0.9rem;
+  max-width: 36rem;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--muted-foreground);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -254,46 +208,38 @@
 }
 
 /* ============================================
-   MEMORIAL FONT SYSTEM
-   ============================================ */
-
-/* ============================================
-   GARDEN THEME FONT SYSTEM
+   FONT SYSTEM
    ============================================ */
 
 [data-theme="garden"] .memorial-font-base {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.5;
-  color: oklch(0.25 0.02 55);
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  color: var(--foreground);
 }
 
 [data-theme="garden"] .memorial-font-heading {
-  font-family: 'Playfair Display', 'Georgia', serif;
+  font-family: var(--font-serif);
   font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.025em;
-  color: oklch(0.20 0.03 55);
-  font-variation-settings: 'wght' 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
 }
 
 [data-theme="garden"] .memorial-font-body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.6;
-  color: oklch(0.35 0.02 55);
-  font-feature-settings: 'rlig' 1, 'calt' 1;
+  line-height: 1.65;
+  color: var(--muted-foreground);
 }
 
 [data-theme="garden"] .memorial-font-accent {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 0.875rem;
-  color: oklch(0.45 0.08 55);
-  letter-spacing: 0.03em;
+  font-size: 0.8rem;
+  color: var(--primary);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  font-feature-settings: 'ss01' 1;
 }
 
 /* ============================================
@@ -306,26 +252,24 @@
   width: 100%;
   border-radius: 50%;
   overflow: hidden;
-  padding: 8px;
+  padding: 6px;
   background: linear-gradient(
-    135deg,
-    oklch(0.92 0.02 120),
-    oklch(0.96 0.01 140)
+    145deg,
+    oklch(0.92 0.04 145),
+    oklch(0.96 0.025 145)
   );
-  border: 2px solid oklch(0.85 0.03 120 / 0.3);
+  border: 2px solid oklch(0.85 0.04 145 / 0.4);
   box-shadow: 
-    0 15px 35px rgba(34, 197, 94, 0.2),
-    0 5px 15px rgba(0, 0, 0, 0.1),
-    inset 0 0 0 1px oklch(0.98 0.002 120 / 0.4);
+    0 12px 30px oklch(0.50 0.12 145 / 0.2),
+    0 4px 12px oklch(0.20 0.02 145 / 0.08);
   transition: all 0.3s ease;
 }
 
 [data-theme="garden"] .portrait-frame:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 
-    0 20px 45px rgba(34, 197, 94, 0.3),
-    0 8px 20px rgba(0, 0, 0, 0.15),
-    inset 0 0 0 1px oklch(0.98 0.002 120 / 0.6);
+    0 18px 40px oklch(0.50 0.12 145 / 0.25),
+    0 6px 16px oklch(0.20 0.02 145 / 0.1);
 }
 
 [data-theme="garden"] .portrait-frame img {
@@ -336,69 +280,55 @@
   object-fit: cover;
 }
 
-/* Avatar glow */
+/* Portrait glow ring */
 [data-theme="garden"] .portrait-frame::after {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: -4px;
   border-radius: 50%;
   background: linear-gradient(
-    45deg,
-    oklch(0.65 0.16 70 / 0.3),
-    oklch(0.45 0.18 75 / 0.2),
-    oklch(0.65 0.16 70 / 0.3)
+    135deg,
+    oklch(0.55 0.12 145 / 0.25),
+    oklch(0.45 0.10 145 / 0.15)
   );
   z-index: -1;
-  animation: garden-glow 3s ease-in-out infinite;
+  animation: portrait-glow 4s ease-in-out infinite;
 }
 
-@keyframes garden-glow {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
+@keyframes portrait-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 /* ============================================
-   THEME GLOW BACKGROUND
+   GLOW & CARD EFFECTS
    ============================================ */
 
 [data-theme="garden"] .theme-glow-bg {
-  background: rgba(255, 255, 255, 0.85);
+  background: oklch(0.99 0.005 145 / 0.9);
   backdrop-filter: blur(12px);
   padding: 2rem;
   border-radius: var(--radius);
-  border: 1px solid oklch(0.85 0.03 120 / 0.3);
-  box-shadow: 
-    0 8px 32px rgba(34, 197, 94, 0.1),
-    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.08);
 }
-
-/* ============================================
-   CARD GLOW
-   ============================================ */
 
 [data-theme="garden"] .theme-card-glow {
   box-shadow: 
-    0 0 40px rgba(34, 197, 94, 0.15),
-    0 20px 60px rgba(0, 0, 0, 0.1),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
-  transition: box-shadow 0.3s ease;
+    0 4px 20px oklch(0.50 0.12 145 / 0.1),
+    0 12px 40px oklch(0.20 0.02 145 / 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 [data-theme="garden"] .theme-card-glow:hover {
+  transform: translateY(-2px);
   box-shadow: 
-    0 0 60px rgba(34, 197, 94, 0.25),
-    0 30px 80px rgba(0, 0, 0, 0.15),
-    inset 0 0 30px rgba(255, 255, 255, 0.2);
+    0 8px 30px oklch(0.50 0.12 145 / 0.15),
+    0 20px 50px oklch(0.20 0.02 145 / 0.08);
 }
 
 /* ============================================
-   MEMORIAL STRUCTURE CLASSES
+   LAYOUT STRUCTURE
    ============================================ */
 
 [data-theme="garden"] .memorial-location {
@@ -407,42 +337,26 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
-  opacity: 0.8;
+  color: var(--muted-foreground);
 }
 
 [data-theme="garden"] .memorial-section-top {
   position: relative;
-  padding-top: 5rem;
+  padding-top: 4rem;
 }
 
 [data-theme="garden"] .memorial-section-bottom {
   position: relative;
-  padding-bottom: 5rem;
-  margin-top: 3rem;
+  padding-bottom: 4rem;
+  margin-top: 2.5rem;
 }
 
 /* ============================================
-   MEMORIAL INTERACTIVE AREAS
+   INTERACTIVE AREAS
    ============================================ */
 
-[data-theme="garden"] .memorial-candle-area {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin: 2rem 0;
-  text-align: center;
-  box-shadow: 0 0 30px var(--theme-glow-color);
-}
-
-[data-theme="garden"] .memorial-comments {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin: 2rem 0;
-}
-
+[data-theme="garden"] .memorial-candle-area,
+[data-theme="garden"] .memorial-comments,
 [data-theme="garden"] .memorial-tributes {
   background: var(--card);
   border: 1px solid var(--border);
@@ -451,8 +365,13 @@
   margin: 2rem 0;
 }
 
+[data-theme="garden"] .memorial-candle-area {
+  text-align: center;
+  box-shadow: 0 4px 20px var(--theme-glow-color);
+}
+
 /* ============================================
-   MEMORIAL ACTIONS
+   ACTIONS
    ============================================ */
 
 [data-theme="garden"] .memorial-actions {
@@ -460,30 +379,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
 }
 
 @media (min-width: 640px) {
   [data-theme="garden"] .memorial-actions {
     flex-direction: row;
+    justify-content: center;
   }
 }
 
 [data-theme="garden"] .memorial-candle-button {
   gap: 0.75rem;
-  font-size: 1.125rem;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease;
+  font-size: 1rem;
+  padding: 1.25rem 1.75rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 8px 20px oklch(0.50 0.12 145 / 0.2);
+  transition: all 0.25s ease;
 }
 
 [data-theme="garden"] .memorial-candle-button:hover:not(:disabled) {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px oklch(0.50 0.12 145 / 0.25);
 }
 
 [data-theme="garden"] .memorial-candle-icon {
-  filter: drop-shadow(0 0 8px oklch(0.65 0.16 70 / 0.3));
+  filter: drop-shadow(0 0 6px oklch(0.55 0.12 145 / 0.4));
 }
 
 [data-theme="garden"] .memorial-share-button {
@@ -491,36 +413,28 @@
 }
 
 /* ============================================
-   MEMORIAL STATS
+   STATS
    ============================================ */
 
 [data-theme="garden"] .memorial-stats {
-  margin-top: 2.5rem;
+  margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 [data-theme="garden"] .memorial-stat-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.625rem;
 }
 
 [data-theme="garden"] .memorial-stat-icon {
-  padding: 0.75rem;
-  border-radius: 9999px;
-  background: var(--primary / 0.1);
+  padding: 0.625rem;
+  border-radius: 50%;
+  background: oklch(0.50 0.12 145 / 0.1);
   color: var(--primary);
-}
-
-[data-theme="garden"] .memorial-stat-icon:first-child {
-  color: var(--primary);
-}
-
-[data-theme="garden"] .memorial-stat-icon:last-child {
-  color: var(--muted-foreground);
 }
 
 [data-theme="garden"] .memorial-stat-content {
@@ -528,39 +442,34 @@
 }
 
 [data-theme="garden"] .memorial-stat-number {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: var(--foreground);
 }
 
 [data-theme="garden"] .memorial-stat-label {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--muted-foreground);
 }
 
 /* ============================================
-   MEMORIAL TABS
+   TABS
    ============================================ */
 
 [data-theme="garden"] .memorial-tabs-container {
   container-type: inline-size;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2.5rem 1rem;
   position: relative;
   z-index: 10;
 }
 
 [data-theme="garden"] .memorial-tabs-nav {
   display: grid;
-  width: 100%;
   grid-template-columns: repeat(3, 1fr);
-  max-width: 18rem;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 20rem;
+  margin: 0 auto 2rem;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -568,30 +477,29 @@
 }
 
 /* ============================================
-   MEMORIAL TIMELINE
+   TIMELINE
    ============================================ */
 
 [data-theme="garden"] .memorial-timeline {
-  max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 36rem;
+  margin: 0 auto;
   position: relative;
-  padding-left: 2rem;
+  padding-left: 2.5rem;
 }
 
 [data-theme="garden"] .memorial-timeline-line {
   position: absolute;
-  left: 2.75rem;
+  left: 0.5rem;
   top: 0;
   bottom: 0;
-  width: 0.125rem;
-  background: var(--border);
+  width: 2px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
 }
 
 [data-theme="garden"] .memorial-timeline-events {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 [data-theme="garden"] .memorial-timeline-item {
@@ -600,101 +508,83 @@
 
 [data-theme="garden"] .memorial-timeline-dot {
   position: absolute;
-  left: -2rem;
-  top: 1.5rem;
-  width: 0.75rem;
-  height: 0.75rem;
+  left: -2.25rem;
+  top: 1.25rem;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--primary);
-  border: 4px solid var(--background);
-  box-shadow: 0 0 0 4px var(--primary / 0.2);
+  border: 3px solid var(--background);
+  box-shadow: 0 0 0 3px oklch(0.50 0.12 145 / 0.2);
 }
 
 [data-theme="garden"] .memorial-timeline-card {
-  border: 1px solid oklch(0.85 0.03 120 / 0.4);
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.01 120 / 0.95),
-    oklch(0.96 0.02 140 / 0.9)
-  );
-  backdrop-filter: blur(12px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow: hidden;
-  border-radius: 0.75rem;
-  box-shadow: 
-    0 4px 20px rgba(34, 197, 94, 0.1),
-    inset 0 0 20px rgba(34, 197, 94, 0.05);
+  box-shadow: 0 4px 16px oklch(0.50 0.12 145 / 0.08);
   transition: all 0.3s ease;
 }
 
 [data-theme="garden"] .memorial-timeline-card:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 8px 30px rgba(34, 197, 94, 0.15),
-    inset 0 0 30px rgba(34, 197, 94, 0.08);
+  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.12);
 }
 
 [data-theme="garden"] .memorial-timeline-image {
   position: relative;
-  height: 12rem;
+  height: 11rem;
   width: 100%;
 }
 
 [data-theme="garden"] .memorial-timeline-year {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  background: linear-gradient(
-    135deg,
-    oklch(0.92 0.02 120),
-    oklch(0.96 0.01 140)
-  );
-  color: oklch(0.35 0.08 55);
-  font-size: 0.875rem;
+  border-radius: 2rem;
+  background: oklch(0.50 0.12 145 / 0.1);
+  color: var(--primary);
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
-  border: 1px solid oklch(0.85 0.03 120 / 0.3);
-  font-family: var(--font-serif);
+  margin-bottom: 0.5rem;
 }
 
 [data-theme="garden"] .memorial-timeline-title {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  color: oklch(0.20 0.03 55);
+  color: var(--foreground);
   line-height: 1.4;
 }
 
 [data-theme="garden"] .memorial-timeline-description {
-  color: oklch(0.35 0.02 55);
-  margin-top: 0.75rem;
+  color: var(--muted-foreground);
+  margin-top: 0.5rem;
   line-height: 1.6;
-  font-family: var(--font-sans);
+  font-size: 0.9rem;
 }
 
 [data-theme="garden"] .memorial-timeline-location {
-  color: oklch(0.45 0.08 55);
-  font-size: 0.875rem;
-  margin-top: 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
   font-style: italic;
 }
 
 /* ============================================
-   MEMORIAL GALLERY
+   GALLERY
    ============================================ */
 
 [data-theme="garden"] .memorial-gallery {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 0.75rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   [data-theme="garden"] .memorial-gallery {
     grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
 }
 
@@ -707,34 +597,27 @@
 [data-theme="garden"] .memorial-gallery-item {
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid oklch(0.85 0.03 120 / 0.4);
-  border-radius: 0.75rem;
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.01 120 / 0.95),
-    oklch(0.96 0.02 140 / 0.9)
-  );
-  box-shadow: 
-    0 4px 15px rgba(34, 197, 94, 0.08),
-    inset 0 0 15px rgba(34, 197, 94, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 0 2px 12px oklch(0.50 0.12 145 / 0.06);
+  transition: all 0.3s ease;
 }
 
 [data-theme="garden"] .memorial-gallery-item:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 
-    0 12px 25px rgba(34, 197, 94, 0.15),
-    inset 0 0 25px rgba(34, 197, 94, 0.06);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.12);
 }
 
 [data-theme="garden"] .memorial-gallery-image {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
   position: relative;
+  overflow: hidden;
 }
 
 [data-theme="garden"] .memorial-gallery-img {
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 [data-theme="garden"] .memorial-gallery-item:hover .memorial-gallery-img {
@@ -745,12 +628,8 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+  background: oklch(0.50 0.12 145 / 0.1);
   transition: opacity 0.3s ease;
-  background: linear-gradient(
-    135deg,
-    oklch(0.65 0.16 70 / 0.15),
-    oklch(0.45 0.18 75 / 0.1)
-  );
 }
 
 [data-theme="garden"] .memorial-gallery-item:hover .memorial-gallery-overlay {
@@ -758,94 +637,69 @@
 }
 
 [data-theme="garden"] .memorial-gallery-caption {
-  font-size: 0.875rem;
-  color: oklch(0.35 0.02 55);
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
   text-align: center;
+  padding: 0.625rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: 0.75rem;
-  font-family: var(--font-sans);
-  font-style: italic;
 }
 
 /* ============================================
-   MEMORIAL CONDOLENCES
+   CONDOLENCES
    ============================================ */
 
 [data-theme="garden"] .memorial-condolences {
-  max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 36rem;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 [data-theme="garden"] .memorial-condolences-card {
-  max-width: 32rem;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid oklch(0.85 0.03 120 / 0.4);
-  background: linear-gradient(
-    135deg,
-    oklch(0.98 0.01 120 / 0.95),
-    oklch(0.96 0.02 140 / 0.9)
-  );
-  backdrop-filter: blur(12px);
-  border-radius: 0.75rem;
-  box-shadow: 
-    0 4px 20px rgba(34, 197, 94, 0.1),
-    inset 0 0 20px rgba(34, 197, 94, 0.05);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px oklch(0.50 0.12 145 / 0.08);
   transition: all 0.3s ease;
 }
 
 [data-theme="garden"] .memorial-condolences-card:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 8px 30px rgba(34, 197, 94, 0.15),
-    inset 0 0 30px rgba(34, 197, 94, 0.08);
+  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.12);
 }
 
 [data-theme="garden"] .memorial-condolences-title {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  color: oklch(0.20 0.03 55);
+  color: var(--foreground);
   margin-bottom: 1rem;
   text-align: center;
-  text-shadow: 0 1px 4px rgba(34, 197, 94, 0.2);
 }
 
 [data-theme="garden"] .memorial-condolences-submit {
   width: 100%;
   gap: 0.5rem;
-  background: linear-gradient(
-    135deg,
-    oklch(0.65 0.16 70),
-    oklch(0.45 0.18 75)
-  );
-  color: oklch(0.98 0 0);
-  border: 1px solid oklch(0.85 0.03 120 / 0.3);
-  font-family: var(--font-serif);
+  background: var(--primary);
+  color: var(--primary-foreground);
   font-weight: 600;
-  transition: all 0.3s ease;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
 }
 
 [data-theme="garden"] .memorial-condolences-submit:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+  box-shadow: 0 4px 12px oklch(0.50 0.12 145 / 0.2);
 }
 
 [data-theme="garden"] .memorial-condolences-date {
   font-size: 0.75rem;
-  color: oklch(0.45 0.08 55);
-  font-style: italic;
+  color: var(--muted-foreground);
 }
 
 [data-theme="garden"] .memorial-condolences-message {
-  color: oklch(0.35 0.02 55);
-  line-height: 1.6;
-  font-family: var(--font-sans);
+  color: var(--muted-foreground);
+  line-height: 1.65;
 }
