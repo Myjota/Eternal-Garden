@@ -566,14 +566,17 @@
   padding: 4rem 1rem;
   background: linear-gradient(
     180deg,
-    oklch(0.99 0.005 250 / 0.98),
-    oklch(0.96 0.01 250 / 0.95),
-    oklch(0.94 0.03 250 / 0.92)
+    oklch(0.95 0.02 250 / 0.95),
+    oklch(0.92 0.04 250 / 0.92),
+    oklch(0.89 0.06 250 / 0.90)
   );
   position: relative;
   overflow: hidden;
-  max-width: 48rem;
-  margin: 0 auto;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.88 0.01 80 / 0.3);
+  box-shadow: 
+    0 4px 20px oklch(0.6 0.05 80 / 0.1),
+    inset 0 1px 0 oklch(1 0 0 / 0.2);
 }
 
 /* Marble ambient overlay */
@@ -605,6 +608,15 @@
     opacity: 1;
     transform: scale(1.02);
   }
+}
+
+/* biography text */
+[data-theme="marble"] .memorial-biography {
+  line-height: 1.7;
+  color: var(--foreground);
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: 400;
 }
 
 /* paragraphs */
@@ -724,6 +736,13 @@
 /* ============================================
    MEMORIAL STRUCTURE CLASSES
    ============================================ */
+
+[data-theme="marble"] .memorial-section {
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+  position: relative;
+}
 
 [data-theme="marble"] .memorial-location {
   display: flex;
