@@ -55,7 +55,7 @@ export async function getRecentCandleUsers(memorialId: string, limit = 2): Promi
   
   const { data } = await supabase
     .from('candles')
-    .select('user_name, user_avatar, lit_at')
+    .select('user_name, lit_at')
     .eq('memorial_id', memorialId)
     .eq('is_lit', true)
     .order('lit_at', { ascending: false })
@@ -67,45 +67,23 @@ export async function getRecentCandleUsers(memorialId: string, limit = 2): Promi
     id: `${candle.lit_at}-${index}`,
     name: candle.user_name,
     time_ago: getTimeAgo(candle.lit_at),
-    avatar: candle.user_avatar
+    avatar: undefined
   }))
 }
 
 // Light a new candle
-export async function lightCandle(memorialId: string, userId: string | null, userName: string, userAvatar?: string): Promise<{ success: boolean; error?: string }> {
+export async function lightCandle(memorialId: string, userId: string | null, userName: string): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient()
   
-  // Check if user already has a lit candle for this memorial (only for authenticated users)
-  if (userId) {
-    const { data: existingCandle } = await supabase
-      .from('candles')
-      .select('id')
-      .eq('memorial_id', memorialId)
-      .eq('user_id', userId)
-      .eq('is_lit', true)
-      .or('expires_at.is.null,expires_at.gt.now()')
-      .single()
-    
-    if (existingCandle) {
-      return { success: false, error: 'Jūs jau uždegėte žvakę šiam memorialui' }
-    }
-  }
-  // For anonymous users, no restrictions - allow multiple candles
-  
-  // Create new candle
-  const expiresAt = new Date()
-  expiresAt.setHours(expiresAt.getHours() + 24) // Candles burn for 24 hours
-  
+  // Create new candle - no restrictions for simple schema
   const { error } = await supabase
     .from('candles')
     .insert({
       memorial_id: memorialId,
       user_id: userId,
       user_name: userName,
-      user_avatar: userAvatar,
       is_lit: true,
-      lit_at: new Date().toISOString(),
-      expires_at: expiresAt.toISOString()
+      lit_at: new Date().toISOString()
     })
   
   if (error) {
