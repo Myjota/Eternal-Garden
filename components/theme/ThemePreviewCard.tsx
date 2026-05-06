@@ -42,18 +42,39 @@ export function ThemePreviewCard({
       >
         {/* Decorative elements */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-3">
+          {/* Portrait ring */}
           <div
-            className="w-10 h-10 rounded-full shadow-sm"
-            style={{ backgroundColor: theme.colors.primary }}
-          />
-          <div className="flex gap-1">
+            className="w-10 h-10 rounded-full shadow-sm flex-shrink-0"
+            style={{
+              background: theme.id === 'marble'
+                ? 'conic-gradient(from 0deg, oklch(0.840 0.085 80), oklch(0.720 0.110 72), oklch(0.840 0.085 80))'
+                : theme.colors.primary,
+              padding: theme.id === 'marble' ? '2px' : '0',
+            }}
+          >
+            {theme.id === 'marble' && (
+              <div
+                className="w-full h-full rounded-full"
+                style={{ backgroundColor: theme.colors.background }}
+              />
+            )}
+          </div>
+          {/* Name lines */}
+          <div className="flex flex-col gap-1 items-center">
             <div
-              className="w-6 h-1.5 rounded-full"
-              style={{ backgroundColor: theme.colors.foreground }}
+              className="h-1.5 rounded-full"
+              style={{
+                width: '2rem',
+                backgroundColor: theme.id === 'marble' ? 'oklch(0.200 0.010 80)' : theme.colors.foreground,
+              }}
             />
             <div
-              className="w-4 h-1.5 rounded-full"
-              style={{ backgroundColor: theme.colors.muted }}
+              className="h-1 rounded-full"
+              style={{
+                width: '1.25rem',
+                backgroundColor: theme.id === 'marble' ? 'oklch(0.720 0.110 72)' : theme.colors.accent,
+                opacity: 0.7,
+              }}
             />
           </div>
         </div>
