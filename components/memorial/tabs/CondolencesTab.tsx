@@ -94,7 +94,7 @@ export function CondolencesTab({
   if (!items.length && !allowCondolences) {
     return (
       <Card className="memorial-condolences-card">
-        <CardContent className="p-12">
+        <CardContent className="memorial-condolences-empty-content">
           <Empty
             icon={MessageCircle}
             title="Nėra žinučių"
@@ -112,7 +112,7 @@ export function CondolencesTab({
       {allowCondolences && (
         <Card className="memorial-condolences-form">
 
-          <CardContent className="p-6 space-y-4">
+          <CardContent className="memorial-condolences-form-content">
 
             <h3 className="memorial-condolences-title">
               Palikti žinutę
@@ -136,7 +136,7 @@ export function CondolencesTab({
               disabled={isSubmitting || !name.trim() || !message.trim()}
               className="memorial-condolences-submit"
             >
-              <Heart className="h-4 w-4" />
+              <Heart className="memorial-condolences-icon" />
               Siųsti
             </Button>
 
@@ -148,7 +148,7 @@ export function CondolencesTab({
       {items.length === 0 ? (
         allowCondolences ? null : (
           <Card className="memorial-condolences-card">
-            <CardContent className="p-12 text-center text-muted-foreground">
+            <CardContent className="memorial-condolences-empty-list-content">
               Dar nėra paliktų žinučių
             </CardContent>
           </Card>
@@ -159,7 +159,7 @@ export function CondolencesTab({
           {items.map((c) => (
             <Card key={c.id} className="memorial-condolences-item">
 
-              <CardContent className="p-5">
+              <CardContent className="memorial-condolences-item-content">
 
                 <div className="memorial-condolences-header">
 

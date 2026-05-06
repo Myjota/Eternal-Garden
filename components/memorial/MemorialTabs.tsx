@@ -21,19 +21,19 @@ export function MemorialTabs({
   return (
     <section className="memorial-tabs-container">
 
-      <Tabs defaultValue="timeline" className="w-full">
+      <Tabs defaultValue="timeline" className="memorial-tabs-w-full">
 
         {/* NAV */}
         <TabsList className="memorial-tabs-nav">
 
-          <TabsTrigger value="timeline" className="gap-2">
-            <Clock className="h-4 w-4" />
-            <span className="hidden sm:inline">Timeline</span>
+          <TabsTrigger value="timeline" className="memorial-tabs-trigger">
+            <Clock className="memorial-tabs-icon" />
+            <span className="memorial-tabs-text">Timeline</span>
           </TabsTrigger>
 
-          <TabsTrigger value="condolences" className="gap-2">
-            <Heart className="h-4 w-4" />
-            <span className="hidden sm:inline">Messages</span>
+          <TabsTrigger value="condolences" className="memorial-tabs-trigger">
+            <Heart className="memorial-tabs-icon" />
+            <span className="memorial-tabs-text">Messages</span>
           </TabsTrigger>
 
         </TabsList>

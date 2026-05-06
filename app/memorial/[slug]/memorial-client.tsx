@@ -35,7 +35,6 @@ interface Memorial {
 interface MemorialClientProps {
   memorial: Memorial
   timelineEvents: any[]
-  galleryItems: any[]
   candles: any[]
   condolences: any[]
   currentUser: User | null
@@ -48,7 +47,6 @@ interface MemorialClientProps {
 export function MemorialClient({
   memorial,
   timelineEvents,
-  galleryItems,
   candles: initialCandles,
   condolences: initialCondolences,
   currentUser,

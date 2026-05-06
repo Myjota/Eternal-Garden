@@ -21,8 +21,8 @@ interface TimelineTabProps {
 export function TimelineTab({ events }: TimelineTabProps) {
   if (!events || events.length === 0) {
     return (
-      <Card className="border-border/50 bg-card/80 backdrop-blur max-w-2xl mx-auto">
-        <CardContent className="p-12">
+      <Card className="memorial-timeline-empty-card">
+        <CardContent className="memorial-timeline-empty-content">
           <Empty
             icon={Clock}
             title="Nėra įvykių"
@@ -61,7 +61,7 @@ export function TimelineTab({ events }: TimelineTabProps) {
                 </div>
               )}
 
-              <CardContent className="p-6">
+              <CardContent className="memorial-timeline-card-content">
 
                 {/* Year badge */}
                 {event.event_date && (

@@ -28,7 +28,6 @@ export default async function MemorialPage({ params }: Props) {
 
   const [
     { data: timelineEvents },
-    { data: galleryItems },
     { data: candles },
     { data: condolences },
     { data: authData },
@@ -40,16 +39,10 @@ export default async function MemorialPage({ params }: Props) {
       .order('event_date', { ascending: true }),
 
     supabase
-      .from('gallery_items')
-      .select('*')
-      .eq('memorial_id', memorial.id)
-      .order('sort_order', { ascending: true }),
-
-    supabase
       .from('candles')
       .select('*')
       .eq('memorial_id', memorial.id)
-      .order('lit_at', { descending: true })
+      .order('lit_at', { ascending: false })
       .limit(50),
 
     supabase
@@ -57,7 +50,7 @@ export default async function MemorialPage({ params }: Props) {
       .select('*')
       .eq('memorial_id', memorial.id)
       .eq('is_approved', true)
-      .order('created_at', { descending: true }),
+      .order('created_at', { ascending: false }),
 
     supabase.auth.getUser(),
   ])
@@ -81,7 +74,6 @@ export default async function MemorialPage({ params }: Props) {
     <MemorialClient
       memorial={memorial}
       timelineEvents={timelineEvents || []}
-      galleryItems={galleryItems || []}
       candles={candles || []}
       condolences={condolences || []}
       currentUser={user}

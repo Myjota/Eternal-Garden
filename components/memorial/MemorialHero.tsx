@@ -45,9 +45,9 @@ export function MemorialHero({
     <section className="memorial-cover memorial-section-top">
 
       {/* BACKGROUND */}
-      <div className="memorial-bg-wrapper absolute inset-0 z-0">
+      <div className="memorial-bg-wrapper">
 
-        <div className="theme-glow-bg absolute inset-0" />
+        <div className="theme-glow-bg" />
 
         {coverImage && (
           <div className="memorial-bg-image">
@@ -65,7 +65,7 @@ export function MemorialHero({
       </div>
 
       {/* CONTENT */}
-      <div className="memorial-content memorial-font-base relative z-20">
+      <div className="memorial-content memorial-font-base">
 
         {/* PROFILE IMAGE */}
         <div className="memorial-profile-container">
