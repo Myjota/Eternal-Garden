@@ -947,177 +947,253 @@
 
 
 /* ============================================================
-   CANDLE SECTION — elegant marble sanctuary
+   CANDLE SECTION — matches biography section layout
    ============================================================ */
-[data-theme="marble"] .candle-section-full {
-  background: linear-gradient(
-    180deg,
-    oklch(0.980 0.006 80) 0%,
-    oklch(0.965 0.012 78) 40%,
-    oklch(0.955 0.018 75) 100%
-  ) !important;
-  border: 1px solid oklch(0.880 0.025 80) !important;
-  border-radius: 1rem !important;
-  box-shadow:
-    0 4px 24px oklch(0.720 0.110 72 / 0.08),
-    inset 0 1px 0 oklch(1.000 0.000 0 / 0.6) !important;
-  overflow: hidden;
+[data-theme="marble"] .memorial-candle-section {
   position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 20%,
+      oklch(0.960 0.025 80 / 0.70), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.950 0.035 75 / 0.60), transparent 55%),
+    linear-gradient(160deg,
+      oklch(0.975 0.010 82) 0%,
+      oklch(0.960 0.015 80) 50%,
+      oklch(0.968 0.012 78) 100%);
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.840 0.085 80 / 0.22);
+  box-shadow:
+    0 1px 2px oklch(0.000 0.000 0 / 0.04),
+    0 4px 16px oklch(0.720 0.110 72 / 0.06),
+    inset 0 1px 0 oklch(1.000 0.000 0 / 0.5);
 }
 
-/* Marble vein pattern overlay */
-[data-theme="marble"] .candle-section-full::before {
-  content: "";
+/* Marble vein pattern */
+[data-theme="marble"] .memorial-candle-section::before {
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.04;
-  background-image:
+  background:
     repeating-linear-gradient(
-      115deg,
-      transparent 0px,
-      transparent 60px,
-      oklch(0.720 0.110 72 / 0.3) 60px,
-      oklch(0.720 0.110 72 / 0.3) 61px
+      105deg,
+      transparent 0px, transparent 55px,
+      oklch(0.800 0.010 80 / 0.04) 55px, oklch(0.800 0.010 80 / 0.04) 56px
     ),
     repeating-linear-gradient(
       155deg,
-      transparent 0px,
-      transparent 90px,
-      oklch(0.840 0.085 80 / 0.2) 90px,
-      oklch(0.840 0.085 80 / 0.2) 91px
+      transparent 0px, transparent 80px,
+      oklch(0.840 0.008 75 / 0.03) 80px, oklch(0.840 0.008 75 / 0.03) 81px
     );
 }
 
-/* Hide dark background image */
-[data-theme="marble"] .candle-section-full > .absolute.inset-0.bg-\[url\(\'\/tree\.jpeg\'\)\] {
-  display: none !important;
+/* Stats row */
+[data-theme="marble"] .candle-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
 }
 
-/* Hide the dark radial glow */
-[data-theme="marble"] .candle-section-full > .absolute.inset-0.bg-gradient-radial {
-  background: radial-gradient(
-    ellipse at center 30%,
-    oklch(0.720 0.110 72 / 0.06),
-    transparent 60%
-  ) !important;
+[data-theme="marble"] .candle-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
-/* Stats text — gold on cream */
-[data-theme="marble"] .candle-section-full .text-amber-400 {
-  color: oklch(0.580 0.100 65) !important;
+[data-theme="marble"] .candle-stat-right {
+  text-align: right;
 }
 
-[data-theme="marble"] .candle-section-full .text-amber-300 {
-  color: oklch(0.720 0.110 72) !important;
+[data-theme="marble"] .candle-stat-right .candle-stat-content {
+  align-items: flex-end;
 }
 
-[data-theme="marble"] .candle-section-full .text-amber-400.text-xs {
-  color: oklch(0.500 0.010 80) !important;
+[data-theme="marble"] .candle-stat-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: oklch(0.720 0.110 72);
+  box-shadow: 0 0 8px oklch(0.720 0.110 72 / 0.6);
+  animation: pulse 2s ease-in-out infinite;
+  margin-top: 0.25rem;
 }
 
-/* Burning dot — warm gold pulse */
-[data-theme="marble"] .candle-section-full .bg-orange-400 {
-  background: oklch(0.720 0.110 72) !important;
-  box-shadow: 0 0 8px oklch(0.720 0.110 72 / 0.5) !important;
+[data-theme="marble"] .candle-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-/* Light candle button — polished gold */
-[data-theme="marble"] .candle-section-full button.bg-gradient-to-r {
+[data-theme="marble"] .candle-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: oklch(0.450 0.015 80);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="marble"] .candle-stat-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: oklch(0.580 0.100 65);
+  line-height: 1;
+}
+
+/* Candle display area */
+[data-theme="marble"] .candle-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="marble"] .candle-wrapper {
+  position: relative;
+}
+
+/* Light button */
+[data-theme="marble"] .candle-light-button {
+  margin-top: 2rem;
+  padding: 0.875rem 2.5rem;
+  border-radius: 9999px;
   background: linear-gradient(
     135deg,
     oklch(0.840 0.085 80) 0%,
     oklch(0.720 0.110 72) 50%,
     oklch(0.580 0.100 65) 100%
-  ) !important;
-  color: oklch(0.985 0.003 80) !important;
-  border: none !important;
+  );
+  color: oklch(0.985 0.003 80);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  border: none;
+  cursor: pointer;
   box-shadow:
     0 4px 16px oklch(0.720 0.110 72 / 0.35),
-    inset 0 1px 0 oklch(1.000 0.000 0 / 0.25) !important;
-  font-family: 'Playfair Display', serif !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.025em !important;
+    inset 0 1px 0 oklch(1.000 0.000 0 / 0.25);
+  transition: all 0.3s ease;
 }
 
-[data-theme="marble"] .candle-section-full button.bg-gradient-to-r:hover {
-  background: linear-gradient(
-    135deg,
-    oklch(0.800 0.095 78) 0%,
-    oklch(0.680 0.120 70) 50%,
-    oklch(0.540 0.110 62) 100%
-  ) !important;
+[data-theme="marble"] .candle-light-button:hover {
+  transform: translateY(-2px);
   box-shadow:
     0 6px 24px oklch(0.720 0.110 72 / 0.45),
-    inset 0 1px 0 oklch(1.000 0.000 0 / 0.3) !important;
+    inset 0 1px 0 oklch(1.000 0.000 0 / 0.3);
 }
 
-/* Anonymous notice box */
-[data-theme="marble"] .candle-section-full .bg-amber-900\/20 {
-  background: oklch(0.955 0.018 80 / 0.8) !important;
-  border: 1px solid oklch(0.840 0.085 80 / 0.4) !important;
-  backdrop-filter: blur(4px) !important;
+[data-theme="marble"] .candle-light-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
-[data-theme="marble"] .candle-section-full .bg-amber-900\/20 .text-amber-300 {
-  color: oklch(0.500 0.010 80) !important;
+/* Anonymous notice */
+[data-theme="marble"] .candle-anonymous-notice {
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: oklch(0.500 0.010 80);
+  text-align: center;
 }
 
-/* Bottom activity bar — frosted marble */
-[data-theme="marble"] .candle-section-full .bg-black\/30 {
-  background: oklch(0.975 0.008 80 / 0.85) !important;
-  border: 1px solid oklch(0.880 0.025 80) !important;
-  backdrop-filter: blur(8px) !important;
+/* Recent activity */
+[data-theme="marble"] .candle-recent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+  background: oklch(1.000 0.000 0 / 0.6);
+  border: 1px solid oklch(0.880 0.025 80);
+  border-radius: 0.75rem;
+  position: relative;
+  z-index: 1;
 }
 
-[data-theme="marble"] .candle-section-full .border-amber-500\/20 {
-  border-color: oklch(0.840 0.085 80 / 0.3) !important;
+[data-theme="marble"] .candle-recent-avatars {
+  display: flex;
+  gap: 0.5rem;
 }
 
-/* User avatars — gold gradient circles */
-[data-theme="marble"] .candle-section-full .bg-gradient-to-br.from-amber-400.to-amber-500 {
-  background: linear-gradient(
-    135deg,
-    oklch(0.840 0.085 80),
-    oklch(0.720 0.110 72)
-  ) !important;
-  border-color: oklch(0.840 0.085 80) !important;
-  color: oklch(0.200 0.010 80) !important;
+[data-theme="marble"] .candle-recent-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, oklch(0.920 0.015 80), oklch(0.880 0.020 80));
+  border: 2px solid oklch(0.840 0.085 80 / 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: oklch(0.580 0.100 65);
 }
 
-[data-theme="marble"] .candle-section-full .border-amber-300 {
-  border-color: oklch(0.720 0.110 72) !important;
-  box-shadow: 0 0 12px oklch(0.720 0.110 72 / 0.3) !important;
+[data-theme="marble"] .candle-recent-avatar-first {
+  background: linear-gradient(135deg, oklch(0.840 0.085 80), oklch(0.720 0.110 72));
+  border-color: oklch(0.720 0.110 72);
+  color: oklch(0.985 0.003 80);
+  box-shadow: 0 0 12px oklch(0.720 0.110 72 / 0.4);
 }
 
-[data-theme="marble"] .candle-section-full .border-amber-300\/30 {
-  border-color: oklch(0.840 0.085 80 / 0.4) !important;
+[data-theme="marble"] .candle-recent-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  color: oklch(0.400 0.010 80);
 }
 
-/* Decorative blurs around candle — soft gold ambient */
-[data-theme="marble"] .candle-section-full .bg-white\/20,
-[data-theme="marble"] .candle-section-full .bg-white\/15 {
-  background: oklch(0.720 0.110 72 / 0.08) !important;
+[data-theme="marble"] .candle-recent-text strong {
+  color: oklch(0.280 0.010 80);
+  font-weight: 600;
 }
 
-[data-theme="marble"] .candle-section-full .bg-green-500\/30,
-[data-theme="marble"] .candle-section-full .bg-green-500\/25 {
-  background: oklch(0.840 0.085 80 / 0.12) !important;
+[data-theme="marble"] .candle-recent-time {
+  margin-left: 0.5rem;
+  color: oklch(0.550 0.010 80);
 }
 
-[data-theme="marble"] .candle-section-full .bg-amber-400\/10 {
-  background: oklch(0.720 0.110 72 / 0.06) !important;
+/* Error state */
+[data-theme="marble"] .candle-error {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: oklch(0.965 0.030 25 / 0.15);
+  border: 1px solid oklch(0.600 0.150 25 / 0.3);
+  border-radius: 0.75rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-/* Error state — muted red on cream */
-[data-theme="marble"] .candle-section-full .bg-red-900\/20 {
-  background: oklch(0.965 0.010 80 / 0.95) !important;
+[data-theme="marble"] .candle-error p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: oklch(0.450 0.120 25);
+  margin-bottom: 0.75rem;
 }
 
-[data-theme="marble"] .candle-section-full .bg-red-900\/80 {
-  background: oklch(0.400 0.120 25 / 0.9) !important;
-  border: 1px solid oklch(0.500 0.140 25 / 0.5) !important;
+[data-theme="marble"] .candle-error button {
+  padding: 0.5rem 1.25rem;
+  background: oklch(0.550 0.150 25);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+[data-theme="marble"] .candle-error button:hover {
+  background: oklch(0.500 0.160 25);
 }
 
 /* Candle wax — ivory cream */
