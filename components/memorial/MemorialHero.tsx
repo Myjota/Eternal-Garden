@@ -56,7 +56,7 @@ export function MemorialHero({
               alt=""
               fill
               priority
-              className="memorial-hero-image"
+              className="memorial-bg-image-elem"
               sizes="100vw"
             />
           </div>
@@ -75,7 +75,7 @@ export function MemorialHero({
               src={profileImage}
               alt={`${memorial.first_name} ${memorial.last_name}`}
               fill
-              className="memorial-hero-image"
+              className="portrait-image"
               priority
               sizes="200px"
             />
