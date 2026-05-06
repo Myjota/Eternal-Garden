@@ -129,12 +129,7 @@ export function CandleSection({
             </div>
           )}
 
-          {isLit && (
-            <p className="mt-6 text-white/80 text-sm text-center">
-              🕯️ Žvakė uždegta atminimui
-            </p>
-          )}
-        </div>
+                  </div>
 
         {/* Bottom recent activity */}
         <div className="w-full flex items-center justify-between text-amber-400 text-xs p-4 rounded-lg bg-black/30 backdrop-blur-md border border-amber-500/20">
