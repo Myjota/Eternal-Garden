@@ -28,13 +28,12 @@ export type RecentUser = {
 export async function getCandleStats(memorialId: string): Promise<CandleStats> {
   const supabase = createClient()
   
-  // Get currently burning candles (not expired)
+  // Get currently burning candles (is_lit = true)
   const { count: currentlyBurning } = await supabase
     .from('candles')
     .select('*', { count: 'exact', head: true })
     .eq('memorial_id', memorialId)
     .eq('is_lit', true)
-    .or('expires_at.is.null,expires_at.gt.now()')
   
   // Get total candles from memorial table (candle_count field)
   const { data: memorial } = await supabase
@@ -104,7 +103,6 @@ export async function getUserCandleStatus(memorialId: string, userId: string): P
     .eq('memorial_id', memorialId)
     .eq('user_id', userId)
     .eq('is_lit', true)
-    .or('expires_at.is.null,expires_at.gt.now()')
     .single()
   
   return !!data
