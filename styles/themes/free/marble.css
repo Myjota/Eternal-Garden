@@ -169,7 +169,7 @@
   transition: transform 12s ease;
 }
 
-/* Portrait image inside gold frame — CLEAR and SHARP */
+/* Portrait image inside marble frame — CLEAR and SHARP */
 [data-theme="marble"] .portrait-image {
   object-fit: cover;
   width: 100%;
@@ -240,23 +240,6 @@
 [data-theme="marble"] .portrait-frame:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: none;
-}
-
-[data-theme="marble"] .portrait-frame::after {
-  content: '';
-  position: absolute;
-  inset: -10px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    oklch(0.840 0.085 80 / 0.0),
-    oklch(0.840 0.085 80 / 0.15),
-    oklch(0.840 0.085 80 / 0.0) 50%,
-    oklch(0.840 0.085 80 / 0.12),
-    oklch(0.840 0.085 80 / 0.0)
-  );
-  z-index: -1;
-  animation: portrait-gold-spin 8s linear infinite;
 }
 
 [data-theme="marble"] .portrait-frame img {
