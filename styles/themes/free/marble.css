@@ -184,7 +184,7 @@
 
 
 /* ============================================================
-   PORTRAIT FRAME — polished gold ring
+   PORTRAIT FRAME — polished marble ring
    ============================================================ */
 [data-theme="marble"] .memorial-profile-container {
   position: relative;
@@ -220,23 +220,13 @@
     oklch(47.206% 0.00536 78.153 / 0.663),
     oklch(47.206% 0.00536 78.153 / 0.663)
   );
-  box-shadow:
-    0 0  0  1px  oklch(0.920 0.040 80 / 0.6),
-    0 0  0  8px  oklch(0.985 0.003 80 / 0.9),
-    0 0  0  9px  oklch(0.840 0.085 80 / 0.3),
-    0 12px 40px   oklch(0.580 0.100 65 / 0.20),
-    0 4px  14px   oklch(0.200 0.010 80 / 0.06);
-  transition: box-shadow 0.4s ease, transform 0.4s ease;
+  box-shadow: none;
+  transition: none;
 }
 
 [data-theme="marble"] .portrait-frame:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow:
-    0 0  0  1px  oklch(0.920 0.040 80 / 0.8),
-    0 0  0  8px  oklch(0.985 0.003 80 / 0.95),
-    0 0  0  9px  oklch(0.840 0.085 80 / 0.5),
-    0 20px 60px   oklch(0.580 0.100 65 / 0.30),
-    0 6px  20px   oklch(0.200 0.010 80 / 0.10);
+  box-shadow: none;
 }
 
 [data-theme="marble"] .portrait-frame::after {
@@ -256,10 +246,6 @@
   animation: portrait-gold-spin 8s linear infinite;
 }
 
-@keyframes portrait-gold-spin {
-  to { transform: rotate(360deg); }
-}
-
 [data-theme="marble"] .portrait-frame img {
   border-radius: 50%;
   object-fit: cover;
@@ -271,12 +257,7 @@
 
 /* theme-card-glow applied to portrait-frame */
 [data-theme="marble"] .theme-card-glow {
-  box-shadow:
-    0 0  0  1px  oklch(0.920 0.040 80 / 0.6),
-    0 0  0  8px  oklch(0.985 0.003 80 / 0.9),
-    0 0  0  9px  oklch(0.840 0.085 80 / 0.3),
-    0 12px 40px   oklch(0.580 0.100 65 / 0.20),
-    0 4px  14px   oklch(0.200 0.010 80 / 0.06);
+  box-shadow: none;
 }
 
 
