@@ -379,7 +379,7 @@
   text-shadow: 0 1px 6px oklch(0.720 0.110 72 / 0.10);
 }
 
-/* Decorative quote marks in gold */
+/* Decorative quote marks */
 [data-theme="marble"] .memorial-epitaph::before {
   content: '\201C';
   position: absolute;
@@ -581,14 +581,11 @@
 [data-theme="marble"] [data-state="active"] {
   background: oklch(1 0 0 / 0.95);
   color: var(--marble-dark);
-  box-shadow:
-    0 1px 0 0 oklch(0.840 0.085 80 / 0.40),
-    0 2px 10px oklch(0.580 0.100 65 / 0.12),
-    inset 0 -1px 0 oklch(0.840 0.085 80 / 0.20);
+  box-shadow: none;
 }
 
 [data-theme="marble"] .memorial-tabs-container {
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 [data-theme="marble"] .memorial-tabs-w-full {
@@ -600,7 +597,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  border-radius: 9px;
+  border-radius: 5px;
 }
 
 [data-theme="marble"] .memorial-tabs-icon {
@@ -611,7 +608,7 @@
 [data-theme="marble"] .memorial-tabs-text {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 640px) {
@@ -629,20 +626,16 @@
     linear-gradient(140deg,
       oklch(1 0 0 / 0.95) 0%,
       oklch(0.980 0.005 82 / 0.90) 100%);
-  border: 1px solid oklch(0.840 0.085 80 / 0.22);
-  border-top: 2px solid oklch(0.840 0.085 80 / 0.35);
+  border: 1px solid oklch(84.775% 0.00264 107.015 / 0.897);
+  border-top: 2px solid oklch(64.364% 0.0031 84.416 / 0.54);
   border-radius: 14px;
-  box-shadow:
-    0 4px 20px oklch(0.580 0.100 65 / 0.07),
-    inset 0 1px 0 oklch(1 0 0 / 0.9);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: none;
+  transition: none;
 }
 
 [data-theme="marble"] .condolence-card:hover {
   transform: translateY(-3px);
-  box-shadow:
-    0 8px 32px oklch(0.580 0.100 65 / 0.13),
-    inset 0 1px 0 oklch(1 0 0 / 0.9);
+  box-shadow: none;
 }
 
 [data-theme="marble"] .condolence-card p {
@@ -656,7 +649,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
-  color: var(--gold-mid);
+  color: oklch(23.929% 0.00003 271.152 / 0.579);
   opacity: 0.8;
 }
 
@@ -708,9 +701,9 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    oklch(0.840 0.085 80 / 0.6) 10%,
-    oklch(0.720 0.110 72 / 0.8) 50%,
-    oklch(0.840 0.085 80 / 0.6) 90%,
+    oklch(90.132% 0.00452 78.015 / 0.781) 10%,
+    oklch(51.788% 0.00195 67.1 / 0.856) 50%,
+    oklch(90.132% 0.00452 78.015 / 0.781) 90%,
     transparent
   );
 }
