@@ -443,7 +443,7 @@
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
-  background: oklch(1 0 0 / 0.08);
+  background: transparent !important;
   border-radius: var(--radius);
   border: 1px solid oklch(0.840 0.085 80 / 0.22);
   box-shadow:
@@ -956,7 +956,7 @@
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
-  background: oklch(1 0 0 / 0.08);
+  background: transparent !important;
   border-radius: var(--radius);
   border: 1px solid oklch(0.840 0.085 80 / 0.22);
   box-shadow:
