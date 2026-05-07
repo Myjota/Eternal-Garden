@@ -239,7 +239,12 @@
 
 [data-theme="marble"] .portrait-frame:hover {
   transform: none;
-  box-shadow: none;
+  box-shadow: 
+  0 0  0  1px  oklch(0.920 0.040 80 / 0.8),
+  0 0  0  8px  oklch(0.985 0.003 80 / 0.95),
+  0 0  0  9px  oklch(0.840 0.085 80 / 0.5),
+  0 20px 60px   oklch(0.580 0.100 65 / 0.30),
+  0 6px  20px   oklch(0.200 0.010 80 / 0.10);
 }
 
 [data-theme="marble"] .portrait-frame img {
