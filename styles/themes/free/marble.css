@@ -443,19 +443,11 @@
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
-  background:
-    radial-gradient(ellipse 70% 50% at 20% 20%,
-      oklch(0.960 0.025 80 / 0.25), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.950 0.035 75 / 0.20), transparent 55%),
-    linear-gradient(160deg,
-      oklch(0.975 0.010 82 / 0.30) 0%,
-      oklch(0.960 0.015 80 / 0.15) 50%,
-      oklch(0.968 0.012 78 / 0.25) 100%);
+  background: oklch(1 0 0 / 0.08);
   border-radius: var(--radius);
   border: 1px solid oklch(0.840 0.085 80 / 0.22);
   box-shadow:
-    0 2px  0 0  oklch(0.840 0.085 80 / 0.25),  /* gold top edge */
+    0 2px  0 0  oklch(0.840 0.085 80 / 0.25),
     0 -1px 0 0  oklch(0.840 0.085 80 / 0.15) inset,
     0 8px 40px  oklch(0.580 0.100 65 / 0.08),
     0 1px 0     oklch(1 0 0 / 0.6) inset;
@@ -964,15 +956,7 @@
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
-  background:
-    radial-gradient(ellipse 70% 50% at 20% 20%,
-      oklch(0.960 0.025 80 / 0.25), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.950 0.035 75 / 0.20), transparent 55%),
-    linear-gradient(160deg,
-      oklch(0.975 0.010 82 / 0.30) 0%,
-      oklch(0.960 0.015 80 / 0.15) 50%,
-      oklch(0.968 0.012 78 / 0.25) 100%);
+  background: oklch(1 0 0 / 0.08);
   border-radius: var(--radius);
   border: 1px solid oklch(0.840 0.085 80 / 0.22);
   box-shadow:
