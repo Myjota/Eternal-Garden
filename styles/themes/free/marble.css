@@ -66,33 +66,17 @@
   background: transparent;
 }
 
-/* Full-page background layer — shows cover image throughout */
+/* Full-page background layer — polished marble texture */
 [data-theme="marble"] .min-h-screen.bg-background.relative::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    /* subtle dark tint for readability */
-    linear-gradient(180deg,
-      oklch(0.050 0.005 80 / 0.20) 0%,
-      oklch(0.050 0.005 80 / 0.10) 50%,
-      oklch(0.050 0.005 80 / 0.25) 100%),
-    /* marble vein texture */
-    repeating-linear-gradient(
-      108deg,
-      transparent 0px, transparent 42px,
-      oklch(0.820 0.012 80 / 0.04) 42px,
-      oklch(0.820 0.012 80 / 0.04) 43px
-    ),
-    repeating-linear-gradient(
-      162deg,
-      transparent 0px, transparent 68px,
-      oklch(0.860 0.010 75 / 0.03) 68px,
-      oklch(0.860 0.010 75 / 0.03) 69px
-    );
+  background-image: url('/themes/marble1.jpeg');
+  background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 [data-theme="marble"] > * {
