@@ -58,8 +58,31 @@
 
 
 /* ============================================================
-   PAGE BACKGROUND — polished marble surface
+   PAGE LAYOUT — full-screen content wrapper
    ============================================================ */
+[data-theme="marble"] .min-h-screen.bg-background.relative {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+/* Full-page background layer — polished marble texture */
+[data-theme="marble"] .min-h-screen.bg-background.relative::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/themes/marble1.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+[data-theme="marble"] > * {
+  position: relative;
+  z-index: 1;
+}
 [data-theme="marble"] body {
   background-color: var(--marble-white);
   background-image:
@@ -104,29 +127,18 @@
   overflow: hidden;
 }
 
-/* Marble-slab backdrop with rich layering */
+/* Subtle dark gradient so text stays readable over the cover image */
 [data-theme="marble"] .memorial-cover::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   background:
-    /* top-left cold marble shimmer */
-    radial-gradient(ellipse 60% 50% at 15% 10%,
-      oklch(0.900 0.020 220 / 0.22), transparent 60%),
-    /* warm gold light from upper-right */
-    radial-gradient(ellipse 55% 45% at 85% 5%,
-      oklch(0.880 0.060 75 / 0.20), transparent 55%),
-    /* deep centre glow */
-    radial-gradient(ellipse 80% 60% at 50% 60%,
-      oklch(0.940 0.012 80 / 0.30), transparent 70%),
-    /* subtle floor shadow */
     linear-gradient(180deg,
-      oklch(0.960 0.015 80 / 0.85) 0%,
-      oklch(0.980 0.005 80 / 0.70) 60%,
-      oklch(0.950 0.020 78 / 0.80) 100%);
+      oklch(0.050 0.005 80 / 0.35) 0%,
+      oklch(0.050 0.005 80 / 0.20) 50%,
+      oklch(0.050 0.005 80 / 0.50) 100%);
   pointer-events: none;
-  animation: marble-ambient 10s ease-in-out infinite alternate;
 }
 
 @keyframes marble-ambient {
@@ -152,7 +164,7 @@
   height: 100%;
   transform: scale(1.08);
   filter: none;
-  opacity: 0.35;
+  opacity: 1;
   transition: transform 12s ease;
 }
 
@@ -291,20 +303,19 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  color: var(--marble-dark);
+  color: oklch(0.985 0.003 80);
   text-shadow:
-    0 1px 0   oklch(1 0 0 / 0.8),
-    0 2px 20px oklch(0.720 0.110 72 / 0.18),
-    0 0  40px  oklch(0.840 0.085 80 / 0.10);
+    0 1px 0   oklch(0.000 0.000 0 / 0.4),
+    0 2px 20px oklch(0.000 0.000 0 / 0.3),
+    0 0  40px  oklch(0.720 0.110 72 / 0.20);
   margin-bottom: 0.75rem;
   position: relative;
-  /* elegant frosted glass name plate */
   padding: 0.6rem 1.8rem;
-  background: oklch(1 0 0 / 0.45);
+  background: oklch(0.000 0.000 0 / 0.30);
   border-radius: 0.75rem;
-  border: 1px solid oklch(0.840 0.085 80 / 0.35);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid oklch(0.840 0.085 80 / 0.40);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
 }
 
 /* Thin gold underline beneath name */
@@ -335,11 +346,11 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--marble-stone);
+  color: oklch(0.920 0.030 80);
   padding: 0.35rem 1.4rem;
-  background: oklch(1 0 0 / 0.40);
+  background: oklch(0.000 0.000 0 / 0.28);
   border-radius: 999px;
-  border: 1px solid oklch(0.840 0.085 80 / 0.30);
+  border: 1px solid oklch(0.840 0.085 80 / 0.40);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-top: 0.5rem;
@@ -354,8 +365,8 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
-  color: var(--gold-mid);
-  opacity: 0.85;
+  color: oklch(0.840 0.085 80);
+  opacity: 0.95;
 }
 
 
@@ -368,18 +379,18 @@
   font-size: clamp(1.05rem, 2.5vw, 1.35rem);
   font-weight: 400;
   line-height: 1.65;
-  color: oklch(0.280 0.010 80);
+  color: oklch(0.940 0.008 80);
   max-width: 30rem;
   margin: 1.4rem auto 0;
   text-align: center;
   position: relative;
   padding: 1.4rem 1.8rem;
-  background: oklch(1 0 0 / 0.42);
+  background: oklch(0.000 0.000 0 / 0.28);
   border-radius: 0.75rem;
-  border: 1px solid oklch(0.840 0.085 80 / 0.28);
-  backdrop-filter: blur(14px) saturate(1.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.1);
-  text-shadow: 0 1px 6px oklch(0.720 0.110 72 / 0.10);
+  border: 1px solid oklch(0.840 0.085 80 / 0.35);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  text-shadow: 0 1px 6px oklch(0.000 0.000 0 / 0.3);
 }
 
 /* Decorative quote marks in gold */
@@ -432,19 +443,11 @@
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
-  background:
-    radial-gradient(ellipse 70% 50% at 20% 20%,
-      oklch(0.960 0.025 80 / 0.70), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.950 0.035 75 / 0.60), transparent 55%),
-    linear-gradient(160deg,
-      oklch(0.975 0.010 82) 0%,
-      oklch(0.960 0.015 80) 50%,
-      oklch(0.968 0.012 78) 100%);
+  background: transparent !important;
   border-radius: var(--radius);
   border: 1px solid oklch(0.840 0.085 80 / 0.22);
   box-shadow:
-    0 2px  0 0  oklch(0.840 0.085 80 / 0.25),  /* gold top edge */
+    0 2px  0 0  oklch(0.840 0.085 80 / 0.25),
     0 -1px 0 0  oklch(0.840 0.085 80 / 0.15) inset,
     0 8px 40px  oklch(0.580 0.100 65 / 0.08),
     0 1px 0     oklch(1 0 0 / 0.6) inset;
@@ -953,15 +956,7 @@
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
-  background:
-    radial-gradient(ellipse 70% 50% at 20% 20%,
-      oklch(0.960 0.025 80 / 0.70), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.950 0.035 75 / 0.60), transparent 55%),
-    linear-gradient(160deg,
-      oklch(0.975 0.010 82) 0%,
-      oklch(0.960 0.015 80) 50%,
-      oklch(0.968 0.012 78) 100%);
+  background: transparent !important;
   border-radius: var(--radius);
   border: 1px solid oklch(0.840 0.085 80 / 0.22);
   box-shadow:
