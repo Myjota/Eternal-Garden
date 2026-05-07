@@ -94,17 +94,17 @@ export function MemorialHero({
           </p>
         )}
 
-        {/* EPITAPH */}
-        <p className="memorial-epitaph memorial-font-body">
-          "{epitaph}"
-        </p>
-
         {/* DATES */}
         {(birthDate || deathDate) && (
           <p className="memorial-dates memorial-font-accent">
             {birthDate || '—'} – {deathDate || '—'}
           </p>
         )}
+
+        {/* EPITAPH */}
+        <p className="memorial-epitaph memorial-font-body">
+          "{epitaph}"
+        </p>
 
       </div>
     </section>
