@@ -223,7 +223,7 @@
    ============================================ */
 
 [data-theme="eternal-night"] .theme-glow-bg {
-  background: oklch(0.18 0.03 270 / 0.8);
+  background: oklch(0.18 0.03 270 / 0.4);
   backdrop-filter: blur(15px);
   padding: 2rem;
   border-radius: var(--radius);
