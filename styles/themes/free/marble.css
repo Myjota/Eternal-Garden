@@ -332,11 +332,11 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--marble-stone);
+  color: oklch(29.679% 0.00175 106.806 / 0.455);
   padding: 0.35rem 1.4rem;
   background: oklch(1 0 0 / 0.40);
   border-radius: 999px;
-  border: 1px solid oklch(84.465% 0.00265 107.012 / 0.888);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-top: 0.5rem;
@@ -351,7 +351,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
-  color: var(--gold-mid);
+  color: oklch(27.38% 0.00146 16.077 / 0.33);
   opacity: 0.85;
 }
 
