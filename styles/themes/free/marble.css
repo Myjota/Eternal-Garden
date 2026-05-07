@@ -727,9 +727,9 @@
   border-radius: 50%;
   background: conic-gradient(
     from 0deg,
-    oklch(0.840 0.085 80),
-    oklch(0.720 0.110 72),
-    oklch(0.840 0.085 80)
+    oklch(83.301% 0.00288 84.352 / 0.842),
+    oklch(51.085% 0.00196 67.111),
+    oklch(83.301% 0.00294 84.352)
   );
   border: 3px solid oklch(0.985 0.003 80);
   box-shadow:
@@ -779,15 +779,15 @@
     oklch(0.960 0.018 80),
     oklch(0.945 0.030 75)
   );
-  color: oklch(0.580 0.100 65);
+  color: oklch(85.38% 0.00329 15.6 / 0.921);
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   margin-bottom: 0.75rem;
-  border: 1px solid oklch(0.840 0.085 80 / 0.35);
+  border: 1px solid oklch(67.991% 0.00306 84.404 / 0.832);
   font-family: 'Inter', sans-serif;
   text-transform: uppercase;
-  box-shadow: 0 1px 4px oklch(0.580 0.100 65 / 0.10);
+  box-shadow: none;
 }
 
 [data-theme="marble"] .memorial-timeline-title {
@@ -817,7 +817,7 @@
 
 [data-theme="marble"] .memorial-timeline-empty-card {
   background: oklch(1 0 0 / 0.80);
-  border: 1px solid oklch(0.840 0.085 80 / 0.20);
+  border: 1px solid oklch(57.634% 0.0032 84.438 / 0.766);
   border-radius: var(--radius);
   max-width: 32rem;
   margin: 0 auto;
