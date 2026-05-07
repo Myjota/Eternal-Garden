@@ -216,11 +216,8 @@
   padding: 5px;
   background: conic-gradient(
     from 0deg,
-    oklch(0.840 0.085 80),
-    oklch(0.720 0.110 72),
-    oklch(0.860 0.075 85),
-    oklch(0.620 0.095 68),
-    oklch(0.840 0.085 80)
+    oklch(47.206% 0.00536 78.153 / 0.663),
+    oklch(47.206% 0.00536 78.153 / 0.663)
   );
   box-shadow:
     0 0  0  1px  oklch(0.920 0.040 80 / 0.6),
