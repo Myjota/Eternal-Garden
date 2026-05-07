@@ -211,6 +211,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   overflow: hidden;
   /* layered gold ring */
   padding: 5px;
@@ -298,8 +299,8 @@
   /* elegant frosted glass name plate */
   padding: 0.6rem 1.8rem;
   background: oklch(1 0 0 / 0.45);
-  border-radius: 0.75rem;
-  border: 1px solid oklch(90.89% 0.00393 106.883 / 0.897);
+  border-radius: var(--radius);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
 }
@@ -335,7 +336,7 @@
   color: oklch(29.679% 0.00175 106.806 / 0.455);
   padding: 0.35rem 1.4rem;
   background: oklch(1 0 0 / 0.40);
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -372,8 +373,8 @@
   position: relative;
   padding: 1.4rem 1.8rem;
   background: oklch(1 0 0 / 0.42);
-  border-radius: 0.75rem;
-  border: 1px solid oklch(84.465% 0.00265 107.012 / 0.93);
+  border-radius: var(--radius);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   backdrop-filter: blur(14px) saturate(1.1);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   text-shadow: 0 1px 6px oklch(0.720 0.110 72 / 0.10);
@@ -453,7 +454,7 @@
       oklch(0.960 0.015 80) 50%,
       oklch(0.968 0.012 78) 100%);
   border-radius: var(--radius);
-  border: 1px solid oklch(88.78% 0.00261 107.045 / 0.849);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   box-shadow:
     0 2px  0 0  oklch(82.961% 0.00419 91.468 / 0.729),  /* gold top edge */
     0 -1px 0 0  oklch(47.412% 0.00311 106.788 / 0.563) inset,
@@ -551,8 +552,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background: oklch(0.975 0.008 80);
-  border: 1px solid oklch(73.884% 0.00112 13.068 / 0.819);
-  border-radius: 12px;
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
+  border-radius: var(--radius);
   padding: 5px;
   gap: 4px;
   box-shadow: none;
@@ -626,9 +627,9 @@
     linear-gradient(140deg,
       oklch(1 0 0 / 0.95) 0%,
       oklch(0.980 0.005 82 / 0.90) 100%);
-  border: 1px solid oklch(84.775% 0.00264 107.015 / 0.897);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   border-top: 2px solid oklch(64.364% 0.0031 84.416 / 0.54);
-  border-radius: 14px;
+  border-radius: var(--radius);
   box-shadow: none;
   transition: none;
 }
@@ -731,7 +732,7 @@
     oklch(51.085% 0.00196 67.111),
     oklch(83.301% 0.00294 84.352)
   );
-  border: 3px solid oklch(0.985 0.003 80);
+  border: 3px solid oklch(70.221% 0.00136 107.33 / 0.679);
   box-shadow:
     0 0 0 3px oklch(0.840 0.085 80 / 0.25),
     0 2px 8px oklch(0.580 0.100 65 / 0.20);
@@ -742,7 +743,7 @@
     linear-gradient(140deg,
       oklch(1 0 0 / 0.98) 0%,
       oklch(0.978 0.006 82 / 0.93) 100%);
-  border: 1px solid oklch(0.840 0.085 80 / 0.20);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   border-top: 2px solid oklch(0.840 0.085 80 / 0.35);
   border-radius: 0.75rem;
   overflow: hidden;
@@ -784,7 +785,7 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   margin-bottom: 0.75rem;
-  border: 1px solid oklch(67.991% 0.00306 84.404 / 0.832);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   font-family: 'Inter', sans-serif;
   text-transform: uppercase;
   box-shadow: none;
@@ -817,7 +818,7 @@
 
 [data-theme="marble"] .memorial-timeline-empty-card {
   background: oklch(1 0 0 / 0.80);
-  border: 1px solid oklch(57.634% 0.0032 84.438 / 0.766);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   border-radius: var(--radius);
   max-width: 32rem;
   margin: 0 auto;
@@ -890,7 +891,7 @@
 [data-theme="marble"] .memorial-comments,
 [data-theme="marble"] .memorial-tributes {
   background: oklch(1 0 0 / 0.85);
-  border: 1px solid oklch(37.874% 0.00163 106.884 / 0.727);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   border-top: 2px solid oklch(37.874% 0.00163 106.884 / 0.727);
   border-radius: var(--radius);
   padding: 2rem;
@@ -941,7 +942,7 @@
     oklch(41.007% 0.00132 15.261 / 0.407)
   );
   border-radius: 999px;
-  border: 2px solid oklch(0.965 0.008 80);
+  border: 2px solid oklch(70.221% 0.00136 107.33 / 0.679);
 }
 [data-theme="marble"] ::-webkit-scrollbar-thumb:hover {
   background: oklch(52.747% 0.00148 107.069 / 0.348);
@@ -965,11 +966,8 @@
       oklch(0.960 0.015 80) 50%,
       oklch(0.968 0.012 78) 100%);
   border-radius: var(--radius);
-  border: 1px solid oklch(0.840 0.085 80 / 0.22);
-  box-shadow:
-    0 1px 2px oklch(0.000 0.000 0 / 0.04),
-    0 4px 16px oklch(0.720 0.110 72 / 0.06),
-    inset 0 1px 0 oklch(1.000 0.000 0 / 0.5);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
+  box-shadow: none;
 }
 
 /* Marble vein pattern */
@@ -1067,7 +1065,7 @@
 [data-theme="marble"] .candle-light-button {
   margin-top: 2rem;
   padding: 0.875rem 2.5rem;
-  border-radius: 9999px;
+  border-radius: var(--radius);
   background: linear-gradient(
     135deg,
     oklch(89.493% 0.00574 84.458 / 0.849) 0%,
@@ -1079,12 +1077,10 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.025em;
-  border: none;
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   cursor: pointer;
-  box-shadow:
-    0 4px 16px oklch(0.720 0.110 72 / 0.35),
-    inset 0 1px 0 oklch(1.000 0.000 0 / 0.25);
-  transition: all 0.3s ease;
+  box-shadow: none;
+  transition: none;
 }
 
 [data-theme="marble"] .candle-light-button:hover {
