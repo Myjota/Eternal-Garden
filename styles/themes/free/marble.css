@@ -252,7 +252,7 @@
   transition: transform 0.6s ease;
 }
 [data-theme="marble"] .portrait-frame:hover img {
-  transform: none;
+  transform: scale(1);
 }
 
 /* theme-card-glow applied to portrait-frame */
