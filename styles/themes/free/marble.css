@@ -402,7 +402,21 @@
   font-family: 'Playfair Display', Georgia, serif;
   pointer-events: none;
 }
-
+[data-theme="marble"] .memorial-epitaph::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(55.144% 0.00299 106.823 / 0.685),
+    transparent
+  );
+} 
 
 /* ============================================================
    SECTION SPACING
