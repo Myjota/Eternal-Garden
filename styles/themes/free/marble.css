@@ -288,11 +288,11 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  color: var(--marble-dark);
+  color: oklch(29.82% 0.00143 15.934);
   text-shadow:
     0 1px 0   oklch(1 0 0 / 0.8),
-    0 2px 20px oklch(0.720 0.110 72 / 0.18),
-    0 0  40px  oklch(0.840 0.085 80 / 0.10);
+    0 2px 20px oklch(37.971% 0.00213 67.304 / 0.729),
+    0 0  40px  oklch(49.319% 0.00198 67.139 / 0.585);
   margin-bottom: 0.75rem;
   position: relative;
   /* elegant frosted glass name plate */
@@ -779,7 +779,7 @@
     oklch(0.960 0.018 80),
     oklch(0.945 0.030 75)
   );
-  color: oklch(85.38% 0.00329 15.6 / 0.921);
+  color: oklch(36.866% 0.00135 15.515 / 0.571);
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -1020,9 +1020,9 @@
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
-  background: oklch(0.720 0.110 72);
-  box-shadow: 0 0 8px oklch(0.720 0.110 72 / 0.6);
-  animation: pulse 2s ease-in-out infinite;
+  background: oklch(84.544% 0.00287 84.348 / 0.778);
+  box-shadow: none;
+  animation: none;
   margin-top: 0.25rem;
 }
 
@@ -1045,7 +1045,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.75rem;
   font-weight: 700;
-  color: oklch(0.580 0.100 65);
+  color: oklch(27.79% 0.00146 16.053 / 0.466);
   line-height: 1;
 }
 
@@ -1070,9 +1070,9 @@
   border-radius: 9999px;
   background: linear-gradient(
     135deg,
-    oklch(0.840 0.085 80) 0%,
-    oklch(0.720 0.110 72) 50%,
-    oklch(0.580 0.100 65) 100%
+    oklch(89.493% 0.00574 84.458 / 0.849) 0%,
+    oklch(68.972% 0.00304 84.401 / 0.744) 50%,
+    oklch(34.034% 0.00168 106.845 / 0.562) 100%
   );
   color: oklch(0.985 0.003 80);
   font-family: 'Playfair Display', Georgia, serif;
@@ -1088,10 +1088,8 @@
 }
 
 [data-theme="marble"] .candle-light-button:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 6px 24px oklch(0.720 0.110 72 / 0.45),
-    inset 0 1px 0 oklch(1.000 0.000 0 / 0.3);
+  transform: none;
+  box-shadow: none;
 }
 
 [data-theme="marble"] .candle-light-button:disabled {
@@ -1133,19 +1131,19 @@
   height: 2rem;
   border-radius: 50%;
   background: linear-gradient(135deg, oklch(0.920 0.015 80), oklch(0.880 0.020 80));
-  border: 2px solid oklch(0.840 0.085 80 / 0.3);
+  border: 2px solid oklch(43.555% 0.00205 67.226 / 0.729);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  color: oklch(0.580 0.100 65);
+  color: oklch(60.6% 0.00291 106.853 / 0.629);
 }
 
 [data-theme="marble"] .candle-recent-avatar-first {
   background: linear-gradient(135deg, oklch(0.840 0.085 80), oklch(0.720 0.110 72));
-  border-color: oklch(0.720 0.110 72);
+  border-color: oklch(32.605% 0.0014 15.77 / 0.532);
   color: oklch(0.985 0.003 80);
-  box-shadow: 0 0 12px oklch(0.720 0.110 72 / 0.4);
+  box-shadow: none;
 }
 
 [data-theme="marble"] .candle-recent-text {
