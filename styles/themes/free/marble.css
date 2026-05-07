@@ -23,13 +23,13 @@
   --gold-subtle:         oklch(0.920 0.040 80);
 
   /* Semantic tokens */
-  --primary:             oklch(0.580 0.100 65);
+  --primary:             oklch(51.878% 0.00292 47.904 / 0.679);
   --primary-foreground:  oklch(0.985 0.003 80);
 
   --secondary:           oklch(0.955 0.012 80);
   --secondary-foreground:oklch(0.320 0.010 80);
 
-  --accent:              oklch(0.720 0.110 72);
+  --accent:              oklch(51.404% 0.0033 84.458 / 0.677);
   --accent-foreground:   oklch(0.180 0.015 75);
 
   --background:          oklch(0.985 0.003 80);
