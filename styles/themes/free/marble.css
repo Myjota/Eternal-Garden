@@ -233,12 +233,7 @@
     oklch(47.206% 0.00536 78.153 / 0.663),
     oklch(47.206% 0.00536 78.153 / 0.663)
   );
-  box-shadow: 
-  0 0  0  1px  oklch(0.920 0.040 80 / 0.6),
-  0 0  0  8px  oklch(0.985 0.003 80 / 0.9),
-  0 0  0  9px  oklch(0.840 0.085 80 / 0.3),
-  0 12px 40px   oklch(0.580 0.100 65 / 0.20),
-  0 4px  14px   oklch(0.200 0.010 80 / 0.06); 
+  box-shadow: none;
   transition: none;
 }
 
@@ -263,6 +258,7 @@
 
 /* theme-card-glow applied to portrait-frame */
 [data-theme="marble"] .theme-card-glow {
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
   box-shadow: 
   0 0  0  1px  oklch(0.920 0.040 80 / 0.6),
   0 0  0  8px  oklch(0.985 0.003 80 / 0.9),
