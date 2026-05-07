@@ -19,9 +19,11 @@ export function MemorialTabs({
   memorialId,
 }: MemorialTabsProps) {
   return (
-    <section className="memorial-tabs-container">
+    <section className="memorial-section memorial-tabs-section">
+      
+      <div className="memorial-container">
 
-      <Tabs defaultValue="timeline" className="memorial-tabs-w-full">
+        <Tabs defaultValue="timeline" className="memorial-tabs-w-full">
 
         {/* NAV */}
         <TabsList className="memorial-tabs-nav">
@@ -48,6 +50,8 @@ export function MemorialTabs({
         </TabsContent>
 
       </Tabs>
+
+      </div>
 
     </section>
   )
