@@ -152,7 +152,7 @@
   height: 100%;
   transform: scale(1.08);
   filter: none;
-  opacity: 0.3;
+  opacity: 1;
   transition: transform 12s ease;
 }
 
