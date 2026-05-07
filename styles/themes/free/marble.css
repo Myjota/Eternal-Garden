@@ -238,7 +238,7 @@
 }
 
 [data-theme="marble"] .portrait-frame:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform: none;
   box-shadow: none;
 }
 
