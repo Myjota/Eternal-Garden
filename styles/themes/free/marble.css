@@ -299,12 +299,12 @@
   padding: 0.6rem 1.8rem;
   background: oklch(1 0 0 / 0.45);
   border-radius: 0.75rem;
-  border: 1px solid oklch(36.733% 0.00165 106.872 / 0.541);
+  border: 1px solid oklch(59.248% 0.00293 106.845 / 0.814);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
 }
 
-/* Thin gold underline beneath name */
+/* Thin underline beneath name */
 [data-theme="marble"] .memorial-name::after {
   content: '';
   position: absolute;
@@ -316,7 +316,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    oklch(29.679% 0.00175 106.806 / 0.451),
+    oklch(55.144% 0.00299 106.823 / 0.685),
     transparent
   );
 }
@@ -336,7 +336,7 @@
   padding: 0.35rem 1.4rem;
   background: oklch(1 0 0 / 0.40);
   border-radius: 999px;
-  border: 2px solid oklch(29.783% 0.00227 67.404 / 0.507);
+  border: 1px solid oklch(53.791% 0.00148 107.084 / 0.681);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   margin-top: 0.5rem;
@@ -373,7 +373,7 @@
   padding: 1.4rem 1.8rem;
   background: oklch(1 0 0 / 0.42);
   border-radius: 0.75rem;
-  border: 2px solid oklch(31.244% 0.00347 106.762 / 0.418);
+  border: 1px solid oklch(60.262% 0.00291 106.851 / 0.786);
   backdrop-filter: blur(14px) saturate(1.1);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   text-shadow: 0 1px 6px oklch(0.720 0.110 72 / 0.10);
@@ -387,7 +387,7 @@
   left: 0.9rem;
   font-size: 3rem;
   line-height: 1;
-  color: oklch(24.462% 0.00151 16.245 / 0.379);
+  color: oklch(64.179% 0.00236 15.515 / 0.792);
   font-family: 'Playfair Display', Georgia, serif;
   pointer-events: none;
 }
@@ -398,7 +398,7 @@
   right: 0.9rem;
   font-size: 3rem;
   line-height: 1;
-  color: oklch(29.82% 0.00143 15.934 / 0.35);
+  color: oklch(68.547% 0.00349 16.013 / 0.766);
   font-family: 'Playfair Display', Georgia, serif;
   pointer-events: none;
 }
@@ -439,10 +439,10 @@
       oklch(0.960 0.015 80) 50%,
       oklch(0.968 0.012 78) 100%);
   border-radius: var(--radius);
-  border: 2px solid oklch(31.677% 0.00171 106.823 / 0.411);
+  border: 1px solid oklch(69.185% 0.00424 106.799 / 0.753);
   box-shadow:
-    0 2px  0 0  oklch(0.840 0.085 80 / 0.25),  /* gold top edge */
-    0 -1px 0 0  oklch(0.840 0.085 80 / 0.15) inset,
+    0 2px  0 0  oklch(82.961% 0.00419 91.468 / 0.729),  /* gold top edge */
+    0 -1px 0 0  oklch(25.577% 0.00182 106.778 / 0.563) inset,
     0 8px 40px  oklch(0.580 0.100 65 / 0.08),
     0 1px 0     oklch(1 0 0 / 0.6) inset;
   animation: marble-fade-in 0.9s ease both;
