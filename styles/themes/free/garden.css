@@ -914,7 +914,7 @@
       oklch(0.960 0.015 80) 50%,
       oklch(0.968 0.012 78) 100%);
   border-radius: var(--radius);
-  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
+  border: 1px solid var(--border);
   box-shadow: none;
 }
 
