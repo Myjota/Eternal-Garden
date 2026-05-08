@@ -1013,11 +1013,9 @@
   border-radius: var(--radius);
   background: linear-gradient(
     135deg,
-    oklch(89.493% 0.00574 84.458 / 0.849) 0%,
-    oklch(68.972% 0.00304 84.401 / 0.744) 50%,
-    oklch(34.034% 0.00168 106.845 / 0.562) 100%
+    var(--foreground) 100%
   );
-  color: oklch(0.985 0.003 80);
+  color: var(--background);
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1rem;
   font-weight: 600;
