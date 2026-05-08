@@ -910,9 +910,8 @@
     radial-gradient(ellipse 60% 45% at 80% 80%,
       var(--background), transparent 55%),
     linear-gradient(160deg,
-      oklch(0.975 0.010 82) 0%,
-      oklch(0.960 0.015 80) 50%,
-      oklch(0.968 0.012 78) 100%);
+      oklch(0.99 0.008 90 / 0.95) 0%,
+      oklch(0.97 0.015 152 / 0.9) 100%);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: none;
