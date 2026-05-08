@@ -917,3 +917,242 @@
 [data-theme="garden"] ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, oklch(0.55 0.10 152 / 0.7), oklch(0.45 0.08 152 / 0.6));
 }
+
+/* ============================================================
+   CANDLE SECTION 
+   ============================================================ */
+[data-theme="marble"] .memorial-candle-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 20%,
+      oklch(0.960 0.025 80 / 0.70), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.950 0.035 75 / 0.60), transparent 55%),
+    linear-gradient(160deg,
+      oklch(0.975 0.010 82) 0%,
+      oklch(0.960 0.015 80) 50%,
+      oklch(0.968 0.012 78) 100%);
+  border-radius: var(--radius);
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
+  box-shadow: none;
+}
+
+/* Marble vein pattern */
+[data-theme="marble"] .memorial-candle-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(
+      105deg,
+      transparent 0px, transparent 55px,
+      oklch(0.800 0.010 80 / 0.04) 55px, oklch(0.800 0.010 80 / 0.04) 56px
+    ),
+    repeating-linear-gradient(
+      155deg,
+      transparent 0px, transparent 80px,
+      oklch(0.840 0.008 75 / 0.03) 80px, oklch(0.840 0.008 75 / 0.03) 81px
+    );
+}
+
+/* Stats row */
+[data-theme="marble"] .candle-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="marble"] .candle-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+[data-theme="marble"] .candle-stat-right {
+  text-align: right;
+}
+
+[data-theme="marble"] .candle-stat-right .candle-stat-content {
+  align-items: flex-end;
+}
+
+[data-theme="marble"] .candle-stat-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: oklch(84.544% 0.00287 84.348 / 0.778);
+  box-shadow: none;
+  animation: none;
+  margin-top: 0.25rem;
+}
+
+[data-theme="marble"] .candle-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+[data-theme="marble"] .candle-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: oklch(55.29% 0.00515 78.133 / 0.742);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="marble"] .candle-stat-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: oklch(27.79% 0.00146 16.053 / 0.466);
+  line-height: 1;
+}
+
+/* Candle display area */
+[data-theme="marble"] .candle-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="marble"] .candle-wrapper {
+  position: relative;
+}
+
+/* Light button */
+[data-theme="marble"] .candle-light-button {
+  margin-top: 2rem;
+  padding: 0.875rem 2.5rem;
+  border-radius: var(--radius);
+  background: linear-gradient(
+    135deg,
+    oklch(89.493% 0.00574 84.458 / 0.849) 0%,
+    oklch(68.972% 0.00304 84.401 / 0.744) 50%,
+    oklch(34.034% 0.00168 106.845 / 0.562) 100%
+  );
+  color: oklch(0.985 0.003 80);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
+  cursor: pointer;
+  box-shadow: none;
+  transition: none;
+}
+
+[data-theme="marble"] .candle-light-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+[data-theme="marble"] .candle-light-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Anonymous notice */
+[data-theme="marble"] .candle-anonymous-notice {
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: oklch(0.500 0.010 80);
+  text-align: center;
+}
+
+/* Recent activity */
+[data-theme="marble"] .candle-recent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+  background: oklch(1.000 0.000 0 / 0.6);
+  border: 1px solid oklch(0.880 0.025 80);
+  border-radius: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="marble"] .candle-recent-avatars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+[data-theme="marble"] .candle-recent-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, oklch(0.920 0.015 80), oklch(0.880 0.020 80));
+  border: 2px solid oklch(43.555% 0.00205 67.226 / 0.729);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: oklch(60.6% 0.00291 106.853 / 0.629);
+}
+
+[data-theme="marble"] .candle-recent-avatar-first {
+  background: linear-gradient(135deg, oklch(0.840 0.085 80), oklch(0.720 0.110 72));
+  border-color: oklch(32.605% 0.0014 15.77 / 0.532);
+  color: oklch(0.985 0.003 80);
+  box-shadow: none;
+}
+
+[data-theme="marble"] .candle-recent-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  color: oklch(0.400 0.010 80);
+}
+
+[data-theme="marble"] .candle-recent-text strong {
+  color: oklch(0.280 0.010 80);
+  font-weight: 600;
+}
+
+[data-theme="marble"] .candle-recent-time {
+  margin-left: 0.5rem;
+  color: oklch(0.550 0.010 80);
+}
+
+/* Error state */
+[data-theme="marble"] .candle-error {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: oklch(0.965 0.030 25 / 0.15);
+  border: 1px solid oklch(0.600 0.150 25 / 0.3);
+  border-radius: 0.75rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="marble"] .candle-error p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: oklch(0.450 0.120 25);
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="marble"] .candle-error button {
+  padding: 0.5rem 1.25rem;
+  background: oklch(0.550 0.150 25);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
