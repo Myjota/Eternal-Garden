@@ -963,7 +963,7 @@
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
-  background: oklch(84.544% 0.00287 84.348 / 0.778);
+  background: var(--accent);
   box-shadow: none;
   animation: none;
   margin-top: 0.25rem;
@@ -979,7 +979,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: oklch(55.29% 0.00515 78.133 / 0.742);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -988,7 +988,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.75rem;
   font-weight: 700;
-  color: oklch(27.79% 0.00146 16.053 / 0.466);
+  color: var(--accent);
   line-height: 1;
 }
 
@@ -1045,8 +1045,8 @@
   margin-top: 2.5rem;
   padding: 1rem 1.25rem;
   background: oklch(1.000 0.000 0 / 0.6);
-  border: 1px solid oklch(0.880 0.025 80);
-  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   position: relative;
   z-index: 1;
 }
@@ -1061,7 +1061,7 @@
   height: 2rem;
   border-radius: 50%;
   background: linear-gradient(135deg, oklch(0.920 0.015 80), oklch(0.880 0.020 80));
-  border: 2px solid oklch(43.555% 0.00205 67.226 / 0.729);
+  border: 2px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
