@@ -921,7 +921,7 @@
 /* ============================================================
    CANDLE SECTION 
    ============================================================ */
-[data-theme="marble"] .memorial-candle-section {
+[data-theme="garden"] .memorial-candle-section {
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
@@ -940,7 +940,7 @@
 }
 
 /* Marble vein pattern */
-[data-theme="marble"] .memorial-candle-section::before {
+[data-theme="garden"] .memorial-candle-section::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -960,7 +960,7 @@
 }
 
 /* Stats row */
-[data-theme="marble"] .candle-stats {
+[data-theme="garden"] .candle-stats {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -969,21 +969,21 @@
   z-index: 1;
 }
 
-[data-theme="marble"] .candle-stat {
+[data-theme="garden"] .candle-stat {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
 }
 
-[data-theme="marble"] .candle-stat-right {
+[data-theme="garden"] .candle-stat-right {
   text-align: right;
 }
 
-[data-theme="marble"] .candle-stat-right .candle-stat-content {
+[data-theme="garden"] .candle-stat-right .candle-stat-content {
   align-items: flex-end;
 }
 
-[data-theme="marble"] .candle-stat-indicator {
+[data-theme="garden"] .candle-stat-indicator {
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
@@ -993,13 +993,13 @@
   margin-top: 0.25rem;
 }
 
-[data-theme="marble"] .candle-stat-content {
+[data-theme="garden"] .candle-stat-content {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-[data-theme="marble"] .candle-stat-label {
+[data-theme="garden"] .candle-stat-label {
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -1008,7 +1008,7 @@
   letter-spacing: 0.05em;
 }
 
-[data-theme="marble"] .candle-stat-value {
+[data-theme="garden"] .candle-stat-value {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.75rem;
   font-weight: 700;
@@ -1017,7 +1017,7 @@
 }
 
 /* Candle display area */
-[data-theme="marble"] .candle-display {
+[data-theme="garden"] .candle-display {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1026,12 +1026,12 @@
   z-index: 1;
 }
 
-[data-theme="marble"] .candle-wrapper {
+[data-theme="garden"] .candle-wrapper {
   position: relative;
 }
 
 /* Light button */
-[data-theme="marble"] .candle-light-button {
+[data-theme="garden"] .candle-light-button {
   margin-top: 2rem;
   padding: 0.875rem 2.5rem;
   border-radius: var(--radius);
@@ -1052,19 +1052,19 @@
   transition: none;
 }
 
-[data-theme="marble"] .candle-light-button:hover {
+[data-theme="garden"] .candle-light-button:hover {
   transform: none;
   box-shadow: none;
 }
 
-[data-theme="marble"] .candle-light-button:disabled {
+[data-theme="garden"] .candle-light-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Anonymous notice */
-[data-theme="marble"] .candle-anonymous-notice {
+[data-theme="garden"] .candle-anonymous-notice {
   margin-top: 1rem;
   font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
@@ -1073,7 +1073,7 @@
 }
 
 /* Recent activity */
-[data-theme="marble"] .candle-recent {
+[data-theme="garden"] .candle-recent {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -1086,12 +1086,12 @@
   z-index: 1;
 }
 
-[data-theme="marble"] .candle-recent-avatars {
+[data-theme="garden"] .candle-recent-avatars {
   display: flex;
   gap: 0.5rem;
 }
 
-[data-theme="marble"] .candle-recent-avatar {
+[data-theme="garden"] .candle-recent-avatar {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -1104,31 +1104,31 @@
   color: oklch(60.6% 0.00291 106.853 / 0.629);
 }
 
-[data-theme="marble"] .candle-recent-avatar-first {
+[data-theme="garden"] .candle-recent-avatar-first {
   background: linear-gradient(135deg, oklch(0.840 0.085 80), oklch(0.720 0.110 72));
   border-color: oklch(32.605% 0.0014 15.77 / 0.532);
   color: oklch(0.985 0.003 80);
   box-shadow: none;
 }
 
-[data-theme="marble"] .candle-recent-text {
+[data-theme="garden"] .candle-recent-text {
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   color: oklch(0.400 0.010 80);
 }
 
-[data-theme="marble"] .candle-recent-text strong {
+[data-theme="garden"] .candle-recent-text strong {
   color: oklch(0.280 0.010 80);
   font-weight: 600;
 }
 
-[data-theme="marble"] .candle-recent-time {
+[data-theme="garden"] .candle-recent-time {
   margin-left: 0.5rem;
   color: oklch(0.550 0.010 80);
 }
 
 /* Error state */
-[data-theme="marble"] .candle-error {
+[data-theme="garden"] .candle-error {
   margin-top: 1.5rem;
   padding: 1rem 1.5rem;
   background: oklch(0.965 0.030 25 / 0.15);
@@ -1146,7 +1146,7 @@
   margin-bottom: 0.75rem;
 }
 
-[data-theme="marble"] .candle-error button {
+[data-theme="garden"] .candle-error button {
   padding: 0.5rem 1.25rem;
   background: oklch(0.550 0.150 25);
   color: white;
