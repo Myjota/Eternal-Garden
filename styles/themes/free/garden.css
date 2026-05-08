@@ -908,7 +908,7 @@
     radial-gradient(ellipse 70% 50% at 20% 20%,
       var(--background), transparent 55%),
     radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.950 0.035 75 / 0.60), transparent 55%),
+      var(--background), transparent 55%),
     linear-gradient(160deg,
       oklch(0.975 0.010 82) 0%,
       oklch(0.960 0.015 80) 50%,
