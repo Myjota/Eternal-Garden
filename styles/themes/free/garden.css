@@ -906,7 +906,7 @@
   padding: 4rem 1.5rem;
   background:
     radial-gradient(ellipse 70% 50% at 20% 20%,
-      oklch(0.960 0.025 80 / 0.70), transparent 55%),
+      var(--background), transparent 55%),
     radial-gradient(ellipse 60% 45% at 80% 80%,
       oklch(0.950 0.035 75 / 0.60), transparent 55%),
     linear-gradient(160deg,
