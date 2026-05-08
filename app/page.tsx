@@ -7,16 +7,19 @@ import { HeroSection } from '@/components/landing/hero-section'
 import { FeaturesSection } from '@/components/landing/features-section'
 import { FamousSection } from '@/components/landing/famous-section'
 import { ThemeProvider } from '@/lib/themes/theme-context'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import { type ThemeId } from '@/lib/themes/config'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
   const [theme, setTheme] = useState<ThemeId>('garden')
   const [user, setUser] = useState<User | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
+  
+  // Use locale hook - will load from Supabase for logged in users
+  const { locale, setLocale } = useLocale({ user })
   const t = getTranslations(locale)
 
   useEffect(() => {
@@ -57,10 +60,6 @@ export default function HomePage() {
     return () => subscription.unsubscribe()
   }, [])
 
-  const handleLocaleChange = (newLocale: Locale) => {
-    setLocale(newLocale)
-  }
-
   const handleThemeChange = (newTheme: ThemeId) => {
     setTheme(newTheme)
   }
@@ -71,7 +70,7 @@ export default function HomePage() {
         <Header 
           locale={locale} 
           t={t} 
-          onLocaleChange={handleLocaleChange} 
+          onLocaleChange={setLocale} 
           theme={theme}
           onThemeChange={handleThemeChange}
           user={user}
