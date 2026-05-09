@@ -105,7 +105,7 @@ export function FamousSection({ t }: FamousSectionProps) {
     <section className="relative py-16 md:py-24 bg-muted/30 min-h-[600px] overflow-hidden">
 
       {/* 🌫 BACKGROUND (added ONLY improvement) */}
-      <div className="absolute inset-0 pointer-events-none opacity-25">
+      <div className="absolute inset-0 pointer-events-none opacity-70">
         <div
           className="absolute inset-0"
           style={{
