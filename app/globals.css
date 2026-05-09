@@ -1,111 +1,66 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 /* ============================================
-   BASE DESIGN TOKENS (THEME-AGNOSTIC)
+   THEMES IMPORT
    ============================================ */
-:root {
-  /* background / text */
-  --color-bg: #f7f9f6;
-  --color-text: #1c1f1d;
+@import '../styles/themes/free/garden.css';
+@import '../styles/themes/free/marble.css';
+@import '../styles/themes/free/orthodox.css';
 
-  /* surfaces */
-  --color-surface: rgba(255, 255, 255, 0.8);
-  --color-border: rgba(47, 93, 58, 0.15);
+@import '../styles/themes/premium/eternal-night.css';
+@import '../styles/themes/premium/rainbow-bridge.css';
+@import '../styles/themes/premium/sunny-window.css';
 
-  /* brand */
-  --color-primary: #2f5d3a;
-  --color-secondary: #e9f1e7;
-  --color-accent: #4a7c59;
+@custom-variant dark (&:is(.dark *));
 
-  /* semantic */
-  --color-muted: #6b7a6d;
-  --color-gold: #b59a5a;
+/* ============================================
+   TAILWIND THEME TOKENS
+   ============================================ */
+@theme inline {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-mono: monospace;
 
-  /* effects */
-  --radius: 14px;
-  --glow: rgba(74, 124, 89, 0.12);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-border: var(--border);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 /* ============================================
-   GARDEN THEME (ACTIVE UI THEME)
-   ============================================ */
-[data-theme="garden"] {
-  --color-bg: #f7f9f6;
-  --color-text: #1c1f1d;
-
-  --color-surface: rgba(255, 255, 255, 0.82);
-  --color-border: rgba(47, 93, 58, 0.15);
-
-  --color-primary: #2f5d3a;
-  --color-secondary: #e9f1e7;
-  --color-accent: #4a7c59;
-
-  --color-muted: #6b7a6d;
-  --color-gold: #b59a5a;
-
-  --radius: 14px;
-  --glow: rgba(74, 124, 89, 0.12);
-}
-
-/* ============================================
-   BASE STYLES ONLY
+   BASE (NO THEME HERE!)
    ============================================ */
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  * {
+    @apply border-border;
   }
 
   body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    font-family: Inter, system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
   }
 
-  * {
-    border-color: var(--color-border);
+  html {
+    scroll-behavior: smooth;
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-
-  p {
-    color: var(--color-text);
-    opacity: 0.9;
-    line-height: 1.6;
-  }
-}
-
-/* ============================================
-   GLOBAL UTILITIES (SAFE)
-   ============================================ */
-@layer utilities {
-  .card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    backdrop-filter: blur(10px);
-  }
-
-  .btn-primary {
-    background: var(--color-primary);
-    color: white;
-    border-radius: var(--radius);
-  }
-
-  .text-muted {
-    color: var(--color-muted);
-  }
-}
-
-/* ============================================
-   SELECTION
-   ============================================ */
-::selection {
-  background: rgba(74, 124, 89, 0.2);
 }
