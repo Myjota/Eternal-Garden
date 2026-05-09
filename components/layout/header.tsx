@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Menu, X, User, ChevronDown, LogOut, Shield } from 'lucide-react'
 
@@ -46,6 +46,9 @@ export function Header({
 }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  // 🔥 FIX: real-time auth state
+  const [currentUser, setCurrentUser] = useState<SupabaseUser | null>(user ?? null)
+
   const router = useRouter()
   const pathname = usePathname()
 
@@ -55,6 +58,19 @@ export function Header({
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
+  // 🔥 AUTH LISTENER (CRITICAL FIX)
+  useEffect(() => {
+    const supabase = createClient()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setCurrentUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
   const handleLogout = async () => {
     try {
       await fetch('/auth/logout', { method: 'POST' })
@@ -62,6 +78,8 @@ export function Header({
       const supabase = createClient()
       await supabase.auth.signOut()
 
+      // 🔥 force UI refresh sync
+      router.refresh()
       window.location.href = '/'
     } catch (error) {
       console.error('Logout error:', error)
@@ -71,7 +89,7 @@ export function Header({
   return (
     <header className="sticky top-0 z-50 border-b border-[#d4c4a8]/20 bg-[#f6f2ec]/80 backdrop-blur-md">
 
-      {/* subtle green shadow line */}
+      {/* subtle green line */}
       <div className="h-[1px] bg-gradient-to-r from-transparent via-[#2d5a3d]/20 to-transparent" />
 
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -89,7 +107,6 @@ export function Header({
 
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex gap-8">
-
           {NAV.map((item) => (
             <Link
               key={item.href}
@@ -103,7 +120,6 @@ export function Header({
               {item.label}
             </Link>
           ))}
-
         </nav>
 
         {/* RIGHT SIDE */}
@@ -130,8 +146,8 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* USER */}
-          {user ? (
+          {/* USER (FIXED) */}
+          {currentUser ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm">
@@ -142,7 +158,7 @@ export function Header({
               <DropdownMenuContent align="end" className="w-56">
 
                 <div className="px-2 py-1.5 text-xs text-muted-foreground truncate">
-                  {user.email}
+                  {currentUser.email}
                 </div>
 
                 {USER_MENU.map((item) => (
@@ -183,7 +199,7 @@ export function Header({
 
         </div>
 
-        {/* MOBILE */}
+        {/* MOBILE BUTTON */}
         <button
           className="md:hidden text-[#2d5a3d]"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -211,7 +227,7 @@ export function Header({
 
             <div className="border-t pt-3 flex flex-col gap-2">
 
-              {user ? (
+              {currentUser ? (
                 <>
                   {USER_MENU.map((item) => (
                     <Link
@@ -249,4 +265,4 @@ export function Header({
 
     </header>
   )
-                    }
+    }
