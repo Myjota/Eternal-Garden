@@ -10,6 +10,8 @@ import {
 
 import { Analytics } from '@vercel/analytics/next'
 
+import './globals.css'
+
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { createClient } from '@/lib/supabase/server'
@@ -32,12 +34,10 @@ const siteName = 'Eternal Garden'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-
   title: {
     default: `${siteName} | Skaitmeninė atminimo vieta`,
     template: `%s | ${siteName}`,
   },
-
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
 }
