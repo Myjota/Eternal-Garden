@@ -110,9 +110,9 @@ export function FamousSection({ t }: FamousSectionProps) {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              radial-gradient(circle at 15% 25%, rgba(212,196,168,0.22), transparent 45%),
-              radial-gradient(circle at 80% 30%, rgba(45,90,61,0.08), transparent 50%),
-              radial-gradient(circle at 50% 85%, rgba(212,196,168,0.15), transparent 55%)
+              radial-gradient(circle at 15% 25%, rgba(212,196,168,0.22), transparent 5%),
+              radial-gradient(circle at 80% 30%, rgba(45,90,61,0.08), transparent 10%),
+              radial-gradient(circle at 50% 85%, rgba(212,196,168,0.15), transparent 5%)
             `,
           }}
         />
