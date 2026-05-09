@@ -5,8 +5,6 @@ import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { User, LogOut, Pencil } from 'lucide-react'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
 import { getTranslations } from '@/lib/i18n'
 import { useLocale } from '@/lib/i18n/useLocale'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
@@ -44,9 +42,7 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
         'Vartotojas'
 
   return (
-    <>
-      <Header locale={locale} t={t} onLocaleChange={setLocale} user={user} />
-
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto py-10 max-w-2xl min-h-[70vh]">
 
         <h1 className="text-2xl font-semibold mb-6">
@@ -104,8 +100,6 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
         </div>
 
       </div>
-
-      <Footer />
-    </>
+    </div>
   )
 }
