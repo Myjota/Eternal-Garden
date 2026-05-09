@@ -22,17 +22,23 @@
 
     color: var(--fg);
     font-family: Inter, system-ui, sans-serif;
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4 {
     letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  html, body {
+    height: 100%;
   }
 }
 
 /* ============================================
-   GARDEN-INSPIRED PUBLIC PALETTE
+   THEME TOKENS (GARDEN INSPIRED)
    ============================================ */
 :root {
   --bg: #f7f9f6;
@@ -48,21 +54,49 @@
   --card: rgba(255, 255, 255, 0.8);
 
   --gold: #b59a5a;
+
   --radius: 14px;
 
   --glow: rgba(74, 124, 89, 0.12);
 }
 
 /* ============================================
-   LAYOUT HELPERS
+   UTILITIES (NO @apply VERSION)
    ============================================ */
 @layer utilities {
+
   .container-app {
-    @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 72rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-app {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-app {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 
   .section {
-    @apply py-16 md:py-24;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
   }
 
   .glass-card {
@@ -73,12 +107,26 @@
     box-shadow: 0 8px 24px rgba(47, 93, 58, 0.08);
   }
 
+  .text-muted {
+    color: var(--muted);
+  }
+}
+
+/* ============================================
+   COMPONENTS (NO @apply)
+   ============================================ */
+@layer components {
+
   .btn-primary {
     background: var(--primary);
     color: white;
     padding: 0.5rem 1.25rem;
     border-radius: 0.75rem;
-    transition: all 0.2s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.2s ease;
   }
 
   .btn-primary:hover {
@@ -90,11 +138,15 @@
     color: var(--fg);
     padding: 0.5rem 1.25rem;
     border-radius: 0.75rem;
-    transition: all 0.2s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
   }
 
-  .text-muted {
-    color: var(--muted);
+  .btn-secondary:hover {
+    background: rgba(233, 241, 231, 0.7);
   }
 }
 
@@ -110,4 +162,11 @@
 .footer {
   border-top: 1px solid var(--border);
   background: rgba(247, 249, 246, 0.8);
+}
+
+/* ============================================
+   SMALL UX IMPROVEMENTS
+   ============================================ */
+::selection {
+  background: rgba(74, 124, 89, 0.2);
 }
