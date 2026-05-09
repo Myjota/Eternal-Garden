@@ -57,24 +57,11 @@ export function Header({
 
   const handleLogout = async () => {
     try {
-      // Use dedicated logout route for proper server-side session clearing
-      const response = await fetch('/auth/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      await fetch('/auth/logout', { method: 'POST' })
 
-      if (!response.ok) {
-        console.error('Logout failed')
-        return
-      }
-
-      // Also call client-side signOut to trigger auth state change immediately
       const supabase = createClient()
       await supabase.auth.signOut()
 
-      // Redirect to homepage after successful logout
       window.location.href = '/'
     } catch (error) {
       console.error('Logout error:', error)
@@ -82,7 +69,11 @@ export function Header({
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-[#d4c4a8]/20 bg-[#f6f2ec]/80 backdrop-blur-md">
+
+      {/* subtle green shadow line */}
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-[#2d5a3d]/20 to-transparent" />
+
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
         {/* LOGO */}
@@ -98,19 +89,21 @@ export function Header({
 
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex gap-8">
+
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={
                 isActive(item.href)
-                  ? 'text-foreground underline'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-[#2d5a3d] font-medium'
+                  : 'text-[#4a4a4a] hover:text-[#2d5a3d] transition-colors'
               }
             >
               {item.label}
             </Link>
           ))}
+
         </nav>
 
         {/* RIGHT SIDE */}
@@ -119,7 +112,7 @@ export function Header({
           {/* LANGUAGE */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-[#4a4a4a]">
                 {locale.toUpperCase()}
                 <ChevronDown className="h-3 w-3 ml-1" />
               </Button>
@@ -142,7 +135,7 @@ export function Header({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm">
-                  <User className="h-4 w-4" />
+                  <User className="h-4 w-4 text-[#2d5a3d]" />
                 </Button>
               </DropdownMenuTrigger>
 
@@ -162,7 +155,7 @@ export function Header({
                   <>
                     <div className="my-1 border-t" />
                     <DropdownMenuItem asChild>
-                      <Link href={adminItem.href} className="text-primary flex gap-2">
+                      <Link href={adminItem.href} className="text-[#2d5a3d] flex gap-2">
                         <Shield className="h-4 w-4" />
                         {adminItem.label}
                       </Link>
@@ -174,7 +167,7 @@ export function Header({
 
                 <DropdownMenuItem
                   onClick={handleLogout}
-                  className="text-destructive flex gap-2"
+                  className="text-red-500 flex gap-2"
                 >
                   <LogOut className="h-4 w-4" />
                   Atsijungti
@@ -183,26 +176,26 @@ export function Header({
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <>
-              <Button asChild variant="ghost" size="sm">
-                <Link href="/auth/login">Prisijungti</Link>
-              </Button>
-            </>
+            <Button asChild variant="ghost" size="sm" className="text-[#2d5a3d]">
+              <Link href="/auth/login">Prisijungti</Link>
+            </Button>
           )}
+
         </div>
 
-        {/* MOBILE BUTTON */}
+        {/* MOBILE */}
         <button
-          className="md:hidden"
+          className="md:hidden text-[#2d5a3d]"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           {mobileOpen ? <X /> : <Menu />}
         </button>
+
       </div>
 
       {/* MOBILE MENU */}
       {mobileOpen && (
-        <div className="border-t md:hidden">
+        <div className="border-t border-[#d4c4a8]/20 bg-[#f6f2ec] md:hidden">
           <nav className="flex flex-col gap-3 p-4">
 
             {NAV.map((item) => (
@@ -210,6 +203,7 @@ export function Header({
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
+                className="text-[#4a4a4a]"
               >
                 {item.label}
               </Link>
@@ -230,7 +224,7 @@ export function Header({
                   ))}
 
                   {isAdmin && (
-                    <Link href={adminItem.href}>
+                    <Link href={adminItem.href} className="text-[#2d5a3d]">
                       {adminItem.label}
                     </Link>
                   )}
@@ -252,6 +246,7 @@ export function Header({
           </nav>
         </div>
       )}
+
     </header>
   )
-  }
+                    }
