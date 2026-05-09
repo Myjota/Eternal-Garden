@@ -50,23 +50,18 @@ export default async function RootLayout({
   const locale = 'lt'
   const t = getTranslations(locale)
 
-  // ✅ SAFE SUPABASE FETCH (no build crash)
   let user = null
 
   try {
     const supabase = createClient()
-
-    const {
-      data,
-    } = await supabase.auth.getUser()
-
+    const { data } = await supabase.auth.getUser()
     user = data?.user ?? null
   } catch (err) {
     console.warn('Supabase auth skipped in layout:', err)
   }
 
   return (
-    <html lang="lt" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground flex flex-col min-h-screen">
 
         {/* GLOBAL HEADER */}
@@ -102,4 +97,4 @@ export default async function RootLayout({
       </body>
     </html>
   )
-        }
+}
