@@ -1,12 +1,30 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState, useTransition, useEffect } from 'react'
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+
 import { Switch } from '@/components/ui/switch'
-import { Bell, Globe, Lock, Loader2 } from 'lucide-react'
+
+import {
+  Bell,
+  Globe,
+  Lock,
+  Loader2,
+} from 'lucide-react'
+
 import { getTranslations } from '@/lib/i18n'
-import { useLocale } from '@/lib/i18n/useLocale'
-import { createClient } from '@/lib/supabase/client'
+
+import { useLocaleContext } from '@/providers/locale-provider'
+
+import { createClient }
+  from '@/lib/supabase/client'
+
 import type { User } from '@supabase/supabase-js'
 
 interface SettingsClientProps {
@@ -14,70 +32,142 @@ interface SettingsClientProps {
   initialPreferredLanguage: string
 }
 
-export function SettingsClient({ user, initialPreferredLanguage }: SettingsClientProps) {
-  const { locale, setLocale } = useLocale({ user })
+export function SettingsClient({
+  user,
+  initialPreferredLanguage,
+}: SettingsClientProps) {
 
-  const [emailNotifications, setEmailNotifications] = useState(true)
-  const [isLithuanian, setIsLithuanian] = useState(initialPreferredLanguage === 'lt')
-  const [isPrivate, setIsPrivate] = useState(false)
-  const [isPending, startTransition] = useTransition()
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const { locale, setLocale } =
+    useLocaleContext()
 
+  const [emailNotifications, setEmailNotifications] =
+    useState(true)
+
+  const [isLithuanian, setIsLithuanian] =
+    useState(initialPreferredLanguage === 'lt')
+
+  const [isPrivate, setIsPrivate] =
+    useState(false)
+
+  const [isPending, startTransition] =
+    useTransition()
+
+  const [saveStatus, setSaveStatus] =
+    useState<
+      'idle' | 'saving' | 'saved' | 'error'
+    >('idle')
+
+  // ✅ reactive translations
   const t = getTranslations(locale)
 
   const switchClass =
     'data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted-foreground/40'
 
-  const handleLanguageChange = async (checked: boolean) => {
+  // 🔥 SYNC GLOBAL LOCALE → LOCAL UI
+  useEffect(() => {
+    setIsLithuanian(locale === 'lt')
+  }, [locale])
+
+  // LANGUAGE CHANGE
+  const handleLanguageChange = async (
+    checked: boolean
+  ) => {
+
+    const newLanguage =
+      checked ? 'lt' : 'en'
+
     setIsLithuanian(checked)
     setSaveStatus('saving')
 
-    const supabase = createClient()
-    const newLanguage = checked ? 'lt' : 'en'
+    try {
 
-    const { error } = await supabase
-      .from('profiles')
-      .update({ preferred_language: newLanguage })
-      .eq('id', user.id)
+      // 1. GLOBAL STATE UPDATE (instant UI)
+      await setLocale(newLanguage)
 
-    if (error) {
-      setSaveStatus('error')
-      setIsLithuanian(!checked)
-      setTimeout(() => setSaveStatus('idle'), 2000)
-    } else {
+      // 2. PERSIST TO SUPABASE
+      const supabase = createClient()
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          preferred_language: newLanguage,
+        })
+        .eq('id', user.id)
+
+      if (error) throw error
+
       setSaveStatus('saved')
-      setTimeout(() => setSaveStatus('idle'), 2000)
+
+    } catch (error) {
+
+      console.error(error)
+
+      setSaveStatus('error')
+
+      // revert UI if failed
+      setIsLithuanian(!checked)
     }
+
+    setTimeout(() => {
+      setSaveStatus('idle')
+    }, 2000)
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto py-10 max-w-2xl">
 
-        <h1 className="text-2xl font-semibold mb-6">
-          Nustatymai
+      <div className="
+        container mx-auto
+        max-w-2xl
+        py-10
+      ">
+
+        <h1 className="
+          mb-6
+          text-2xl
+          font-semibold
+        ">
+          {t('settings.title') || 'Nustatymai'}
         </h1>
 
         {/* PRIVACY */}
         <Card className="mb-4">
+
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
+
               <Lock className="h-5 w-5" />
-              Privatumas
+
+              {t('settings.privacy') || 'Privatumas'}
+
             </CardTitle>
           </CardHeader>
 
           <CardContent>
-            <div className="flex items-center justify-between">
+
+            <div className="
+              flex items-center
+              justify-between
+            ">
+
               <div>
+
                 <p className="font-medium">
-                  {isPrivate ? 'Privatus Atminimas' : 'Viešas Atminimas'}
+
+                  {isPrivate
+                    ? 'Privatus Atminimas'
+                    : 'Viešas Atminimas'}
+
                 </p>
+
                 <p className="text-sm text-muted-foreground">
+
                   {isPrivate
                     ? 'Nebus rodomas per paieškas'
                     : 'Viešas Atminimas'}
+
                 </p>
+
               </div>
 
               <Switch
@@ -85,28 +175,47 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
                 onCheckedChange={setIsPrivate}
                 className={switchClass}
               />
+
             </div>
+
           </CardContent>
+
         </Card>
 
         {/* NOTIFICATIONS */}
         <Card className="mb-4">
+
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
+
               <Bell className="h-5 w-5" />
-              Pranešimai
+
+              {t('settings.notifications') || 'Pranešimai'}
+
             </CardTitle>
           </CardHeader>
 
           <CardContent>
-            <div className="flex items-center justify-between">
+
+            <div className="
+              flex items-center
+              justify-between
+            ">
+
               <div>
+
                 <p className="font-medium">
+
                   El. pašto pranešimai
+
                 </p>
+
                 <p className="text-sm text-muted-foreground">
+
                   Gaukite naujausius pranešimus el. paštu
+
                 </p>
+
               </div>
 
               <Switch
@@ -114,41 +223,67 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
                 onCheckedChange={setEmailNotifications}
                 className={switchClass}
               />
+
             </div>
+
           </CardContent>
+
         </Card>
 
         {/* LANGUAGE */}
         <Card className="mb-4">
+
           <CardHeader>
+
             <CardTitle className="flex items-center gap-2">
+
               <Globe className="h-5 w-5" />
-              Kalba
+
+              {t('settings.language') || 'Kalba'}
+
               {saveStatus === 'saving' && (
                 <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
               )}
+
               {saveStatus === 'saved' && (
-                <span className="text-xs text-green-600 font-normal">
+                <span className="text-xs text-green-600">
                   Issaugota
                 </span>
               )}
+
               {saveStatus === 'error' && (
-                <span className="text-xs text-destructive font-normal">
+                <span className="text-xs text-red-500">
                   Klaida
                 </span>
               )}
+
             </CardTitle>
+
           </CardHeader>
 
           <CardContent>
-            <div className="flex items-center justify-between">
+
+            <div className="
+              flex items-center
+              justify-between
+            ">
+
               <div>
+
                 <p className="font-medium">
-                  {isLithuanian ? 'Lietuviu' : 'English'}
+
+                  {isLithuanian
+                    ? 'Lietuvių'
+                    : 'English'}
+
                 </p>
+
                 <p className="text-sm text-muted-foreground">
-                  Sasajos kalba
+
+                  Sąsajos kalba
+
                 </p>
+
               </div>
 
               <Switch
@@ -157,11 +292,15 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
                 className={switchClass}
                 disabled={saveStatus === 'saving'}
               />
+
             </div>
+
           </CardContent>
+
         </Card>
 
       </div>
+
     </div>
   )
 }
