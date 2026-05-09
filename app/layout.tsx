@@ -31,9 +31,6 @@ export const metadata: Metadata = {
   },
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-  applicationName: siteName,
-  creator: siteName,
-  publisher: siteName,
 }
 
 export const viewport: Viewport = {
@@ -50,16 +47,23 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // ✅ server-side user (global auth state)
-  const supabase = createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // default locale (vėliau gali jungti cookie)
   const locale = 'lt'
   const t = getTranslations(locale)
+
+  // ✅ SAFE SUPABASE FETCH (no build crash)
+  let user = null
+
+  try {
+    const supabase = createClient()
+
+    const {
+      data,
+    } = await supabase.auth.getUser()
+
+    user = data?.user ?? null
+  } catch (err) {
+    console.warn('Supabase auth skipped in layout:', err)
+  }
 
   return (
     <html lang="lt" className={`${inter.variable} ${playfair.variable}`}>
@@ -78,7 +82,7 @@ export default async function RootLayout({
           {children}
         </main>
 
-        {/* GLOBAL FOOTER (GREEN THEME READY) */}
+        {/* GLOBAL FOOTER */}
         <Footer t={t} />
 
         {/* SEO STRUCTURED DATA */}
@@ -90,8 +94,6 @@ export default async function RootLayout({
               '@type': 'WebSite',
               name: siteName,
               url: siteUrl,
-              description:
-                'Skaitmeninė atminimo platforma šeimos istorijoms ir prisiminimams išsaugoti.',
             }),
           }}
         />
@@ -100,4 +102,4 @@ export default async function RootLayout({
       </body>
     </html>
   )
-}
+        }
