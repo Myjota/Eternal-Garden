@@ -1,12 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations } from '@/lib/i18n'
 import { useLocale } from '@/lib/i18n/useLocale'
@@ -47,21 +44,16 @@ const faqs = [
 ]
 
 export default function FAQPage() {
-  // Use locale hook - loads preferred language from Supabase/localStorage
-  const { locale, setLocale } = useLocale({})
+  const { locale } = useLocale({})
   const t = getTranslations(locale)
 
   return (
     <ThemeProvider initialTheme="garden">
       <div className="min-h-screen flex flex-col bg-background">
-        <Header
-          locale={locale}
-          t={t}
-          onLocaleChange={setLocale}
-        />
 
         <main className="flex-1">
           <div className="container mx-auto px-4 py-12 max-w-3xl">
+
             {/* Header */}
             <div className="text-center mb-12">
               <h1 className="text-3xl md:text-4xl font-serif font-bold mb-4">
@@ -72,7 +64,7 @@ export default function FAQPage() {
               </p>
             </div>
 
-            {/* FAQ Accordion */}
+            {/* FAQ */}
             <Accordion type="single" collapsible className="mb-12">
               {faqs.map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`}>
@@ -86,7 +78,7 @@ export default function FAQPage() {
               ))}
             </Accordion>
 
-            {/* Contact CTA */}
+            {/* Contact */}
             <div className="text-center bg-muted/50 rounded-lg p-8 mb-8">
               <h2 className="text-xl font-semibold mb-2">
                 Neradote atsakymo?
@@ -101,7 +93,7 @@ export default function FAQPage() {
               </Button>
             </div>
 
-            {/* Back Link */}
+            {/* Back */}
             <div className="text-center">
               <Button variant="ghost" asChild>
                 <Link href="/">
@@ -110,10 +102,10 @@ export default function FAQPage() {
                 </Link>
               </Button>
             </div>
+
           </div>
         </main>
 
-        <Footer t={t} />
       </div>
     </ThemeProvider>
   )
