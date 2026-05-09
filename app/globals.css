@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================
-   DESIGN TOKENS (ONLY COLORS / RADIUS)
+   DESIGN TOKENS (COLORS ONLY)
    ============================================ */
 :root {
   /* Base */
@@ -24,12 +24,11 @@
 
   --radius: 14px;
 
-  /* optional glow token */
   --glow: rgba(74, 124, 89, 0.12);
 }
 
 /* ============================================
-   BASE ONLY (NO LAYOUT, NO UTILITIES)
+   BASE RESET (TAILWIND SAFE)
    ============================================ */
 @layer base {
   * {
@@ -47,10 +46,20 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  p {
+    color: var(--fg);
+    line-height: 1.6;
+  }
 }
 
 /* ============================================
-   OPTIONAL GLOBAL SELECTION STYLE
+   SELECTION
    ============================================ */
 ::selection {
   background: rgba(74, 124, 89, 0.2);
