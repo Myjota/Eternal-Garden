@@ -49,17 +49,17 @@ const features = (t: Translations) => [
 
 export function FeaturesSection({ t }: FeaturesSectionProps) {
   return (
-    <section className="py-16 md:py-24 relative bg-[#faf8f5] overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-[#f6f2ec] overflow-hidden">
 
-      {/* subtle background glow texture */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
+      {/* 🌫 unified background (matches FamousSection style) */}
+      <div className="absolute inset-0 pointer-events-none opacity-25">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              radial-gradient(circle at 20% 20%, rgba(212,196,168,0.25) 0%, transparent 40%),
-              radial-gradient(circle at 80% 40%, rgba(212,196,168,0.18) 0%, transparent 45%),
-              radial-gradient(circle at 50% 80%, rgba(45,90,61,0.08) 0%, transparent 50%)
+              radial-gradient(circle at 15% 25%, rgba(212,196,168,0.22), transparent 45%),
+              radial-gradient(circle at 80% 30%, rgba(45,90,61,0.08), transparent 50%),
+              radial-gradient(circle at 50% 85%, rgba(212,196,168,0.15), transparent 55%)
             `,
           }}
         />
@@ -69,6 +69,7 @@ export function FeaturesSection({ t }: FeaturesSectionProps) {
 
         {/* Header */}
         <div className="text-center mb-12">
+
           <div className="flex justify-center mb-4">
             <Image
               src="/images/logo.png"
@@ -88,6 +89,7 @@ export function FeaturesSection({ t }: FeaturesSectionProps) {
             <div className="w-2 h-2 rounded-full bg-[#d4c4a8]" />
             <div className="h-px w-12 bg-[#d4c4a8]" />
           </div>
+
         </div>
 
         {/* Description */}
@@ -95,6 +97,7 @@ export function FeaturesSection({ t }: FeaturesSectionProps) {
           <h3 className="text-2xl font-semibold mb-4 text-[#1a1a1a]">
             {t.features.title}
           </h3>
+
           <p className="max-w-2xl mx-auto text-[#4a4a4a] leading-relaxed">
             {t.features.description}
           </p>
@@ -102,22 +105,24 @@ export function FeaturesSection({ t }: FeaturesSectionProps) {
 
         {/* Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
           {features(t).map((feature, index) => (
             <Card
               key={index}
               className="
                 border border-[#d4c4a8]/40
                 bg-white/70 backdrop-blur-sm
-                rounded-xl
-                shadow-sm
-                hover:shadow-lg hover:-translate-y-1
+                rounded-none
+                shadow-[0_4px_20px_rgba(0,0,0,0.15)]
+                hover:-translate-y-1 hover:shadow-xl
                 transition-all duration-300
               "
             >
               <CardContent className="p-6">
+
                 <div className="flex items-start gap-4">
 
-                  {/* Icon */}
+                  {/* Icon (matched style with FamousSection vibe) */}
                   <div className="w-12 h-12 rounded-lg bg-[#f5f3ef] border border-[#d4c4a8]/30 flex items-center justify-center shrink-0">
                     <feature.icon className="h-6 w-6 text-[#2d5a3d]" />
                   </div>
@@ -127,15 +132,18 @@ export function FeaturesSection({ t }: FeaturesSectionProps) {
                     <h4 className="font-semibold text-[#1a1a1a] mb-2">
                       {feature.title}
                     </h4>
+
                     <p className="text-sm text-[#4a4a4a] leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
 
                 </div>
+
               </CardContent>
             </Card>
           ))}
+
         </div>
 
       </div>
