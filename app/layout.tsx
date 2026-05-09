@@ -6,17 +6,17 @@ export default async function RootLayout({
   const supabase = createClient()
 
   const {
-    data: { user },
+    data: { user: authUser },
   } = await supabase.auth.getUser()
 
   let preferredLanguage: 'lt' | 'en' = 'lt'
 
   try {
-    if (user) {
+    if (authUser) {
       const { data } = await supabase
         .from('profiles')
         .select('preferred_language')
-        .eq('id', user.id)
+        .eq('id', authUser.id)
         .single()
 
       preferredLanguage =
@@ -33,11 +33,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
-        <LocaleProvider user={user} initialLocale={preferredLanguage}>
-          <Header user={user} isAdmin={false} />
+        <LocaleProvider user={authUser} initialLocale={preferredLanguage}>
+          <Header user={authUser} isAdmin={false} />
           <main className="flex-1">{children}</main>
           <Footer />
         </LocaleProvider>
+
         <Analytics />
       </body>
     </html>
