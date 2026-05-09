@@ -4,12 +4,21 @@ import { useState, useEffect } from 'react'
 import { HeroSection } from '@/components/landing/hero-section'
 import { FeaturesSection } from '@/components/landing/features-section'
 import { FamousSection } from '@/components/landing/famous-section'
+import { ThemeProvider } from '@/lib/themes/theme-context'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
+import type { ThemeId } from '@/lib/themes/config'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
+
+  const theme: ThemeId = 'garden'
+
+  const { locale } = useLocale({ user })
+  const t = getTranslations(locale)
 
   useEffect(() => {
     const supabase = createClient()
@@ -45,10 +54,14 @@ export default function HomePage() {
   }, [])
 
   return (
-    <>
-      <HeroSection isAdmin={isAdmin} />
-      <FeaturesSection isAdmin={isAdmin} />
-      <FamousSection isAdmin={isAdmin} />
-    </>
+    <ThemeProvider initialTheme={theme}>
+      <div className="min-h-screen flex flex-col" data-theme={theme}>
+        <main className="flex-1">
+          <HeroSection t={t} theme={theme} />
+          <FeaturesSection t={t} theme={theme} />
+          <FamousSection t={t} theme={theme} />
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }
