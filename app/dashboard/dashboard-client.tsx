@@ -18,7 +18,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Empty } from '@/components/ui/empty'
 import { Header } from '@/components/layout/header'
 import { ThemeProvider } from '@/lib/themes/theme-context'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import type { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 
@@ -49,13 +50,12 @@ export function DashboardClient({
   profile,
   memorials: initialMemorials,
 }: DashboardClientProps) {
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
   const [memorials, setMemorials] = useState(initialMemorials)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-
+  
+  // Use locale hook - loads preferred language from Supabase
+  const { locale, setLocale } = useLocale({ user })
   const t = getTranslations(locale)
-
-  const handleLocaleChange = (l: Locale) => setLocale(l)
 
   const handleDelete = async (id: string) => {
     if (!confirm('Ar tikrai norite ištrinti šį atminimą?')) return
@@ -91,7 +91,7 @@ export function DashboardClient({
         <Header
           locale={locale}
           t={t}
-          onLocaleChange={handleLocaleChange}
+          onLocaleChange={setLocale}
           user={user}
         />
 

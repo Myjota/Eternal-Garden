@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/header'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import type { User } from '@supabase/supabase-js'
 
 interface ServicesClientProps {
@@ -39,7 +40,8 @@ const services = [
 ]
 
 export function ServicesClient({ user }: ServicesClientProps) {
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
+  // Use locale hook - loads preferred language from Supabase
+  const { locale, setLocale } = useLocale({ user })
   const t = getTranslations(locale)
 
   return (

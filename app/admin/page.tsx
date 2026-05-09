@@ -24,7 +24,8 @@ import {
   X
 } from 'lucide-react'
 import Link from 'next/link'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import { Spinner } from '@/components/ui/spinner'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 import {
@@ -61,7 +62,9 @@ export default function AdminPage() {
   const [user, setUser] = useState<SupabaseUser | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [locale] = useState<Locale>(defaultLocale)
+  
+  // Use locale hook - loads preferred language from Supabase
+  const { locale } = useLocale({ user })
   const t = getTranslations(locale)
 
   // Data states
