@@ -3,58 +3,103 @@
 @tailwind utilities;
 
 /* ============================================
-   DESIGN TOKENS (COLORS ONLY)
+   BASE DESIGN TOKENS (THEME-AGNOSTIC)
    ============================================ */
 :root {
-  /* Base */
-  --bg: #f7f9f6;
-  --fg: #1c1f1d;
+  /* background / text */
+  --color-bg: #f7f9f6;
+  --color-text: #1c1f1d;
 
-  /* Garden palette */
-  --primary: #2f5d3a;
-  --secondary: #e9f1e7;
-  --accent: #4a7c59;
+  /* surfaces */
+  --color-surface: rgba(255, 255, 255, 0.8);
+  --color-border: rgba(47, 93, 58, 0.15);
 
-  --muted: #6b7a6d;
-  --border: rgba(47, 93, 58, 0.15);
+  /* brand */
+  --color-primary: #2f5d3a;
+  --color-secondary: #e9f1e7;
+  --color-accent: #4a7c59;
 
-  --card: rgba(255, 255, 255, 0.8);
+  /* semantic */
+  --color-muted: #6b7a6d;
+  --color-gold: #b59a5a;
 
-  --gold: #b59a5a;
-
+  /* effects */
   --radius: 14px;
-
   --glow: rgba(74, 124, 89, 0.12);
 }
 
 /* ============================================
-   BASE RESET (TAILWIND SAFE)
+   GARDEN THEME (ACTIVE UI THEME)
+   ============================================ */
+[data-theme="garden"] {
+  --color-bg: #f7f9f6;
+  --color-text: #1c1f1d;
+
+  --color-surface: rgba(255, 255, 255, 0.82);
+  --color-border: rgba(47, 93, 58, 0.15);
+
+  --color-primary: #2f5d3a;
+  --color-secondary: #e9f1e7;
+  --color-accent: #4a7c59;
+
+  --color-muted: #6b7a6d;
+  --color-gold: #b59a5a;
+
+  --radius: 14px;
+  --glow: rgba(74, 124, 89, 0.12);
+}
+
+/* ============================================
+   BASE STYLES ONLY
    ============================================ */
 @layer base {
-  * {
-    border-color: var(--border);
-  }
-
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--bg);
-    color: var(--fg);
+    background-color: var(--color-bg);
+    color: var(--color-text);
     font-family: Inter, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  * {
+    border-color: var(--color-border);
+  }
+
   h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text);
     font-weight: 600;
-    color: var(--fg);
   }
 
   p {
-    color: var(--fg);
+    color: var(--color-text);
+    opacity: 0.9;
     line-height: 1.6;
+  }
+}
+
+/* ============================================
+   GLOBAL UTILITIES (SAFE)
+   ============================================ */
+@layer utilities {
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: white;
+    border-radius: var(--radius);
+  }
+
+  .text-muted {
+    color: var(--color-muted);
   }
 }
 
