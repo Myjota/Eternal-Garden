@@ -19,6 +19,7 @@ interface FamousMemorial {
 
 interface FamousSectionProps {
   t: Translations
+  theme?: string
 }
 
 export function FamousSection({ t }: FamousSectionProps) {
@@ -35,16 +36,21 @@ export function FamousSection({ t }: FamousSectionProps) {
       setIsLoading(true)
 
       try {
-        const res = await fetch('/api/famous-memorials')
-        const result = await res.json()
+        const response = await fetch('/api/famous-memorials')
+        const result = await response.json()
 
-        if (!res.ok) throw new Error(result.error)
-
-        if (isActive) {
-          setFamousMemorials(result.data || [])
+        if (!response.ok) {
+          console.error('FamousSection - API error:', result.error)
+          throw new Error(result.error || 'Failed to fetch famous memorials')
         }
-      } catch (e) {
-        console.error(e)
+
+        if (!isActive) return
+
+        if (result.data) {
+          setFamousMemorials(result.data)
+        }
+      } catch (error) {
+        console.error('FamousSection - Error:', error)
       }
 
       setIsLoading(false)
@@ -53,11 +59,15 @@ export function FamousSection({ t }: FamousSectionProps) {
     load()
 
     const onFocus = () => load()
+    const onPageShow = () => load()
+
     window.addEventListener('focus', onFocus)
+    window.addEventListener('pageshow', onPageShow)
 
     return () => {
       isActive = false
       window.removeEventListener('focus', onFocus)
+      window.removeEventListener('pageshow', onPageShow)
     }
   }, [])
 
@@ -67,30 +77,42 @@ export function FamousSection({ t }: FamousSectionProps) {
 
   const totalPages = Math.ceil(famousMemorials.length / itemsPerPage)
 
+  useEffect(() => {
+    if (currentPage > totalPages - 1) {
+      setCurrentPage(0)
+    }
+  }, [totalPages, currentPage])
+
   const currentItems = useMemo(() => {
+    if (!famousMemorials.length) return []
+
     return famousMemorials.slice(
       currentPage * itemsPerPage,
       (currentPage + 1) * itemsPerPage
     )
   }, [currentPage, famousMemorials])
 
-  const goPrev = () => setCurrentPage(p => Math.max(p - 1, 0))
-  const goNext = () => setCurrentPage(p => Math.min(p + 1, totalPages - 1))
+  const goToPage = (page: number) => {
+    setCurrentPage(Math.max(0, Math.min(page, totalPages - 1)))
+  }
+
+  const goPrev = () => setCurrentPage(p => (p > 0 ? p - 1 : p))
+  const goNext = () => setCurrentPage(p => (p < totalPages - 1 ? p + 1 : p))
 
   if (!isLoading && famousMemorials.length === 0) return null
 
   return (
-    <section className="relative py-16 md:py-24 bg-[#f6f2ec] overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-muted/30 min-h-[600px] overflow-hidden">
 
-      {/* 🌫 Soft ambient background */}
-      <div className="absolute inset-0 pointer-events-none opacity-30">
+      {/* 🌫 BACKGROUND (added ONLY improvement) */}
+      <div className="absolute inset-0 pointer-events-none opacity-25">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              radial-gradient(circle at 15% 20%, rgba(212,196,168,0.25), transparent 40%),
-              radial-gradient(circle at 85% 30%, rgba(45,90,61,0.08), transparent 45%),
-              radial-gradient(circle at 50% 90%, rgba(212,196,168,0.18), transparent 50%)
+              radial-gradient(circle at 15% 25%, rgba(212,196,168,0.22), transparent 45%),
+              radial-gradient(circle at 80% 30%, rgba(45,90,61,0.08), transparent 50%),
+              radial-gradient(circle at 50% 85%, rgba(212,196,168,0.15), transparent 55%)
             `,
           }}
         />
@@ -98,30 +120,25 @@ export function FamousSection({ t }: FamousSectionProps) {
 
       <div className="container mx-auto px-4 relative z-10">
 
-        {/* Header */}
+        {/* Header (UNCHANGED) */}
         <div className="text-center mb-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold italic text-[#2d5a3d]">
+          <h2 className="font-serif text-2xl font-semibold text-primary italic md:text-3xl">
             {t.famousSection?.title || 'Žymūs Lietuviai'}
           </h2>
-
-          <div className="flex justify-center mt-3">
-            <div className="h-px w-16 bg-[#d4c4a8]" />
-          </div>
         </div>
 
-        {/* Loading */}
         {isLoading ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {[1,2,3,4].map(i => (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
+            {[1, 2, 3, 4].map((i) => (
               <Card
                 key={i}
-                className="animate-pulse bg-white/60 border border-[#d4c4a8]/30"
+                className="overflow-hidden border border-primary/20 bg-card animate-pulse rounded-none p-0"
               >
                 <div className="aspect-[3/4] bg-muted" />
                 <CardContent className="p-4">
-                  <div className="h-5 bg-muted mb-2" />
-                  <div className="h-4 bg-muted w-1/2 mb-2" />
-                  <div className="h-8 bg-muted" />
+                  <div className="h-5 bg-muted w-3/4 mx-auto mb-2" />
+                  <div className="h-4 bg-muted w-1/2 mx-auto mb-2" />
+                  <div className="h-8 bg-muted w-full mt-4" />
                 </CardContent>
               </Card>
             ))}
@@ -133,11 +150,10 @@ export function FamousSection({ t }: FamousSectionProps) {
             {totalPages > 1 && (
               <button
                 onClick={goPrev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4
-                           w-10 h-10 rounded-full bg-[#2d5a3d] text-white
-                           shadow-lg hover:bg-[#244a32] transition"
+                disabled={currentPage === 0}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-40 md:-translate-x-6"
               >
-                <ChevronLeft className="h-5 w-5 mx-auto" />
+                <ChevronLeft className="h-5 w-5" />
               </button>
             )}
 
@@ -145,57 +161,55 @@ export function FamousSection({ t }: FamousSectionProps) {
             {totalPages > 1 && (
               <button
                 onClick={goNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4
-                           w-10 h-10 rounded-full bg-[#2d5a3d] text-white
-                           shadow-lg hover:bg-[#244a32] transition"
+                disabled={currentPage === totalPages - 1}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-40 md:translate-x-6"
               >
-                <ChevronRight className="h-5 w-5 mx-auto" />
+                <ChevronRight className="h-5 w-5" />
               </button>
             )}
 
-            {/* Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {currentItems.map(m => (
-                <Link key={m.id} href={`/memorial/${m.slug}`} className="group">
+            {/* Grid (UNCHANGED) */}
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
+              {currentItems.map((memorial) => (
+                <Link key={memorial.id} href={`/memorial/${memorial.slug}`} className="group block">
                   <Card
-                    className="
-                      overflow-hidden bg-white/70 backdrop-blur-sm
-                      border border-[#d4c4a8]/40
-                      hover:-translate-y-1 hover:shadow-xl
-                      transition-all duration-300
-                    "
+                    className="overflow-hidden border border-primary/30 bg-card 
+                               hover:border-primary/60 transition-all duration-300
+                               rounded-none p-0 shadow-[0_4px_20px_rgba(0,0,0,0.25)]
+                               hover:-translate-y-1 cursor-pointer"
                   >
 
-                    {/* Image */}
-                    <div className="aspect-[3/4] relative bg-muted overflow-hidden">
-                      {m.photo_url ? (
+                    <div className="aspect-[3/4] relative overflow-hidden bg-muted">
+                      {memorial.photo_url ? (
                         <Image
-                          src={m.photo_url}
-                          alt={m.name}
+                          src={memorial.photo_url}
+                          alt={memorial.name}
                           fill
-                          className="object-cover sepia-[0.25] group-hover:scale-105 transition"
+                          className="object-cover sepia-[0.3]"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-5xl font-serif text-[#2d5a3d]/40">
-                            {m.name.charAt(0)}
+                        <div className="w-full h-full flex items-center justify-center bg-primary/10">
+                          <span className="text-6xl font-serif text-primary/50">
+                            {memorial.name.charAt(0)}
                           </span>
                         </div>
                       )}
+
+                      <div className="absolute inset-0 border border-black/20 pointer-events-none" />
+                      <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
                     </div>
 
-                    {/* Content */}
-                    <CardContent className="p-4 text-center border-t border-[#d4c4a8]/30">
-                      <h3 className="font-serif font-semibold text-[#1a1a1a] group-hover:text-[#2d5a3d] transition">
-                        {m.name}
+                    <CardContent className="p-4 text-center border-t border-primary/20">
+                      <h3 className="font-serif font-semibold text-foreground group-hover:text-primary transition-colors">
+                        {memorial.name}
                       </h3>
 
-                      <p className="text-sm text-[#4a4a4a] mt-1">
-                        {m.birth_date ? new Date(m.birth_date).getFullYear() : '?'} – {m.death_date ? new Date(m.death_date).getFullYear() : '?'}
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {memorial.birth_date ? new Date(memorial.birth_date).getFullYear() : '?'} – {memorial.death_date ? new Date(memorial.death_date).getFullYear() : '?'}
                       </p>
 
-                      <p className="text-xs text-[#6a6a6a] mt-2 line-clamp-2">
-                        {m.short_description || 'Žymus Lietuvos žmogus'}
+                      <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                        {memorial.short_description || 'Žymus Lietuvos žmogus'}
                       </p>
                     </CardContent>
 
@@ -204,9 +218,26 @@ export function FamousSection({ t }: FamousSectionProps) {
               ))}
             </div>
 
+            {/* Dots (UNCHANGED) */}
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToPage(index)}
+                    className={`w-3 h-3 transition-colors ${
+                      currentPage === index
+                        ? 'bg-primary'
+                        : 'bg-primary/30 hover:bg-primary/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+
           </div>
         )}
       </div>
     </section>
   )
-                      }
+            }
