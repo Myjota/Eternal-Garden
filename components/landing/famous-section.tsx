@@ -104,19 +104,19 @@ export function FamousSection({ t }: FamousSectionProps) {
   return (
     <section className="relative py-16 md:py-24 bg-muted/30 min-h-[600px] overflow-hidden">
 
-      {/* 🌫 BACKGROUND (added ONLY improvement) */}
-      <div className="absolute inset-0 pointer-events-none opacity-70">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 15% 25%, rgba(212,196,168,0.22), transparent 5%),
-              radial-gradient(circle at 80% 30%, rgba(45,90,61,0.08), transparent 10%),
-              radial-gradient(circle at 50% 85%, rgba(212,196,168,0.15), transparent 5%)
-            `,
-          }}
-        />
-      </div>
+      {/* 🌫 BACKGROUND */}
+<div className="absolute inset-0 pointer-events-none opacity-100">
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundColor: '#f6f2ec',
+      backgroundImage: `
+        linear-gradient(0deg, rgba(212,196,168,0.06), rgba(212,196,168,0.06)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")
+      `,
+    }}
+  />
+</div>
 
       <div className="container mx-auto px-4 relative z-10">
 
