@@ -24,27 +24,51 @@ export function LocaleProvider({
   initialLocale = 'lt',
   user,
 }: any) {
+
+  // 🔥 1. hydrate from localStorage first
   const [locale, setLocaleState] =
-    useState<Locale>(initialLocale)
+    useState<Locale>(() => {
+
+      if (typeof window !== 'undefined') {
+        const stored =
+          localStorage.getItem('locale') as Locale
+
+        if (stored) return stored
+      }
+
+      return initialLocale
+    })
+
+  // 🔥 sync localStorage whenever locale changes
+  useEffect(() => {
+    localStorage.setItem('locale', locale)
+  }, [locale])
 
   const setLocale = async (newLocale: Locale) => {
 
-    // INSTANT UI UPDATE
+    // 1. instant UI update
     setLocaleState(newLocale)
 
-    // LOCAL STORAGE
-    localStorage.setItem('locale', newLocale)
+    try {
 
-    // SAVE TO SUPABASE
-    if (user?.id) {
-      const supabase = createClient()
+      // 2. save to DB (only if user exists)
+      if (user?.id) {
+        const supabase = createClient()
 
-      await supabase
-        .from('profiles')
-        .update({
-          preferred_language: newLocale,
-        })
-        .eq('id', user.id)
+        const { error } = await supabase
+          .from('profiles')
+          .update({
+            preferred_language: newLocale,
+          })
+          .eq('id', user.id)
+
+        if (error) {
+          console.error('Locale save failed:', error)
+        }
+      }
+
+    } catch (err) {
+      console.error('Locale error:', err)
     }
   }
 
