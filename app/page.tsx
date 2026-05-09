@@ -7,15 +7,12 @@ import { FamousSection } from '@/components/landing/famous-section'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations } from '@/lib/i18n'
 import { useLocale } from '@/lib/i18n/useLocale'
-import type { ThemeId } from '@/lib/themes/config'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
-
-  const theme: ThemeId = 'garden'
 
   const { locale } = useLocale({ user })
   const t = getTranslations(locale)
@@ -24,10 +21,7 @@ export default function HomePage() {
     const supabase = createClient()
 
     const loadUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
+      const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
 
       if (user) {
@@ -43,23 +37,22 @@ export default function HomePage() {
 
     loadUser()
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-      setIsAdmin(false)
-    })
+    const { data: { subscription } } =
+      supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null)
+        setIsAdmin(false)
+      })
 
     return () => subscription.unsubscribe()
   }, [])
 
   return (
-    <ThemeProvider initialTheme={theme}>
-      <div className="min-h-screen flex flex-col" data-theme={theme}>
+    <ThemeProvider initialTheme="garden">
+      <div className="min-h-screen flex flex-col">
         <main className="flex-1">
-          <HeroSection t={t} theme={theme} />
-          <FeaturesSection t={t} theme={theme} />
-          <FamousSection t={t} theme={theme} />
+          <HeroSection t={t} />
+          <FeaturesSection t={t} />
+          <FamousSection t={t} />
         </main>
       </div>
     </ThemeProvider>
