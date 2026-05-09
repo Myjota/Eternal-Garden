@@ -3,6 +3,11 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
+import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
+import { createClient } from '@/lib/supabase/server'
+import { getTranslations } from '@/lib/i18n'
+
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
   variable: '--font-inter',
@@ -20,95 +25,15 @@ const siteName = 'Eternal Garden'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-
   title: {
     default: `${siteName} | Skaitmeninė atminimo vieta`,
     template: `%s | ${siteName}`,
   },
-
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-
   applicationName: siteName,
   creator: siteName,
   publisher: siteName,
-
-  keywords: [
-    'atminimas',
-    'memorialas',
-    'šeimos istorija',
-    'genealogija',
-    'prisiminimas',
-    'digital memorial',
-    'legacy platform',
-  ],
-
-  authors: [{ name: siteName }],
-
-  alternates: {
-    canonical: siteUrl,
-    languages: {
-      'lt-LT': siteUrl,
-    },
-  },
-
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-
-  openGraph: {
-    type: 'website',
-    locale: 'lt_LT',
-    url: siteUrl,
-    siteName,
-
-    title: `${siteName} | Skaitmeninė atminimo vieta`,
-    description:
-      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-
-    images: [
-      {
-        url: `${siteUrl}/og-image.jpg`,
-        width: 1200,
-        height: 630,
-        alt: `${siteName} preview`,
-      },
-    ],
-  },
-
-  twitter: {
-    card: 'summary_large_image',
-    title: `${siteName} | Skaitmeninė atminimo vieta`,
-    description:
-      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-    images: [`${siteUrl}/og-image.jpg`],
-  },
-
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icon-32x32.png', sizes: '32x32' },
-      { url: '/icon-16x16.png', sizes: '16x16' },
-    ],
-    apple: '/apple-touch-icon.png',
-    shortcut: '/favicon.ico',
-  },
-
-  manifest: '/manifest.webmanifest',
-
-  formatDetection: {
-    telephone: false,
-    email: false,
-    address: false,
-  },
 }
 
 export const viewport: Viewport = {
@@ -120,16 +45,43 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="lt" className={`${inter.variable} ${playfair.variable} bg-background`}>
-      <body className="font-sans antialiased bg-background text-foreground">
+  // ✅ server-side user (global auth state)
+  const supabase = createClient()
 
-        {/* Structured Data (SEO boost) */}
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // default locale (vėliau gali jungti cookie)
+  const locale = 'lt'
+  const t = getTranslations(locale)
+
+  return (
+    <html lang="lt" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="font-sans antialiased bg-background text-foreground flex flex-col min-h-screen">
+
+        {/* GLOBAL HEADER */}
+        <Header
+          locale={locale}
+          t={t}
+          user={user}
+          isAdmin={false}
+        />
+
+        {/* PAGE CONTENT */}
+        <main className="flex-1">
+          {children}
+        </main>
+
+        {/* GLOBAL FOOTER (GREEN THEME READY) */}
+        <Footer t={t} />
+
+        {/* SEO STRUCTURED DATA */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -144,10 +96,8 @@ export default function RootLayout({
           }}
         />
 
-        {children}
-
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )
-        }
+}
