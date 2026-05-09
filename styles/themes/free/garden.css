@@ -750,3 +750,99 @@
   font-style: italic;
 }
 
+/* ============================================
+   CONDOLENCES - Heartfelt messages
+   ============================================ */
+
+[data-theme="garden"] .memorial-condolences {
+  max-width: 36rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+[data-theme="garden"] .memorial-condolences-card {
+  background: linear-gradient(
+    135deg,
+    oklch(0.99 0.008 90 / 0.95),
+    oklch(0.97 0.015 152 / 0.9)
+  );
+  border: 1px solid oklch(0.80 0.04 152 / 0.3);
+  border-radius: var(--radius);
+  box-shadow: 
+    0 4px 20px oklch(0.50 0.10 152 / 0.1),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
+  transition: all 0.35s ease;
+  backdrop-filter: blur(12px);
+}
+
+[data-theme="garden"] .memorial-condolences-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 28px oklch(0.50 0.10 152 / 0.14),
+    inset 0 1px 0 oklch(1 0 0 / 0.5);
+}
+
+[data-theme="garden"] .memorial-condolences-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+[data-theme="garden"] .memorial-condolences-submit {
+  width: 100%;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary), oklch(0.45 0.08 152));
+  color: var(--primary-foreground);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow: 0 2px 8px oklch(0.42 0.10 152 / 0.25);
+}
+
+[data-theme="garden"] .memorial-condolences-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px oklch(0.42 0.10 152 / 0.35);
+}
+
+[data-theme="garden"] .memorial-condolences-date {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+[data-theme="garden"] .memorial-condolences-message {
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+
+[data-theme="garden"] .memorial-condolences-empty-content {
+  padding: 3rem;
+  text-align: center;
+}
+
+[data-theme="garden"] .memorial-condolences-form-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+[data-theme="garden"] .memorial-condolences-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+[data-theme="garden"] .memorial-condolences-empty-list-content {
+  padding: 3rem;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
+[data-theme="garden"] .memorial-condolences-item-content {
+  padding: 1.25rem;
+}
+
