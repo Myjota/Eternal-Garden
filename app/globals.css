@@ -15,14 +15,13 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================
-   TAILWIND THEME TOKENS (MEMORIAL CORE ONLY)
+   TAILWIND THEME TOKENS
    ============================================ */
 @theme inline {
-  --font-sans: 'Inter', 'Geist', 'Geist Fallback', system-ui, sans-serif;
-  --font-serif: 'Playfair Display', 'Georgia', serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-mono: monospace;
 
-  /* Core UI */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -43,7 +42,6 @@
 
   --color-border: var(--border);
 
-  /* Radius system */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -51,35 +49,7 @@
 }
 
 /* ============================================
-   BASE THEME DEFAULTS (Garden - prevents flash)
-   ============================================ */
-:root {
-  /* Garden theme - Sage & Forest (refined botanical greens) */
-  --primary: oklch(0.42 0.10 152);
-  --primary-foreground: oklch(0.99 0.005 152);
-  --secondary: oklch(0.96 0.02 90);
-  --secondary-foreground: oklch(0.28 0.06 152);
-  --accent: oklch(0.55 0.08 152);
-  --accent-foreground: oklch(0.99 0.005 152);
-  --background: oklch(0.98 0.01 90);
-  --foreground: oklch(0.20 0.02 152);
-  --muted: oklch(0.94 0.02 90);
-  --muted-foreground: oklch(0.45 0.04 152);
-  --card: oklch(0.99 0.008 90 / 0.95);
-  --card-foreground: oklch(0.20 0.02 152);
-  --border: oklch(0.85 0.03 152 / 0.5);
-  --destructive: oklch(0.55 0.18 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --radius: 0.75rem;
-  
-  /* Theme-specific botanical accents */
-  --theme-glow-color: oklch(0.50 0.10 152 / 0.12);
-  --theme-gradient-start: oklch(0.96 0.03 90);
-  --theme-gradient-end: oklch(0.92 0.04 152);
-}
-
-/* ============================================
-   BASE
+   BASE (NO THEME HERE!)
    ============================================ */
 @layer base {
   * {
@@ -93,206 +63,4 @@
   html {
     scroll-behavior: smooth;
   }
-}
-
-/* ============================================
-   MEMORIAL UI SYSTEM
-   ============================================ */
-
-/* Global surface */
-.theme-surface {
-  background: var(--background);
-  color: var(--foreground);
-}
-
-/* Card system */
-.theme-card {
-  background: var(--card);
-  color: var(--card-foreground);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.theme-card:hover {
-  box-shadow: 0 0 40px var(--theme-glow-color);
-  transform: translateY(-2px);
-}
-
-/* ============================================
-   HERO (memory focus area)
-   ============================================ */
-
-.theme-hero {
-  position: relative;
-  background: radial-gradient(
-    ellipse at top,
-    var(--theme-gradient-start),
-    transparent 70%
-  );
-  overflow: hidden;
-}
-
-/* Glow overlay */
-.theme-glow-bg {
-  position: absolute;
-  inset: 0;
-  background: var(--theme-hero-bg, transparent);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Decorative pattern */
-.theme-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: var(--theme-pattern-opacity, 0.05);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ============================================
-   EPITAPH (core emotional element)
-   ============================================ */
-
-.memorial-epitaph {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  line-height: 1.6;
-  color: var(--muted-foreground);
-  max-width: 42rem;
-  margin-inline: auto;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-/* Subtle glow for emotional focus */
-.memorial-epitaph::after {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  background: radial-gradient(
-    circle,
-    var(--theme-glow-color, transparent) 0%,
-    transparent 70%
-  );
-  opacity: 0.12;
-  z-index: -1;
-}
-
-/* ============================================
-   CANDLE (ritual element)
-   ============================================ */
-
-.candle-glow {
-  animation: candleFlicker 2s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px var(--theme-glow-color));
-}
-
-@keyframes candleFlicker {
-  0%, 100% {
-    filter: drop-shadow(0 0 8px var(--theme-glow-color));
-    opacity: 1;
-  }
-  50% {
-    filter: drop-shadow(0 0 15px var(--theme-glow-color));
-    opacity: 0.9;
-    transform: scale(1.05);
-  }
-}
-
-/* ============================================
-   CONDOLENCE / MEMORY CARD
-   ============================================ */
-
-.condolence-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: 0 0 30px var(--theme-glow-color);
-  transition: all 0.3s ease;
-}
-
-.condolence-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 60px var(--theme-glow-color);
-}
-
-/* ============================================
-   PORTRAIT FRAME
-   ============================================ */
-
-.portrait-frame {
-  background: linear-gradient(
-    135deg,
-    var(--theme-gradient-start),
-    var(--theme-gradient-end)
-  );
-  padding: 4px;
-  border-radius: var(--radius-lg);
-}
-
-/* ============================================
-   SCROLLBAR (polished)
-   ============================================ */
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--muted);
-}
-
-::-webkit-scrollbar-thumb {
-  background: color-mix(in oklch, var(--primary), transparent 40%);
-  border-radius: var(--radius);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
-
-/* ============================================
-   FEATURE ICON
-   ============================================ */
-
-.feature-icon {
-  @apply flex items-center justify-center w-14 h-14 rounded-full;
-  background: oklch(from var(--primary) l c h / 0.1);
-  color: var(--primary);
-}
-
-/* ============================================
-   TIMELINE (memory storytelling)
-   ============================================ */
-
-.timeline-line {
-  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
-}
-
-.timeline-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 9999px;
-  background: var(--primary);
-  box-shadow: 0 0 0 4px var(--background), 0 0 0 6px var(--primary);
-}
-
-/* ============================================
-   CARD BASE
-   ============================================ */
-
-.card {
-  background: var(--card);
-  color: var(--card-foreground);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  backdrop-filter: blur(10px);
-}
-
-.card-soft {
-  background: color-mix(in oklch, var(--card), transparent 20%);
 }
