@@ -846,3 +846,248 @@
   padding: 1.25rem;
 }
 
+/* ============================================
+   INPUTS & FORMS - Botanical styling
+   ============================================ */
+
+[data-theme="garden"] input,
+[data-theme="garden"] textarea {
+  background: oklch(0.99 0.005 90 / 0.9);
+  border: 1px solid oklch(0.80 0.04 152 / 0.4);
+  border-radius: calc(var(--radius) - 2px);
+  transition: all 0.25s ease;
+}
+
+[data-theme="garden"] input:focus,
+[data-theme="garden"] textarea:focus {
+  outline: none;
+  border-color: oklch(0.55 0.10 152 / 0.6);
+  box-shadow: 
+    0 0 0 3px oklch(0.55 0.10 152 / 0.1),
+    0 2px 8px oklch(0.50 0.10 152 / 0.08);
+}
+
+[data-theme="garden"] input::placeholder,
+[data-theme="garden"] textarea::placeholder {
+  color: oklch(0.55 0.04 152 / 0.6);
+}
+
+/* ============================================
+   BUTTONS - Natural elegance
+   ============================================ */
+
+[data-theme="garden"] button[type="submit"],
+[data-theme="garden"] .btn-primary {
+  background: linear-gradient(135deg, var(--primary), oklch(0.45 0.08 152));
+  color: var(--primary-foreground);
+  border: none;
+  box-shadow: 
+    0 2px 8px oklch(0.42 0.10 152 / 0.25),
+    inset 0 1px 0 oklch(1 0 0 / 0.1);
+  transition: all 0.3s ease;
+}
+
+[data-theme="garden"] button[type="submit"]:hover,
+[data-theme="garden"] .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 16px oklch(0.42 0.10 152 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.15);
+}
+
+/* ============================================================
+   CANDLE SECTION 
+   ============================================================ */
+[data-theme="garden"] .memorial-candle-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 20%,
+      var(--background), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      var(--background), transparent 55%),
+    linear-gradient(160deg,
+      oklch(0.99 0.008 90 / 0.95) 0%,
+      oklch(0.97 0.015 152 / 0.9) 100%);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+/* Marble vein pattern */
+[data-theme="garden"] .memorial-candle-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(
+      105deg,
+      transparent 0px, transparent 55px,
+      oklch(0.800 0.010 80 / 0.04) 55px, oklch(0.800 0.010 80 / 0.04) 56px
+    ),
+    repeating-linear-gradient(
+      155deg,
+      transparent 0px, transparent 80px,
+      oklch(0.840 0.008 75 / 0.03) 80px, oklch(0.840 0.008 75 / 0.03) 81px
+    );
+}
+
+/* Stats row */
+[data-theme="garden"] .candle-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="garden"] .candle-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+[data-theme="garden"] .candle-stat-right {
+  text-align: right;
+}
+
+[data-theme="garden"] .candle-stat-right .candle-stat-content {
+  align-items: flex-end;
+}
+
+[data-theme="garden"] .candle-stat-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: none;
+  animation: none;
+  margin-top: 0.25rem;
+}
+
+[data-theme="garden"] .candle-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+[data-theme="garden"] .candle-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="garden"] .candle-stat-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* Candle display area */
+[data-theme="garden"] .candle-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="garden"] .candle-wrapper {
+  position: relative;
+}
+
+/* Light button */
+[data-theme="garden"] .candle-light-button {
+  margin-top: 2rem;
+  padding: 0.875rem 2.5rem;
+  border-radius: var(--radius);
+  background: linear-gradient(
+    135deg,
+    var(--accent) 80%
+  );
+  color: var(--background);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  border: 1px solid oklch(70.221% 0.00136 107.33 / 0.679);
+  cursor: pointer;
+  box-shadow: none;
+  transition: none;
+}
+
+[data-theme="garden"] .candle-light-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+[data-theme="garden"] .candle-light-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Recent activity */
+[data-theme="garden"] .candle-recent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+  background: oklch(1.000 0.000 0 / 0.6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="garden"] .candle-recent-avatars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+[data-theme="garden"] .candle-recent-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, oklch(0.920 0.015 80), oklch(0.880 0.020 80));
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: oklch(60.6% 0.00291 106.853 / 0.629);
+}
+
+[data-theme="garden"] .candle-recent-avatar-first {
+  background: linear-gradient(135deg, oklch(0.840 0.085 80), oklch(0.720 0.110 72));
+  border-color: oklch(32.605% 0.0014 15.77 / 0.532);
+  color: oklch(0.985 0.003 80);
+  box-shadow: none;
+}
+
+[data-theme="garden"] .candle-recent-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  color: oklch(0.400 0.010 80);
+}
+
+[data-theme="garden"] .candle-recent-text strong {
+  color: oklch(0.280 0.010 80);
+  font-weight: 600;
+}
+
+[data-theme="garden"] .candle-recent-time {
+  margin-left: 0.5rem;
+  color: oklch(0.550 0.010 80);
+}
