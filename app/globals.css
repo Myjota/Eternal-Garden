@@ -3,47 +3,14 @@
 @tailwind utilities;
 
 /* ============================================
-   BASE RESET
-   ============================================ */
-@layer base {
-  * {
-    border-color: var(--border);
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    background:
-      radial-gradient(circle at 20% 10%, rgba(74,124,89,0.08), transparent 40%),
-      radial-gradient(circle at 80% 90%, rgba(181,154,90,0.06), transparent 45%),
-      var(--bg);
-
-    color: var(--fg);
-    font-family: Inter, system-ui, sans-serif;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1, h2, h3, h4 {
-    letter-spacing: -0.02em;
-    font-weight: 600;
-  }
-
-  html, body {
-    height: 100%;
-  }
-}
-
-/* ============================================
-   THEME TOKENS (GARDEN INSPIRED)
+   DESIGN TOKENS (ONLY COLORS / RADIUS)
    ============================================ */
 :root {
+  /* Base */
   --bg: #f7f9f6;
   --fg: #1c1f1d;
 
+  /* Garden palette */
   --primary: #2f5d3a;
   --secondary: #e9f1e7;
   --accent: #4a7c59;
@@ -57,115 +24,33 @@
 
   --radius: 14px;
 
+  /* optional glow token */
   --glow: rgba(74, 124, 89, 0.12);
 }
 
 /* ============================================
-   UTILITIES (NO @apply VERSION)
+   BASE ONLY (NO LAYOUT, NO UTILITIES)
    ============================================ */
-@layer utilities {
-
-  .container-app {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 72rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+@layer base {
+  * {
+    border-color: var(--border);
   }
 
-  @media (min-width: 640px) {
-    .container-app {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
+  html {
+    scroll-behavior: smooth;
   }
 
-  @media (min-width: 1024px) {
-    .container-app {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
-
-  .section {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-
-  @media (min-width: 768px) {
-    .section {
-      padding-top: 6rem;
-      padding-bottom: 6rem;
-    }
-  }
-
-  .glass-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(47, 93, 58, 0.08);
-  }
-
-  .text-muted {
-    color: var(--muted);
-  }
-}
-
-/* ============================================
-   COMPONENTS (NO @apply)
-   ============================================ */
-@layer components {
-
-  .btn-primary {
-    background: var(--primary);
-    color: white;
-    padding: 0.5rem 1.25rem;
-    border-radius: 0.75rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: filter 0.2s ease;
-  }
-
-  .btn-primary:hover {
-    filter: brightness(1.1);
-  }
-
-  .btn-secondary {
-    background: var(--secondary);
+  body {
+    background-color: var(--bg);
     color: var(--fg);
-    padding: 0.5rem 1.25rem;
-    border-radius: 0.75rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(233, 241, 231, 0.7);
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 /* ============================================
-   HEADER / FOOTER
-   ============================================ */
-.header-blur {
-  backdrop-filter: blur(14px);
-  background: rgba(247, 249, 246, 0.7);
-  border-bottom: 1px solid var(--border);
-}
-
-.footer {
-  border-top: 1px solid var(--border);
-  background: rgba(247, 249, 246, 0.8);
-}
-
-/* ============================================
-   SMALL UX IMPROVEMENTS
+   OPTIONAL GLOBAL SELECTION STYLE
    ============================================ */
 ::selection {
   background: rgba(74, 124, 89, 0.2);
