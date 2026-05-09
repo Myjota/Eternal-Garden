@@ -1,6 +1,5 @@
 'use client'
 
-import { Header } from '@/components/layout/header'
 import { MemorialHero } from '@/components/memorial/MemorialHero'
 import { MemorialBiography } from '@/components/memorial/MemorialBiography'
 import { MemorialTabs } from '@/components/memorial/MemorialTabs'
@@ -59,9 +58,6 @@ export function MemorialClient({
       data-theme={memorial.theme}
       className="min-h-screen bg-background relative overflow-hidden"
     >
-      {/* HEADER */}
-      <Header locale={locale} t={t} user={currentUser} />
-
       {/* HERO */}
       <MemorialHero memorial={memorial} />
 
@@ -70,7 +66,7 @@ export function MemorialClient({
         <CandleSection memorialId={memorial.id} initialLit={false} />
       )}
 
-      {/* 🧩 BIOGRAPHY – būtent čia (po žvakių) */}
+      {/* 🧩 BIOGRAPHY */}
       <MemorialBiography biography={memorial.biography || undefined} />
 
       {/* TABS */}
@@ -81,4 +77,4 @@ export function MemorialClient({
       />
     </div>
   )
-}
+        }
