@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { Header } from '@/components/layout/header'
 import { Bell, Globe, Lock, Loader2 } from 'lucide-react'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
@@ -15,7 +16,8 @@ interface SettingsClientProps {
 }
 
 export function SettingsClient({ user, initialPreferredLanguage }: SettingsClientProps) {
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
+  // Use locale hook - loads preferred language from Supabase
+  const { locale, setLocale } = useLocale({ user })
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [isLithuanian, setIsLithuanian] = useState(initialPreferredLanguage === 'lt')
   const [isPrivate, setIsPrivate] = useState(false)

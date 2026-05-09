@@ -14,7 +14,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
 export default function HomePage() {
-  const [theme, setTheme] = useState<ThemeId>('garden')
+  const theme: ThemeId = 'garden'
   const [user, setUser] = useState<User | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
   
@@ -60,19 +60,13 @@ export default function HomePage() {
     return () => subscription.unsubscribe()
   }, [])
 
-  const handleThemeChange = (newTheme: ThemeId) => {
-    setTheme(newTheme)
-  }
-
   return (
     <ThemeProvider initialTheme={theme}>
       <div className={`min-h-screen flex flex-col theme-${theme}`}>
         <Header 
           locale={locale} 
           t={t} 
-          onLocaleChange={setLocale} 
-          theme={theme}
-          onThemeChange={handleThemeChange}
+          onLocaleChange={setLocale}
           user={user}
           isAdmin={isAdmin}
         />

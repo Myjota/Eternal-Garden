@@ -16,7 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { ThemePicker } from '@/components/theme-picker'
 import { ThemeProvider } from '@/lib/themes/theme-context'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import { createClient } from '@/lib/supabase/client'
 import { type ThemeId } from '@/lib/themes/config'
 
@@ -53,11 +54,13 @@ export default function EditMemorialPage() {
   const params = useParams()
   const memorialId = params.id as string
   
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [user, setUser] = useState<any>(null)
   const [memorial, setMemorial] = useState<Memorial | null>(null)
+  
+  // Use locale hook - loads preferred language from Supabase
+  const { locale, setLocale } = useLocale({ user })
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([])
   
   // Form state
