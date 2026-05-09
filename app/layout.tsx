@@ -36,10 +36,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#166534' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
-  ],
 }
 
 export default async function RootLayout({
@@ -56,15 +52,14 @@ export default async function RootLayout({
     const supabase = createClient()
     const { data } = await supabase.auth.getUser()
     user = data?.user ?? null
-  } catch (err) {
-    console.warn('Supabase auth skipped in layout:', err)
+  } catch {
+    // ignore SSR auth errors
   }
 
   return (
     <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground flex flex-col min-h-screen">
 
-        {/* GLOBAL HEADER */}
         <Header
           locale={locale}
           t={t}
@@ -72,28 +67,13 @@ export default async function RootLayout({
           isAdmin={false}
         />
 
-        {/* PAGE CONTENT */}
         <main className="flex-1">
           {children}
         </main>
 
-        {/* GLOBAL FOOTER */}
         <Footer t={t} />
 
-        {/* SEO STRUCTURED DATA */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: siteName,
-              url: siteUrl,
-            }),
-          }}
-        />
-
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <Analytics />
       </body>
     </html>
   )
