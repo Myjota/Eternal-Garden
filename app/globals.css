@@ -15,49 +15,42 @@
   }
 
   body {
-    @apply bg-[#f7f9f6] text-[#1c1f1d] antialiased;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(74,124,89,0.08), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(181,154,90,0.06), transparent 45%),
+      var(--bg);
+
+    color: var(--fg);
     font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4 {
-    @apply tracking-tight;
+    letter-spacing: -0.02em;
   }
 }
 
 /* ============================================
    GARDEN-INSPIRED PUBLIC PALETTE
-   (light version of your memorial theme)
    ============================================ */
 :root {
-  /* Core green balance (softened garden) */
   --bg: #f7f9f6;
   --fg: #1c1f1d;
 
-  --primary: #2f5d3a;        /* forest green */
-  --secondary: #e9f1e7;      /* soft leaf */
-  --accent: #4a7c59;         /* sage green */
+  --primary: #2f5d3a;
+  --secondary: #e9f1e7;
+  --accent: #4a7c59;
 
   --muted: #6b7a6d;
   --border: rgba(47, 93, 58, 0.15);
 
   --card: rgba(255, 255, 255, 0.8);
 
-  --gold: #b59a5a;           /* subtle memorial accent */
-
+  --gold: #b59a5a;
   --radius: 14px;
 
-  /* soft glow like garden theme */
   --glow: rgba(74, 124, 89, 0.12);
-}
-
-/* ============================================
-   BACKGROUND STYLE (NO HEAVY IMAGE OVERLAY HERE)
-   ============================================ */
-body {
-  background:
-    radial-gradient(circle at 20% 10%, rgba(74,124,89,0.08), transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(181,154,90,0.06), transparent 45%),
-    var(--bg);
 }
 
 /* ============================================
@@ -83,7 +76,9 @@ body {
   .btn-primary {
     background: var(--primary);
     color: white;
-    @apply px-5 py-2 rounded-xl transition;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
   }
 
   .btn-primary:hover {
@@ -93,7 +88,9 @@ body {
   .btn-secondary {
     background: var(--secondary);
     color: var(--fg);
-    @apply px-5 py-2 rounded-xl transition;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
   }
 
   .text-muted {
@@ -102,7 +99,7 @@ body {
 }
 
 /* ============================================
-   HEADER / FOOTER (clean garden style)
+   HEADER / FOOTER
    ============================================ */
 .header-blur {
   backdrop-filter: blur(14px);
