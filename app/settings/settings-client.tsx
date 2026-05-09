@@ -3,7 +3,6 @@
 import { useState, useTransition } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
-import { Header } from '@/components/layout/header'
 import { Bell, Globe, Lock, Loader2 } from 'lucide-react'
 import { getTranslations } from '@/lib/i18n'
 import { useLocale } from '@/lib/i18n/useLocale'
@@ -16,8 +15,8 @@ interface SettingsClientProps {
 }
 
 export function SettingsClient({ user, initialPreferredLanguage }: SettingsClientProps) {
-  // Use locale hook - loads preferred language from Supabase
   const { locale, setLocale } = useLocale({ user })
+
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [isLithuanian, setIsLithuanian] = useState(initialPreferredLanguage === 'lt')
   const [isPrivate, setIsPrivate] = useState(false)
@@ -43,7 +42,6 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
 
     if (error) {
       setSaveStatus('error')
-      // Revert on error
       setIsLithuanian(!checked)
       setTimeout(() => setSaveStatus('idle'), 2000)
     } else {
@@ -53,14 +51,7 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
   }
 
   return (
-    <>
-      <Header
-        locale={locale}
-        t={t}
-        onLocaleChange={setLocale}
-        user={user}
-      />
-
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto py-10 max-w-2xl">
 
         <h1 className="text-2xl font-semibold mb-6">
@@ -137,10 +128,14 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
                 <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
               )}
               {saveStatus === 'saved' && (
-                <span className="text-xs text-green-600 font-normal">Issaugota</span>
+                <span className="text-xs text-green-600 font-normal">
+                  Issaugota
+                </span>
               )}
               {saveStatus === 'error' && (
-                <span className="text-xs text-destructive font-normal">Klaida</span>
+                <span className="text-xs text-destructive font-normal">
+                  Klaida
+                </span>
               )}
             </CardTitle>
           </CardHeader>
@@ -167,6 +162,6 @@ export function SettingsClient({ user, initialPreferredLanguage }: SettingsClien
         </Card>
 
       </div>
-    </>
+    </div>
   )
 }
