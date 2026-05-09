@@ -13,7 +13,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Header } from '@/components/layout/header'
 import { ThemePicker } from '@/components/theme-picker'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations } from '@/lib/i18n'
@@ -289,7 +288,6 @@ export default function EditMemorialPage() {
   return (
     <ThemeProvider initialTheme="garden">
       <div className="min-h-screen flex flex-col bg-background">
-        <Header locale={locale} t={t} onLocaleChange={setLocale} user={user} />
         
         <main className="flex-1 container mx-auto px-4 py-8">
           {/* Header */}
