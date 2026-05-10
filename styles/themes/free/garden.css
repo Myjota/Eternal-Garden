@@ -905,42 +905,51 @@
 }
 
 /* ============================================================
-   CANDLE SECTION 
+   CANDLE SECTION (GARDEN → MARBLE STYLE)
    ============================================================ */
 [data-theme="garden"] .memorial-candle-section {
   position: relative;
   overflow: hidden;
   padding: 4rem 1.5rem;
+
+  /* garden-like depth, but garden tone */
   background:
     radial-gradient(ellipse 70% 50% at 20% 20%,
-      var(--background), transparent 55%),
+      oklch(0.99 0.008 90 / 0.75), transparent 55%),
     radial-gradient(ellipse 60% 45% at 80% 80%,
-      var(--background), transparent 55%),
+      oklch(0.97 0.015 152 / 0.65), transparent 55%),
     linear-gradient(160deg,
-      oklch(0.99 0.008 90 / 0.95) 0%,
-      oklch(0.97 0.015 152 / 0.9) 100%);
+      oklch(0.985 0.010 90) 0%,
+      oklch(0.970 0.012 140) 50%,
+      oklch(0.980 0.010 110) 100%);
+
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 1px solid oklch(0.80 0.03 150 / 0.35);
   box-shadow: none;
 }
 
-/* Marble vein pattern */
+/* garden vein pattern*/
 [data-theme="garden"] .memorial-candle-section::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+
   background:
     repeating-linear-gradient(
-      105deg,
-      transparent 0px, transparent 55px,
-      oklch(0.800 0.010 80 / 0.04) 55px, oklch(0.800 0.010 80 / 0.04) 56px
+      110deg,
+      transparent 0px,
+      transparent 60px,
+      oklch(0.82 0.01 140 / 0.05) 60px,
+      oklch(0.82 0.01 140 / 0.05) 61px
     ),
     repeating-linear-gradient(
-      155deg,
-      transparent 0px, transparent 80px,
-      oklch(0.840 0.008 75 / 0.03) 80px, oklch(0.840 0.008 75 / 0.03) 81px
+      150deg,
+      transparent 0px,
+      transparent 90px,
+      oklch(0.80 0.01 120 / 0.035) 90px,
+      oklch(0.80 0.01 120 / 0.035) 91px
     );
 }
 
