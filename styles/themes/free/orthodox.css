@@ -850,7 +850,7 @@
   background: transparent;
 
   border-radius: var(--radius);
-  border: none);
+  border: none;
 
   box-shadow:
     0 0 40px oklch(0.62 0.18 70 / 0.08);
