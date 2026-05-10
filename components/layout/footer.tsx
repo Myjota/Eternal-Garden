@@ -8,6 +8,10 @@ interface FooterProps {
   t?: Translations
 }
 
+// ✅ Contact email (env + fallback)
+const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'myjota@zohomail.eu'
+
 export function Footer({ t: providedT }: FooterProps) {
   const t = providedT ?? getTranslations(defaultLocale)
 
@@ -71,7 +75,11 @@ export function Footer({ t: providedT }: FooterProps) {
                 <Youtube className="h-5 w-5" />
               </a>
 
-              <a className="text-white/60 hover:text-[#d4c4a8] transition-colors" href="mailto:info@eternalgarden.lt">
+              {/* ✅ Email link */}
+              <a
+                className="text-white/60 hover:text-[#d4c4a8] transition-colors"
+                href={`mailto:${CONTACT_EMAIL}`}
+              >
                 <Mail className="h-5 w-5" />
               </a>
 
