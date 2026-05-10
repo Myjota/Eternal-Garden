@@ -965,6 +965,59 @@
     );
 }
 
+/* ============================================================
+   MEMORIAL CONTAINER BACKGROUND (PURE MARBLE THEME)
+   ============================================================ */
+
+[data-theme="marble"] .memorial-container {
+  position: relative;
+  overflow: hidden;
+
+  /* marble base surface */
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 20%,
+      oklch(0.960 0.025 80 / 0.70), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.950 0.035 75 / 0.60), transparent 55%),
+    linear-gradient(160deg,
+      oklch(0.975 0.010 82) 0%,
+      oklch(0.960 0.015 80) 50%,
+      oklch(0.968 0.012 78) 100%);
+
+  border-radius: var(--radius);
+}
+
+/* marble veins */
+[data-theme="marble"] .memorial-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(
+      105deg,
+      transparent 0px,
+      transparent 55px,
+      oklch(0.800 0.010 80 / 0.04) 55px,
+      oklch(0.800 0.010 80 / 0.04) 56px
+    ),
+    repeating-linear-gradient(
+      155deg,
+      transparent 0px,
+      transparent 80px,
+      oklch(0.840 0.008 75 / 0.03) 80px,
+      oklch(0.840 0.008 75 / 0.03) 81px
+    );
+}
+
+/* content layering */
+[data-theme="marble"] .memorial-container > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Stats row */
 [data-theme="marble"] .candle-stats {
   display: flex;
