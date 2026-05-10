@@ -1,4 +1,4 @@
-et/* ============================================
+/* ============================================
    ORTHODOX THEME
    ============================================ */
 [data-theme="orthodox"] {
@@ -273,6 +273,160 @@ et/* ============================================
   padding-bottom: 5rem;
   margin-top: 3rem;
 }
+
+/* ============================================================
+   BIOGRAPHY SECTION — ORTHODOX (SACRED SCRIPTURE STYLE)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-biography-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+
+  background:
+    /* divine top light */
+    radial-gradient(ellipse 70% 50% at 50% 0%,
+      oklch(0.62 0.18 70 / 0.18), transparent 60%),
+
+    /* warm altar glow */
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.45 0.14 60 / 0.15), transparent 55%),
+
+    /* parchment sacred base */
+    linear-gradient(160deg,
+      oklch(0.98 0.01 80) 0%,
+      oklch(0.95 0.015 70) 50%,
+      oklch(0.93 0.02 65) 100%);
+
+  border-radius: var(--radius);
+
+  border: 1px solid oklch(0.85 0.04 70 / 0.8);
+
+  box-shadow:
+    0 2px 0 0 oklch(0.62 0.18 70 / 0.25),  /* sacred gold edge */
+    0 -1px 0 0 oklch(0.45 0.14 60 / 0.25) inset,
+    0 10px 40px oklch(0.62 0.18 70 / 0.10),
+    0 1px 0 oklch(1 0 0 / 0.6) inset;
+
+  animation: orthodox-fade-in 0.9s ease both;
+}
+
+@keyframes orthodox-fade-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ============================================================
+   SACRED ICON GRID OVERLAY (ORTHODOX MOTIF)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-biography-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(
+      60deg,
+      transparent 0px,
+      transparent 60px,
+      oklch(0.62 0.18 70 / 0.04) 60px,
+      oklch(0.62 0.18 70 / 0.04) 61px
+    ),
+
+    repeating-linear-gradient(
+      -60deg,
+      transparent 0px,
+      transparent 90px,
+      oklch(0.45 0.14 60 / 0.03) 90px,
+      oklch(0.45 0.14 60 / 0.03) 91px
+    );
+}
+
+
+/* ============================================================
+   CONTENT WRAPPER (same as marble container logic)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-container {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ============================================================
+   SECTION TITLE — ICON HEADER STYLE
+   ============================================================ */
+[data-theme="orthodox"] .memorial-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  text-align: center;
+
+  color: oklch(0.20 0.03 30);
+
+  margin-bottom: 2rem;
+
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+/* sacred underline (gold incense line) */
+[data-theme="orthodox"] .memorial-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 4.5rem;
+  height: 2px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(0.62 0.18 70),
+    oklch(0.45 0.14 60),
+    transparent
+  );
+}
+
+
+/* ============================================================
+   BIO TEXT — SCRIPTURE STYLE
+   ============================================================ */
+[data-theme="orthodox"] .memorial-biography {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.85;
+
+  color: oklch(0.25 0.03 30);
+
+  text-shadow:
+    0 1px 0 oklch(1 0 0 / 0.4);
+}
+
+
+/* ============================================================
+   PARAGRAPH STYLE (soft sacred spacing)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-biography-paragraph {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.99rem;
+  line-height: 1.85;
+
+  color: oklch(0.28 0.03 30);
+
+  margin-bottom: 1rem;
+
+  opacity: 0.95;
+}
+
 
 /* ============================================
    ORTHODOX MEMORIAL TIMELINE
