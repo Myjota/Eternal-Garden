@@ -1,4 +1,4 @@
-/* ============================================
+et/* ============================================
    ORTHODOX THEME
    ============================================ */
 [data-theme="orthodox"] {
@@ -696,4 +696,295 @@
 
 [data-theme="orthodox"] .memorial-condolences-item-content {
   padding: 1.25rem;
+}
+
+/* ============================================================
+   CANDLE SECTION — ORTHODOX (SACRED LIGHT VERSION)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-candle-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+
+  background:
+    /* divine top glow */
+    radial-gradient(ellipse 70% 50% at 50% 0%,
+      oklch(0.62 0.18 70 / 0.22), transparent 60%),
+
+    /* warm altar light */
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.45 0.14 60 / 0.18), transparent 55%),
+
+    /* sacred parchment base */
+    linear-gradient(160deg,
+      oklch(0.98 0.01 80) 0%,
+      oklch(0.95 0.015 70) 50%,
+      oklch(0.93 0.02 65) 100%);
+
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.85 0.04 70 / 0.8);
+
+  box-shadow:
+    0 0 40px oklch(0.62 0.18 70 / 0.08);
+}
+
+/* ============================================================
+   SACRED ICON GRID PATTERN (ORTHODOX GEOMETRY)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-candle-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* cross geometry */
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 60px,
+      oklch(0.62 0.18 70 / 0.05) 60px,
+      oklch(0.62 0.18 70 / 0.05) 61px
+    ),
+
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 90px,
+      oklch(0.45 0.14 60 / 0.04) 90px,
+      oklch(0.45 0.14 60 / 0.04) 91px
+    );
+}
+
+
+/* ============================================================
+   CONTAINER (SAME STRUCTURE AS MARBLE)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-container {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%,
+      oklch(0.62 0.18 70 / 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.45 0.14 60 / 0.14), transparent 55%),
+    linear-gradient(160deg,
+      oklch(0.98 0.01 80),
+      oklch(0.95 0.015 70),
+      oklch(0.93 0.02 65));
+
+  border-radius: var(--radius);
+}
+
+/* sacred texture layer */
+[data-theme="orthodox"] .memorial-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(
+      60deg,
+      transparent 0px,
+      transparent 70px,
+      oklch(0.62 0.18 70 / 0.03) 70px,
+      oklch(0.62 0.18 70 / 0.03) 71px
+    );
+}
+
+/* content layering */
+[data-theme="orthodox"] .memorial-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ============================================================
+   STATS ROW (SACRED GOLD EMPHASIS)
+   ============================================================ */
+[data-theme="orthodox"] .candle-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+
+[data-theme="orthodox"] .candle-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+[data-theme="orthodox"] .candle-stat-right {
+  text-align: right;
+}
+
+[data-theme="orthodox"] .candle-stat-right .candle-stat-content {
+  align-items: flex-end;
+}
+
+[data-theme="orthodox"] .candle-stat-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+
+  background: oklch(0.62 0.18 70);
+
+  box-shadow:
+    0 0 10px oklch(0.62 0.18 70 / 0.5);
+
+  margin-top: 0.25rem;
+}
+
+[data-theme="orthodox"] .candle-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: oklch(0.45 0.05 40);
+}
+
+[data-theme="orthodox"] .candle-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: oklch(0.25 0.03 30);
+}
+
+
+/* ============================================================
+   CANDLE DISPLAY (ALTAR CENTER FOCUS)
+   ============================================================ */
+[data-theme="orthodox"] .candle-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+[data-theme="orthodox"] .candle-wrapper {
+  position: relative;
+}
+
+
+/* ============================================================
+   LIGHT BUTTON (DIVINE GOLD PRESS)
+   ============================================================ */
+[data-theme="orthodox"] .candle-light-button {
+  margin-top: 2rem;
+  padding: 0.875rem 2.5rem;
+
+  border-radius: var(--radius);
+
+  background: linear-gradient(
+    135deg,
+    oklch(0.62 0.18 70),
+    oklch(0.45 0.14 60),
+    oklch(0.35 0.12 50)
+  );
+
+  color: oklch(0.98 0.01 80);
+
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+
+  border: 1px solid oklch(0.85 0.04 70);
+
+  box-shadow:
+    0 0 25px oklch(0.62 0.18 70 / 0.2);
+
+  cursor: pointer;
+}
+
+[data-theme="orthodox"] .candle-light-button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 35px oklch(0.62 0.18 70 / 0.35);
+}
+
+[data-theme="orthodox"] .candle-light-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   ANONYMOUS NOTE
+   ============================================================ */
+[data-theme="orthodox"] .candle-anonymous-notice {
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: oklch(0.45 0.05 40);
+  text-align: center;
+}
+
+
+/* ============================================================
+   RECENT ACTIVITY (ICON MEMORY FLOW)
+   ============================================================ */
+[data-theme="orthodox"] .candle-recent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+
+  background: oklch(0.98 0.01 80 / 0.6);
+  border: 1px solid oklch(0.85 0.04 70);
+
+  border-radius: 0.75rem;
+}
+
+[data-theme="orthodox"] .candle-recent-avatars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+[data-theme="orthodox"] .candle-recent-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    oklch(0.62 0.18 70),
+    oklch(0.45 0.14 60)
+  );
+
+  border: 2px solid oklch(0.85 0.04 70);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.75rem;
+  color: oklch(0.98 0.01 80);
+}
+
+[data-theme="orthodox"] .candle-recent-avatar-first {
+  box-shadow:
+    0 0 20px oklch(0.62 0.18 70 / 0.4);
+}
+
+[data-theme="orthodox"] .candle-recent-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  color: oklch(0.40 0.05 40);
+}
+
+[data-theme="orthodox"] .candle-recent-text strong {
+  color: oklch(0.25 0.03 30);
+  font-weight: 600;
+}
+
+[data-theme="orthodox"] .candle-recent-time {
+  margin-left: 0.5rem;
+  color: oklch(0.45 0.05 40);
 }
