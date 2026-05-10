@@ -282,20 +282,7 @@
   overflow: hidden;
   padding: 4rem 1.5rem;
 
-  background:
-    /* divine top light */
-    radial-gradient(ellipse 70% 50% at 50% 0%,
-      oklch(0.62 0.18 70 / 0.18), transparent 60%),
-
-    /* warm altar glow */
-    radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.45 0.14 60 / 0.15), transparent 55%),
-
-    /* parchment sacred base */
-    linear-gradient(160deg,
-      oklch(0.98 0.01 80) 0%,
-      oklch(0.95 0.015 70) 50%,
-      oklch(0.93 0.02 65) 100%);
+  background: transparent;
 
   border-radius: var(--radius);
 
