@@ -905,7 +905,7 @@
 }
 
 /* ============================================================
-   CANDLE SECTION (GARDEN → MARBLE STYLE)
+   CANDLE SECTION (GARDEN → STYLE)
    ============================================================ */
 [data-theme="garden"] .memorial-candle-section {
   position: relative;
@@ -913,15 +913,7 @@
   padding: 4rem 1.5rem;
 
   /* garden-like depth, but garden tone */
-  background:
-    radial-gradient(ellipse 70% 50% at 20% 20%,
-      oklch(0.99 0.008 90 / 0.75), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 80% 80%,
-      oklch(0.97 0.015 152 / 0.65), transparent 55%),
-    linear-gradient(160deg,
-      oklch(0.985 0.010 90) 0%,
-      oklch(0.970 0.012 140) 50%,
-      oklch(0.980 0.010 110) 100%);
+  background: transparent;
 
   border-radius: var(--radius);
   border: 1px solid oklch(0.80 0.03 150 / 0.35);
