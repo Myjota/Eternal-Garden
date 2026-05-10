@@ -66,7 +66,7 @@ export function CandleSection({
         
         {/* TITLE */}
         <h2 className="memorial-section-title memorial-font-heading">
-          Uždekite žvakę
+          
         </h2>
 
         {/* CENTER CANDLE */}
