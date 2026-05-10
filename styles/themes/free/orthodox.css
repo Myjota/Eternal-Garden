@@ -164,48 +164,130 @@
 
 
 /* ============================================================
-   PORTRAIT FRAME — SACRED GOLD RING
+   ORTHODOX PORTRAIT FRAME — ICONOSTAS STYLE
    ============================================================ */
 [data-theme="orthodox"] .memorial-profile-container {
   position: relative;
-  margin: 0 auto 2rem;
-
-  width: 10rem;
-  height: 10rem;
+  margin: 0 auto 2.5rem;
+  width: 11rem;
+  height: 11rem;
 }
 
 @media (min-width: 640px) {
   [data-theme="orthodox"] .memorial-profile-container {
-    width: 12rem;
-    height: 12rem;
+    width: 13rem;
+    height: 13rem;
   }
 }
 
 @media (min-width: 768px) {
   [data-theme="orthodox"] .memorial-profile-container {
-    width: 14rem;
-    height: 14rem;
+    width: 15rem;
+    height: 15rem;
   }
 }
 
+/* ============================================================
+   OUTER HALO (DIVINE LIGHT AURA)
+   ============================================================ */
+[data-theme="orthodox"] .memorial-profile-container::before {
+  content: '';
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    oklch(0.62 0.18 70 / 0.25),
+    transparent 65%
+  );
+  filter: blur(10px);
+  z-index: 0;
+}
+
+/* ============================================================
+   SACRED METAL FRAME
+   ============================================================ */
 [data-theme="orthodox"] .portrait-frame {
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
+  padding: 6px;
 
-  padding: 5px;
+  /* layered gold / brass ring */
+  background: conic-gradient(
+    from 180deg,
+    oklch(0.70 0.16 75),
+    oklch(0.62 0.18 70),
+    oklch(0.55 0.14 60),
+    oklch(0.62 0.18 70),
+    oklch(0.70 0.16 75)
+  );
 
-  border: 1px solid oklch(0.62 0.18 70 / 0.35);
-
-  background: radial-gradient(circle,
-    oklch(0.62 0.18 70 / 0.25),
-    oklch(0.45 0.14 60 / 0.15),
-    oklch(0.98 0.01 80));
-
+  /* subtle depth */
   box-shadow:
-    0 0 25px oklch(0.62 0.18 70 / 0.15);
+    0 0 0 1px oklch(0.85 0.04 70 / 0.5),
+    0 8px 25px oklch(0.30 0.03 30 / 0.15);
 }
+
+/* inner white/ivory ring (ikonos efektas) */
+[data-theme="orthodox"] .portrait-frame::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: linear-gradient(
+    180deg,
+    oklch(0.98 0.01 80),
+    oklch(0.95 0.01 75)
+  );
+  z-index: 1;
+}
+
+/* ============================================================
+   IMAGE LAYER
+   ============================================================ */
+[data-theme="orthodox"] .portrait-frame img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+
+  /* slight sacred warmth */
+  filter: contrast(1.05) saturate(1.05);
+}
+
+/* ============================================================
+   CROSS DETAIL (SUBTLE ORTHODOX SIGNATURE)
+   ============================================================ */
+[data-theme="orthodox"] .portrait-frame::after {
+  content: '☦';
+  position: absolute;
+  bottom: -10px;
+  right: 50%;
+  transform: translateX(50%);
+  font-size: 1.1rem;
+  color: oklch(0.62 0.18 70 / 0.6);
+  text-shadow: 0 0 12px oklch(0.62 0.18 70 / 0.3);
+  z-index: 3;
+}
+
+/* ============================================================
+   SOFT INTERACTION (NO AGGRESSIVE HOVER)
+   ============================================================ */
+[data-theme="orthodox"] .portrait-frame {
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+[data-theme="orthodox"] .portrait-frame:hover {
+  transform: scale(1.015);
+  box-shadow:
+    0 0 0 1px oklch(0.85 0.04 70 / 0.7),
+    0 12px 35px oklch(0.30 0.03 30 / 0.20);
+   }
 
 
 /* ============================================================
