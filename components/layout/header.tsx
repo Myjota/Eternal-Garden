@@ -2,8 +2,16 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import {
+  useState,
+  useEffect,
+  useMemo,
+} from 'react'
+
+import {
+  useRouter,
+  usePathname,
+} from 'next/navigation'
 
 import {
   Menu,
@@ -53,25 +61,41 @@ export function Header({
   isAdmin = false,
 }: HeaderProps) {
 
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] =
+    useState(false)
+
   const [currentUser, setCurrentUser] =
-    useState<SupabaseUser | null>(user ?? null)
+    useState<SupabaseUser | null>(
+      user ?? null
+    )
 
   const router = useRouter()
   const pathname = usePathname()
 
-  // ✅ SINGLE SOURCE OF TRUTH (FIXED)
-  const { locale, setLocale } = useLocaleContext()
+  // LOCALE
+  const { locale, setLocale } =
+    useLocaleContext()
 
-  // ✅ REACTIVE TRANSLATIONS
+  // TRANSLATIONS
   const t = getTranslations(locale)
 
-  const NAV = getNavItems(t)
-  const USER_MENU = getUserMenu()
+  // MEMOIZED NAV
+  const NAV = useMemo(
+    () => getNavItems(t),
+    [t]
+  )
+
+  const USER_MENU = useMemo(
+    () => getUserMenu(),
+    []
+  )
 
   // ACTIVE LINK
   const isActive = (href: string) => {
-    if (href === '/') return pathname === '/'
+    if (href === '/') {
+      return pathname === '/'
+    }
+
     return (
       pathname === href ||
       pathname.startsWith(`${href}/`)
@@ -80,6 +104,7 @@ export function Header({
 
   // AUTH LISTENER
   useEffect(() => {
+
     const supabase = createClient()
 
     const {
@@ -90,12 +115,17 @@ export function Header({
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
+
   }, [])
 
   // LOGOUT
   const handleLogout = async () => {
+
     try {
+
       const supabase = createClient()
 
       await supabase.auth.signOut()
@@ -104,8 +134,12 @@ export function Header({
 
       router.push('/')
       router.refresh()
+
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error(
+        'Logout error:',
+        error
+      )
     }
   }
 
@@ -113,205 +147,550 @@ export function Header({
   const handleLocaleChange = async (
     newLocale: 'lt' | 'en'
   ) => {
+
     try {
+
       await setLocale(newLocale)
 
-      // optional but safe for server components
       router.refresh()
 
     } catch (error) {
-      console.error('Locale change error:', error)
+      console.error(
+        'Locale change error:',
+        error
+      )
     }
   }
 
   return (
-    <header className="
-      sticky top-0 z-50
-      border-b border-[#d4c4a8]/20
-      bg-[#f6f2ec]/80
-      backdrop-blur-md
-    ">
+    <header
+      className="
+        sticky top-0 z-50
+        border-b border-[#d4c4a8]/20
+        bg-[#f8f5ef]/70
+        backdrop-blur-xl
+        shadow-sm
+        supports-[backdrop-filter]:bg-[#f8f5ef]/55
+      "
+    >
 
       {/* TOP LINE */}
-      <div className="
-        h-[1px]
-        bg-gradient-to-r
-        from-transparent
-        via-[#2d5a3d]/20
-        to-transparent
-      " />
+      <div
+        className="
+          h-[1px]
+          bg-gradient-to-r
+          from-transparent
+          via-[#2d5a3d]/20
+          to-transparent
+        "
+      />
 
-      <div className="
-        container mx-auto
-        flex h-16
-        items-center
-        justify-between
-        px-4
-      ">
+      <div
+        className="
+          container mx-auto
+          flex h-16
+          items-center
+          justify-between
+          px-4
+        "
+      >
 
-        {/* LOGO */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/images/logo.png"
-            alt="Eternal Garden"
-            width={40}
-            height={40}
-            priority
-            className="h-10 w-auto"
-          />
-        </Link>
+        {/* LEFT SIDE */}
+        <div className="flex items-center gap-10">
 
-        {/* NAV */}
-        <nav className="hidden md:flex gap-8">
+          {/* LOGO */}
+          <Link
+            href="/"
+            className="
+              flex items-center
+              gap-2
+              shrink-0
+            "
+          >
+            <Image
+              src="/images/logo.png"
+              alt="Eternal Garden"
+              width={40}
+              height={40}
+              priority
+              className="
+                h-10
+                w-auto
+                transition-transform
+                duration-300
+                hover:scale-105
+              "
+            />
+          </Link>
 
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`
-                text-sm transition-colors
-                ${
-                  isActive(item.href)
-                    ? 'text-[#2d5a3d] font-medium'
-                    : 'text-[#4a4a4a] hover:text-[#2d5a3d]'
-                }
-              `}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex gap-8">
 
-        </nav>
+            {NAV.map((item) => (
+
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                  group
+                  relative
+                  text-sm
+                  pb-1
+                  transition-all
+                  duration-200
+
+                  ${
+                    isActive(item.href)
+                      ? 'text-[#2d5a3d] font-semibold'
+                      : 'text-[#4a4a4a] hover:text-[#2d5a3d]'
+                  }
+                `}
+              >
+
+                {item.label}
+
+                <span
+                  className={`
+                    absolute
+                    left-0
+                    -bottom-[2px]
+                    h-[2px]
+                    rounded-full
+                    bg-[#2d5a3d]
+                    transition-all
+                    duration-300
+
+                    ${
+                      isActive(item.href)
+                        ? 'w-full'
+                        : 'w-0 group-hover:w-full'
+                    }
+                  `}
+                />
+
+              </Link>
+
+            ))}
+
+          </nav>
+
+        </div>
 
         {/* RIGHT SIDE */}
-        <div className="hidden md:flex items-center gap-2">
+        <div
+          className="
+            hidden md:flex
+            items-center
+            gap-3
+          "
+        >
 
           {/* LANGUAGE */}
           <DropdownMenu>
 
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
+
+              <Button
+                variant="ghost"
+                size="sm"
+                className="
+                  rounded-full
+                  border border-[#d4c4a8]/40
+                  bg-white/50
+                  hover:bg-[#efe7da]
+                  transition-all
+                "
+              >
                 {locale.toUpperCase()}
-                <ChevronDown className="ml-1 h-3 w-3" />
+
+                <ChevronDown
+                  className="
+                    ml-1
+                    h-3
+                    w-3
+                  "
+                />
               </Button>
+
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              className="
+                border-[#d4c4a8]/40
+                bg-[#fdfbf8]
+                shadow-xl
+              "
+            >
 
               {locales.map((loc) => (
+
                 <DropdownMenuItem
                   key={loc}
                   onClick={() =>
                     handleLocaleChange(loc)
                   }
-                  className="flex justify-between"
+                  className="
+                    flex
+                    justify-between
+                    cursor-pointer
+                  "
                 >
-                  <span>{localeNames[loc]}</span>
+
+                  <span>
+                    {localeNames[loc]}
+                  </span>
 
                   {locale === loc && (
-                    <Check className="h-4 w-4 text-[#2d5a3d]" />
+                    <Check
+                      className="
+                        h-4
+                        w-4
+                        text-[#2d5a3d]
+                      "
+                    />
                   )}
+
                 </DropdownMenuItem>
+
               ))}
 
             </DropdownMenuContent>
 
           </DropdownMenu>
 
-          {/* USER */}
-          {currentUser ? (
-            <DropdownMenu>
+          {/* AUTH */}
+          <div
+            className="
+              w-[140px]
+              flex
+              justify-end
+            "
+          >
 
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <User className="h-4 w-4 text-[#2d5a3d]" />
-                </Button>
-              </DropdownMenuTrigger>
+            {currentUser ? (
 
-              <DropdownMenuContent align="end">
+              <DropdownMenu>
 
-                <div className="px-3 py-2 text-xs text-muted-foreground">
-                  {currentUser.email}
-                </div>
+                <DropdownMenuTrigger asChild>
 
-                {USER_MENU.map((item) => (
-                  <DropdownMenuItem asChild key={item.href}>
-                    <Link href={item.href}>
-                      {item.label}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="
+                      rounded-full
+                      border border-[#d4c4a8]/40
+                      bg-white/60
+                      hover:bg-[#efe7da]
+                      transition-all
+                    "
+                  >
 
-                {isAdmin && (
-                  <>
-                    <div className="my-1 border-t" />
+                    <User
+                      className="
+                        h-4
+                        w-4
+                        text-[#2d5a3d]
+                      "
+                    />
 
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={adminItem.href}
-                        className="flex gap-2 text-[#2d5a3d]"
-                      >
-                        <Shield className="h-4 w-4" />
-                        {adminItem.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                )}
+                  </Button>
 
-                <div className="my-1 border-t" />
+                </DropdownMenuTrigger>
 
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="text-red-500 flex gap-2"
+                <DropdownMenuContent
+                  align="end"
+                  className="
+                    w-60
+                    border-[#d4c4a8]/40
+                    bg-[#fdfbf8]
+                    shadow-xl
+                  "
                 >
-                  <LogOut className="h-4 w-4" />
-                  Atsijungti
-                </DropdownMenuItem>
 
-              </DropdownMenuContent>
+                  <div
+                    className="
+                      px-3
+                      py-2
+                      text-xs
+                      text-muted-foreground
+                      border-b
+                    "
+                  >
+                    {currentUser.email}
+                  </div>
 
-            </DropdownMenu>
-          ) : (
-            <Button asChild variant="ghost" size="sm">
-              <Link href="/auth/login">
-                Prisijungti
-              </Link>
-            </Button>
-          )}
+                  {USER_MENU.map((item) => (
+
+                    <DropdownMenuItem
+                      asChild
+                      key={item.href}
+                    >
+
+                      <Link href={item.href}>
+                        {item.label}
+                      </Link>
+
+                    </DropdownMenuItem>
+
+                  ))}
+
+                  {isAdmin && (
+                    <>
+
+                      <div className="my-1 border-t" />
+
+                      <DropdownMenuItem asChild>
+
+                        <Link
+                          href={adminItem.href}
+                          className="
+                            flex
+                            gap-2
+                            text-[#2d5a3d]
+                          "
+                        >
+
+                          <Shield
+                            className="
+                              h-4
+                              w-4
+                            "
+                          />
+
+                          {adminItem.label}
+
+                        </Link>
+
+                      </DropdownMenuItem>
+
+                    </>
+                  )}
+
+                  <div className="my-1 border-t" />
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="
+                      flex
+                      gap-2
+                      text-red-500
+                      cursor-pointer
+                    "
+                  >
+
+                    <LogOut
+                      className="
+                        h-4
+                        w-4
+                      "
+                    />
+
+                    Atsijungti
+
+                  </DropdownMenuItem>
+
+                </DropdownMenuContent>
+
+              </DropdownMenu>
+
+            ) : (
+
+              <Button
+                asChild
+                size="sm"
+                className="
+                  min-w-[120px]
+                  rounded-full
+                  bg-[#2d5a3d]
+                  hover:bg-[#244732]
+                  text-white
+                  shadow-md
+                  transition-all
+                "
+              >
+
+                <Link href="/auth/login">
+                  Prisijungti
+                </Link>
+
+              </Button>
+
+            )}
+
+          </div>
 
         </div>
 
         {/* MOBILE BUTTON */}
         <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-[#2d5a3d]"
+          onClick={() =>
+            setMobileOpen(!mobileOpen)
+          }
+          className="
+            md:hidden
+            text-[#2d5a3d]
+            transition-transform
+            duration-200
+          "
+          aria-label="Toggle Menu"
         >
-          {mobileOpen ? <X /> : <Menu />}
+
+          {mobileOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+
         </button>
 
       </div>
 
-      {/* MOBILE */}
+      {/* MOBILE MENU */}
       {mobileOpen && (
-        <div className="md:hidden border-t">
 
-          <nav className="p-4 flex flex-col gap-2">
+        <div
+          className="
+            md:hidden
+            border-t
+            border-[#d4c4a8]/20
+            bg-[#fdfbf8]
+            backdrop-blur-xl
+          "
+        >
+
+          <nav
+            className="
+              p-4
+              flex
+              flex-col
+              gap-1
+            "
+          >
 
             {NAV.map((item) => (
+
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={() =>
+                  setMobileOpen(false)
+                }
+                className={`
+                  rounded-xl
+                  px-4
+                  py-3
+                  text-sm
+                  transition-colors
+
+                  ${
+                    isActive(item.href)
+                      ? 'bg-[#efe7da] text-[#2d5a3d] font-medium'
+                      : 'hover:bg-[#efe7da]'
+                  }
+                `}
               >
+
                 {item.label}
+
               </Link>
+
             ))}
+
+            <div
+              className="
+                my-3
+                border-t
+                border-[#d4c4a8]/20
+              "
+            />
+
+            {/* MOBILE LANGUAGE */}
+            <div className="flex gap-2">
+
+              {locales.map((loc) => (
+
+                <Button
+                  key={loc}
+                  variant={
+                    locale === loc
+                      ? 'default'
+                      : 'outline'
+                  }
+                  size="sm"
+                  onClick={() =>
+                    handleLocaleChange(loc)
+                  }
+                  className={
+                    locale === loc
+                      ? 'bg-[#2d5a3d]'
+                      : ''
+                  }
+                >
+
+                  {loc.toUpperCase()}
+
+                </Button>
+
+              ))}
+
+            </div>
+
+            {/* MOBILE AUTH */}
+            <div className="mt-4">
+
+              {currentUser ? (
+
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="
+                    w-full
+                    justify-start
+                    rounded-xl
+                  "
+                >
+
+                  <LogOut
+                    className="
+                      mr-2
+                      h-4
+                      w-4
+                    "
+                  />
+
+                  Atsijungti
+
+                </Button>
+
+              ) : (
+
+                <Button
+                  asChild
+                  className="
+                    w-full
+                    rounded-xl
+                    bg-[#2d5a3d]
+                    hover:bg-[#244732]
+                  "
+                >
+
+                  <Link href="/auth/login">
+                    Prisijungti
+                  </Link>
+
+                </Button>
+
+              )}
+
+            </div>
 
           </nav>
 
         </div>
+
       )}
 
     </header>
   )
-}
+      }
