@@ -62,21 +62,6 @@
   background-size: 60px 60px;
 }
 
-/* Hero */
-[data-theme="orthodox"] .theme-hero-bg {
-  background:
-    radial-gradient(
-      ellipse at 50% 0%,
-      oklch(0.65 0.16 70 / 0.15),
-      transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      oklch(0.97 0.02 60),
-      oklch(0.95 0.015 50)
-    );
-}
-
 /* Glow */
 [data-theme="orthodox"] .theme-card-glow {
   box-shadow:
@@ -84,23 +69,254 @@
     0 0 100px oklch(0.60 0.14 70 / 0.08);
 }
 
-/* Border */
-[data-theme="orthodox"] .theme-border-accent {
-  border-color: oklch(0.65 0.16 70 / 0.5);
+/* ============================================================
+   HERO BACKGROUND — ORTHODOX (SACRED LIGHT)
+   ============================================================ */
+[data-theme="orthodox"] .theme-hero-bg {
+  background:
+    radial-gradient(ellipse at top,
+      oklch(0.62 0.18 70 / 0.18), transparent 45%),
+    radial-gradient(ellipse at center,
+      oklch(0.45 0.14 60 / 0.10), transparent 60%),
+    linear-gradient(180deg,
+      oklch(0.98 0.01 80),
+      oklch(0.95 0.015 70),
+      oklch(0.93 0.02 65));
 }
 
-/* Portrait */
 
-/* Cross */
-[data-theme="orthodox"] .theme-cross::before {
-  content: '☦';
+/* ============================================================
+   MEMORIAL COVER — HERO SECTION
+   ============================================================ */
+[data-theme="orthodox"] .memorial-cover {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  min-height: 88vh;
+  padding: 5rem 1.5rem 4rem;
+
+  overflow: hidden;
+}
+
+/* Sacred light overlay (soft divine glow) */
+[data-theme="orthodox"] .memorial-cover::before {
+  content: '';
   position: absolute;
-  top: -2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  color: oklch(0.60 0.16 70);
-  opacity: 0.6;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(ellipse at 50% 0%,
+      oklch(0.62 0.18 70 / 0.20), transparent 60%),
+    radial-gradient(ellipse at 20% 10%,
+      oklch(0.45 0.14 60 / 0.10), transparent 65%),
+    radial-gradient(ellipse at 80% 0%,
+      oklch(0.55 0.16 70 / 0.12), transparent 60%),
+    linear-gradient(180deg,
+      oklch(0.98 0.01 80 / 0.95),
+      oklch(0.95 0.015 70 / 0.90),
+      oklch(0.93 0.02 65 / 0.95));
+}
+
+
+/* ============================================================
+   BACKGROUND WRAPPER / IMAGE
+   ============================================================ */
+[data-theme="orthodox"] .memorial-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+[data-theme="orthodox"] .memorial-bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+[data-theme="orthodox"] .memorial-bg-image-elem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  opacity: 0.9;
+  filter: contrast(1.05) saturate(0.95);
+  transition: transform 12s ease;
+}
+
+
+/* ============================================================
+   CONTENT LAYER
+   ============================================================ */
+[data-theme="orthodox"] .memorial-content {
+  position: relative;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+
+/* ============================================================
+   PORTRAIT FRAME — SACRED GOLD RING
+   ============================================================ */
+[data-theme="orthodox"] .memorial-profile-container {
+  position: relative;
+  margin: 0 auto 2rem;
+
+  width: 10rem;
+  height: 10rem;
+}
+
+@media (min-width: 640px) {
+  [data-theme="orthodox"] .memorial-profile-container {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-theme="orthodox"] .memorial-profile-container {
+    width: 14rem;
+    height: 14rem;
+  }
+}
+
+[data-theme="orthodox"] .portrait-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+
+  padding: 5px;
+
+  border: 1px solid oklch(0.62 0.18 70 / 0.35);
+
+  background: radial-gradient(circle,
+    oklch(0.62 0.18 70 / 0.25),
+    oklch(0.45 0.14 60 / 0.15),
+    oklch(0.98 0.01 80));
+
+  box-shadow:
+    0 0 25px oklch(0.62 0.18 70 / 0.15);
+}
+
+
+/* ============================================================
+   NAME — SACRED TYPOGRAPHY
+   ============================================================ */
+[data-theme="orthodox"] .memorial-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+
+  color: oklch(0.25 0.03 30);
+
+  text-align: center;
+
+  padding: 0.6rem 1.6rem;
+
+  background: oklch(1 0 0 / 0.55);
+  border: 1px solid oklch(0.62 0.18 70 / 0.25);
+  border-radius: var(--radius);
+
+  backdrop-filter: blur(14px);
+}
+
+
+/* ============================================================
+   DATES / LOCATION
+   ============================================================ */
+[data-theme="orthodox"] .memorial-dates {
+  margin-top: 0.6rem;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: oklch(0.35 0.05 40);
+
+  padding: 0.35rem 1.2rem;
+
+  background: oklch(1 0 0 / 0.4);
+  border: 1px solid oklch(0.62 0.18 70 / 0.2);
+  border-radius: var(--radius);
+}
+
+[data-theme="orthodox"] .memorial-location {
+  margin-top: 0.5rem;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+
+  color: oklch(0.40 0.05 40);
+  opacity: 0.85;
+}
+
+
+/* ============================================================
+   EPITAPH — SACRED TEXT
+   ============================================================ */
+[data-theme="orthodox"] .memorial-epitaph {
+  margin-top: 1.4rem;
+
+  max-width: 30rem;
+
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  line-height: 1.65;
+
+  color: oklch(0.30 0.04 30);
+
+  text-align: center;
+
+  padding: 1.4rem 1.8rem;
+
+  background: oklch(1 0 0 / 0.45);
+  border: 1px solid oklch(0.62 0.18 70 / 0.2);
+  border-radius: var(--radius);
+
+  backdrop-filter: blur(12px);
+}
+
+/* Quote marks */
+[data-theme="orthodox"] .memorial-epitaph::before {
+  content: '“';
+  position: absolute;
+  top: -0.4rem;
+  left: 0.8rem;
+
+  font-size: 3rem;
+  color: oklch(0.62 0.18 70 / 0.4);
+}
+
+[data-theme="orthodox"] .memorial-epitaph::after {
+  content: '”';
+  position: absolute;
+  bottom: -1rem;
+  right: 0.8rem;
+
+  font-size: 3rem;
+  color: oklch(0.62 0.18 70 / 0.4);
+}
+
+
+/* ============================================================
+   SECTION SPACING
+   ============================================================ */
+[data-theme="orthodox"] .memorial-section {
+  max-width: 48rem;
+  margin: 0 auto;
 }
 
 /* ============================================
