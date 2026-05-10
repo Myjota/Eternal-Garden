@@ -70,7 +70,7 @@
 
 [data-theme="garden"] .memorial-cover {
   position: relative;
-  min-height: 90vh;
+  min-height: 100dvh;
   padding: 6rem 1.5rem 7rem;
   text-align: center;
   overflow: hidden;
