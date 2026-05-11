@@ -90,7 +90,7 @@ export function MemorialHero({
         {/* LOCATION */}
         {memorial.location && (
           <p className="memorial-location memorial-font-accent">
-            📍 {memorial.location}
+            {memorial.location}
           </p>
         )}
 
@@ -103,7 +103,7 @@ export function MemorialHero({
 
         {/* EPITAPH */}
         <p className="memorial-epitaph memorial-font-body">
-          "{epitaph}"
+          {epitaph}
         </p>
 
       </div>
