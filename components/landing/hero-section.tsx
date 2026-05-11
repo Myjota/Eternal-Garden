@@ -12,12 +12,7 @@ export function HeroSection({ t }: HeroSectionProps) {
   return (
     <section className="relative">
       {/* Background Image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4)), linear-gradient(to top, rgba(255, 255, 255, 1), transparent)'
-        }}
-      >
+      <div className="absolute inset-0 bg-background">
         <Image
           src="/tree.jpeg"
           alt="Hero background"
@@ -25,6 +20,10 @@ export function HeroSection({ t }: HeroSectionProps) {
           className="object-cover"
           priority
         />
+
+        {/* Fixed overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
       {/* Content */}
