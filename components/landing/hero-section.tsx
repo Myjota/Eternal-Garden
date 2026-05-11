@@ -2,51 +2,28 @@
 
 import Image from 'next/image'
 import { type Translations } from '@/lib/i18n/locales/lt'
-import { type ThemeId } from '@/lib/themes/config'
 import { MemorialSearch } from '@/components/search/memorial-search'
 
 interface HeroSectionProps {
   t: Translations
-  theme?: ThemeId
 }
 
-const heroImages: Record<ThemeId, string> = {
-  garden: '/tree.jpeg',
-  marble: '/images/themes/marble-hero.png',
-  orthodox: '/images/themes/orthodox-hero.jpg',
-  'eternal-night': '/images/themes/night-hero.jpg',
-  'rainbow-bridge': '/images/themes/rainbow-hero.jpg',
-  'sunny-window': '/images/themes/sunny-hero.jpg',
-}
-
-export function HeroSection({ t, theme = 'garden' }: HeroSectionProps) {
-  const heroImage = heroImages[theme] || heroImages.garden
-  const isMarble = theme === 'marble'
-
+export function HeroSection({ t }: HeroSectionProps) {
   return (
     <section className="relative">
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 bg-background">
         <Image
-          src={heroImage}
+          src="/tree.jpeg"
           alt="Hero background"
           fill
           className="object-cover"
           priority
         />
 
-        {/* Theme-specific overlays */}
-        {isMarble ? (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#faf8f5]/95 via-[#faf8f5]/70 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#faf8f5] via-transparent to-transparent" />
-          </>
-        ) : (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-          </>
-        )}
+        {/* Fixed overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
       {/* Content */}
