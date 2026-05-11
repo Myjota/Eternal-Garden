@@ -75,7 +75,7 @@ export async function lightCandle(memorialId: string, userId: string | null, use
   const supabase = createClient()
   
   // Create new candle - no restrictions for simple schema
-  const { error } = await supabase
+  const { error: candleError } = await supabase
     .from('candles')
     .insert({
       memorial_id: memorialId,
@@ -85,9 +85,36 @@ export async function lightCandle(memorialId: string, userId: string | null, use
       lit_at: new Date().toISOString()
     })
   
-  if (error) {
-    console.error('Error lighting candle:', error)
+  if (candleError) {
+    console.error('Error lighting candle:', candleError)
     return { success: false, error: 'Nepavyko uždegti žvakės' }
+  }
+  
+  // Update candle_count in memorials table
+  const { error: updateError } = await supabase.rpc('increment_candle_count', {
+    memorial_id: memorialId
+  })
+  
+  // If RPC doesn't exist, fall back to manual increment
+  if (updateError) {
+    // Get current count and increment
+    const { data: memorial } = await supabase
+      .from('memorials')
+      .select('candle_count')
+      .eq('id', memorialId)
+      .single()
+    
+    const currentCount = memorial?.candle_count || 0
+    
+    const { error: manualUpdateError } = await supabase
+      .from('memorials')
+      .update({ candle_count: currentCount + 1 })
+      .eq('id', memorialId)
+    
+    if (manualUpdateError) {
+      console.error('Error updating candle count:', manualUpdateError)
+      // Don't fail the whole operation - candle was lit successfully
+    }
   }
   
   return { success: true }
