@@ -86,8 +86,8 @@ export function Header({
   )
 
   const USER_MENU = useMemo(
-    () => getUserMenu(),
-    []
+    () => getUserMenu(t),
+    [t]
   )
 
   // ACTIVE LINK
@@ -443,7 +443,7 @@ export function Header({
                       <DropdownMenuItem asChild>
 
                         <Link
-                          href={adminItem.href}
+                          href={adminItem(t).href}
                           className="
                             flex
                             gap-2
@@ -458,7 +458,7 @@ export function Header({
                             "
                           />
 
-                          {adminItem.label}
+                          {adminItem(t).label}
 
                         </Link>
 
@@ -486,7 +486,7 @@ export function Header({
                       "
                     />
 
-                    Atsijungti
+                    {t.nav.logout}
 
                   </DropdownMenuItem>
 
@@ -511,7 +511,7 @@ export function Header({
               >
 
                 <Link href="/auth/login">
-                  Prisijungti
+                  {t.nav.login}
                 </Link>
 
               </Button>
@@ -659,7 +659,7 @@ export function Header({
                     "
                   />
 
-                  Atsijungti
+                  {t.nav.logout}
 
                 </Button>
 
@@ -676,7 +676,7 @@ export function Header({
                 >
 
                   <Link href="/auth/login">
-                    Prisijungti
+                    {t.nav.login}
                   </Link>
 
                 </Button>

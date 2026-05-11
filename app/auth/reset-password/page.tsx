@@ -39,12 +39,12 @@ function ResetPasswordContent() {
     setError(null)
 
     if (password !== confirmPassword) {
-      setError('Slaptažodžiai nesutampa')
+      setError(t.auth.passwordMismatch)
       return
     }
 
     if (password.length < 6) {
-      setError('Slaptažodis turi būti bent 6 simbolių')
+      setError(t.auth.passwordTooShort)
       return
     }
 
@@ -66,7 +66,7 @@ function ResetPasswordContent() {
         }, 3000)
       }
     } catch {
-      setError('Įvyko netikėta klaida')
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -102,10 +102,10 @@ function ResetPasswordContent() {
 
             <div>
               <CardTitle className="font-serif text-2xl text-foreground">
-                Naujas slaptažodis
+                {t.auth.newPassword}
               </CardTitle>
               <CardDescription className="mt-2">
-                Įveskite naują slaptažodį savo paskyrai
+                {t.auth.enterNewPassword}
               </CardDescription>
             </div>
           </CardHeader>
@@ -119,14 +119,14 @@ function ResetPasswordContent() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground">Slaptažodis pakeistas!</h3>
+                  <h3 className="font-medium text-foreground">{t.auth.passwordChanged}</h3>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Jūsų slaptažodis sėkmingai atnaujintas. Būsite nukreipti į prisijungimo puslapį...
+                    {t.auth.passwordUpdated}
                   </p>
                 </div>
                 <Button asChild className="w-full">
                   <Link href="/auth/login">
-                    Prisijungti dabar
+                    {t.auth.loginNow}
                   </Link>
                 </Button>
               </div>
@@ -139,7 +139,7 @@ function ResetPasswordContent() {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Naujas slaptažodis</Label>
+                  <Label htmlFor="password">{t.auth.newPassword}</Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -175,7 +175,7 @@ function ResetPasswordContent() {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? <Spinner className="h-4 w-4" /> : 'Pakeisti slaptažodį'}
+                  {loading ? <Spinner className="h-4 w-4" /> : t.auth.changePassword}
                 </Button>
               </form>
             )}
@@ -189,7 +189,7 @@ function ResetPasswordContent() {
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          {t.common.back} &larr; Eternal Garden
+          {t.common.back} &larr; {t.auth.appName}
         </Link>
       </div>
     </div>

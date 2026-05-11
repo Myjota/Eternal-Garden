@@ -31,12 +31,12 @@ export default function SignupPage() {
     setError(null)
 
     if (password !== confirmPassword) {
-      setError('Slaptažodžiai nesutampa')
+      setError(t.auth.passwordMismatch)
       return
     }
 
     if (password.length < 6) {
-      setError('Slaptažodis turi būti bent 6 simbolių')
+      setError(t.auth.passwordTooShort)
       return
     }
 
@@ -64,7 +64,7 @@ export default function SignupPage() {
         router.push('/auth/signup-success')
       }
     } catch {
-      setError('An unexpected error occurred')
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -108,7 +108,7 @@ export default function SignupPage() {
                 {t.auth.signup}
               </CardTitle>
               <CardDescription className="mt-2">
-                Sukurkite paskyrą ir pradėkite kurti atminimus
+                {t.auth.signupDescription}
               </CardDescription>
             </div>
 
@@ -221,7 +221,7 @@ export default function SignupPage() {
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          {t.common.back} &larr; Eternal Garden
+          {t.common.back} &larr; {t.auth.appName}
         </Link>
       </div>
     </div>

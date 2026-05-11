@@ -42,7 +42,7 @@ export default function LoginPage() {
         router.refresh()
       }
     } catch {
-      setError('An unexpected error occurred')
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -85,7 +85,7 @@ export default function LoginPage() {
                 {t.auth.login}
               </CardTitle>
               <CardDescription className="mt-2">
-                Eternal Garden
+                {t.auth.appName}
               </CardDescription>
             </div>
 
@@ -163,7 +163,7 @@ export default function LoginPage() {
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          {t.common.back} &larr; Eternal Garden
+          {t.common.back} &larr; {t.auth.appName}
         </Link>
       </div>
 

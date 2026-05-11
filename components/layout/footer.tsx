@@ -1,8 +1,11 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Facebook, Instagram, Youtube, Mail } from 'lucide-react'
 import { type Translations } from '@/lib/i18n/locales/lt'
 import { getTranslations, defaultLocale } from '@/lib/i18n'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 interface FooterProps {
   t?: Translations
@@ -13,7 +16,8 @@ const CONTACT_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'myjota@zohomail.eu'
 
 export function Footer({ t: providedT }: FooterProps) {
-  const t = providedT ?? getTranslations(defaultLocale)
+  const { locale } = useLocaleContext()
+  const t = providedT ?? getTranslations(locale)
 
   return (
     <footer className="border-t border-[#d4c4a8]/30 bg-[#1f3d2a] text-white">

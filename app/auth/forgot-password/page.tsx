@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
         setSuccess(true)
       }
     } catch {
-      setError('Įvyko netikėta klaida')
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
                 {t.auth.forgotPassword}
               </CardTitle>
               <CardDescription className="mt-2">
-                Įveskite savo el. pašto adresą ir mes atsiųsime slaptažodžio atkūrimo nuorodą
+                {t.auth.forgotPasswordDescription}
               </CardDescription>
             </div>
           </CardHeader>
@@ -91,15 +91,15 @@ export default function ForgotPasswordPage() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground">Laiškas išsiųstas!</h3>
+                  <h3 className="font-medium text-foreground">{t.auth.resetEmailSent}</h3>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Patikrinkite savo el. paštą <strong>{email}</strong> ir sekite nuorodą slaptažodžiui atkurti.
+                    {t.auth.checkEmail}
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full">
                   <Link href="/auth/login">
                     <ArrowLeft className="h-4 w-4 mr-2" />
-                    Grįžti į prisijungimą
+                    {t.auth.backToLogin}
                   </Link>
                 </Button>
               </div>
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? <Spinner className="h-4 w-4" /> : 'Siųsti atkūrimo nuorodą'}
+                  {loading ? <Spinner className="h-4 w-4" /> : t.auth.sendResetLink}
                 </Button>
 
                 <div className="text-center">
@@ -134,7 +134,7 @@ export default function ForgotPasswordPage() {
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                   >
                     <ArrowLeft className="h-3 w-3" />
-                    Grįžti į prisijungimą
+                    {t.auth.backToLogin}
                   </Link>
                 </div>
               </form>

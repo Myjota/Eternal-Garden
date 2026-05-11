@@ -1,10 +1,14 @@
+'use client'
+
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { EternalGardenLogo } from '@/components/icons'
 import { Mail } from 'lucide-react'
+import { getTranslations, defaultLocale } from '@/lib/i18n'
 
 export default function SignupSuccessPage() {
+  const t = getTranslations(defaultLocale)
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Background decoration */}
@@ -28,26 +32,25 @@ export default function SignupSuccessPage() {
             </div>
             <div>
               <CardTitle className="font-serif text-2xl text-foreground">
-                Patikrinkite el. paštą
+                {t.auth.verifyEmail}
               </CardTitle>
               <CardDescription className="mt-2">
-                Registracija sėkminga!
+                {t.auth.signupSuccess}
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <p className="text-muted-foreground">
-              Išsiuntėme patvirtinimo nuorodą į jūsų el. pašto adresą. 
-              Paspauskite nuorodą, kad aktyvuotumėte paskyrą.
+              {t.auth.verificationLink}
             </p>
             
             <div className="pt-4 border-t border-border">
               <p className="text-sm text-muted-foreground mb-4">
-                Negavote laiško? Patikrinkite šlamšto aplanką arba bandykite dar kartą.
+                {t.auth.noEmailReceived}
               </p>
               <Button variant="outline" asChild>
                 <Link href="/auth/login">
-                  Grįžti į prisijungimą
+                  {t.auth.backToLogin}
                 </Link>
               </Button>
             </div>
@@ -61,7 +64,7 @@ export default function SignupSuccessPage() {
           href="/" 
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          &larr; Eternal Garden
+          &larr; {t.auth.appName}
         </Link>
       </div>
     </div>
