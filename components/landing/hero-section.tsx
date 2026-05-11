@@ -43,29 +43,17 @@ export function HeroSection({ t }: HeroSectionProps) {
           </div>
 
           {/* Title */}
-          <h1
-            className={`font-serif text-4xl font-bold md:text-5xl lg:text-6xl ${
-              isMarble ? 'text-[#1a1a1a]' : 'text-foreground'
-            }`}
-          >
+          <h1 className="font-serif text-4xl font-bold md:text-5xl lg:text-6xl text-foreground">
             {t.hero.title}
           </h1>
 
           {/* Subtitle */}
-          <p
-            className={`mt-2 font-serif text-xl italic md:text-2xl ${
-              isMarble ? 'text-[#2d5a3d]' : 'text-primary'
-            }`}
-          >
+          <p className="mt-2 font-serif text-xl italic md:text-2xl text-primary">
             {t.hero.subtitle}
           </p>
 
           {/* Description */}
-          <p
-            className={`mt-6 text-lg leading-relaxed ${
-              isMarble ? 'text-[#4a4a4a]' : 'text-muted-foreground'
-            }`}
-          >
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             {t.hero.description}
           </p>
 
@@ -79,11 +67,7 @@ export function HeroSection({ t }: HeroSectionProps) {
       </div>
 
       {/* Bottom fade */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t ${
-          isMarble ? 'from-[#faf8f5]' : 'from-background'
-        } to-transparent`}
-      />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent" />
     </section>
   )
 }
