@@ -95,20 +95,6 @@ export function CandleSection({
 
         {/* STATS */}
         <div className="candle-stats">
-          <div className="candle-stat">
-            <span className="candle-stat-indicator"></span>
-
-            <div className="candle-stat-content">
-              <span className="candle-stat-label">
-                Dega dabar
-              </span>
-
-              <span className="candle-stat-value">
-                {stats.currently_burning}
-              </span>
-            </div>
-          </div>
-
           <div className="candle-stat candle-stat-right">
             <div className="candle-stat-content">
               <span className="candle-stat-label">
