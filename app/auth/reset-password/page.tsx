@@ -10,9 +10,10 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { createClient } from '@/lib/supabase/client'
-import { getTranslations, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
 import { CheckCircle, Eye, EyeOff } from 'lucide-react'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 function ResetPasswordContent() {
   const [password, setPassword] = useState('')
@@ -23,8 +24,9 @@ function ResetPasswordContent() {
   const [success, setSuccess] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { locale } = useLocaleContext()
 
-  const t = getTranslations(defaultLocale)
+  const t = getTranslations(locale)
 
   // Check for error in URL (from Supabase redirect)
   useEffect(() => {

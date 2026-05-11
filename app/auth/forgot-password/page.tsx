@@ -9,17 +9,19 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { createClient } from '@/lib/supabase/client'
-import { getTranslations, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
 import { CheckCircle, ArrowLeft } from 'lucide-react'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const { locale } = useLocaleContext()
 
-  const t = getTranslations(defaultLocale)
+  const t = getTranslations(locale)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

@@ -5,10 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { EternalGardenLogo } from '@/components/icons'
 import { Mail } from 'lucide-react'
-import { getTranslations, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 export default function SignupSuccessPage() {
-  const t = getTranslations(defaultLocale)
+  const { locale } = useLocaleContext()
+  const t = getTranslations(locale)
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Background decoration */}
