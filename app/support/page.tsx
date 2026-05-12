@@ -1,35 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { Heart, Coffee, CreditCard, Gift, ArrowLeft } from 'lucide-react'
+import { Coffee, CreditCard, ArrowLeft } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { getTranslations } from '@/lib/i18n'
 import { useLocale } from '@/lib/i18n/useLocale'
-
-const supportOptions = [
-  {
-    Icon: Coffee,
-    title: 'Vienkartinė parama',
-    description: 'Paremkite projektą vienkartine auka',
-    price: 'Nuo €5',
-    popular: false,
-  },
-  {
-    Icon: Heart,
-    title: 'Mėnesinė parama',
-    description: 'Tapkite nuolatiniu rėmėju ir palaikykite projektą kas mėnesį',
-    price: 'Nuo €3/mėn',
-    popular: true,
-  },
-  {
-    Icon: Gift,
-    title: 'Premium narystė',
-    description: 'Gaukite prieigą prie visų premium temų ir funkcijų',
-    price: '€9.99/mėn',
-    popular: false,
-  },
-]
 
 export default function SupportPage() {
   const { locale } = useLocale({})
@@ -38,54 +14,44 @@ export default function SupportPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12">
-        
+
         {/* HEADER */}
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-serif font-bold mb-4">
             Paremkite Eternal Garden
           </h1>
+
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Jūsų parama padeda mums tobulinti platformą ir išlaikyti atmintį gyva ateities kartoms.
           </p>
         </div>
 
-        {/* OPTIONS */}
-        <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto mb-12">
-          {supportOptions.map(({ Icon, title, description, price, popular }) => (
-            <Card
-              key={title}
-              className={`relative ${popular ? 'border-primary shadow-lg' : ''}`}
-            >
-              {popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full">
-                    Populiariausias
-                  </span>
-                </div>
-              )}
+        {/* SINGLE SUPPORT OPTION */}
+        <div className="max-w-md mx-auto mb-12">
+          <Card className="border-primary shadow-lg">
+            <CardHeader className="text-center pt-8">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <Coffee className="h-6 w-6 text-primary" />
+              </div>
 
-              <CardHeader className="text-center pt-8">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <Icon className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle>{title}</CardTitle>
-                <CardDescription>{description}</CardDescription>
-              </CardHeader>
+              <CardTitle>Vienkartinė parama</CardTitle>
 
-              <CardContent className="text-center">
-                <p className="text-2xl font-bold text-primary mb-4">
-                  {price}
-                </p>
-                <Button
-                  className="w-full"
-                  variant={popular ? 'default' : 'outline'}
-                >
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Paremti
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+              <CardDescription>
+                Paremkite projektą vienkartine auka
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="text-center">
+              <p className="text-2xl font-bold text-primary mb-4">
+                Nuo €5
+              </p>
+
+              <Button className="w-full">
+                <CreditCard className="h-4 w-4 mr-2" />
+                Paremti
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
         {/* WHY */}
