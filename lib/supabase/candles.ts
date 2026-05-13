@@ -70,11 +70,34 @@ export async function getRecentCandleUsers(memorialId: string, limit = 2): Promi
   }))
 }
 
-// Light a new candle
-export async function lightCandle(memorialId: string, userId: string | null, userName: string): Promise<{ success: boolean; error?: string }> {
+// Check if user already lit a candle (authenticated users only)
+export async function checkUserAlreadyLitCandle(memorialId: string, userId: string): Promise<boolean> {
   const supabase = createClient()
   
-  // Create new candle - no restrictions for simple schema
+  const { data } = await supabase
+    .from('candles')
+    .select('id', { count: 'exact', head: true })
+    .eq('memorial_id', memorialId)
+    .eq('user_id', userId)
+    .eq('is_lit', true)
+    .single()
+  
+  return !!data
+}
+
+// Light a new candle (with duplicate prevention for authenticated users)
+export async function lightCandle(memorialId: string, userId: string | null, userName: string): Promise<{ success: boolean; error?: string; alreadyLit?: boolean }> {
+  const supabase = createClient()
+  
+  // Check if authenticated user already lit a candle for this memorial
+  if (userId) {
+    const alreadyLit = await checkUserAlreadyLitCandle(memorialId, userId)
+    if (alreadyLit) {
+      return { success: false, error: 'Jūs jau uždėgėte žvaką šiam memorialo', alreadyLit: true }
+    }
+  }
+  
+  // Create new candle
   const { error: candleError } = await supabase
     .from('candles')
     .insert({

@@ -17,6 +17,7 @@ export function CandleSection({
 }: CandleSectionProps) {
   const [isLit, setIsLit] = useState(initialLit);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'error' | 'success' | 'info'; text: string } | null>(null);
 
   // Real Supabase data
   const {
@@ -29,17 +30,20 @@ export function CandleSection({
     getUserCandleStatus,
   } = useCandlesData(memorialId);
 
-  // Check if user already lit candle
+  // Check if user already lit candle on component mount
   useEffect(() => {
-    if (currentUser && !dataLoading) {
-      getUserCandleStatus().then(setIsLit);
+    if (!dataLoading) {
+      getUserCandleStatus().then((alreadyLit) => {
+        setIsLit(alreadyLit);
+      });
     }
-  }, [currentUser, dataLoading, getUserCandleStatus]);
+  }, [dataLoading, getUserCandleStatus]);
 
   async function handleLight() {
     if (isLit || loading) return;
 
     setLoading(true);
+    setMessage(null);
 
     try {
       const userName = currentUser?.name || "Anonymous";
@@ -48,13 +52,29 @@ export function CandleSection({
 
       if (result.success) {
         setIsLit(true);
+        setMessage({
+          type: 'success',
+          text: '🕯️ Ačiū už pagarbą! Žvakė šviečia jūsų artimajam.'
+        });
         onLight?.();
+      } else if (result.alreadyLit) {
+        setIsLit(true);
+        setMessage({
+          type: 'info',
+          text: 'Jūs jau uždėgėte žvaką šiam memorialo. 🕯️'
+        });
       } else {
-        alert(result.error || "Nepavyko uždegti žvakės");
+        setMessage({
+          type: 'error',
+          text: result.error || 'Nepavyko uždegti žvakės'
+        });
       }
     } catch (error) {
       console.error("Error lighting candle:", error);
-      alert("Nepavyko uždegti žvakės");
+      setMessage({
+        type: 'error',
+        text: 'Nepavyko uždegti žvakės'
+      });
     } finally {
       setLoading(false);
     }
@@ -88,10 +108,32 @@ export function CandleSection({
                 loading ? "candle-light-button-loading" : ""
               }`}
             >
-              Uždegti žvakę
+              {loading ? "Uždegiu..." : "Uždegti žvakę"}
             </button>
           )}
+
+          {isLit && !loading && (
+            <div className="candle-already-lit">
+              <p className="candle-already-lit-text">
+                🕯️ Jūs jau uždėgėte žvaką
+              </p>
+            </div>
+          )}
         </div>
+
+        {/* MESSAGE DISPLAY */}
+        {message && (
+          <div className={`candle-message candle-message-${message.type}`}>
+            {message.text}
+          </div>
+        )}
+
+        {/* ERROR MESSAGE */}
+        {error && !message && (
+          <div className="candle-message candle-message-error">
+            {error}
+          </div>
+        )}
 
         {/* STATS */}
         <div className="candle-stats">

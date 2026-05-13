@@ -50,13 +50,21 @@ export async function POST(request: NextRequest) {
     // Use provided userName or default to "Anonymous"
     const finalUserName = userName || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Anonymous'
     
-    // Light the candle (allow anonymous users)
+    // Light the candle (will return alreadyLit if user already lit one)
     const result = await lightCandle(
       memorialId,
       user?.id || null,
       finalUserName,
       userAvatar || user?.user_metadata?.avatar
     )
+    
+    // If already lit, return 409 Conflict status
+    if (!result.success && result.alreadyLit) {
+      return NextResponse.json({ 
+        error: result.error,
+        alreadyLit: true 
+      }, { status: 409 })
+    }
     
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 400 })

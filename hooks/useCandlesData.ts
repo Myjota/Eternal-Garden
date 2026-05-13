@@ -24,6 +24,39 @@ type CandlesData = {
   error: string | null
 }
 
+// Helper to get localStorage key for candle status
+function getLocalStorageKey(memorialId: string): string {
+  return `candle_lit_${memorialId}`
+}
+
+// Helper to mark candle as lit in localStorage
+function markCandleAsLitInLocalStorage(memorialId: string): void {
+  if (typeof window !== 'undefined') {
+    const key = getLocalStorageKey(memorialId)
+    localStorage.setItem(key, JSON.stringify({
+      lit: true,
+      timestamp: new Date().toISOString()
+    }))
+  }
+}
+
+// Helper to check if candle is lit in localStorage
+function isCandleLitInLocalStorage(memorialId: string): boolean {
+  if (typeof window !== 'undefined') {
+    const key = getLocalStorageKey(memorialId)
+    const value = localStorage.getItem(key)
+    if (value) {
+      try {
+        const data = JSON.parse(value)
+        return data.lit === true
+      } catch {
+        return false
+      }
+    }
+  }
+  return false
+}
+
 export function useCandlesData(memorialId: string) {
   const [data, setData] = useState<CandlesData>({
     stats: { currently_burning: 0, total_lit: 0 },
@@ -77,17 +110,30 @@ export function useCandlesData(memorialId: string) {
         })
       })
       
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to light candle')
+      const responseData = await response.json()
+      
+      // Handle already lit (409 Conflict)
+      if (response.status === 409) {
+        return { 
+          success: false, 
+          error: responseData.error || 'Jūs jau uždėgėte žvaką šiam memorialo',
+          alreadyLit: true
+        }
       }
       
-      const result = await response.json()
+      if (!response.ok) {
+        throw new Error(responseData.error || 'Failed to light candle')
+      }
+      
+      // Mark as lit in localStorage for anonymous users
+      if (!data.currentUser) {
+        markCandleAsLitInLocalStorage(memorialId)
+      }
       
       setData(prev => ({
         ...prev,
-        stats: result.stats,
-        recentUsers: result.recentUsers
+        stats: responseData.stats,
+        recentUsers: responseData.recentUsers
       }))
       
       return { success: true }
@@ -98,9 +144,17 @@ export function useCandlesData(memorialId: string) {
     }
   }
 
-  // Get current user candle status
+  // Get current user candle status (checks both DB and localStorage)
   const getUserCandleStatus = async (): Promise<boolean> => {
-    if (!data.currentUser) return false
+    // First check localStorage for anonymous users (offline-first)
+    if (isCandleLitInLocalStorage(memorialId)) {
+      return true
+    }
+    
+    // Then check database for authenticated users
+    if (!data.currentUser) {
+      return false
+    }
     
     try {
       const supabase = createClient()
@@ -111,7 +165,7 @@ export function useCandlesData(memorialId: string) {
         .eq('user_id', data.currentUser.id)
         .eq('is_lit', true)
         .or('expires_at.is.null,expires_at.gt.now()')
-        .single()
+        .maybeSingle()
       
       return !!candleData
     } catch (error) {
