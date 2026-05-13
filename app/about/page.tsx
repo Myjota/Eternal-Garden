@@ -1,33 +1,3 @@
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Apie mus | Eternal Garden',
-  description:
-    'Sužinokite apie Eternal Garden misiją - sukurti skaitmeninę atminimo erdvę šeimoms ir bendruomenėms. Mūsų vertybės, komanda ir vizija.',
-  keywords: [
-    'apie eternal garden',
-    'misija',
-    'vertybės',
-    'atminimas',
-    'bendruomenė',
-  ],
-  openGraph: {
-    type: 'website',
-    title: 'Apie mus | Eternal Garden',
-    description:
-      'Sužinokite apie Eternal Garden misiją - sukurti skaitmeninę atminimo erdvę šeimoms ir bendruomenėms.',
-    url: 'https://eternalgarden.eu/about',
-    images: [
-      {
-        url: 'https://eternalgarden.eu/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Eternal Garden - Apie mus',
-      },
-    ],
-  },
-}
-
 'use client'
 
 import Image from 'next/image'

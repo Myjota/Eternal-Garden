@@ -1,27 +1,3 @@
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Taisyklės | Eternal Garden',
-  description:
-    'Skaitykite Eternal Garden taisykles ir sąlygas. Supraskite jūsų ir mūsų teises bei pareigomis naudojantis mūsų platforma.',
-  keywords: [
-    'taisyklės',
-    'sąlygos',
-    'vartotojų susitarimas',
-    'eternal garden',
-  ],
-  robots: {
-    index: true,
-    follow: true,
-  },
-  openGraph: {
-    type: 'website',
-    title: 'Taisyklės | Eternal Garden',
-    description: 'Skaitykite Eternal Garden taisykles ir sąlygas.',
-    url: 'https://eternalgarden.eu/terms',
-  },
-}
-
 'use client'
 
 import Link from 'next/link'

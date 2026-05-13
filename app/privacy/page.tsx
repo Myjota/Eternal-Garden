@@ -1,28 +1,3 @@
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Privatumo politika | Eternal Garden',
-  description:
-    'Skaitykite Eternal Garden privatumo politiką. Sužinokite, kaip mes saugome jūsų duomenis ir ką reiškia Jūsų privatumas mums.',
-  keywords: [
-    'privatumo politika',
-    'GDPR',
-    'duomenų saugumas',
-    'eternal garden',
-  ],
-  robots: {
-    index: true,
-    follow: true,
-  },
-  openGraph: {
-    type: 'website',
-    title: 'Privatumo politika | Eternal Garden',
-    description:
-      'Skaitykite Eternal Garden privatumo politiką ir kaip mes saugome jūsų duomenis.',
-    url: 'https://eternalgarden.eu/privacy',
-  },
-}
-
 'use client'
 
 import Link from 'next/link'
