@@ -5,13 +5,13 @@ import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations } from '@/lib/i18n'
-import { useLocale } from '@/lib/i18n/useLocale'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 const CONTACT_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'myjota@zohomail.eu'
 
 export default function ContactPage() {
-  const { locale } = useLocale({})
+  const { locale } = useLocaleContext()
   const t = getTranslations(locale)
 
   return (
