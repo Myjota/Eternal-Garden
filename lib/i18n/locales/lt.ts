@@ -73,6 +73,32 @@ export const lt = {
       },
     },
   },
+  aboutPage: {
+    title: 'Apie Eternal Garden',
+    description: 'Skaitmeninė atminimo vieta, skirta išsaugoti jūsų artimųjų gyvenimo istorijas ir prisiminimus ateities kartoms.',
+    missionTitle: 'Mūsų misija',
+    missionDescription: 'Mes tikime, kad kiekvienas žmogus nusipelno būti prisimintas. Eternal Garden sukuria erdvę, kurioje šeimos ir draugai gali dalintis prisiminimais, fotografijomis ir gyvenimo istorijomis.',
+    valuesTitle: 'Mūsų vertybės',
+    values: {
+      respect: {
+        title: 'Pagarba',
+        description: 'Kiekvienas atminimas yra unikalus ir vertas pagarbos. Mes kuriame erdvę, kurioje prisiminimai išlieka gyvai.',
+      },
+      community: {
+        title: 'Bendruomenė',
+        description: 'Tikime, kad dalintis prisiminimais padeda išgyventi netektį ir išsaugoti ryšį su prarastais artimaisiais.',
+      },
+      privacy: {
+        title: 'Privatumas',
+        description: 'Jūsų duomenys ir prisiminimai yra saugūs. Mes užtikriname aukščiausią privatumo lygį.',
+      },
+      sustainability: {
+        title: 'Tvarumas',
+        description: 'Kuriame ilgalaikę platformą, kuri išliks ateities kartoms ir padės išsaugoti šeimų istorijas.',
+      },
+    },
+    backToHome: 'Grįžti į pradžią',
+  },
   footer: {
     tagline: 'Išsaugokime prisiminimus. Įkvėpkime ateities kartas.',
     main: 'Pradžia',

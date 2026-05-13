@@ -75,6 +75,32 @@ export const en: Translations = {
       },
     },
   },
+  aboutPage: {
+    title: 'About Eternal Garden',
+    description: 'A digital memorial space designed to preserve the life stories and memories of your loved ones for future generations.',
+    missionTitle: 'Our Mission',
+    missionDescription: 'We believe every person deserves to be remembered. Eternal Garden creates a space where families and friends can share memories, photos, and life stories.',
+    valuesTitle: 'Our Values',
+    values: {
+      respect: {
+        title: 'Respect',
+        description: 'Every memory is unique and worthy of respect. We create a space where memories remain alive.',
+      },
+      community: {
+        title: 'Community',
+        description: 'We believe sharing memories helps to cope with loss and keep a connection with those who are gone.',
+      },
+      privacy: {
+        title: 'Privacy',
+        description: 'Your data and memories are safe. We ensure the highest level of privacy.',
+      },
+      sustainability: {
+        title: 'Sustainability',
+        description: 'We build a lasting platform that will endure for future generations and help preserve family histories.',
+      },
+    },
+    backToHome: 'Back to Home',
+  },
   footer: {
     tagline: 'Preserve memories. Inspire future generations.',
     main: 'Home',

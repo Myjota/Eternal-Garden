@@ -9,30 +9,26 @@ import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations } from '@/lib/i18n'
 import { useLocale } from '@/lib/i18n/useLocale'
 
-const values = [
+const values = (t: any) => [
   {
     icon: Heart,
-    title: 'Pagarba',
-    description:
-      'Kiekvienas atminimas yra unikalus ir vertas pagarbos. Mes kuriame erdvę, kurioje prisiminimai išlieka gyvai.',
+    title: t.aboutPage.values.respect.title,
+    description: t.aboutPage.values.respect.description,
   },
   {
     icon: Users,
-    title: 'Bendruomenė',
-    description:
-      'Tikime, kad dalintis prisiminimais padeda išgyventi netektį ir išsaugoti ryšį su prarastais artimaisiais.',
+    title: t.aboutPage.values.community.title,
+    description: t.aboutPage.values.community.description,
   },
   {
     icon: Shield,
-    title: 'Privatumas',
-    description:
-      'Jūsų duomenys ir prisiminimai yra saugūs. Mes užtikriname aukščiausią privatumo lygį.',
+    title: t.aboutPage.values.privacy.title,
+    description: t.aboutPage.values.privacy.description,
   },
   {
     icon: Leaf,
-    title: 'Tvarumas',
-    description:
-      'Kuriame ilgalaikę platformą, kuri išliks ateities kartoms ir padės išsaugoti šeimų istorijas.',
+    title: t.aboutPage.values.sustainability.title,
+    description: t.aboutPage.values.sustainability.description,
   },
 ]
 
@@ -61,11 +57,11 @@ export default function AboutPage() {
               </div>
 
               <h1 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-                Apie Eternal Garden
+                {t.aboutPage.title}
               </h1>
 
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Skaitmeninė atminimo vieta, skirta išsaugoti jūsų artimųjų gyvenimo istorijas ir prisiminimus ateities kartoms.
+                {t.aboutPage.description}
               </p>
             </div>
 
@@ -74,13 +70,11 @@ export default function AboutPage() {
               <Card>
                 <CardContent className="p-8">
                   <h2 className="text-2xl font-serif font-semibold mb-4 text-center">
-                    Mūsų misija
+                    {t.aboutPage.missionTitle}
                   </h2>
 
                   <p className="text-muted-foreground leading-relaxed text-center">
-                    Mes tikime, kad kiekvienas žmogus nusipelno būti prisimintas.
-                    Eternal Garden sukuria erdvę, kurioje šeimos ir draugai gali
-                    dalintis prisiminimais, fotografijomis ir gyvenimo istorijomis.
+                    {t.aboutPage.missionDescription}
                   </p>
                 </CardContent>
               </Card>
@@ -89,11 +83,11 @@ export default function AboutPage() {
             {/* Values */}
             <div className="mb-16">
               <h2 className="text-2xl font-serif font-semibold mb-8 text-center">
-                Mūsų vertybės
+                {t.aboutPage.valuesTitle}
               </h2>
 
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                {values.map((value) => (
+                {values(t).map((value) => (
                   <Card key={value.title}>
                     <CardContent className="p-6 text-center">
                       <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -118,7 +112,7 @@ export default function AboutPage() {
               <Button variant="ghost" asChild>
                 <Link href="/">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Grįžti į pradžią
+                  {t.aboutPage.backToHome}
                 </Link>
               </Button>
             </div>
