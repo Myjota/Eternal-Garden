@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ThemeProvider } from '@/lib/themes/theme-context'
 import { getTranslations } from '@/lib/i18n'
-import { useLocale } from '@/lib/i18n/useLocale'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 const values = (t: any) => [
   {
@@ -33,7 +33,7 @@ const values = (t: any) => [
 ]
 
 export default function AboutPage() {
-  const { locale, setLocale } = useLocale({})
+  const { locale } = useLocaleContext()
   const t = getTranslations(locale)
 
   return (

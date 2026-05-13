@@ -30,7 +30,7 @@ export function useLocale(options: UseLocaleOptions = {}) {
           .eq('id', user.id)
           .single()
         
-        if (profile?.preferred_language && (profile.preferred_language === 'lt' || profile.preferred_language === 'en')) {
+        if (profile?.preferred_language && (profile.preferred_language === 'lt' || profile.preferred_language === 'en' || profile.preferred_language === 'ru')) {
           setLocaleState(profile.preferred_language as Locale)
           // Also save to localStorage for faster loading next time
           localStorage.setItem(LOCALE_STORAGE_KEY, profile.preferred_language)
@@ -41,7 +41,7 @@ export function useLocale(options: UseLocaleOptions = {}) {
       
       // Fall back to localStorage
       const stored = localStorage.getItem(LOCALE_STORAGE_KEY)
-      if (stored && (stored === 'lt' || stored === 'en')) {
+      if (stored && (stored === 'lt' || stored === 'en' || stored === 'ru')) {
         setLocaleState(stored as Locale)
       }
       
