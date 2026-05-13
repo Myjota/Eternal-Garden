@@ -5,12 +5,12 @@ import { ArrowLeft, Flower2, Leaf, Trees } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { getTranslations } from '@/lib/i18n'
-import { useLocale } from '@/lib/i18n/useLocale'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 import SupportBox from '@/components/support-box'
 
 export default function SupportPage() {
-  const { locale } = useLocale({})
+  const { locale } = useLocaleContext()
   const t = getTranslations(locale)
 
   return (
