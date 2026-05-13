@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 import { HeroSection } from '@/components/landing/hero-section'
 import { FeaturesSection } from '@/components/landing/features-section'
+import { VisionSection } from '@/components/landing/vision-section'
 import { FamousSection } from '@/components/landing/famous-section'
 
 import { ThemeProvider } from '@/lib/themes/theme-context'
@@ -78,6 +79,7 @@ export default function HomePage() {
 
           <HeroSection t={t} />
           <FeaturesSection t={t} />
+          <VisionSection t={t} />
           <FamousSection t={t} />
 
         </main>

@@ -56,6 +56,25 @@ export const en: Translations = {
     title: 'Famous Lithuanians',
     viewMemorial: 'View Memorial',
   },
+  visionSection: {
+    label: 'Our Vision',
+    title: 'Building memories that live on',
+    description: 'Eternal Garden brings together memories, traditions, and community so every life story is preserved with care, respect, and meaning for future generations.',
+    pillars: {
+      memory: {
+        title: 'Enduring Legacy',
+        description: 'We create a place where life stories, family traditions, and personal remembrances are lovingly preserved.',
+      },
+      tribute: {
+        title: 'Quiet Tribute',
+        description: 'Light a candle, leave condolences, and honor loved ones whenever you wish.',
+      },
+      community: {
+        title: 'Community Connection',
+        description: 'We encourage sharing memories and strengthening ties across families and generations.',
+      },
+    },
+  },
   footer: {
     tagline: 'Preserve memories. Inspire future generations.',
     main: 'Home',

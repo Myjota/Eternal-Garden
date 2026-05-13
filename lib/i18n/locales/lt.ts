@@ -54,6 +54,25 @@ export const lt = {
     title: 'Žymūs Lietuvos žmonės',
     viewMemorial: 'Peržiūrėti atminimą',
   },
+  visionSection: {
+    label: 'Mūsų vizija',
+    title: 'Kurkime atminimą, kuris gyvena toliau',
+    description: 'Eternal Garden jungia prisiminimus, tradicijas ir bendruomenę, kad kiekvienas gyvenimo kelias būtų išsaugotas pagarbiai, jautriai ir ateities kartoms.',
+    pillars: {
+      memory: {
+        title: 'Išliekanti istorinė vertė',
+        description: 'Sukuriame prasmingą vietą, kurioje saugoma gyvenimo istorija, šeimos tradicijos ir asmeninė atminimo žinutė.',
+      },
+      tribute: {
+        title: 'Tylus pagerbimas',
+        description: 'Leidžiame uždegti žvakelę, palikti užuojautą ir pagerbti artimuosius bet kuriuo metu.',
+      },
+      community: {
+        title: 'Bendruomenės ryšys',
+        description: 'Skatiname dalintis prisiminimais ir kurti tvirtą ryšį tarp kartų bei žmonių.',
+      },
+    },
+  },
   footer: {
     tagline: 'Išsaugokime prisiminimus. Įkvėpkime ateities kartas.',
     main: 'Pradžia',
