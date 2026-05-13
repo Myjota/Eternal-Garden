@@ -22,6 +22,48 @@ export const lt = {
     description: 'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
     searchPlaceholder: 'Ieškoti atminimų, žmonių, vietų...',
   },
+  supportPage: {
+    title: 'Parama',
+    description:
+      'Jūsų parama padeda puoselėti skaitmeninį atminties sodą — vietą, kur prisiminimai, istorijos ir meilė išlieka gyvi ateities kartoms.',
+    whyTitle: 'Kodėl verta paremti?',
+    benefits: {
+      newFeatures: {
+        title: 'Naujos funkcijos',
+        description:
+          'Kuriame naujus būdus saugoti prisiminimus, istorijas ir šeimos paveldą.',
+      },
+      stableServers: {
+        title: 'Stabilūs serveriai',
+        description:
+          'Užtikriname, kad memorialai ir prisiminimai išliktų saugūs ilgus metus.',
+      },
+      newDesigns: {
+        title: 'Nauji dizainai',
+        description:
+          'Kuriame jaukią ir estetišką aplinką, primenančią tikrą atminties sodą.',
+      },
+      freeServices: {
+        title: 'Nemokamos paslaugos',
+        description:
+          'Siekiame, kad Eternal Garden būtų prieinamas visiems žmonėms.',
+      },
+    },
+    backButton: 'Grįžti į pradžią',
+    supportBoxTitle: 'Eternal Garden',
+    supportBoxSubtitle: 'Skaitmeninis atminties sodas',
+    supportBoxDescription:
+      'Jūsų parama padeda auginti atminties sodą, kuriame prisiminimai išlieka gyvi.',
+    supportBox: {
+      receiverLabel: 'Gavėjas',
+      bankLabel: 'Bankas',
+      purposeLabel: 'Paskirtis',
+      ibanLabel: 'IBAN',
+      copyIban: 'Kopijuoti IBAN',
+      copied: 'Nukopijuota',
+      thankYou: 'Ačiū, kad padedate šiam sodui augti 🌱',
+    },
+  },
   features: {
     title: 'Kodėl verta mus rinktis',
     description: 'Mūsų novatoriškas interneto portalas siūlo daugybę funkcijų, skirtų sukurti ilgalaikį atminimą jūsų artimiesiems:',
@@ -103,11 +145,20 @@ export const lt = {
     tagline: 'Išsaugokime prisiminimus. Įkvėpkime ateities kartas.',
     main: 'Pradžia',
     aboutUs: 'Apie mus',
+    contact: 'Kontaktai',
     faq: 'D.U.K.',
     donate: 'Paremti',
     privacyPolicy: 'Privatumo politika',
     terms: 'Pirkimo taisyklės',
     copyright: '© 2024 Eternal Garden. Visos teisės saugomos.',
+  },
+  contactPage: {
+    title: 'Kontaktai',
+    description: 'Susisiekite su Eternal Garden. Mes pasiruošę padėti ir atsakyti į visus klausimus.',
+    getInTouchTitle: 'Susisiekite su mumis',
+    contactInstructions: 'Parašykite el. paštu arba pasirinkite kitą jums patogią susisiekimo formą.',
+    emailLabel: 'El. paštas',
+    backButton: 'Grįžti į pradžią',
   },
   auth: {
     login: 'Prisijungti',

@@ -24,6 +24,48 @@ export const en: Translations = {
     description: 'Create an eternal memory together. Preserve the life stories of your loved ones for future generations.',
     searchPlaceholder: 'Search memories, people, places...',
   },
+  supportPage: {
+    title: 'Support',
+    description:
+      'Your support helps nurture the digital garden of memory — a place where memories, stories, and love remain alive for future generations.',
+    whyTitle: 'Why support us?',
+    benefits: {
+      newFeatures: {
+        title: 'New Features',
+        description:
+          'We develop new ways to preserve memories, stories, and family heritage.',
+      },
+      stableServers: {
+        title: 'Reliable Servers',
+        description:
+          'We ensure memorials and memories remain safe for years to come.',
+      },
+      newDesigns: {
+        title: 'Fresh Designs',
+        description:
+          'We create a cozy and beautiful environment reminiscent of a real garden of memory.',
+      },
+      freeServices: {
+        title: 'Free Services',
+        description:
+          'We aim to keep Eternal Garden accessible to everyone.',
+      },
+    },
+    backButton: 'Back to Home',
+    supportBoxTitle: 'Eternal Garden',
+    supportBoxSubtitle: 'Digital Garden of Memory',
+    supportBoxDescription:
+      'Your support helps grow the garden of memory where memories stay alive.',
+    supportBox: {
+      receiverLabel: 'Receiver',
+      bankLabel: 'Bank',
+      purposeLabel: 'Purpose',
+      ibanLabel: 'IBAN',
+      copyIban: 'Copy IBAN',
+      copied: 'Copied',
+      thankYou: 'Thank you for helping this garden grow 🌱',
+    },
+  },
   features: {
     title: 'Why Choose Us',
     description: 'Our innovative online portal offers many features designed to create a lasting memory for your loved ones:',
@@ -105,11 +147,20 @@ export const en: Translations = {
     tagline: 'Preserve memories. Inspire future generations.',
     main: 'Home',
     aboutUs: 'About Us',
+    contact: 'Contact',
     faq: 'FAQ',
     donate: 'Donate',
     privacyPolicy: 'Privacy Policy',
     terms: 'Terms and Conditions',
     copyright: '© 2024 Eternal Garden. All rights reserved.',
+  },
+  contactPage: {
+    title: 'Contact',
+    description: 'Reach out to Eternal Garden. We are here to help and answer any questions.',
+    getInTouchTitle: 'Get in Touch',
+    contactInstructions: 'Send us an email or use the contact options below.',
+    emailLabel: 'Email',
+    backButton: 'Back to Home',
   },
   auth: {
     login: 'Login',

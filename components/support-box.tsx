@@ -5,6 +5,8 @@ import { Coffee, Copy, Check, Heart, QrCode, Leaf } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { getTranslations } from '@/lib/i18n'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 const DATA = {
   iban: 'LT12 3456 7890 1234 5678',
@@ -15,6 +17,8 @@ const DATA = {
 
 export default function SupportBox() {
   const [copied, setCopied] = useState(false)
+  const { locale } = useLocaleContext()
+  const t = getTranslations(locale)
 
   const copyIBAN = async () => {
     await navigator.clipboard.writeText(DATA.iban)
@@ -43,11 +47,11 @@ export default function SupportBox() {
 
               <div>
                 <p className="text-xs text-emerald-300/70">
-                  Skaitmeninis atminties sodas
+                  {t.supportPage.supportBoxSubtitle}
                 </p>
 
                 <h2 className="text-2xl font-semibold">
-                  Eternal Garden
+                  {t.supportPage.supportBoxTitle}
                 </h2>
               </div>
 
@@ -62,8 +66,7 @@ export default function SupportBox() {
           {/* DESCRIPTION */}
           <div className="mb-8">
             <p className="text-emerald-100/70 text-sm leading-relaxed">
-              Jūsų parama padeda auginti atminties sodą,
-              kuriame prisiminimai išlieka gyvi.
+              {t.supportPage.supportBoxDescription}
             </p>
           </div>
 
@@ -71,17 +74,17 @@ export default function SupportBox() {
           <div className="space-y-3 mb-6 text-sm">
 
             <div className="flex justify-between text-emerald-200/70">
-              <span>Gavėjas</span>
+              <span>{t.supportPage.supportBox.receiverLabel}</span>
               <span className="text-emerald-100">{DATA.receiver}</span>
             </div>
 
             <div className="flex justify-between text-emerald-200/70">
-              <span>Bankas</span>
+              <span>{t.supportPage.supportBox.bankLabel}</span>
               <span className="text-emerald-100">{DATA.bank}</span>
             </div>
 
             <div className="flex justify-between text-emerald-200/70">
-              <span>Paskirtis</span>
+              <span>{t.supportPage.supportBox.purposeLabel}</span>
               <span className="text-emerald-100 text-right max-w-[180px]">
                 {DATA.purpose}
               </span>
@@ -94,7 +97,7 @@ export default function SupportBox() {
 
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-emerald-300/60">
-                IBAN
+                {t.supportPage.supportBox.ibanLabel}
               </span>
               <QrCode className="h-4 w-4 text-emerald-400/60" />
             </div>
@@ -113,19 +116,19 @@ export default function SupportBox() {
             {copied ? (
               <>
                 <Check className="h-5 w-5 mr-2" />
-                Nukopijuota
+                {t.supportPage.supportBox.copied}
               </>
             ) : (
               <>
                 <Copy className="h-5 w-5 mr-2" />
-                Kopijuoti IBAN
+                {t.supportPage.supportBox.copyIban}
               </>
             )}
           </Button>
 
           {/* FOOTER */}
           <p className="text-center text-xs text-emerald-300/50 mt-6">
-            Ačiū, kad padedate šiam sodui augti 🌱
+            {t.supportPage.supportBox.thankYou}
           </p>
 
         </CardContent>

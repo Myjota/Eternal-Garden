@@ -48,6 +48,9 @@ export function Footer({ t: providedT }: FooterProps) {
             <Link href="/about" className="hover:text-white transition-colors">
               {t.footer.aboutUs}
             </Link>
+            <Link href="/kontaktai" className="hover:text-white transition-colors">
+              {t.footer.contact}
+            </Link>
             <Link href="/privacy" className="hover:text-white transition-colors">
               {t.footer.privacyPolicy}
             </Link>

@@ -38,13 +38,11 @@ export default function SupportPage() {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-emerald-700 via-green-600 to-teal-600 bg-clip-text text-transparent">
-            Eternal Garden
+            {t.supportPage.title}
           </h1>
 
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Jūsų parama padeda puoselėti skaitmeninį atminties sodą —
-            vietą, kur prisiminimai, istorijos ir meilė išlieka gyvi
-            ateities kartoms.
+            {t.supportPage.description}
           </p>
 
         </div>
@@ -65,7 +63,7 @@ export default function SupportPage() {
             <div className="relative">
 
               <h2 className="text-3xl md:text-4xl font-serif font-semibold text-center mb-10 text-emerald-800 dark:text-emerald-300">
-                Kodėl verta paremti?
+                {t.supportPage.whyTitle}
               </h2>
 
               <div className="grid gap-5 md:grid-cols-2">
@@ -74,13 +72,12 @@ export default function SupportPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <Flower2 className="h-5 w-5 text-emerald-600" />
                     <h3 className="font-semibold">
-                      Naujos funkcijos
+                      {t.supportPage.benefits.newFeatures.title}
                     </h3>
                   </div>
 
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Kuriame naujus būdus saugoti prisiminimus,
-                    istorijas ir šeimos paveldą.
+                    {t.supportPage.benefits.newFeatures.description}
                   </p>
                 </div>
 
@@ -88,13 +85,12 @@ export default function SupportPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <Trees className="h-5 w-5 text-green-600" />
                     <h3 className="font-semibold">
-                      Stabilūs serveriai
+                      {t.supportPage.benefits.stableServers.title}
                     </h3>
                   </div>
 
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Užtikriname, kad memorialai ir prisiminimai
-                    išliktų saugūs ilgus metus.
+                    {t.supportPage.benefits.stableServers.description}
                   </p>
                 </div>
 
@@ -102,13 +98,12 @@ export default function SupportPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <Leaf className="h-5 w-5 text-teal-600" />
                     <h3 className="font-semibold">
-                      Nauji dizainai
+                      {t.supportPage.benefits.newDesigns.title}
                     </h3>
                   </div>
 
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Kuriame jaukią ir estetišką aplinką,
-                    primenančią tikrą atminties sodą.
+                    {t.supportPage.benefits.newDesigns.description}
                   </p>
                 </div>
 
@@ -116,13 +111,12 @@ export default function SupportPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <Flower2 className="h-5 w-5 text-lime-600" />
                     <h3 className="font-semibold">
-                      Nemokamos paslaugos
+                      {t.supportPage.benefits.freeServices.title}
                     </h3>
                   </div>
 
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Siekiame, kad Eternal Garden būtų prieinamas
-                    visiems žmonėms.
+                    {t.supportPage.benefits.freeServices.description}
                   </p>
                 </div>
 
@@ -144,7 +138,7 @@ export default function SupportPage() {
           >
             <Link href="/">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Grįžti į pradžią
+              {t.supportPage.backButton}
             </Link>
           </Button>
 
