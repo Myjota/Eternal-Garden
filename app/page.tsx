@@ -78,8 +78,8 @@ export default function HomePage() {
         <main className="flex-1">
 
           <HeroSection t={t} />
-          <FeaturesSection t={t} />
           <VisionSection t={t} />
+          <FeaturesSection t={t} />
           <FamousSection t={t} />
 
         </main>

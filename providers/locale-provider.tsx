@@ -9,7 +9,7 @@ import {
 
 import { createClient } from '@/lib/supabase/client'
 
-type Locale = 'lt' | 'en'
+import { type Locale } from '@/lib/i18n/config'
 
 interface LocaleContextType {
   locale: Locale
