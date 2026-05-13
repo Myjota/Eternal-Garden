@@ -21,13 +21,28 @@ export async function GET(request: NextRequest) {
     // Get recent users
     const recentUsers = await getRecentCandleUsers(memorialId)
     
+    // Check if authenticated user already lit a candle for this memorial
+    let userHasLitCandle = false
+    if (user) {
+      const { data: existingCandle } = await supabase
+        .from('candles')
+        .select('id')
+        .eq('memorial_id', memorialId)
+        .eq('user_id', user.id)
+        .eq('is_lit', true)
+        .maybeSingle()
+      
+      userHasLitCandle = !!existingCandle
+    }
+    
     return NextResponse.json({
       stats,
       recentUsers,
       currentUser: user ? {
         id: user.id,
         name: user.user_metadata?.name || user.email?.split('@')[0] || 'Anonymous'
-      } : null
+      } : null,
+      userHasLitCandle
     })
   } catch (error) {
     console.error('Error fetching candle data:', error)

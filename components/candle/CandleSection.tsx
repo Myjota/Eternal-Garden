@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CandleLit, CandleUnlit } from "./Candle";
 import { useCandlesData } from "@/hooks/useCandlesData";
 
@@ -15,11 +15,10 @@ export function CandleSection({
   initialLit = false,
   onLight,
 }: CandleSectionProps) {
-  const [isLit, setIsLit] = useState(initialLit);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'error' | 'success' | 'info'; text: string } | null>(null);
 
-  // Real Supabase data
+  // Real Supabase data - userHasLitCandle is now tracked in the hook
   const {
     stats,
     recentUsers,
@@ -27,17 +26,11 @@ export function CandleSection({
     loading: dataLoading,
     error,
     lightCandle,
-    getUserCandleStatus,
+    userHasLitCandle,
   } = useCandlesData(memorialId);
 
-  // Check if user already lit candle on component mount
-  useEffect(() => {
-    if (!dataLoading) {
-      getUserCandleStatus().then((alreadyLit) => {
-        setIsLit(alreadyLit);
-      });
-    }
-  }, [dataLoading, getUserCandleStatus]);
+  // Use the hook's state directly - no need for separate useEffect
+  const isLit = userHasLitCandle || initialLit;
 
   async function handleLight() {
     if (isLit || loading) return;
@@ -51,14 +44,14 @@ export function CandleSection({
       const result = await lightCandle(userName);
 
       if (result.success) {
-        setIsLit(true);
+        // userHasLitCandle will be updated by the hook automatically
         setMessage({
           type: 'success',
           text: '🕯️ Ačiū už pagarbą! Žvakė šviečia jūsų artimajam.'
         });
         onLight?.();
       } else if (result.alreadyLit) {
-        setIsLit(true);
+        // userHasLitCandle will be updated by the hook automatically
         setMessage({
           type: 'info',
           text: 'Jūs jau uždėgėte žvaką šiam memorialo. 🕯️'
