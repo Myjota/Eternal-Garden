@@ -1,3 +1,34 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'DUK - Dažniausiai Užduodami Klausimai | Eternal Garden',
+  description:
+    'Raskite atsakymus į dažniausiai užduodamus klausimus apie Eternal Garden platformą, atminimo puslapius, saugumą ir mokamas paslaugas.',
+  keywords: [
+    'DUK',
+    'dažniausiai užduodami klausimai',
+    'pagalba',
+    'eternal garden',
+    'atminimas',
+    'memorialas',
+  ],
+  openGraph: {
+    type: 'website',
+    title: 'DUK | Eternal Garden',
+    description:
+      'Raskite atsakymus į dažniausiai užduodamus klausimus apie Eternal Garden platformą.',
+    url: 'https://eternalgarden.eu/faq',
+    images: [
+      {
+        url: 'https://eternalgarden.eu/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Eternal Garden - DUK',
+      },
+    ],
+  },
+}
+
 'use client'
 
 import Link from 'next/link'

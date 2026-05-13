@@ -1,0 +1,35 @@
+# Robots.txt for Eternal Garden - eternalgarden.eu
+
+# Allow all bots to crawl
+User-agent: *
+Allow: /
+
+# Disallow private pages
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /settings
+Disallow: /auth
+Disallow: /create
+Disallow: /api
+
+# Allow specific API endpoints for indexing
+Allow: /api/memorials
+Allow: /sitemap.xml
+Allow: /feed.xml
+
+# Crawl delay to be respectful to server
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://eternalgarden.eu/sitemap.xml
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10

@@ -40,9 +40,90 @@ export const metadata: Metadata = {
   },
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+  keywords: [
+    'atminimas',
+    'memorialas',
+    'elektroninis memorialas',
+    'sėpulkos',
+    'maldos',
+    'giminės',
+    'šeima',
+    'atmintis',
+    'gyvenimo istorija',
+    'nekrologas',
+    'artumo',
+    'skaitmeninė atmintis',
+    'šeimos archyvas',
+    'kartų perrašymas',
+    'žmonių pagerbimas',
+    'eternal garden',
+    'amžiną atminimą',
+    'sudžia',
+    'memory',
+    'memorial',
+    'digital memorial',
+    'condolences',
+    'family history',
+    'obituary',
+  ],
+  authors: [
+    {
+      name: 'Eternal Garden Team',
+      url: siteUrl,
+    },
+  ],
+  creator: 'Eternal Garden',
+  publisher: 'Eternal Garden',
   verification: {
     google: 'bSkiHT-YJWJl9Dm5J3A5omcwFLdlIAvZyuj3bT8MfTw',
   },
+  openGraph: {
+    type: 'website',
+    locale: 'lt_LT',
+    alternateLocale: ['en_US'],
+    url: siteUrl,
+    siteName: siteName,
+    title: `${siteName} | Skaitmeninė atminimo vieta`,
+    description:
+      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: `${siteName} - Skaitmeninė atminimo vieta`,
+        type: 'image/png',
+      },
+      {
+        url: `${siteUrl}/og-image-square.png`,
+        width: 800,
+        height: 800,
+        alt: `${siteName} - Skaitmeninė atminimo vieta`,
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteName} | Skaitmeninė atminimo vieta`,
+    description:
+      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+    creator: '@eternalgarden',
+    images: [`${siteUrl}/og-image.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  },
+  category: 'Memorial',
+  classification: 'Memorial Service',
 }
 
 export const viewport: Viewport = {

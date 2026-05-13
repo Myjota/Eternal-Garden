@@ -1,3 +1,24 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Pagalba ir palaikymas | Eternal Garden',
+  description:
+    'Skaitykite Eternal Garden pagalbos ir paramos informaciją. Susisiekite su mūsų komanda, jei turite klausimų arba problemų.',
+  keywords: [
+    'pagalba',
+    'paramos',
+    'kontaktai',
+    'eternal garden',
+  ],
+  openGraph: {
+    type: 'website',
+    title: 'Pagalba ir palaikymas | Eternal Garden',
+    description:
+      'Susisiekite su Eternal Garden pagalbos komanda, jei reikalinga pagalba.',
+    url: 'https://eternalgarden.eu/support',
+  },
+}
+
 'use client'
 
 import Link from 'next/link'
