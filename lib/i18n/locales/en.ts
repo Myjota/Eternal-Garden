@@ -57,21 +57,21 @@ export const en: Translations = {
     viewMemorial: 'View Memorial',
   },
   visionSection: {
-    label: 'Our Vision',
-    title: 'Building memories that live on',
-    description: 'Eternal Garden brings together memories, traditions, and community so every life story is preserved with care, respect, and meaning for future generations.',
+    label: 'Our Philosophy',
+    title: 'More than memorials — a repository of human memory',
+    description: 'After hundreds or even thousands of years, many graves will vanish. Headstones will fade, and family stories will scatter in time. Eternal Garden is a digital garden where memory can remain forever: a place where family trees, stories, photos, and remembrances are passed from generation to generation.',
     pillars: {
       memory: {
-        title: 'Enduring Legacy',
-        description: 'We create a place where life stories, family traditions, and personal remembrances are lovingly preserved.',
+        title: 'Lasting Memory',
+        description: 'More than a place to honor — a storehouse where humanity’s memories endure even when graves disappear.',
       },
       tribute: {
-        title: 'Quiet Tribute',
-        description: 'Light a candle, leave condolences, and honor loved ones whenever you wish.',
+        title: 'Connection to the Future',
+        description: 'A bridge between past and future: a place where ancestors’ stories continue and are rediscovered by tomorrow’s generations.',
       },
       community: {
-        title: 'Community Connection',
-        description: 'We encourage sharing memories and strengthening ties across families and generations.',
+        title: 'Heritage of Origin',
+        description: 'You may never visit every ancestor’s grave, but here all family histories live together in one eternal garden.',
       },
     },
   },

@@ -55,21 +55,21 @@ export const lt = {
     viewMemorial: 'Peržiūrėti atminimą',
   },
   visionSection: {
-    label: 'Mūsų vizija',
-    title: 'Kurkime atminimą, kuris gyvena toliau',
-    description: 'Eternal Garden jungia prisiminimus, tradicijas ir bendruomenę, kad kiekvienas gyvenimo kelias būtų išsaugotas pagarbiai, jautriai ir ateities kartoms.',
+    label: 'Mūsų filosofija',
+    title: 'Ne tik memorialai – tai amžinos atminties saugykla',
+    description: 'Praėjus šimtams metų, daugelio kapų neliks. Antkapiai sunyks, o šeimos istorijos išsisklaidys laike. Eternal Garden yra skaitmeninis sodas, kuriame atminimas gali išlikti amžinai: šeimos medis, istorijos, nuotraukos ir prisiminimai perduodami iš kartos į kartą.',
     pillars: {
       memory: {
-        title: 'Išliekanti istorinė vertė',
-        description: 'Sukuriame prasmingą vietą, kurioje saugoma gyvenimo istorija, šeimos tradicijos ir asmeninė atminimo žinutė.',
+        title: 'Ilgalaikė atmintis',
+        description: 'Ne tik vieta pagerbti, bet ir saugykla, kurioje žmonijos prisiminimai išlieka net tada, kai kapai išnyksta.',
       },
       tribute: {
-        title: 'Tylus pagerbimas',
-        description: 'Leidžiame uždegti žvakelę, palikti užuojautą ir pagerbti artimuosius bet kuriuo metu.',
+        title: 'Ateities ryšys',
+        description: 'Tai jungtis tarp praeities ir ateities: vieta, kur protėvių pasakojimai gyvena toliau ir atrandami naujose kartose.',
       },
       community: {
-        title: 'Bendruomenės ryšys',
-        description: 'Skatiname dalintis prisiminimais ir kurti tvirtą ryšį tarp kartų bei žmonių.',
+        title: 'Kilmės paveldas',
+        description: 'Jos nebus galima aplankyti vienu metu, bet mes padedame saugoti visas šeimos istorijas viename amžiname sode.',
       },
     },
   },
