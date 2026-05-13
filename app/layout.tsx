@@ -29,7 +29,7 @@ const playfair = Playfair_Display({
   display: 'swap',
 })
 
-const siteUrl = 'https://your-domain.com'
+const siteUrl = 'https://eternalgarden.eu'
 const siteName = 'Eternal Garden'
 
 export const metadata: Metadata = {
@@ -40,6 +40,9 @@ export const metadata: Metadata = {
   },
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+  verification: {
+    google: 'bSkiHT-YJWJl9Dm5J3A5omcwFLdlIAvZyuj3bT8MfTw',
+  },
 }
 
 export const viewport: Viewport = {
