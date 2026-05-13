@@ -69,8 +69,7 @@ export async function POST(request: NextRequest) {
     const result = await lightCandle(
       memorialId,
       user?.id || null,
-      finalUserName,
-      userAvatar || user?.user_metadata?.avatar
+      finalUserName
     )
     
     // If already lit, return 409 Conflict status
