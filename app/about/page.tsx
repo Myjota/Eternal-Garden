@@ -19,6 +19,7 @@ function MarbleCanvas() {
     if (!ctx) return
 
     let animationFrameId: number
+    let t = 0
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -28,70 +29,181 @@ function MarbleCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    const particles = Array.from({ length: 140 }).map(() => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      radius: Math.random() * 2.6 + 0.8,
-      speedX: (Math.random() - 0.5) * 0.22,
-      speedY: (Math.random() - 0.5) * 0.22,
-      alpha: Math.random() * 0.14 + 0.03,
+    // STATIC VEINS
+    const veins = Array.from({ length: 7 }).map((_, i) => {
+      const points = []
+
+      let x = Math.random() * canvas.width
+      let drift = (Math.random() - 0.5) * 0.6
+
+      for (let y = -100; y < canvas.height + 100; y += 60) {
+        x += Math.sin(y * 0.003 + i * 2) * 18 + drift * 12
+
+        points.push({
+          x,
+          y,
+        })
+      }
+
+      return points
+    })
+
+    // SOFT PARTICLES
+    const particles = Array.from({
+      length: window.innerWidth < 768 ? 40 : 70,
+    }).map(() => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.2,
+      alpha: Math.random() * 0.04 + 0.01,
+      speed: Math.random() * 0.08 + 0.02,
     }))
 
     const render = () => {
+      t += 0.0015
+
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // marble base
-      const g = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-      g.addColorStop(0, '#f8f3ea')
-      g.addColorStop(0.5, '#efe7db')
-      g.addColorStop(1, '#f6f1e7')
+      // BASE GRADIENT
+      const g = ctx.createLinearGradient(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      )
+
+      g.addColorStop(0, '#f8f4ed')
+      g.addColorStop(0.5, '#efe6d8')
+      g.addColorStop(1, '#f3eee6')
 
       ctx.fillStyle = g
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // marble veins (stronger, more visible)
-      ctx.globalAlpha = 0.45
-      for (let i = 0; i < 22; i++) {
-        ctx.beginPath()
-        ctx.moveTo(Math.random() * canvas.width, 0)
+      // AMBIENT LIGHT
+      const glow1 = ctx.createRadialGradient(
+        canvas.width * 0.2,
+        canvas.height * 0.3,
+        0,
+        canvas.width * 0.2,
+        canvas.height * 0.3,
+        600
+      )
 
-        for (let y = 0; y < canvas.height; y += 35) {
-          ctx.lineTo(
-            Math.random() * canvas.width + Math.sin(y * 0.012 + i) * 110,
-            y
-          )
+      glow1.addColorStop(0, 'rgba(255,255,255,0.18)')
+      glow1.addColorStop(1, 'rgba(255,255,255,0)')
+
+      ctx.fillStyle = glow1
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // SECOND GLOW
+      const glow2 = ctx.createRadialGradient(
+        canvas.width * 0.8,
+        canvas.height * 0.7,
+        0,
+        canvas.width * 0.8,
+        canvas.height * 0.7,
+        700
+      )
+
+      glow2.addColorStop(0, 'rgba(255,255,255,0.12)')
+      glow2.addColorStop(1, 'rgba(255,255,255,0)')
+
+      ctx.fillStyle = glow2
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // MARBLE VEINS
+      veins.forEach((vein, i) => {
+        ctx.beginPath()
+
+        vein.forEach((p, index) => {
+          const animatedX =
+            p.x + Math.sin(t + p.y * 0.002 + i) * 6
+
+          if (index === 0) {
+            ctx.moveTo(animatedX, p.y)
+          } else {
+            ctx.lineTo(animatedX, p.y)
+          }
+        })
+
+        ctx.strokeStyle =
+          i % 2 === 0
+            ? 'rgba(120,110,100,0.06)'
+            : 'rgba(160,150,140,0.04)'
+
+        ctx.lineWidth = i % 3 === 0 ? 2 : 1
+
+        ctx.stroke()
+      })
+
+      // SOFT DEPTH CLOUDS
+      for (let i = 0; i < 3; i++) {
+        const x =
+          canvas.width * (0.2 + i * 0.3) +
+          Math.sin(t + i) * 40
+
+        const y =
+          canvas.height * (0.3 + i * 0.2)
+
+        const cloud = ctx.createRadialGradient(
+          x,
+          y,
+          0,
+          x,
+          y,
+          400
+        )
+
+        cloud.addColorStop(
+          0,
+          'rgba(255,255,255,0.08)'
+        )
+
+        cloud.addColorStop(
+          1,
+          'rgba(255,255,255,0)'
+        )
+
+        ctx.fillStyle = cloud
+
+        ctx.fillRect(
+          x - 400,
+          y - 400,
+          800,
+          800
+        )
+      }
+
+      // FLOATING DUST
+      particles.forEach((p) => {
+        p.y -= p.speed
+
+        if (p.y < -10) {
+          p.y = canvas.height + 10
+          p.x = Math.random() * canvas.width
         }
 
-        ctx.strokeStyle = 'rgba(110,100,90,0.10)'
-        ctx.lineWidth = 1
-        ctx.stroke()
-      }
-      ctx.globalAlpha = 1
-
-      // particles
-      particles.forEach((p) => {
-        p.x += p.speedX
-        p.y += p.speedY
-
-        if (p.x < 0) p.x = canvas.width
-        if (p.x > canvas.width) p.x = 0
-        if (p.y < 0) p.y = canvas.height
-        if (p.y > canvas.height) p.y = 0
-
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(70,60,55,${p.alpha})`
+
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+
+        ctx.fillStyle = `rgba(90,80,70,${p.alpha})`
+
         ctx.fill()
       })
 
-      animationFrameId = requestAnimationFrame(render)
+      animationFrameId =
+        requestAnimationFrame(render)
     }
 
     render()
 
     return () => {
       cancelAnimationFrame(animationFrameId)
-      window.removeEventListener('resize', resize)
+      window.removeEventListener(
+        'resize',
+        resize
+      )
     }
   }, [])
 
@@ -105,6 +217,7 @@ function MarbleCanvas() {
         height: '100%',
         zIndex: 0,
         pointerEvents: 'none',
+        opacity: 0.95,
       }}
     />
   )
@@ -115,7 +228,8 @@ export default function AboutPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: '#f6f1e7',
+        background:
+          'linear-gradient(180deg, #f8f4ed 0%, #efe6d8 100%)',
         color: '#2a2622',
         position: 'relative',
         overflow: 'hidden',
@@ -123,192 +237,343 @@ export default function AboutPage() {
     >
       <MarbleCanvas />
 
+      {/* GRAIN OVERLAY */}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          pointerEvents: 'none',
+          opacity: 0.025,
+          zIndex: 1,
+          backgroundImage:
+            'radial-gradient(#000 0.5px, transparent 0.5px)',
+          backgroundSize: '4px 4px',
+        }}
+      />
+
       <main
         style={{
           position: 'relative',
-          zIndex: 1,
+          zIndex: 2,
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '120px 24px 120px',
+          padding: '120px 24px',
         }}
       >
-
         {/* HERO */}
         <section
           style={{
             display: 'grid',
-            gridTemplateColumns: '1.25fr 1fr',
-            gap: '70px',
+            gridTemplateColumns:
+              'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '72px',
             alignItems: 'center',
-            marginBottom: '170px',
+            marginBottom: '180px',
           }}
         >
           <div>
-            <p style={{ fontSize: '12px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#6b625a', marginBottom: '26px' }}>
+            <p
+              style={{
+                fontSize: '12px',
+                letterSpacing: '0.35em',
+                textTransform: 'uppercase',
+                color: '#7b7168',
+                marginBottom: '24px',
+              }}
+            >
               Olegas & Andrius Studija
             </p>
 
-            <h1 style={{ fontSize: '72px', lineHeight: 1.05, fontWeight: 500, marginBottom: '36px', letterSpacing: '-0.04em' }}>
-              Kuriame skaitmenines
+            <h1
+              style={{
+                fontSize: 'clamp(48px, 8vw, 78px)',
+                lineHeight: 1.02,
+                fontWeight: 500,
+                letterSpacing: '-0.05em',
+                marginBottom: '36px',
+                maxWidth: '760px',
+              }}
+            >
+              Kuriame
               <br />
-              erdves, kurios išlieka.
+              skaitmenines erdves,
+              <br />
+              kurios išlieka.
             </h1>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '22px', color: '#5f5851', fontSize: '18px', lineHeight: 1.9, maxWidth: '740px' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '22px',
+                color: '#5f5851',
+                fontSize: '18px',
+                lineHeight: 1.95,
+                maxWidth: '720px',
+              }}
+            >
               <p>
-                Esame nedidelė nepriklausoma kūrėjų studija – Olegas & Andrius Studija –
-                dirbanti su ilgalaikiais skaitmeniniais projektais, kurie orientuoti ne į
-                trumpalaikį dėmesį, o į prasmingą buvimą laike.
+                Esame nepriklausoma kūrėjų studija,
+                orientuota į ilgalaikius
+                skaitmeninius projektus.
               </p>
 
               <p>
-                Mums svarbiausia ne greitis, ne tendencijos ir ne triukšmas. Svarbiausia –
-                aiškumas, estetika ir tai, kas išlieka tada, kai viskas kita išblėsta.
+                Mums svarbus ne triukšmas ar
+                trumpalaikis dėmesys, o ramus,
+                aiškus ir estetiškas buvimas laike.
               </p>
 
               <p>
-                Eternal Garden gimė kaip viena iš pirmųjų mūsų bandymų sukurti
-                skaitmeninę erdvę, kuri nėra paremta skubėjimu ar algoritmų spaudimu.
-              </p>
-
-              <p>
-                Tai nėra produktas vien tik funkcine prasme – tai mūsų požiūrio
-                į skaitmeninę ateitį išraiška.
+                Eternal Garden tapo vienu pirmųjų
+                bandymų sukurti skaitmeninę erdvę,
+                kuri nėra paremta spaudimu,
+                algoritmais ar nuolatiniu skubėjimu.
               </p>
             </div>
           </div>
 
-          <div style={{ borderRadius: '42px', overflow: 'hidden', border: '1px solid rgba(90,80,70,0.22)', boxShadow: '0 50px 140px rgba(0,0,0,0.10)' }}>
+          <div
+            style={{
+              borderRadius: '42px',
+              overflow: 'hidden',
+              border:
+                '1px solid rgba(90,80,70,0.16)',
+              boxShadow:
+                '0 40px 120px rgba(0,0,0,0.10)',
+              background: 'rgba(255,255,255,0.35)',
+              backdropFilter: 'blur(20px)',
+            }}
+          >
             <Image
               src="/images/about/about-team.jpg"
               alt="Olegas & Andrius Studija"
               width={900}
               height={1200}
               priority
-              style={{ width: '100%', height: '740px', objectFit: 'cover' }}
+              style={{
+                width: '100%',
+                aspectRatio: '0.78',
+                objectFit: 'cover',
+              }}
             />
           </div>
         </section>
 
         {/* STORY */}
-        <section style={{ maxWidth: '900px', margin: '0 auto 170px' }}>
-          <p style={{ fontSize: '12px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#6b625a', marginBottom: '22px' }}>
+        <section
+          style={{
+            maxWidth: '900px',
+            margin: '0 auto 180px',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '12px',
+              letterSpacing: '0.35em',
+              textTransform: 'uppercase',
+              color: '#7b7168',
+              marginBottom: '22px',
+            }}
+          >
             Kodėl pradėjome
           </p>
 
-          <h2 style={{ fontSize: '54px', lineHeight: 1.1, marginBottom: '40px', fontWeight: 500 }}>
-            Idėja gimė ne iš produkto,
+          <h2
+            style={{
+              fontSize: 'clamp(38px, 6vw, 58px)',
+              lineHeight: 1.08,
+              marginBottom: '40px',
+              fontWeight: 500,
+              letterSpacing: '-0.04em',
+            }}
+          >
+            Idėja gimė
             <br />
-            o iš nuovargio triukšmui.
+            iš nuovargio triukšmui.
           </h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '26px', color: '#5f5851', fontSize: '18px', lineHeight: 1.95 }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '28px',
+              color: '#5f5851',
+              fontSize: '18px',
+              lineHeight: 1.95,
+            }}
+          >
             <p>
-              Stebėdami šiuolaikinį internetą matėme, kaip dauguma skaitmeninių
-              platformų tampa vis labiau orientuotos į greitį, vartojimą ir
-              nuolatinį vartotojo dėmesio išlaikymą.
+              Šiuolaikinis internetas tampa vis
+              greitesnis, triukšmingesnis ir labiau
+              orientuotas į trumpalaikį dėmesį.
             </p>
 
             <p>
-              Tokioje aplinkoje prasmingi dalykai dažnai tampa trumpalaikiai –
-              jie pasimeta tarp algoritmų, srautų ir nuolatinio informacijos pertekliaus.
+              Prasmingi dalykai dažnai pasimeta tarp
+              algoritmų, srautų ir nuolatinio
+              informacijos pertekliaus.
             </p>
 
             <p>
-              Mes pradėjome kelti paprastą klausimą – ar įmanoma sukurti skaitmeninę
-              erdvę, kuri būtų ramesnė, lėtesnė ir labiau žmogiška?
-            </p>
-
-            <p>
-              Iš šio klausimo ir gimė mūsų studija bei pirmieji projektai, tarp jų – Eternal Garden.
+              Pradėjome kelti klausimą — ar įmanoma
+              sukurti ramesnę ir žmogiškesnę
+              skaitmeninę erdvę?
             </p>
           </div>
         </section>
 
         {/* PRINCIPLES */}
-        <section style={{ marginBottom: '170px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '70px' }}>
-            <p style={{ fontSize: '12px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#6b625a' }}>
+        <section
+          style={{
+            marginBottom: '180px',
+          }}
+        >
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '70px',
+            }}
+          >
+            <p
+              style={{
+                fontSize: '12px',
+                letterSpacing: '0.35em',
+                textTransform: 'uppercase',
+                color: '#7b7168',
+                marginBottom: '18px',
+              }}
+            >
               Mūsų požiūris
             </p>
 
-            <h2 style={{ fontSize: '54px', fontWeight: 500 }}>
+            <h2
+              style={{
+                fontSize: 'clamp(38px, 6vw, 58px)',
+                fontWeight: 500,
+                letterSpacing: '-0.04em',
+              }}
+            >
               Kaip mes kuriame
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '26px' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns:
+                'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '28px',
+            }}
+          >
             {[
               {
                 t: 'Nepriklausomybė',
-                d: 'Kuriame be išorinio spaudimo ir trumpalaikių trendų.'
+                d:
+                  'Kuriame be spaudimo, trumpalaikių trendų ir dirbtinio skubėjimo.',
               },
               {
                 t: 'Ilgalaikis mąstymas',
-                d: 'Projektai kuriami taip, kad išliktų aktualūs po metų ar dešimtmečių.'
+                d:
+                  'Projektai kuriami taip, kad išliktų aktualūs po metų ar dešimtmečių.',
               },
               {
                 t: 'Žmogiškas požiūris',
-                d: 'Technologija turi tarnauti žmogui, o ne jį pervarginti.'
-              }
+                d:
+                  'Technologija turi suteikti ramybę, aiškumą ir buvimo jausmą.',
+              },
             ].map((i) => (
-              <Card key={i.t} style={{ borderRadius: '30px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(90,80,70,0.18)' }}>
-                <CardContent style={{ padding: '44px' }}>
-                  <h3 style={{ fontSize: '24px', marginBottom: '14px' }}>{i.t}</h3>
-                  <p style={{ color: '#5f5851', lineHeight: 1.85 }}>{i.d}</p>
+              <Card
+                key={i.t}
+                style={{
+                  borderRadius: '32px',
+                  background:
+                    'rgba(255,255,255,0.34)',
+                  border:
+                    '1px solid rgba(90,80,70,0.12)',
+                  backdropFilter: 'blur(18px)',
+                  boxShadow:
+                    '0 20px 60px rgba(90,80,70,0.06)',
+                }}
+              >
+                <CardContent
+                  style={{
+                    padding: '44px',
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: '24px',
+                      marginBottom: '14px',
+                    }}
+                  >
+                    {i.t}
+                  </h3>
+
+                  <p
+                    style={{
+                      color: '#5f5851',
+                      lineHeight: 1.9,
+                    }}
+                  >
+                    {i.d}
+                  </p>
                 </CardContent>
               </Card>
             ))}
           </div>
         </section>
 
-        {/* JOURNEY */}
-        <section style={{ maxWidth: '900px', margin: '0 auto 170px' }}>
-          <p style={{ fontSize: '12px', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#6b625a', marginBottom: '22px' }}>
-            Kelionė
-          </p>
-
-          <h2 style={{ fontSize: '54px', marginBottom: '60px', fontWeight: 500 }}>
-            Studijos istorija
-          </h2>
-
-          <div style={{ borderLeft: '1px solid rgba(90,80,70,0.22)', paddingLeft: '34px', display: 'flex', flexDirection: 'column', gap: '52px' }}>
-            <div>
-              <h3>2025 – Pradžia</h3>
-              <p style={{ color: '#5f5851' }}>
-                Pirmosios idėjos apie skaitmeninę atmintį ir ramesnį internetą.
-              </p>
-            </div>
-
-            <div>
-              <h3>2026 – Studijos formavimas</h3>
-              <p style={{ color: '#5f5851' }}>
-                Sukurta Olegas & Andrius Studija ir pirmi projektai.
-              </p>
-            </div>
-
-            <div>
-              <h3>Ateitis</h3>
-              <p style={{ color: '#5f5851' }}>
-                Toliau kuriame sistemas, kurios akcentuoja laiką, estetiką ir ramybę.
-              </p>
-            </div>
-          </div>
-        </section>
-
         {/* FOOTER */}
-        <section style={{ textAlign: 'center' }}>
-          <div style={{ borderRadius: '46px', border: '1px solid rgba(90,80,70,0.22)', background: 'rgba(255,255,255,0.55)', padding: '86px 40px', boxShadow: '0 60px 160px rgba(0,0,0,0.12)' }}>
-            <h2 style={{ fontSize: '54px', marginBottom: '26px' }}>
-              Ačiū, kad skiriate laiko
+        <section
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              borderRadius: '46px',
+              border:
+                '1px solid rgba(90,80,70,0.14)',
+              background:
+                'rgba(255,255,255,0.42)',
+              backdropFilter: 'blur(24px)',
+              padding: '90px 40px',
+              boxShadow:
+                '0 50px 140px rgba(0,0,0,0.10)',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: 'clamp(38px, 6vw, 58px)',
+                marginBottom: '26px',
+                fontWeight: 500,
+                letterSpacing: '-0.04em',
+              }}
+            >
+              Ačiū,
+              <br />
+              kad skiriate laiko.
             </h2>
 
-            <p style={{ color: '#5f5851', fontSize: '18px', lineHeight: 1.9, maxWidth: '780px', margin: '0 auto 42px' }}>
-              Mums svarbu ne tik tai, ką kuriame, bet ir tai, kokias idėjas
-              paliekame po savęs.
+            <p
+              style={{
+                color: '#5f5851',
+                fontSize: '18px',
+                lineHeight: 1.9,
+                maxWidth: '760px',
+                margin: '0 auto 42px',
+              }}
+            >
+              Mums svarbu ne tik tai,
+              ką kuriame, bet ir tai,
+              kokias idėjas paliekame po savęs.
             </p>
 
-            <Button variant="outline" asChild>
+            <Button
+              variant="outline"
+              asChild
+            >
               <Link href="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Grįžti į pradžią
@@ -316,9 +581,7 @@ export default function AboutPage() {
             </Button>
           </div>
         </section>
-
       </main>
     </div>
   )
-               }
-            
+              }
