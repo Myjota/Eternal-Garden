@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -7,263 +8,606 @@ import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-import { ThemeProvider } from '@/lib/themes/theme-context'
+function BackgroundCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let animationFrameId: number
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
+
+    const particles = Array.from({ length: 60 }).map(() => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 2 + 1,
+      speedX: (Math.random() - 0.5) * 0.2,
+      speedY: (Math.random() - 0.5) * 0.2,
+    }))
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      particles.forEach((particle) => {
+        particle.x += particle.speedX
+        particle.y += particle.speedY
+
+        if (particle.x < 0) particle.x = canvas.width
+        if (particle.x > canvas.width) particle.x = 0
+        if (particle.y < 0) particle.y = canvas.height
+        if (particle.y > canvas.height) particle.y = 0
+
+        ctx.beginPath()
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgba(255,255,255,0.06)'
+        ctx.fill()
+      })
+
+      animationFrameId = requestAnimationFrame(render)
+    }
+
+    render()
+
+    return () => {
+      cancelAnimationFrame(animationFrameId)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        pointerEvents: 'none',
+      }}
+    />
+  )
+}
 
 export default function AboutPage() {
   return (
-    <ThemeProvider initialTheme="garden">
-      <div className="min-h-screen bg-background text-foreground">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: '#0f0f10',
+        color: '#f5f5f4',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <BackgroundCanvas />
 
-        <main className="container mx-auto px-4 py-16 md:py-24">
+      <main
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '120px 24px 100px',
+        }}
+      >
+        {/* HERO */}
+        <section
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.2fr 1fr',
+            gap: '64px',
+            alignItems: 'center',
+            marginBottom: '180px',
+          }}
+        >
+          <div>
+            <p
+              style={{
+                fontSize: '12px',
+                letterSpacing: '0.28em',
+                textTransform: 'uppercase',
+                color: '#a1a1aa',
+                marginBottom: '28px',
+              }}
+            >
+              About Us
+            </p>
 
-          {/* HERO */}
-          <section className="max-w-5xl mx-auto mb-28">
+            <h1
+              style={{
+                fontSize: '72px',
+                lineHeight: 1.05,
+                fontWeight: 500,
+                marginBottom: '40px',
+                letterSpacing: '-0.04em',
+              }}
+            >
+              We are a small
+              <br />
+              independent team
+              <br />
+              building digital
+              <br />
+              projects differently.
+            </h1>
 
-            <div className="grid lg:grid-cols-2 gap-14 items-center">
-
-              <div>
-                <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-6">
-                  About Us
-                </p>
-
-                <h1 className="text-4xl md:text-6xl font-serif leading-tight mb-8">
-                  We are building
-                  digital projects
-                  with a more
-                  human approach.
-                </h1>
-
-                <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                  <p>
-                    Eternal Garden was created by a small independent team
-                    focused on long-term digital experiences and meaningful ideas.
-                  </p>
-
-                  <p>
-                    We believe technology does not always need to be loud,
-                    addictive, or built around endless engagement.
-                  </p>
-
-                  <p>
-                    Sometimes digital spaces can simply exist to preserve,
-                    remember, and give people a calmer place online.
-                  </p>
-                </div>
-              </div>
-
-              {/* VISUAL */}
-              <div className="relative">
-
-                <div className="absolute inset-0 bg-primary/5 rounded-3xl blur-3xl" />
-
-                <div className="relative overflow-hidden rounded-3xl border bg-card">
-                  <Image
-                    src="/images/about/about-team.jpg"
-                    alt="Team"
-                    width={900}
-                    height={1200}
-                    priority
-                    className="h-[620px] w-full object-cover"
-                  />
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
-
-          {/* STORY */}
-          <section className="max-w-3xl mx-auto mb-28">
-
-            <div className="mb-10">
-              <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                Why We Started
-              </p>
-
-              <h2 className="text-3xl md:text-4xl font-serif">
-                The idea came from
-                a simple observation.
-              </h2>
-            </div>
-
-            <div className="space-y-7 text-lg leading-relaxed text-muted-foreground">
-
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '24px',
+                color: '#c4c4c5',
+                fontSize: '18px',
+                lineHeight: 1.9,
+                maxWidth: '720px',
+              }}
+            >
               <p>
-                Over time we noticed that the internet became increasingly focused
-                on speed, short attention spans, and temporary content.
+                Eternal Garden was created from a simple idea — that not every
+                digital product has to compete for attention.
               </p>
 
               <p>
-                Important memories often become scattered across social media,
-                old devices, forgotten accounts, or platforms that disappear over time.
+                Over time we became increasingly interested in building calmer,
+                more meaningful experiences that focus on people instead of
+                constant engagement.
               </p>
 
               <p>
-                We wanted to explore a different direction —
-                creating digital spaces that feel quieter, more respectful,
-                and built with long-term thinking in mind.
+                This project became an opportunity to explore a more thoughtful
+                and long-term approach to technology, design, and digital space.
               </p>
-
-              <p>
-                Eternal Garden became one of the first projects where we could
-                fully express that philosophy as creators and developers.
-              </p>
-
             </div>
+          </div>
 
-          </section>
+          <div
+            style={{
+              position: 'relative',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                inset: '-40px',
+                background:
+                  'radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%)',
+                filter: 'blur(60px)',
+              }}
+            />
 
-          {/* PRINCIPLES */}
-          <section className="max-w-6xl mx-auto mb-28">
-
-            <div className="text-center mb-14">
-              <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                Our Approach
-              </p>
-
-              <h2 className="text-3xl md:text-4xl font-serif">
-                How we think about
-                building products.
-              </h2>
+            <div
+              style={{
+                position: 'relative',
+                borderRadius: '32px',
+                overflow: 'hidden',
+                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.03)',
+              }}
+            >
+              <Image
+                src="/images/about/about-team.jpg"
+                alt="About us"
+                width={900}
+                height={1200}
+                priority
+                style={{
+                  width: '100%',
+                  height: '720px',
+                  objectFit: 'cover',
+                }}
+              />
             </div>
+          </div>
+        </section>
 
-            <div className="grid gap-6 md:grid-cols-3">
+        {/* STORY */}
+        <section
+          style={{
+            maxWidth: '820px',
+            margin: '0 auto 180px',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '12px',
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
+              color: '#a1a1aa',
+              marginBottom: '24px',
+            }}
+          >
+            Why We Started
+          </p>
 
-              <Card className="rounded-3xl border-border/60">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold mb-4">
-                    Independent Thinking
-                  </h3>
+          <h2
+            style={{
+              fontSize: '52px',
+              lineHeight: 1.1,
+              marginBottom: '42px',
+              letterSpacing: '-0.04em',
+              fontWeight: 500,
+            }}
+          >
+            The internet became faster.
+            <br />
+            We wanted to build slower.
+          </h2>
 
-                  <p className="text-muted-foreground leading-relaxed">
-                    We prefer building slowly and intentionally instead of
-                    chasing trends or short-term attention.
-                  </p>
-                </CardContent>
-              </Card>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '28px',
+              color: '#c4c4c5',
+              fontSize: '19px',
+              lineHeight: 1.95,
+            }}
+          >
+            <p>
+              We noticed that most modern platforms are designed around speed,
+              algorithms, endless feeds, and short-term attention.
+            </p>
 
-              <Card className="rounded-3xl border-border/60">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold mb-4">
-                    Long-Term Vision
-                  </h3>
+            <p>
+              Important memories and personal stories often become fragmented,
+              temporary, or lost among constant digital noise.
+            </p>
 
-                  <p className="text-muted-foreground leading-relaxed">
-                    We believe meaningful digital projects should still matter
-                    years from now, not only during launch week.
-                  </p>
-                </CardContent>
-              </Card>
+            <p>
+              Instead of building another product focused purely on engagement,
+              we wanted to experiment with something quieter and more personal.
+            </p>
 
-              <Card className="rounded-3xl border-border/60">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold mb-4">
-                    Human-Centered Design
-                  </h3>
+            <p>
+              Eternal Garden became one of the first projects where we could
+              fully express that philosophy as creators.
+            </p>
+          </div>
+        </section>
 
-                  <p className="text-muted-foreground leading-relaxed">
-                    Our goal is to create experiences that feel calm,
-                    understandable, and respectful to the people using them.
-                  </p>
-                </CardContent>
-              </Card>
+        {/* PRINCIPLES */}
+        <section
+          style={{
+            marginBottom: '180px',
+          }}
+        >
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '70px',
+            }}
+          >
+            <p
+              style={{
+                fontSize: '12px',
+                letterSpacing: '0.28em',
+                textTransform: 'uppercase',
+                color: '#a1a1aa',
+                marginBottom: '24px',
+              }}
+            >
+              Our Approach
+            </p>
 
-            </div>
+            <h2
+              style={{
+                fontSize: '52px',
+                lineHeight: 1.1,
+                letterSpacing: '-0.04em',
+                fontWeight: 500,
+              }}
+            >
+              How we think about
+              <br />
+              creating digital products.
+            </h2>
+          </div>
 
-          </section>
-
-          {/* TIMELINE */}
-          <section className="max-w-4xl mx-auto mb-28">
-
-            <div className="mb-12">
-              <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                Journey
-              </p>
-
-              <h2 className="text-3xl md:text-4xl font-serif">
-                Building step by step.
-              </h2>
-            </div>
-
-            <div className="space-y-10 border-l pl-8 ml-2">
-
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">
-                  2025
-                </p>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  Initial Concept
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '24px',
+            }}
+          >
+            <Card
+              style={{
+                borderRadius: '28px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <CardContent style={{ padding: '42px' }}>
+                <h3
+                  style={{
+                    fontSize: '26px',
+                    marginBottom: '18px',
+                    fontWeight: 600,
+                  }}
+                >
+                  Independent
                 </h3>
 
-                <p className="text-muted-foreground leading-relaxed">
-                  Early ideas and research around digital memory preservation,
-                  long-term access, and memorial experiences.
+                <p
+                  style={{
+                    color: '#c4c4c5',
+                    lineHeight: 1.9,
+                    fontSize: '17px',
+                  }}
+                >
+                  We prefer building thoughtfully instead of chasing every trend
+                  or rapid growth strategy.
                 </p>
-              </div>
+              </CardContent>
+            </Card>
 
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">
-                  2026
-                </p>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  First Public Version
+            <Card
+              style={{
+                borderRadius: '28px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <CardContent style={{ padding: '42px' }}>
+                <h3
+                  style={{
+                    fontSize: '26px',
+                    marginBottom: '18px',
+                    fontWeight: 600,
+                  }}
+                >
+                  Long-Term Thinking
                 </h3>
 
-                <p className="text-muted-foreground leading-relaxed">
-                  Development of the first Eternal Garden platform and visual identity.
+                <p
+                  style={{
+                    color: '#c4c4c5',
+                    lineHeight: 1.9,
+                    fontSize: '17px',
+                  }}
+                >
+                  We believe meaningful digital projects should still matter
+                  years from now, not only during launch.
                 </p>
-              </div>
+              </CardContent>
+            </Card>
 
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">
-                  Future
-                </p>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  Long-Term Development
+            <Card
+              style={{
+                borderRadius: '28px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <CardContent style={{ padding: '42px' }}>
+                <h3
+                  style={{
+                    fontSize: '26px',
+                    marginBottom: '18px',
+                    fontWeight: 600,
+                  }}
+                >
+                  Human Approach
                 </h3>
 
-                <p className="text-muted-foreground leading-relaxed">
-                  Continuing to build thoughtful digital projects focused on memory,
-                  legacy, and meaningful online experiences.
+                <p
+                  style={{
+                    color: '#c4c4c5',
+                    lineHeight: 1.9,
+                    fontSize: '17px',
+                  }}
+                >
+                  We try to create calmer digital experiences that feel more
+                  respectful and less overwhelming.
                 </p>
-              </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
-            </div>
+        {/* TIMELINE */}
+        <section
+          style={{
+            maxWidth: '860px',
+            margin: '0 auto 180px',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '12px',
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
+              color: '#a1a1aa',
+              marginBottom: '24px',
+            }}
+          >
+            Journey
+          </p>
 
-          </section>
+          <h2
+            style={{
+              fontSize: '52px',
+              lineHeight: 1.1,
+              marginBottom: '70px',
+              letterSpacing: '-0.04em',
+              fontWeight: 500,
+            }}
+          >
+            Building one step at a time.
+          </h2>
 
-          {/* FOOTER CTA */}
-          <section className="max-w-3xl mx-auto text-center">
-
-            <div className="rounded-3xl border bg-card p-10 md:p-14">
-
-              <h2 className="text-3xl md:text-4xl font-serif mb-6">
-                Thank you for visiting.
-              </h2>
-
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                We appreciate everyone who takes interest in what we are building
-                and the ideas behind it.
+          <div
+            style={{
+              borderLeft: '1px solid rgba(255,255,255,0.12)',
+              paddingLeft: '36px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '54px',
+            }}
+          >
+            <div>
+              <p
+                style={{
+                  color: '#71717a',
+                  marginBottom: '10px',
+                }}
+              >
+                2025
               </p>
 
-              <Button variant="outline" asChild>
-                <Link href="/">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Home
-                </Link>
-              </Button>
+              <h3
+                style={{
+                  fontSize: '28px',
+                  marginBottom: '18px',
+                  fontWeight: 600,
+                }}
+              >
+                First Ideas
+              </h3>
 
+              <p
+                style={{
+                  color: '#c4c4c5',
+                  lineHeight: 1.9,
+                  fontSize: '17px',
+                }}
+              >
+                Early concepts around digital memory, preservation, and more
+                meaningful online experiences.
+              </p>
             </div>
 
-          </section>
+            <div>
+              <p
+                style={{
+                  color: '#71717a',
+                  marginBottom: '10px',
+                }}
+              >
+                2026
+              </p>
 
-        </main>
+              <h3
+                style={{
+                  fontSize: '28px',
+                  marginBottom: '18px',
+                  fontWeight: 600,
+                }}
+              >
+                Building Eternal Garden
+              </h3>
 
-      </div>
-    </ThemeProvider>
+              <p
+                style={{
+                  color: '#c4c4c5',
+                  lineHeight: 1.9,
+                  fontSize: '17px',
+                }}
+              >
+                Development of the platform, visual identity, and long-term
+                creative direction.
+              </p>
+            </div>
+
+            <div>
+              <p
+                style={{
+                  color: '#71717a',
+                  marginBottom: '10px',
+                }}
+              >
+                Future
+              </p>
+
+              <h3
+                style={{
+                  fontSize: '28px',
+                  marginBottom: '18px',
+                  fontWeight: 600,
+                }}
+              >
+                Continuing the Journey
+              </h3>
+
+              <p
+                style={{
+                  color: '#c4c4c5',
+                  lineHeight: 1.9,
+                  fontSize: '17px',
+                }}
+              >
+                Continuing to build projects focused on long-term thinking,
+                digital legacy, and more human-centered experiences.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <section
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              borderRadius: '36px',
+              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'rgba(255,255,255,0.03)',
+              padding: '80px 40px',
+              backdropFilter: 'blur(10px)',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: '52px',
+                marginBottom: '28px',
+                lineHeight: 1.1,
+                letterSpacing: '-0.04em',
+                fontWeight: 500,
+              }}
+            >
+              Thank you for visiting.
+            </h2>
+
+            <p
+              style={{
+                color: '#c4c4c5',
+                fontSize: '18px',
+                lineHeight: 1.9,
+                maxWidth: '760px',
+                margin: '0 auto 42px',
+              }}
+            >
+              We appreciate everyone interested not only in the product itself,
+              but also in the ideas and philosophy behind it.
+            </p>
+
+            <Button variant="outline" asChild>
+              <Link href="/">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
+              </Link>
+            </Button>
+          </div>
+        </section>
+      </main>
+    </div>
   )
-}
+          }
+              
