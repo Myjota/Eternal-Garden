@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import SimplexNoise from 'simplex-noise'
+import { createNoise2D } from 'simplex-noise'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -19,7 +19,7 @@ function MarbleCanvas() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const simplex = new SimplexNoise()
+    const noise2D = createNoise2D()
 
     let animationFrameId: number
     let t = 0
@@ -30,20 +30,21 @@ function MarbleCanvas() {
     }
 
     resize()
+
     window.addEventListener('resize', resize)
 
-    // FLOATING DUST
+    // PARTICLES
     const particles = Array.from({
       length: window.innerWidth < 768 ? 40 : 70,
     }).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 1.2 + 0.2,
-      alpha: Math.random() * 0.035 + 0.008,
-      speed: Math.random() * 0.05 + 0.01,
+      alpha: Math.random() * 0.03 + 0.008,
+      speed: Math.random() * 0.04 + 0.01,
     }))
 
-    // PRE-RENDER MARBLE
+    // OFFSCREEN MARBLE
     const marbleCanvas = document.createElement('canvas')
     const marbleCtx = marbleCanvas.getContext('2d')
 
@@ -62,26 +63,26 @@ function MarbleCanvas() {
 
       for (let x = 0; x < marbleCanvas.width; x++) {
         for (let y = 0; y < marbleCanvas.height; y++) {
-          // MULTI-LAYER NOISE
-          const n1 = simplex.noise2D(
+          // NOISE LAYERS
+          const n1 = noise2D(
             x * scale,
             y * scale
           )
 
-          const n2 = simplex.noise2D(
+          const n2 = noise2D(
             x * scale * 2,
             y * scale * 2
           )
 
-          const value =
+          const combined =
             n1 * 0.72 +
             n2 * 0.28
 
-          // SOFT MARBLE FLOW
+          // MARBLE FLOW
           const marble =
             Math.sin(
               x * 0.014 +
-              value * 4.5
+                combined * 4.5
             ) *
               0.5 +
             0.5
@@ -95,7 +96,8 @@ function MarbleCanvas() {
           const b = base - 8
 
           const cell =
-            (x + y * marbleCanvas.width) * 4
+            (x + y * marbleCanvas.width) *
+            4
 
           data[cell] = r
           data[cell + 1] = g
@@ -118,7 +120,19 @@ function MarbleCanvas() {
       )
 
       // BASE
-      ctx.fillStyle = '#f6f1e8'
+      const gradient =
+        ctx.createLinearGradient(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        )
+
+      gradient.addColorStop(0, '#f8f4ec')
+      gradient.addColorStop(0.5, '#f1ebe1')
+      gradient.addColorStop(1, '#ece4d8')
+
+      ctx.fillStyle = gradient
 
       ctx.fillRect(
         0,
@@ -128,31 +142,32 @@ function MarbleCanvas() {
       )
 
       // MARBLE TEXTURE
-      ctx.globalAlpha = 0.34
+      ctx.globalAlpha = 0.32
 
       ctx.drawImage(
         marbleCanvas,
-        Math.sin(t * 40) * -20,
-        Math.cos(t * 30) * -12,
-        canvas.width + 40,
-        canvas.height + 24
+        Math.sin(t * 40) * -18,
+        Math.cos(t * 28) * -10,
+        canvas.width + 36,
+        canvas.height + 20
       )
 
       ctx.globalAlpha = 1
 
-      // AMBIENT GLOW
-      const glow1 = ctx.createRadialGradient(
-        canvas.width * 0.25,
-        canvas.height * 0.2,
-        0,
-        canvas.width * 0.25,
-        canvas.height * 0.2,
-        700
-      )
+      // LIGHT GLOW
+      const glow1 =
+        ctx.createRadialGradient(
+          canvas.width * 0.25,
+          canvas.height * 0.2,
+          0,
+          canvas.width * 0.25,
+          canvas.height * 0.2,
+          700
+        )
 
       glow1.addColorStop(
         0,
-        'rgba(255,255,255,0.16)'
+        'rgba(255,255,255,0.14)'
       )
 
       glow1.addColorStop(
@@ -170,14 +185,15 @@ function MarbleCanvas() {
       )
 
       // SECOND GLOW
-      const glow2 = ctx.createRadialGradient(
-        canvas.width * 0.8,
-        canvas.height * 0.75,
-        0,
-        canvas.width * 0.8,
-        canvas.height * 0.75,
-        800
-      )
+      const glow2 =
+        ctx.createRadialGradient(
+          canvas.width * 0.82,
+          canvas.height * 0.75,
+          0,
+          canvas.width * 0.82,
+          canvas.height * 0.75,
+          800
+        )
 
       glow2.addColorStop(
         0,
@@ -198,7 +214,7 @@ function MarbleCanvas() {
         canvas.height
       )
 
-      // SOFT FOG
+      // SOFT CLOUDS
       for (let i = 0; i < 3; i++) {
         const x =
           canvas.width *
@@ -209,7 +225,7 @@ function MarbleCanvas() {
           canvas.height *
           (0.3 + i * 0.2)
 
-        const fog =
+        const cloud =
           ctx.createRadialGradient(
             x,
             y,
@@ -219,17 +235,17 @@ function MarbleCanvas() {
             420
           )
 
-        fog.addColorStop(
+        cloud.addColorStop(
           0,
-          'rgba(255,255,255,0.06)'
+          'rgba(255,255,255,0.05)'
         )
 
-        fog.addColorStop(
+        cloud.addColorStop(
           1,
           'rgba(255,255,255,0)'
         )
 
-        ctx.fillStyle = fog
+        ctx.fillStyle = cloud
 
         ctx.fillRect(
           x - 420,
@@ -320,7 +336,7 @@ export default function AboutPage() {
           inset: 0,
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.022,
+          opacity: 0.018,
           backgroundImage:
             'radial-gradient(#000 0.45px, transparent 0.45px)',
           backgroundSize: '4px 4px',
@@ -333,8 +349,7 @@ export default function AboutPage() {
           zIndex: 2,
           maxWidth: '1200px',
           margin: '0 auto',
-          padding:
-            '120px 24px 140px',
+          padding: '120px 24px 140px',
         }}
       >
         {/* HERO */}
@@ -353,8 +368,7 @@ export default function AboutPage() {
               style={{
                 fontSize: '12px',
                 letterSpacing: '0.35em',
-                textTransform:
-                  'uppercase',
+                textTransform: 'uppercase',
                 color: '#7b7168',
                 marginBottom: '24px',
               }}
@@ -368,8 +382,7 @@ export default function AboutPage() {
                   'clamp(48px, 8vw, 82px)',
                 lineHeight: 1.02,
                 fontWeight: 500,
-                letterSpacing:
-                  '-0.055em',
+                letterSpacing: '-0.055em',
                 marginBottom: '36px',
                 maxWidth: '760px',
               }}
@@ -384,8 +397,7 @@ export default function AboutPage() {
             <div
               style={{
                 display: 'flex',
-                flexDirection:
-                  'column',
+                flexDirection: 'column',
                 gap: '22px',
                 color: '#5f5851',
                 fontSize: '18px',
@@ -394,28 +406,23 @@ export default function AboutPage() {
               }}
             >
               <p>
-                Esame nepriklausoma
-                kūrėjų studija,
-                orientuota į
-                ilgalaikius
-                skaitmeninius
+                Esame nepriklausoma kūrėjų
+                studija, orientuota į
+                ilgalaikius skaitmeninius
                 projektus.
               </p>
 
               <p>
-                Mums svarbus ne
-                triukšmas ar
+                Mums svarbus ne triukšmas ar
                 trumpalaikis dėmesys,
-                o ramus, aiškus ir
-                estetiškas buvimas
-                laike.
+                o ramus, aiškus ir estetiškas
+                buvimas laike.
               </p>
 
               <p>
-                Eternal Garden tapo
-                vienu pirmųjų bandymų
-                sukurti skaitmeninę
-                erdvę, kuri nėra
+                Eternal Garden tapo vienu
+                pirmųjų bandymų sukurti
+                skaitmeninę erdvę, kuri nėra
                 paremta algoritmais,
                 spaudimu ar nuolatiniu
                 skubėjimu.
@@ -431,8 +438,7 @@ export default function AboutPage() {
                 '1px solid rgba(90,80,70,0.14)',
               background:
                 'rgba(255,255,255,0.34)',
-              backdropFilter:
-                'blur(20px)',
+              backdropFilter: 'blur(20px)',
               boxShadow:
                 '0 40px 120px rgba(0,0,0,0.10)',
             }}
@@ -467,10 +473,8 @@ export default function AboutPage() {
             <p
               style={{
                 fontSize: '12px',
-                letterSpacing:
-                  '0.35em',
-                textTransform:
-                  'uppercase',
+                letterSpacing: '0.35em',
+                textTransform: 'uppercase',
                 color: '#7b7168',
                 marginBottom: '18px',
               }}
@@ -483,8 +487,7 @@ export default function AboutPage() {
                 fontSize:
                   'clamp(38px, 6vw, 58px)',
                 fontWeight: 500,
-                letterSpacing:
-                  '-0.04em',
+                letterSpacing: '-0.04em',
               }}
             >
               Kaip mes kuriame
@@ -524,8 +527,7 @@ export default function AboutPage() {
                     'rgba(255,255,255,0.34)',
                   border:
                     '1px solid rgba(90,80,70,0.12)',
-                  backdropFilter:
-                    'blur(18px)',
+                  backdropFilter: 'blur(18px)',
                   boxShadow:
                     '0 20px 60px rgba(90,80,70,0.06)',
                 }}
@@ -538,8 +540,7 @@ export default function AboutPage() {
                   <h3
                     style={{
                       fontSize: '24px',
-                      marginBottom:
-                        '14px',
+                      marginBottom: '14px',
                     }}
                   >
                     {i.t}
@@ -547,8 +548,7 @@ export default function AboutPage() {
 
                   <p
                     style={{
-                      color:
-                        '#5f5851',
+                      color: '#5f5851',
                       lineHeight: 1.9,
                     }}
                   >
@@ -557,70 +557,6 @@ export default function AboutPage() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <section
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <div
-            style={{
-              borderRadius: '46px',
-              border:
-                '1px solid rgba(90,80,70,0.14)',
-              background:
-                'rgba(255,255,255,0.42)',
-              backdropFilter:
-                'blur(24px)',
-              padding:
-                '90px 40px',
-              boxShadow:
-                '0 50px 140px rgba(0,0,0,0.10)',
-            }}
-          >
-            <h2
-              style={{
-                fontSize:
-                  'clamp(38px, 6vw, 58px)',
-                marginBottom: '26px',
-                fontWeight: 500,
-                letterSpacing:
-                  '-0.04em',
-              }}
-            >
-              Ačiū,
-              <br />
-              kad skiriate laiko.
-            </h2>
-
-            <p
-              style={{
-                color: '#5f5851',
-                fontSize: '18px',
-                lineHeight: 1.9,
-                maxWidth: '760px',
-                margin:
-                  '0 auto 42px',
-              }}
-            >
-              Mums svarbu ne tik tai,
-              ką kuriame, bet ir tai,
-              kokias idėjas
-              paliekame po savęs.
-            </p>
-
-            <Button
-              variant="outline"
-              asChild
-            >
-              <Link href="/">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Grįžti į pradžią
-              </Link>
-            </Button>
           </div>
         </section>
       </main>
