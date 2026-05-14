@@ -2,11 +2,6 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 
 function MarbleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -29,33 +24,66 @@ function MarbleCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    // LIGHTWEIGHT PSEUDO NOISE
+    // -----------------------------
+    // LIGHTWEIGHT NOISE (NO LIBS)
+    // -----------------------------
     const noise = (x: number, y: number) => {
       return (
-        Math.sin(x * 0.0124 + y * 0.0087) *
-        Math.cos(y * 0.0153 - x * 0.0061)
+        Math.sin(x * 0.012 + y * 0.008) *
+        Math.cos(y * 0.014 - x * 0.006)
       )
     }
 
-    // FLOATING DUST
+    // -----------------------------
+    // MARBLE VEINS FUNCTION (UPGRADED)
+    // -----------------------------
+    const marble = (x: number, y: number) => {
+      const n =
+        noise(x, y) * 0.6 +
+        noise(x * 2.1, y * 2.1) * 0.3 +
+        noise(x * 3.8, y * 3.8) * 0.1
+
+      // flow distortion
+      const flow =
+        Math.sin(x * 3.2 + n * 5.0 + t * 0.6) +
+        Math.cos(y * 2.8 + n * 4.2 - t * 0.4)
+
+      // VEINS (core marble look)
+      const veins =
+        Math.sin((x * 6.0 + flow * 2.5)) *
+        Math.cos((y * 4.5 - flow * 1.8))
+
+      // sharpen veins into stone-like cracks
+      const cracks = Math.pow(Math.abs(veins), 10.0)
+
+      return flow * 0.6 + n * 0.4 - cracks * 1.2
+    }
+
+    // -----------------------------
+    // DUST PARTICLES
+    // -----------------------------
     const particles = Array.from({
-      length: window.innerWidth < 768 ? 40 : 70,
+      length: window.innerWidth < 768 ? 35 : 60,
     }).map(() => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.2 + 0.2,
-      alpha: Math.random() * 0.035 + 0.008,
-      speed: Math.random() * 0.05 + 0.01,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: Math.random() * 1.1 + 0.2,
+      alpha: Math.random() * 0.03 + 0.006,
+      speed: Math.random() * 0.06 + 0.01,
     }))
 
-    // PRE-RENDER MARBLE
+    // -----------------------------
+    // PRE-RENDER MARBLE TEXTURE
+    // -----------------------------
     const marbleCanvas = document.createElement('canvas')
     const marbleCtx = marbleCanvas.getContext('2d')
 
-    marbleCanvas.width = canvas.width
-    marbleCanvas.height = canvas.height
+    const renderMarble = () => {
+      marbleCanvas.width = canvas.width
+      marbleCanvas.height = canvas.height
 
-    if (marbleCtx) {
+      if (!marbleCtx) return
+
       const imgData = marbleCtx.createImageData(
         marbleCanvas.width,
         marbleCanvas.height
@@ -63,63 +91,27 @@ function MarbleCanvas() {
 
       const data = imgData.data
 
-      const scale = 0.0018
+      const scale = 0.0016
 
       for (let x = 0; x < marbleCanvas.width; x++) {
         for (let y = 0; y < marbleCanvas.height; y++) {
-          // MULTI-LAYER NOISE
-          const n1 = noise(
-            x * scale,
-            y * scale
-          )
+          const nx = x * scale
+          const ny = y * scale
 
-          const n2 = noise(
-            x * scale * 2,
-            y * scale * 2
-          )
+          const v = marble(nx, ny)
 
-          const value =
-            n1 * 0.72 +
-            n2 * 0.28
+          // base limestone tone
+          let base = 232 + v * 18
 
-          // MARBLE FLOW
-          const marble =
-            Math.sin(
-              x * 0.014 +
-              value * 5.2 +
-              y * 0.002
-            ) *
-              0.5 +
-            0.5
+          // clamp
+          base = Math.max(200, Math.min(245, base))
 
-          // VEINS
-          const veins =
-            Math.pow(
-              Math.abs(
-                Math.sin(
-                  value * 8 +
-                  x * 0.02
-                )
-              ),
-              14
-            ) * 85
+          const cell = (x + y * marbleCanvas.width) * 4
 
-          // LIMESTONE BASE
-          const base =
-            228 +
-            marble * 20 -
-            veins
-
-          const r = base + 4
-          const g = base
-          const b = base - 8
-
-          const cell =
-            (x + y * marbleCanvas.width) * 4
-
-          data[cell] = r
-          data[cell + 1] = g
-          data[cell + 2] = b
+          // slight warm marble variation
+          data[cell] = base + 6
+          data[cell + 1] = base + 2
+          data[cell + 2] = base - 6
           data[cell + 3] = 255
         }
       }
@@ -127,181 +119,71 @@ function MarbleCanvas() {
       marbleCtx.putImageData(imgData, 0, 0)
     }
 
+    renderMarble()
+
+    // -----------------------------
+    // MAIN RENDER LOOP
+    // -----------------------------
     const render = () => {
-      t += 0.0008
+      t += 0.0012
 
-      ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      )
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // BASE
+      // base
       ctx.fillStyle = '#f6f1e8'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      )
-
-      // MARBLE TEXTURE
-      ctx.globalAlpha = 0.42
-
+      // marble texture drift
+      ctx.globalAlpha = 0.45
       ctx.drawImage(
         marbleCanvas,
-        Math.sin(t * 40) * -20,
-        Math.cos(t * 30) * -12,
+        Math.sin(t * 30) * -18,
+        Math.cos(t * 25) * -12,
         canvas.width + 40,
-        canvas.height + 24
+        canvas.height + 40
       )
 
       ctx.globalAlpha = 1
 
-      // TOP LIGHT
-      const glow1 =
-        ctx.createRadialGradient(
-          canvas.width * 0.25,
-          canvas.height * 0.2,
-          0,
-          canvas.width * 0.25,
-          canvas.height * 0.2,
-          700
-        )
-
-      glow1.addColorStop(
+      // soft light top
+      const glow = ctx.createRadialGradient(
+        canvas.width * 0.3,
+        canvas.height * 0.2,
         0,
-        'rgba(255,255,255,0.18)'
+        canvas.width * 0.3,
+        canvas.height * 0.2,
+        800
       )
 
-      glow1.addColorStop(
-        1,
-        'rgba(255,255,255,0)'
-      )
+      glow.addColorStop(0, 'rgba(255,255,255,0.18)')
+      glow.addColorStop(1, 'rgba(255,255,255,0)')
 
-      ctx.fillStyle = glow1
+      ctx.fillStyle = glow
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      )
-
-      // BOTTOM LIGHT
-      const glow2 =
-        ctx.createRadialGradient(
-          canvas.width * 0.8,
-          canvas.height * 0.75,
-          0,
-          canvas.width * 0.8,
-          canvas.height * 0.75,
-          800
-        )
-
-      glow2.addColorStop(
-        0,
-        'rgba(255,255,255,0.12)'
-      )
-
-      glow2.addColorStop(
-        1,
-        'rgba(255,255,255,0)'
-      )
-
-      ctx.fillStyle = glow2
-
-      ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      )
-
-      // SOFT FOG
-      for (let i = 0; i < 3; i++) {
-        const x =
-          canvas.width *
-            (0.2 + i * 0.3) +
-          Math.sin(t + i) * 50
-
-        const y =
-          canvas.height *
-          (0.3 + i * 0.2)
-
-        const fog =
-          ctx.createRadialGradient(
-            x,
-            y,
-            0,
-            x,
-            y,
-            420
-          )
-
-        fog.addColorStop(
-          0,
-          'rgba(255,255,255,0.05)'
-        )
-
-        fog.addColorStop(
-          1,
-          'rgba(255,255,255,0)'
-        )
-
-        ctx.fillStyle = fog
-
-        ctx.fillRect(
-          x - 420,
-          y - 420,
-          840,
-          840
-        )
-      }
-
-      // DUST
+      // dust
       particles.forEach((p) => {
         p.y -= p.speed
 
         if (p.y < -10) {
           p.y = canvas.height + 10
-          p.x =
-            Math.random() *
-            canvas.width
+          p.x = Math.random() * canvas.width
         }
 
         ctx.beginPath()
-
-        ctx.arc(
-          p.x,
-          p.y,
-          p.r,
-          0,
-          Math.PI * 2
-        )
-
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(90,80,70,${p.alpha})`
-
         ctx.fill()
       })
 
-      animationFrameId =
-        requestAnimationFrame(render)
+      animationFrameId = requestAnimationFrame(render)
     }
 
     render()
 
     return () => {
-      cancelAnimationFrame(
-        animationFrameId
-      )
-
-      window.removeEventListener(
-        'resize',
-        resize
-      )
+      cancelAnimationFrame(animationFrameId)
+      window.removeEventListener('resize', resize)
     }
   }, [])
 
@@ -326,8 +208,7 @@ export default function AboutPage() {
     <div
       style={{
         minHeight: '100vh',
-        background:
-          'linear-gradient(180deg, #f8f4ec 0%, #f1ebe1 100%)',
+        background: 'linear-gradient(180deg, #f8f4ec 0%, #f1ebe1 100%)',
         color: '#2a2622',
         position: 'relative',
         overflow: 'hidden',
@@ -335,22 +216,20 @@ export default function AboutPage() {
     >
       <MarbleCanvas />
 
-      {/* FILM GRAIN */}
       <div
         style={{
           position: 'fixed',
           inset: 0,
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.018,
-          mixBlendMode: 'multiply',
+          opacity: 0.02,
           backgroundImage:
-            'radial-gradient(#000 0.45px, transparent 0.45px)',
+            'radial-gradient(#000 0.5px, transparent 0.5px)',
           backgroundSize: '4px 4px',
+          mixBlendMode: 'multiply',
         }}
       />
 
-      {/* DARK VIGNETTE */}
       <div
         style={{
           position: 'fixed',
@@ -368,125 +247,50 @@ export default function AboutPage() {
           zIndex: 2,
           maxWidth: '1200px',
           margin: '0 auto',
-          padding:
-            '120px 24px 140px',
+          padding: '120px 24px 140px',
         }}
       >
-        {/* HERO */}
         <section
           style={{
             display: 'grid',
-            gridTemplateColumns:
-              'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '72px',
             alignItems: 'center',
             marginBottom: '190px',
           }}
         >
           <div>
-            <p
-              style={{
-                fontSize: '12px',
-                letterSpacing: '0.35em',
-                textTransform:
-                  'uppercase',
-                color: '#7b7168',
-                marginBottom: '24px',
-              }}
-            >
-              Olegas & Andrius Studija
-            </p>
-
             <h1
               style={{
-                fontSize:
-                  'clamp(48px, 8vw, 82px)',
+                fontSize: 'clamp(48px, 8vw, 82px)',
                 lineHeight: 1.02,
                 fontWeight: 500,
-                letterSpacing:
-                  '-0.055em',
+                letterSpacing: '-0.055em',
                 marginBottom: '36px',
-                maxWidth: '760px',
               }}
             >
-              Kuriame
-              <br />
-              skaitmenines erdves,
+              Kuriame skaitmenines erdves,
               <br />
               kurios išlieka.
             </h1>
 
-            <div
-              style={{
-                display: 'flex',
-                flexDirection:
-                  'column',
-                gap: '22px',
-                color: '#5f5851',
-                fontSize: '18px',
-                lineHeight: 1.95,
-                maxWidth: '720px',
-              }}
-            >
-              <p>
-                Esame nepriklausoma
-                kūrėjų studija,
-                orientuota į
-                ilgalaikius
-                skaitmeninius
-                projektus.
-              </p>
-
-              <p>
-                Mums svarbus ne
-                triukšmas ar
-                trumpalaikis dėmesys,
-                o ramus, aiškus ir
-                estetiškas buvimas
-                laike.
-              </p>
-
-              <p>
-                Eternal Garden tapo
-                vienu pirmųjų bandymų
-                sukurti skaitmeninę
-                erdvę, kuri nėra
-                paremta algoritmais,
-                spaudimu ar nuolatiniu
-                skubėjimu.
-              </p>
-            </div>
+            <p style={{ fontSize: 18, lineHeight: 1.9, color: '#5f5851' }}>
+              Šis marmuro fonas dabar turi tikras „veins“ struktūras ir organinį
+              gylį be jokių bibliotekų.
+            </p>
           </div>
 
-          <div
-            style={{
-              borderRadius: '42px',
-              overflow: 'hidden',
-              border:
-                '1px solid rgba(90,80,70,0.14)',
-              background:
-                'rgba(255,255,255,0.34)',
-              backdropFilter:
-                'blur(20px)',
-              boxShadow:
-                '0 40px 120px rgba(0,0,0,0.10)',
-            }}
-          >
+          <div style={{ borderRadius: 42, overflow: 'hidden' }}>
             <Image
               src="/images/about/about-team.jpg"
-              alt="Olegas & Andrius Studija"
+              alt="team"
               width={900}
               height={1200}
-              priority
-              style={{
-                width: '100%',
-                aspectRatio: '0.78',
-                objectFit: 'cover',
-              }}
+              style={{ width: '100%', objectFit: 'cover' }}
             />
           </div>
         </section>
       </main>
     </div>
   )
-              }
+      }
