@@ -67,6 +67,7 @@ function MarbleCanvas() {
 
       for (let x = 0; x < marbleCanvas.width; x++) {
         for (let y = 0; y < marbleCanvas.height; y++) {
+          // MULTI-LAYER NOISE
           const n1 = noise(
             x * scale,
             y * scale
@@ -81,28 +82,40 @@ function MarbleCanvas() {
             n1 * 0.72 +
             n2 * 0.28
 
-          // SOFT MARBLE FLOW
+          // MARBLE FLOW
           const marble =
             Math.sin(
               x * 0.014 +
-                value * 4.5
+              value * 5.2 +
+              y * 0.002
             ) *
               0.5 +
             0.5
 
-          // WARM LIMESTONE COLORS
+          // VEINS
+          const veins =
+            Math.pow(
+              Math.abs(
+                Math.sin(
+                  value * 8 +
+                  x * 0.02
+                )
+              ),
+              14
+            ) * 85
+
+          // LIMESTONE BASE
           const base =
-            232 + marble * 18
+            228 +
+            marble * 20 -
+            veins
 
           const r = base + 4
           const g = base
           const b = base - 8
 
           const cell =
-            (x +
-              y *
-                marbleCanvas.width) *
-            4
+            (x + y * marbleCanvas.width) * 4
 
           data[cell] = r
           data[cell + 1] = g
@@ -111,11 +124,7 @@ function MarbleCanvas() {
         }
       }
 
-      marbleCtx.putImageData(
-        imgData,
-        0,
-        0
-      )
+      marbleCtx.putImageData(imgData, 0, 0)
     }
 
     const render = () => {
@@ -139,7 +148,7 @@ function MarbleCanvas() {
       )
 
       // MARBLE TEXTURE
-      ctx.globalAlpha = 0.34
+      ctx.globalAlpha = 0.42
 
       ctx.drawImage(
         marbleCanvas,
@@ -151,7 +160,7 @@ function MarbleCanvas() {
 
       ctx.globalAlpha = 1
 
-      // AMBIENT GLOW 1
+      // TOP LIGHT
       const glow1 =
         ctx.createRadialGradient(
           canvas.width * 0.25,
@@ -164,7 +173,7 @@ function MarbleCanvas() {
 
       glow1.addColorStop(
         0,
-        'rgba(255,255,255,0.16)'
+        'rgba(255,255,255,0.18)'
       )
 
       glow1.addColorStop(
@@ -181,7 +190,7 @@ function MarbleCanvas() {
         canvas.height
       )
 
-      // AMBIENT GLOW 2
+      // BOTTOM LIGHT
       const glow2 =
         ctx.createRadialGradient(
           canvas.width * 0.8,
@@ -194,7 +203,7 @@ function MarbleCanvas() {
 
       glow2.addColorStop(
         0,
-        'rgba(255,255,255,0.10)'
+        'rgba(255,255,255,0.12)'
       )
 
       glow2.addColorStop(
@@ -234,7 +243,7 @@ function MarbleCanvas() {
 
         fog.addColorStop(
           0,
-          'rgba(255,255,255,0.06)'
+          'rgba(255,255,255,0.05)'
         )
 
         fog.addColorStop(
@@ -252,7 +261,7 @@ function MarbleCanvas() {
         )
       }
 
-      // FLOATING DUST
+      // DUST
       particles.forEach((p) => {
         p.y -= p.speed
 
@@ -279,9 +288,7 @@ function MarbleCanvas() {
       })
 
       animationFrameId =
-        requestAnimationFrame(
-          render
-        )
+        requestAnimationFrame(render)
     }
 
     render()
@@ -308,7 +315,7 @@ function MarbleCanvas() {
         height: '100%',
         zIndex: 0,
         pointerEvents: 'none',
-        opacity: 0.96,
+        opacity: 0.98,
       }}
     />
   )
@@ -328,17 +335,30 @@ export default function AboutPage() {
     >
       <MarbleCanvas />
 
-      {/* GRAIN */}
+      {/* FILM GRAIN */}
       <div
         style={{
           position: 'fixed',
           inset: 0,
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.022,
+          opacity: 0.018,
+          mixBlendMode: 'multiply',
           backgroundImage:
             'radial-gradient(#000 0.45px, transparent 0.45px)',
           backgroundSize: '4px 4px',
+        }}
+      />
+
+      {/* DARK VIGNETTE */}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: 'none',
+          background:
+            'radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.08) 100%)',
         }}
       />
 
@@ -367,8 +387,7 @@ export default function AboutPage() {
             <p
               style={{
                 fontSize: '12px',
-                letterSpacing:
-                  '0.35em',
+                letterSpacing: '0.35em',
                 textTransform:
                   'uppercase',
                 color: '#7b7168',
@@ -470,4 +489,4 @@ export default function AboutPage() {
       </main>
     </div>
   )
-}
+              }
