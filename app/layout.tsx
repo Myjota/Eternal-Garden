@@ -8,7 +8,7 @@ import {
   Playfair_Display,
 } from 'next/font/google'
 
-import { Analytics } from '@vercel/analytics/next'
+import AnalyticsGate from '@/components/AnalyticsGate'
 
 import './globals.css'
 
@@ -191,7 +191,7 @@ export default async function RootLayout({
           <Footer />
         </LocaleProvider>
 
-        <Analytics />
+        <AnalyticsGate />
       </body>
     </html>
   )
