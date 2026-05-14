@@ -11,9 +11,13 @@ export default function AnalyticsGate() {
       const res = await fetch('/api/my-ip')
       const data = await res.json()
 
-      const DEV_IP = "88.119.221.209"
+      // Add more IPs here to exclude from analytics
+      const EXCLUDED_IPS = [
+        "88.119.221.209",
+        // "123.456.789.000", // Example: add more IPs like this
+      ]
 
-      setEnabled(data.ip !== DEV_IP)
+      setEnabled(!EXCLUDED_IPS.includes(data.ip))
     }
 
     check()
