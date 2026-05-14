@@ -13,11 +13,6 @@ Disallow: /auth
 Disallow: /create
 Disallow: /api
 
-# Allow specific API endpoints for indexing
-Allow: /api/memorials
-Allow: /sitemap.xml
-Allow: /feed.xml
-
 # Crawl delay to be respectful to server
 Crawl-delay: 1
 
