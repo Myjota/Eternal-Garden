@@ -8,7 +8,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-function BackgroundCanvas() {
+function MarbleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
@@ -28,29 +28,47 @@ function BackgroundCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    const particles = Array.from({ length: 60 }).map(() => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 1,
-      speedX: (Math.random() - 0.5) * 0.2,
-      speedY: (Math.random() - 0.5) * 0.2,
+    // soft marble veins particles
+    const particles = Array.from({ length: 70 }).map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: Math.random() * 1.8 + 0.6,
+      speedX: (Math.random() - 0.5) * 0.15,
+      speedY: (Math.random() - 0.5) * 0.15,
+      alpha: Math.random() * 0.08 + 0.02,
     }))
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      particles.forEach((particle) => {
-        particle.x += particle.speedX
-        particle.y += particle.speedY
+      // soft creamy marble base glow
+      const gradient = ctx.createRadialGradient(
+        canvas.width * 0.3,
+        canvas.height * 0.3,
+        0,
+        canvas.width * 0.5,
+        canvas.height * 0.5,
+        canvas.width
+      )
 
-        if (particle.x < 0) particle.x = canvas.width
-        if (particle.x > canvas.width) particle.x = 0
-        if (particle.y < 0) particle.y = canvas.height
-        if (particle.y > canvas.height) particle.y = 0
+      gradient.addColorStop(0, 'rgba(255, 248, 240, 0.55)')
+      gradient.addColorStop(1, 'rgba(245, 245, 240, 0.05)')
+
+      ctx.fillStyle = gradient
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      particles.forEach((p) => {
+        p.x += p.speedX
+        p.y += p.speedY
+
+        if (p.x < 0) p.x = canvas.width
+        if (p.x > canvas.width) p.x = 0
+        if (p.y < 0) p.y = canvas.height
+        if (p.y > canvas.height) p.y = 0
 
         ctx.beginPath()
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(255,255,255,0.06)'
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(120, 130, 120, ${p.alpha})`
         ctx.fill()
       })
 
@@ -85,13 +103,13 @@ export default function AboutPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: '#0f0f10',
-        color: '#f5f5f4',
+        background: 'linear-gradient(135deg, #f7f3ee 0%, #ece7df 50%, #f5f1ea 100%)',
+        color: '#2f2f2a',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      <BackgroundCanvas />
+      <MarbleCanvas />
 
       <main
         style={{
@@ -116,9 +134,9 @@ export default function AboutPage() {
             <p
               style={{
                 fontSize: '12px',
-                letterSpacing: '0.28em',
+                letterSpacing: '0.3em',
                 textTransform: 'uppercase',
-                color: '#a1a1aa',
+                color: '#6e6b63',
                 marginBottom: '28px',
               }}
             >
@@ -127,78 +145,65 @@ export default function AboutPage() {
 
             <h1
               style={{
-                fontSize: '72px',
+                fontSize: '70px',
                 lineHeight: 1.05,
                 fontWeight: 500,
                 marginBottom: '40px',
-                letterSpacing: '-0.04em',
+                letterSpacing: '-0.03em',
+                color: '#2b2a27',
               }}
             >
               We are a small
               <br />
-              independent team
+              independent studio
               <br />
-              building digital
+              building thoughtful
               <br />
-              projects differently.
+              digital spaces.
             </h1>
 
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '24px',
-                color: '#c4c4c5',
+                gap: '22px',
+                color: '#5f5c55',
                 fontSize: '18px',
                 lineHeight: 1.9,
                 maxWidth: '720px',
               }}
             >
               <p>
-                Eternal Garden was created from a simple idea — that not every
-                digital product has to compete for attention.
+                Eternal Garden was not created as a product idea first, but as
+                a reflection of how we see digital life evolving.
               </p>
 
               <p>
-                Over time we became increasingly interested in building calmer,
-                more meaningful experiences that focus on people instead of
-                constant engagement.
+                We are a small group of creators interested in long-term
+                thinking, calm design, and meaningful digital presence.
               </p>
 
               <p>
-                This project became an opportunity to explore a more thoughtful
-                and long-term approach to technology, design, and digital space.
+                This project is part of our ongoing exploration of how
+                technology can feel more natural, respectful, and timeless.
               </p>
             </div>
           </div>
 
-          <div
-            style={{
-              position: 'relative',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                inset: '-40px',
-                background:
-                  'radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%)',
-                filter: 'blur(60px)',
-              }}
-            />
-
+          <div>
             <div
               style={{
                 position: 'relative',
-                borderRadius: '32px',
+                borderRadius: '36px',
                 overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.08)',
-                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(80,80,70,0.15)',
+                background: 'rgba(255,255,255,0.6)',
+                boxShadow: '0 30px 80px rgba(0,0,0,0.08)',
               }}
             >
               <Image
                 src="/images/about/about-team.jpg"
-                alt="About us"
+                alt="Team"
                 width={900}
                 height={1200}
                 priority
@@ -222,9 +227,9 @@ export default function AboutPage() {
           <p
             style={{
               fontSize: '12px',
-              letterSpacing: '0.28em',
+              letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: '#a1a1aa',
+              color: '#6e6b63',
               marginBottom: '24px',
             }}
           >
@@ -236,65 +241,58 @@ export default function AboutPage() {
               fontSize: '52px',
               lineHeight: 1.1,
               marginBottom: '42px',
-              letterSpacing: '-0.04em',
+              letterSpacing: '-0.03em',
               fontWeight: 500,
+              color: '#2b2a27',
             }}
           >
-            The internet became faster.
+            A calmer approach
             <br />
-            We wanted to build slower.
+            to digital space.
           </h2>
 
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '28px',
-              color: '#c4c4c5',
-              fontSize: '19px',
+              gap: '26px',
+              color: '#5f5c55',
+              fontSize: '18px',
               lineHeight: 1.95,
             }}
           >
             <p>
-              We noticed that most modern platforms are designed around speed,
-              algorithms, endless feeds, and short-term attention.
+              We observed how digital environments increasingly prioritize speed
+              and constant interaction over clarity and depth.
             </p>
 
             <p>
-              Important memories and personal stories often become fragmented,
-              temporary, or lost among constant digital noise.
+              Many meaningful moments online become fragmented or lost over
+              time, spread across platforms that were never designed for
+              permanence.
             </p>
 
             <p>
-              Instead of building another product focused purely on engagement,
-              we wanted to experiment with something quieter and more personal.
+              We wanted to approach digital creation differently — more slowly,
+              more intentionally, and with more respect for what people leave
+              behind.
             </p>
 
             <p>
-              Eternal Garden became one of the first projects where we could
-              fully express that philosophy as creators.
+              Eternal Garden is one expression of that direction in our work.
             </p>
           </div>
         </section>
 
         {/* PRINCIPLES */}
-        <section
-          style={{
-            marginBottom: '180px',
-          }}
-        >
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: '70px',
-            }}
-          >
+        <section style={{ marginBottom: '180px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '70px' }}>
             <p
               style={{
                 fontSize: '12px',
-                letterSpacing: '0.28em',
+                letterSpacing: '0.3em',
                 textTransform: 'uppercase',
-                color: '#a1a1aa',
+                color: '#6e6b63',
                 marginBottom: '24px',
               }}
             >
@@ -305,13 +303,14 @@ export default function AboutPage() {
               style={{
                 fontSize: '52px',
                 lineHeight: 1.1,
-                letterSpacing: '-0.04em',
+                letterSpacing: '-0.03em',
                 fontWeight: 500,
+                color: '#2b2a27',
               }}
             >
               How we think about
               <br />
-              creating digital products.
+              building digital work.
             </h2>
           </div>
 
@@ -322,255 +321,55 @@ export default function AboutPage() {
               gap: '24px',
             }}
           >
-            <Card
-              style={{
-                borderRadius: '28px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <CardContent style={{ padding: '42px' }}>
-                <h3
+            {['Independence', 'Long-Term Thinking', 'Human Focus'].map(
+              (title) => (
+                <Card
+                  key={title}
                   style={{
-                    fontSize: '26px',
-                    marginBottom: '18px',
-                    fontWeight: 600,
+                    borderRadius: '30px',
+                    background: 'rgba(255,255,255,0.7)',
+                    border: '1px solid rgba(120,110,100,0.15)',
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.06)',
                   }}
                 >
-                  Independent
-                </h3>
+                  <CardContent style={{ padding: '40px' }}>
+                    <h3
+                      style={{
+                        fontSize: '24px',
+                        marginBottom: '16px',
+                        fontWeight: 600,
+                        color: '#2b2a27',
+                      }}
+                    >
+                      {title}
+                    </h3>
 
-                <p
-                  style={{
-                    color: '#c4c4c5',
-                    lineHeight: 1.9,
-                    fontSize: '17px',
-                  }}
-                >
-                  We prefer building thoughtfully instead of chasing every trend
-                  or rapid growth strategy.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card
-              style={{
-                borderRadius: '28px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <CardContent style={{ padding: '42px' }}>
-                <h3
-                  style={{
-                    fontSize: '26px',
-                    marginBottom: '18px',
-                    fontWeight: 600,
-                  }}
-                >
-                  Long-Term Thinking
-                </h3>
-
-                <p
-                  style={{
-                    color: '#c4c4c5',
-                    lineHeight: 1.9,
-                    fontSize: '17px',
-                  }}
-                >
-                  We believe meaningful digital projects should still matter
-                  years from now, not only during launch.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card
-              style={{
-                borderRadius: '28px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <CardContent style={{ padding: '42px' }}>
-                <h3
-                  style={{
-                    fontSize: '26px',
-                    marginBottom: '18px',
-                    fontWeight: 600,
-                  }}
-                >
-                  Human Approach
-                </h3>
-
-                <p
-                  style={{
-                    color: '#c4c4c5',
-                    lineHeight: 1.9,
-                    fontSize: '17px',
-                  }}
-                >
-                  We try to create calmer digital experiences that feel more
-                  respectful and less overwhelming.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        {/* TIMELINE */}
-        <section
-          style={{
-            maxWidth: '860px',
-            margin: '0 auto 180px',
-          }}
-        >
-          <p
-            style={{
-              fontSize: '12px',
-              letterSpacing: '0.28em',
-              textTransform: 'uppercase',
-              color: '#a1a1aa',
-              marginBottom: '24px',
-            }}
-          >
-            Journey
-          </p>
-
-          <h2
-            style={{
-              fontSize: '52px',
-              lineHeight: 1.1,
-              marginBottom: '70px',
-              letterSpacing: '-0.04em',
-              fontWeight: 500,
-            }}
-          >
-            Building one step at a time.
-          </h2>
-
-          <div
-            style={{
-              borderLeft: '1px solid rgba(255,255,255,0.12)',
-              paddingLeft: '36px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '54px',
-            }}
-          >
-            <div>
-              <p
-                style={{
-                  color: '#71717a',
-                  marginBottom: '10px',
-                }}
-              >
-                2025
-              </p>
-
-              <h3
-                style={{
-                  fontSize: '28px',
-                  marginBottom: '18px',
-                  fontWeight: 600,
-                }}
-              >
-                First Ideas
-              </h3>
-
-              <p
-                style={{
-                  color: '#c4c4c5',
-                  lineHeight: 1.9,
-                  fontSize: '17px',
-                }}
-              >
-                Early concepts around digital memory, preservation, and more
-                meaningful online experiences.
-              </p>
-            </div>
-
-            <div>
-              <p
-                style={{
-                  color: '#71717a',
-                  marginBottom: '10px',
-                }}
-              >
-                2026
-              </p>
-
-              <h3
-                style={{
-                  fontSize: '28px',
-                  marginBottom: '18px',
-                  fontWeight: 600,
-                }}
-              >
-                Building Eternal Garden
-              </h3>
-
-              <p
-                style={{
-                  color: '#c4c4c5',
-                  lineHeight: 1.9,
-                  fontSize: '17px',
-                }}
-              >
-                Development of the platform, visual identity, and long-term
-                creative direction.
-              </p>
-            </div>
-
-            <div>
-              <p
-                style={{
-                  color: '#71717a',
-                  marginBottom: '10px',
-                }}
-              >
-                Future
-              </p>
-
-              <h3
-                style={{
-                  fontSize: '28px',
-                  marginBottom: '18px',
-                  fontWeight: 600,
-                }}
-              >
-                Continuing the Journey
-              </h3>
-
-              <p
-                style={{
-                  color: '#c4c4c5',
-                  lineHeight: 1.9,
-                  fontSize: '17px',
-                }}
-              >
-                Continuing to build projects focused on long-term thinking,
-                digital legacy, and more human-centered experiences.
-              </p>
-            </div>
+                    <p
+                      style={{
+                        color: '#5f5c55',
+                        lineHeight: 1.9,
+                        fontSize: '16px',
+                      }}
+                    >
+                      We prioritize calm, clarity and long-term value over
+                      fast-moving trends.
+                    </p>
+                  </CardContent>
+                </Card>
+              )
+            )}
           </div>
         </section>
 
         {/* FOOTER */}
-        <section
-          style={{
-            textAlign: 'center',
-          }}
-        >
+        <section style={{ textAlign: 'center' }}>
           <div
             style={{
-              borderRadius: '36px',
-              border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(255,255,255,0.03)',
+              borderRadius: '40px',
+              border: '1px solid rgba(120,110,100,0.15)',
+              background: 'rgba(255,255,255,0.65)',
               padding: '80px 40px',
-              backdropFilter: 'blur(10px)',
+              boxShadow: '0 30px 90px rgba(0,0,0,0.08)',
             }}
           >
             <h2
@@ -578,24 +377,25 @@ export default function AboutPage() {
                 fontSize: '52px',
                 marginBottom: '28px',
                 lineHeight: 1.1,
-                letterSpacing: '-0.04em',
+                letterSpacing: '-0.03em',
                 fontWeight: 500,
+                color: '#2b2a27',
               }}
             >
-              Thank you for visiting.
+              Thank you for visiting
             </h2>
 
             <p
               style={{
-                color: '#c4c4c5',
+                color: '#5f5c55',
                 fontSize: '18px',
                 lineHeight: 1.9,
                 maxWidth: '760px',
                 margin: '0 auto 42px',
               }}
             >
-              We appreciate everyone interested not only in the product itself,
-              but also in the ideas and philosophy behind it.
+              We appreciate your interest in both our work and the ideas behind
+              it.
             </p>
 
             <Button variant="outline" asChild>
@@ -609,5 +409,4 @@ export default function AboutPage() {
       </main>
     </div>
   )
-          }
-              
+                           }
