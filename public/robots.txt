@@ -1,4 +1,4 @@
-# Robots.txt for Eternal Garden - eternalgarden.eu
+# Robots.txt for Eternal Garden - eternalgarden.lt
 
 # Allow all bots to crawl
 User-agent: *
@@ -13,16 +13,11 @@ Disallow: /auth
 Disallow: /create
 Disallow: /api
 
-# Allow specific API endpoints for indexing
-Allow: /api/memorials
-Allow: /sitemap.xml
-Allow: /feed.xml
-
 # Crawl delay to be respectful to server
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://eternalgarden.eu/sitemap.xml
+Sitemap: https://eternalgarden.lt/sitemap.xml
 
 # Block bad bots
 User-agent: MJ12bot
