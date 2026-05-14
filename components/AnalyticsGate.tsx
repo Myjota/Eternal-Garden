@@ -14,7 +14,7 @@ export default function AnalyticsGate() {
       // Add more IPs here to exclude from analytics
       const EXCLUDED_IPS = [
         "88.119.221.209",
-        // "123.456.789.000", // Example: add more IPs like this
+        "185.216.208.189",
       ]
 
       setEnabled(!EXCLUDED_IPS.includes(data.ip))
