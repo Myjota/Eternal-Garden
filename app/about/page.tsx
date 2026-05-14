@@ -281,7 +281,7 @@ export default function AboutPage() {
                 marginBottom: '24px',
               }}
             >
-              Olegas & Andrius Studija
+              Studija "Olegas & Andrius"
             </p>
 
             <h1
