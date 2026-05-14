@@ -28,35 +28,48 @@ function MarbleCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    // soft marble veins particles
-    const particles = Array.from({ length: 70 }).map(() => ({
+    const particles = Array.from({ length: 120 }).map(() => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      radius: Math.random() * 1.8 + 0.6,
-      speedX: (Math.random() - 0.5) * 0.15,
-      speedY: (Math.random() - 0.5) * 0.15,
-      alpha: Math.random() * 0.08 + 0.02,
+      radius: Math.random() * 2.4 + 0.8,
+      speedX: (Math.random() - 0.5) * 0.25,
+      speedY: (Math.random() - 0.5) * 0.25,
+      alpha: Math.random() * 0.12 + 0.03,
+      shade: Math.random() > 0.5 ? 1 : 0,
     }))
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // soft creamy marble base glow
-      const gradient = ctx.createRadialGradient(
-        canvas.width * 0.3,
-        canvas.height * 0.3,
-        0,
-        canvas.width * 0.5,
-        canvas.height * 0.5,
-        canvas.width
-      )
+      // stronger marble base
+      const g = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
+      g.addColorStop(0, '#f8f3ea')
+      g.addColorStop(0.5, '#efe7db')
+      g.addColorStop(1, '#f6f1e7')
 
-      gradient.addColorStop(0, 'rgba(255, 248, 240, 0.55)')
-      gradient.addColorStop(1, 'rgba(245, 245, 240, 0.05)')
-
-      ctx.fillStyle = gradient
+      ctx.fillStyle = g
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+      // marble veins
+      ctx.globalAlpha = 0.35
+      for (let i = 0; i < 18; i++) {
+        ctx.beginPath()
+        ctx.moveTo(Math.random() * canvas.width, 0)
+
+        for (let y = 0; y < canvas.height; y += 40) {
+          ctx.lineTo(
+            Math.random() * canvas.width + Math.sin(y * 0.01 + i) * 80,
+            y
+          )
+        }
+
+        ctx.strokeStyle = 'rgba(120,110,100,0.08)'
+        ctx.lineWidth = 1
+        ctx.stroke()
+      }
+      ctx.globalAlpha = 1
+
+      // floating particles
       particles.forEach((p) => {
         p.x += p.speedX
         p.y += p.speedY
@@ -68,7 +81,7 @@ function MarbleCanvas() {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(120, 130, 120, ${p.alpha})`
+        ctx.fillStyle = `rgba(80,70,60,${p.alpha})`
         ctx.fill()
       })
 
@@ -103,8 +116,8 @@ export default function AboutPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f7f3ee 0%, #ece7df 50%, #f5f1ea 100%)',
-        color: '#2f2f2a',
+        background: '#f6f1e7',
+        color: '#2a2622',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -127,237 +140,150 @@ export default function AboutPage() {
             gridTemplateColumns: '1.2fr 1fr',
             gap: '64px',
             alignItems: 'center',
-            marginBottom: '180px',
+            marginBottom: '160px',
           }}
         >
           <div>
             <p
               style={{
                 fontSize: '12px',
-                letterSpacing: '0.3em',
+                letterSpacing: '0.35em',
                 textTransform: 'uppercase',
-                color: '#6e6b63',
-                marginBottom: '28px',
+                color: '#6b625a',
+                marginBottom: '26px',
               }}
             >
-              About Us
+              Olegas & Andrius Studija
             </p>
 
             <h1
               style={{
-                fontSize: '70px',
+                fontSize: '72px',
                 lineHeight: 1.05,
                 fontWeight: 500,
-                marginBottom: '40px',
-                letterSpacing: '-0.03em',
-                color: '#2b2a27',
+                marginBottom: '36px',
+                letterSpacing: '-0.04em',
               }}
             >
-              We are a small
+              Kuriame skaitmenines
               <br />
-              independent studio
-              <br />
-              building thoughtful
-              <br />
-              digital spaces.
+              erdves kitaip.
             </h1>
 
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '22px',
-                color: '#5f5c55',
+                gap: '20px',
+                color: '#5f5851',
                 fontSize: '18px',
                 lineHeight: 1.9,
                 maxWidth: '720px',
               }}
             >
               <p>
-                Eternal Garden was not created as a product idea first, but as
-                a reflection of how we see digital life evolving.
+                Esame nedidelė nepriklausoma kūrėjų studija, dirbanti su
+                ilgalaikiais skaitmeniniais projektais.
               </p>
 
               <p>
-                We are a small group of creators interested in long-term
-                thinking, calm design, and meaningful digital presence.
+                Mums svarbiausia ne greitis ar tendencijos, o prasmė,
+                kokybė ir laikas.
               </p>
 
               <p>
-                This project is part of our ongoing exploration of how
-                technology can feel more natural, respectful, and timeless.
+                Eternal Garden yra vienas iš projektų, kuris atsirado iš
+                mūsų bendro požiūrio į tai, kaip turėtų atrodyti skaitmeninė
+                ateitis.
               </p>
             </div>
           </div>
 
-          <div>
-            <div
+          <div
+            style={{
+              borderRadius: '40px',
+              overflow: 'hidden',
+              border: '1px solid rgba(90,80,70,0.2)',
+              boxShadow: '0 40px 120px rgba(0,0,0,0.10)',
+              background: '#fff',
+            }}
+          >
+            <Image
+              src="/images/about/about-team.jpg"
+              alt="Studija"
+              width={900}
+              height={1200}
+              priority
               style={{
-                position: 'relative',
-                borderRadius: '36px',
-                overflow: 'hidden',
-                border: '1px solid rgba(80,80,70,0.15)',
-                background: 'rgba(255,255,255,0.6)',
-                boxShadow: '0 30px 80px rgba(0,0,0,0.08)',
+                width: '100%',
+                height: '720px',
+                objectFit: 'cover',
               }}
-            >
-              <Image
-                src="/images/about/about-team.jpg"
-                alt="Team"
-                width={900}
-                height={1200}
-                priority
-                style={{
-                  width: '100%',
-                  height: '720px',
-                  objectFit: 'cover',
-                }}
-              />
-            </div>
+            />
           </div>
         </section>
 
         {/* STORY */}
         <section
           style={{
-            maxWidth: '820px',
-            margin: '0 auto 180px',
+            maxWidth: '860px',
+            margin: '0 auto 160px',
           }}
         >
           <p
             style={{
               fontSize: '12px',
-              letterSpacing: '0.3em',
+              letterSpacing: '0.35em',
               textTransform: 'uppercase',
-              color: '#6e6b63',
-              marginBottom: '24px',
+              color: '#6b625a',
+              marginBottom: '22px',
             }}
           >
-            Why We Started
+            Kodėl pradėjome
           </p>
 
           <h2
             style={{
               fontSize: '52px',
               lineHeight: 1.1,
-              marginBottom: '42px',
+              marginBottom: '38px',
               letterSpacing: '-0.03em',
               fontWeight: 500,
-              color: '#2b2a27',
             }}
           >
-            A calmer approach
+            Idėja gimė iš
             <br />
-            to digital space.
+            paprasto pastebėjimo.
           </h2>
 
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '26px',
-              color: '#5f5c55',
+              gap: '24px',
+              color: '#5f5851',
               fontSize: '18px',
               lineHeight: 1.95,
             }}
           >
             <p>
-              We observed how digital environments increasingly prioritize speed
-              and constant interaction over clarity and depth.
+              Pastebėjome, kad dauguma skaitmeninių platformų yra orientuotos
+              į greitį, dėmesio išlaikymą ir nuolatinį srautą.
             </p>
 
             <p>
-              Many meaningful moments online become fragmented or lost over
-              time, spread across platforms that were never designed for
-              permanence.
+              Tuo tarpu svarbūs prisiminimai dažnai pasimeta arba išsisklaido
+              tarp skirtingų sistemų.
             </p>
 
             <p>
-              We wanted to approach digital creation differently — more slowly,
-              more intentionally, and with more respect for what people leave
-              behind.
+              Norėjome sukurti kažką ramesnio – skaitmeninę erdvę, kuri
+              nebūtų paremta triukšmu.
             </p>
 
             <p>
-              Eternal Garden is one expression of that direction in our work.
+              Taip atsirado mūsų studijos kryptis ir pirmieji projektai.
             </p>
-          </div>
-        </section>
-
-        {/* PRINCIPLES */}
-        <section style={{ marginBottom: '180px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '70px' }}>
-            <p
-              style={{
-                fontSize: '12px',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: '#6e6b63',
-                marginBottom: '24px',
-              }}
-            >
-              Our Approach
-            </p>
-
-            <h2
-              style={{
-                fontSize: '52px',
-                lineHeight: 1.1,
-                letterSpacing: '-0.03em',
-                fontWeight: 500,
-                color: '#2b2a27',
-              }}
-            >
-              How we think about
-              <br />
-              building digital work.
-            </h2>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '24px',
-            }}
-          >
-            {['Independence', 'Long-Term Thinking', 'Human Focus'].map(
-              (title) => (
-                <Card
-                  key={title}
-                  style={{
-                    borderRadius: '30px',
-                    background: 'rgba(255,255,255,0.7)',
-                    border: '1px solid rgba(120,110,100,0.15)',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.06)',
-                  }}
-                >
-                  <CardContent style={{ padding: '40px' }}>
-                    <h3
-                      style={{
-                        fontSize: '24px',
-                        marginBottom: '16px',
-                        fontWeight: 600,
-                        color: '#2b2a27',
-                      }}
-                    >
-                      {title}
-                    </h3>
-
-                    <p
-                      style={{
-                        color: '#5f5c55',
-                        lineHeight: 1.9,
-                        fontSize: '16px',
-                      }}
-                    >
-                      We prioritize calm, clarity and long-term value over
-                      fast-moving trends.
-                    </p>
-                  </CardContent>
-                </Card>
-              )
-            )}
           </div>
         </section>
 
@@ -365,43 +291,40 @@ export default function AboutPage() {
         <section style={{ textAlign: 'center' }}>
           <div
             style={{
-              borderRadius: '40px',
-              border: '1px solid rgba(120,110,100,0.15)',
-              background: 'rgba(255,255,255,0.65)',
+              borderRadius: '44px',
+              border: '1px solid rgba(90,80,70,0.2)',
+              background: 'rgba(255,255,255,0.6)',
               padding: '80px 40px',
-              boxShadow: '0 30px 90px rgba(0,0,0,0.08)',
+              boxShadow: '0 50px 140px rgba(0,0,0,0.10)',
             }}
           >
             <h2
               style={{
                 fontSize: '52px',
-                marginBottom: '28px',
+                marginBottom: '24px',
                 lineHeight: 1.1,
-                letterSpacing: '-0.03em',
-                fontWeight: 500,
-                color: '#2b2a27',
               }}
             >
-              Thank you for visiting
+              Ačiū, kad apsilankėte
             </h2>
 
             <p
               style={{
-                color: '#5f5c55',
+                color: '#5f5851',
                 fontSize: '18px',
                 lineHeight: 1.9,
                 maxWidth: '760px',
-                margin: '0 auto 42px',
+                margin: '0 auto 40px',
               }}
             >
-              We appreciate your interest in both our work and the ideas behind
-              it.
+              Vertiname žmones, kurie domisi ne tik produktu, bet ir idėja
+              už jo.
             </p>
 
             <Button variant="outline" asChild>
               <Link href="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Home
+                Grįžti į pradžią
               </Link>
             </Button>
           </div>
@@ -409,4 +332,4 @@ export default function AboutPage() {
       </main>
     </div>
   )
-                           }
+                }
