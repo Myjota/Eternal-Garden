@@ -35,7 +35,7 @@ const siteName = 'Eternal Garden'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteName} | Skaitmeninė atminimo vieta`,
+    default: `${siteName} | Skaitmeninė atminimo vieta kapinės`,
     template: `%s | ${siteName}`,
   },
   description:
