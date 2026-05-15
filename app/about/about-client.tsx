@@ -384,11 +384,9 @@ export function AboutClient() {
                 maxWidth: '760px',
               }}
             >
-              Sukurti
+              Apie
               <br />
-              skaitmenines erdvę,
-              <br />
-              pagerbti artimuosius.
+              Kūrėjus.
             </h1>
 
             <div
@@ -418,11 +416,11 @@ export function AboutClient() {
 
               <p>
                 Visapusiškas 
-                dalijimasis idejomis, darbu
+                dalijimasis idėjomis, darbu
                 ir resursais, reguliarūs 
                 susirinkimai siekiant,
-                įgyvendinti naujus
-                išukius.
+                įgyvendinti naujausius
+                išūkius.
               </p>
             </div>
           </div>
