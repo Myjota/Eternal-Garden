@@ -3,6 +3,9 @@ import { createClient } from '@/lib/supabase/server'
 
 const BASE_URL = 'https://eternalgarden.eu'
 
+// Revalidate sitemap every hour
+export const revalidate = 3600
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages with alternates for language support
   const staticPages: MetadataRoute.Sitemap = [
