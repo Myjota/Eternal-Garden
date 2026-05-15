@@ -77,6 +77,13 @@ export const metadata: Metadata = {
   verification: {
     google: 'bSkiHT-YJWJl9Dm5J3A5omcwFLdlIAvZyuj3bT8MfTw',
   },
+  alternates: {
+    canonical: siteUrl,
+    languages: {
+      'lt-LT': siteUrl,
+      'en-US': `${siteUrl}/en`,
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'lt_LT',
@@ -105,6 +112,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@eternalgarden',
     title: `${siteName} | Skaitmeninė atminimo vieta`,
     description:
       'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
