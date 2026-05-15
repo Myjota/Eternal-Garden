@@ -2,8 +2,10 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { ServicesClient } from './services-client'
 
+const BASE_URL = 'https://eternalgarden.eu'
+
 export const metadata: Metadata = {
-  title: 'Paslaugos | Eternal Garden',
+  title: 'Paslaugos',
   description:
     'Sužinokite apie Eternal Garden mokamas ir nemokamas paslaugas. Sukurkite gražų atminimo puslapį savo mylimam žmogui.',
   keywords: [
@@ -13,20 +15,28 @@ export const metadata: Metadata = {
     'atminimas',
     'memorialas',
   ],
+  alternates: {
+    canonical: `${BASE_URL}/services`,
+  },
   openGraph: {
     type: 'website',
     title: 'Paslaugos | Eternal Garden',
     description:
       'Sužinokite apie Eternal Garden mokamas ir nemokamas paslaugas.',
-    url: 'https://eternalgarden.eu/services',
+    url: `${BASE_URL}/services`,
     images: [
       {
-        url: 'https://eternalgarden.eu/og-image.png',
+        url: `${BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: 'Eternal Garden - Paslaugos',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Paslaugos | Eternal Garden',
+    description: 'Sužinokite apie Eternal Garden mokamas ir nemokamas paslaugas.',
   },
 }
 

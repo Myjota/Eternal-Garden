@@ -1,128 +1,33 @@
-'use client'
+import type { Metadata } from 'next'
+import { FAQClient } from './faq-client'
 
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
-import { ThemeProvider } from '@/lib/themes/theme-context'
-import { getTranslations } from '@/lib/i18n'
-import { useLocale } from '@/lib/i18n/useLocale'
+const BASE_URL = 'https://eternalgarden.eu'
 
-const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'myjota@zohomail.eu'
-
-const faqs = [
-  {
-    question: 'Kas yra Eternal Garden?',
-    answer:
-      'Eternal Garden yra skaitmeninė atminimo platforma, leidžianti sukurti ilgalaikius atminimo puslapius jūsų artimiesiems. Čia galite dalintis nuotraukomis, gyvenimo istorijomis ir prisiminimais.',
+export const metadata: Metadata = {
+  title: 'Dažniausiai užduodami klausimai',
+  description:
+    'Atsakymai į dažniausiai užduodamus klausimus apie Eternal Garden. Sužinokite apie paslaugas, kainas ir funkcijas.',
+  keywords: ['DUK', 'klausimai', 'atsakymai', 'pagalba', 'FAQ', 'eternal garden'],
+  alternates: {
+    canonical: `${BASE_URL}/faq`,
   },
-  {
-    question: 'Kiek kainuoja sukurti atminimo puslapį?',
-    answer:
-      'Pagrindinės funkcijos yra nemokamos. Galite sukurti atminimo puslapį, pridėti nuotraukų ir gyvenimo įvykių nemokamai. Premium funkcijos ir temos yra mokamos.',
+  openGraph: {
+    type: 'website',
+    title: 'Dažniausiai užduodami klausimai | Eternal Garden',
+    description:
+      'Atsakymai į dažniausiai užduodamus klausimus apie Eternal Garden. Sužinokite apie paslaugas, kainas ir funkcijas.',
+    url: `${BASE_URL}/faq`,
+    images: [
+      {
+        url: `${BASE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Eternal Garden - DUK',
+      },
+    ],
   },
-  {
-    question: 'Ar mano duomenys yra saugūs?',
-    answer:
-      'Taip, jūsų duomenų saugumas mums yra prioritetas. Naudojame šiuolaikinius šifravimo metodus ir laikomės GDPR reikalavimų.',
-  },
-  {
-    question: 'Ar galiu valdyti, kas mato atminimo puslapį?',
-    answer:
-      'Taip, galite pasirinkti ar atminimo puslapis bus viešas ar privatus. Privačius puslapius matys tik tie, kuriems suteiksite prieigą.',
-  },
-  {
-    question: 'Kaip veikia žvakučių uždegimas?',
-    answer:
-      'Lankytojai gali uždegti virtualią žvakutę atminimo puslapyje, taip parodydami pagarbą ir palaikymą. Tai nemokama funkcija.',
-  },
-  {
-    question: 'Ar galiu redaguoti atminimo puslapį vėliau?',
-    answer:
-      'Taip, galite bet kada redaguoti ir papildyti atminimo puslapį naujomis nuotraukomis, istorijomis ir informacija.',
-  },
-  {
-    question: 'Kiek laiko išliks atminimo puslapis?',
-    answer:
-      'Atminimo puslapiai yra kuriami amžinai. Mes įsipareigojame išsaugoti jūsų prisiminimus ilgalaikėje perspektyvoje.',
-  },
-  {
-    question: 'Kaip susisiekti su jumis?',
-    answer: `Galite susisiekti su mumis el. paštu ${CONTACT_EMAIL} arba per kontaktų formą mūsų svetainėje.`,
-  },
-]
+}
 
 export default function FAQPage() {
-  const { locale } = useLocale({})
-  const t = getTranslations(locale)
-
-  return (
-    <ThemeProvider initialTheme="garden">
-      <div className="min-h-screen flex flex-col bg-background">
-
-        <main className="flex-1">
-          <div className="container mx-auto px-4 py-12 max-w-3xl">
-
-            {/* Header */}
-            <div className="text-center mb-12">
-              <h1 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-                Dažniausiai užduodami klausimai
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Atsakymai į dažniausiai užduodamus klausimus apie Eternal Garden
-              </p>
-            </div>
-
-            {/* FAQ */}
-            <Accordion type="single" collapsible className="mb-12">
-              {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-
-            {/* Contact */}
-            <div className="text-center bg-muted/50 rounded-lg p-8 mb-8">
-              <h2 className="text-xl font-semibold mb-2">
-                Neradote atsakymo?
-              </h2>
-              <p className="text-muted-foreground mb-4">
-                Susisiekite su mumis ir mielai atsakysime į jūsų klausimus
-              </p>
-
-              <Button asChild>
-                <a href={`mailto:${CONTACT_EMAIL}`}>
-                  Susisiekti
-                </a>
-              </Button>
-            </div>
-
-            {/* Back */}
-            <div className="text-center">
-              <Button variant="ghost" asChild>
-                <Link href="/">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Grįžti į pradžią
-                </Link>
-              </Button>
-            </div>
-
-          </div>
-        </main>
-
-      </div>
-    </ThemeProvider>
-  )
+  return <FAQClient />
 }

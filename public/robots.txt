@@ -1,7 +1,0 @@
-# Robots.txt for Eternal Garden - eternalgarden.eu
-
-User-agent: *
-Allow: /
-
-# Sitemap
-Sitemap: https://eternalgarden.eu/sitemap.xml

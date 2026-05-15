@@ -4,55 +4,103 @@ import { createClient } from '@/lib/supabase/server'
 const BASE_URL = 'https://eternalgarden.eu'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages
+  // Static pages with alternates for language support
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1.0,
+      alternates: {
+        languages: {
+          lt: BASE_URL,
+          en: `${BASE_URL}/en`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/about`,
+          en: `${BASE_URL}/en/about`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/services`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/services`,
+          en: `${BASE_URL}/en/services`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/faq`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/faq`,
+          en: `${BASE_URL}/en/faq`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/kontaktai`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/kontaktai`,
+          en: `${BASE_URL}/en/contact`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/support`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/support`,
+          en: `${BASE_URL}/en/support`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/privacy`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.3,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/privacy`,
+          en: `${BASE_URL}/en/privacy`,
+        },
+      },
     },
     {
       url: `${BASE_URL}/terms`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.3,
+      alternates: {
+        languages: {
+          lt: `${BASE_URL}/terms`,
+          en: `${BASE_URL}/en/terms`,
+        },
+      },
     },
   ]
 
