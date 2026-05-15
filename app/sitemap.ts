@@ -3,120 +3,51 @@ import { createClient } from '@/lib/supabase/server'
 
 const BASE_URL = 'https://eternalgarden.eu'
 
-// Revalidate sitemap every hour
 export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages with alternates for language support
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 1.0,
-      alternates: {
-        languages: {
-          lt: BASE_URL,
-          en: `${BASE_URL}/en`,
-        },
-      },
+      priority: 1,
     },
     {
       url: `${BASE_URL}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/about`,
-          en: `${BASE_URL}/en/about`,
-        },
-      },
     },
     {
       url: `${BASE_URL}/services`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/services`,
-          en: `${BASE_URL}/en/services`,
-        },
-      },
     },
     {
       url: `${BASE_URL}/faq`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/faq`,
-          en: `${BASE_URL}/en/faq`,
-        },
-      },
     },
     {
       url: `${BASE_URL}/kontaktai`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/kontaktai`,
-          en: `${BASE_URL}/en/contact`,
-        },
-      },
-    },
-    {
-      url: `${BASE_URL}/support`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/support`,
-          en: `${BASE_URL}/en/support`,
-        },
-      },
-    },
-    {
-      url: `${BASE_URL}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/privacy`,
-          en: `${BASE_URL}/en/privacy`,
-        },
-      },
-    },
-    {
-      url: `${BASE_URL}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-      alternates: {
-        languages: {
-          lt: `${BASE_URL}/terms`,
-          en: `${BASE_URL}/en/terms`,
-        },
-      },
     },
   ]
 
-  // Dynamic memorial pages
   let memorialPages: MetadataRoute.Sitemap = []
-  
+
   try {
     const supabase = await createClient()
+
     const { data: memorials } = await supabase
       .from('memorials')
       .select('slug, updated_at')
       .eq('is_public', true)
-      .order('updated_at', { ascending: false })
 
     if (memorials) {
       memorialPages = memorials.map((memorial) => ({
@@ -127,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
     }
   } catch (error) {
-    console.error('Error fetching memorials for sitemap:', error)
+    console.error(error)
   }
 
   return [...staticPages, ...memorialPages]
