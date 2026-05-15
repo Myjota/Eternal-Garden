@@ -499,9 +499,9 @@ export function AboutClient() {
           >
             {[
               {
-                t: 'ES Pilnai',
+                t: 'Kūrybos Laisvė',
                 d:
-                  'Kuriame be spaudimo, trumpalaikių trendų ir dirbtinio skubėjimo.',
+                  'Tikime, kad kūryba, kaip ir ąžuolas, auga iš kantrybės — kai jai leidžiama vystytis savo ritmu, be skubos ir triukšmo.',
               },
               {
                 t: 'Geras Pamatas',
