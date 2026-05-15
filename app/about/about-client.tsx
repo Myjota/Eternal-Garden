@@ -511,7 +511,7 @@ export function AboutClient() {
               {
                 t: 'Partnerystė',
                 d:
-                  'Esame atviri partnerystei.',
+                  'Esame atviri žmonėms, idėjoms ir partnerystėms, kurios kuria ilgalaikę vertę.',
               },
             ].map((i) => (
               <Card
