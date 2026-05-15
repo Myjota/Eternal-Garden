@@ -370,7 +370,7 @@ export function AboutClient() {
                 marginBottom: '24px',
               }}
             >
-              Olegas & Andrius Studija
+              Kūrėjai Olegas & Andrius
             </p>
 
             <h1
@@ -384,11 +384,11 @@ export function AboutClient() {
                 maxWidth: '760px',
               }}
             >
-              Kuriame
+              Sukurti
               <br />
-              skaitmenines erdves,
+              skaitmenines erdvę,
               <br />
-              kurios išlieka.
+              pagerbti artimuosius.
             </h1>
 
             <div
@@ -404,25 +404,25 @@ export function AboutClient() {
             >
               <p>
                 Esame nepriklausoma kūrėjų
-                studija, orientuota į
-                ilgalaikius skaitmeninius
-                projektus.
+                komanda, priėmusi išūkį
+                sukurti skaitmeninę 
+                atminimo vietą.
               </p>
 
               <p>
-                Mums svarbus ne triukšmas ar
-                trumpalaikis dėmesys,
-                o ramus, aiškus ir estetiškas
-                buvimas laike.
+                Ši vizija ir subūrė
+                mus kartu į nedidelę komandą,
+                kur vyrauja lygiateisiškumas
+                ir komandinis darbas.
               </p>
 
               <p>
-                Eternal Garden tapo vienu
-                pirmųjų bandymų sukurti
-                skaitmeninę erdvę, kuri nėra
-                paremta algoritmais,
-                spaudimu ar nuolatiniu
-                skubėjimu.
+                Visapusiškas 
+                dalijimasis idejomis, darbu
+                ir resursais, reguliarūs 
+                susirinkimai siekiant,
+                įgyvendinti naujus
+                išukius.
               </p>
             </div>
           </div>
