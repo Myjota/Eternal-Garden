@@ -506,7 +506,7 @@ export function AboutClient() {
               {
                 t: 'Geras Pamatas',
                 d:
-                  'Projektai kuriami taip, kad išliktų aktualūs po metų ar dešimtmečių.',
+                  'Projektą statome ant tvirto pagrindo — nuo technologijų iki dizaino filosofijos. Siekiame, kad tai išliktų aktualu ir po daugelio metų.',
               },
               {
                 t: 'Partnerystė',
