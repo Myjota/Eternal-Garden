@@ -501,7 +501,7 @@ export function AboutClient() {
               {
                 t: 'Kūrybos Laisvė',
                 d:
-                  'Tikime, kad kūryba, kaip ir ąžuolas, auga iš kantrybės — kai jai leidžiama vystytis savo ritmu, be skubos ir triukšmo.',
+                  'Kūryba mums primena ąžuolą — ji tyliai dygsta, lėtai stiprėja ir galiausiai įauga į laiką.',
               },
               {
                 t: 'Geras Pamatas',
