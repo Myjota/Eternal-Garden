@@ -8,7 +8,7 @@ import { getTranslations } from '@/lib/i18n'
 import { useLocaleContext } from '@/providers/locale-provider'
 
 const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'myjota@zohomail.eu'
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'eternalgarden@zohomail.eu'
 
 export function ContactClient() {
   const { locale } = useLocaleContext()
