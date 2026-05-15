@@ -474,7 +474,7 @@ export function AboutClient() {
                 marginBottom: '18px',
               }}
             >
-              Mūsų požiūris
+              Mūsų tikslai
             </p>
 
             <h2
@@ -485,7 +485,7 @@ export function AboutClient() {
                 letterSpacing: '-0.04em',
               }}
             >
-              Kaip mes kuriame
+              Būti Pirmi
             </h2>
           </div>
 
@@ -499,19 +499,19 @@ export function AboutClient() {
           >
             {[
               {
-                t: 'Nepriklausomybė',
+                t: 'ES Pilnai',
                 d:
                   'Kuriame be spaudimo, trumpalaikių trendų ir dirbtinio skubėjimo.',
               },
               {
-                t: 'Ilgalaikis mąstymas',
+                t: 'Geras Pamatas',
                 d:
                   'Projektai kuriami taip, kad išliktų aktualūs po metų ar dešimtmečių.',
               },
               {
-                t: 'Žmogiškas požiūris',
+                t: 'Partnerystė',
                 d:
-                  'Technologija turi suteikti ramybę, aiškumą ir buvimo jausmą.',
+                  'Esame atviri partnerystei.',
               },
             ].map((i) => (
               <Card
