@@ -15,7 +15,6 @@ interface FormData {
   birthDate: string
   deathDate: string
   biography: string
-  shortDescription: string
   epitaph: string
   theme: string
   isPublic: boolean
@@ -103,22 +102,6 @@ export function StepInformation({
           </div>
         </div>
 
-        {isFamous && (
-          <div className="space-y-2">
-            <Label htmlFor="shortDescription">Trumpas aprašymas (rodomas kortelėje) *</Label>
-            <Input
-              id="shortDescription"
-              value={formData.shortDescription}
-              onChange={(e) => updateFormData('shortDescription', e.target.value)}
-              placeholder="Pvz.: Lietuvos poetas, rašytojas, visuomenininkas"
-              required={isFamous}
-            />
-            <p className="text-xs text-muted-foreground">
-              Šis aprašymas bus rodomas žymių žmonių kortelėje pagrindiniame puslapyje
-            </p>
-          </div>
-        )}
-
         <div className="space-y-2">
           <Label htmlFor="biography">Biografija</Label>
           <Textarea
@@ -130,19 +113,38 @@ export function StepInformation({
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="epitaph">Epitafija</Label>
-          <Textarea
-            id="epitaph"
-            value={formData.epitaph}
-            onChange={(e) => updateFormData('epitaph', e.target.value)}
-            placeholder="Pvz.: Amžinai gyvas mūsų širdyse..."
-            rows={2}
-          />
-          <p className="text-xs text-muted-foreground">
-            Trumpa frazė ar citata, kuri bus rodoma atminimo puslapyje
-          </p>
-        </div>
+        {isFamous && (
+          <div className="space-y-2">
+            <Label htmlFor="epitaph">Epitafija / Trumpas aprašymas *</Label>
+            <Textarea
+              id="epitaph"
+              value={formData.epitaph}
+              onChange={(e) => updateFormData('epitaph', e.target.value)}
+              placeholder="Pvz.: Lietuvos poetas, rašytojas, visuomenininkas"
+              required={isFamous}
+              rows={2}
+            />
+            <p className="text-xs text-muted-foreground">
+              Šis aprašymas bus rodomas žymių žmonių kortelėje pagrindiniame puslapyje
+            </p>
+          </div>
+        )}
+
+        {!isFamous && (
+          <div className="space-y-2">
+            <Label htmlFor="epitaph">Epitafija</Label>
+            <Textarea
+              id="epitaph"
+              value={formData.epitaph}
+              onChange={(e) => updateFormData('epitaph', e.target.value)}
+              placeholder="Pvz.: Amžinai gyvas mūsų širdyse..."
+              rows={2}
+            />
+            <p className="text-xs text-muted-foreground">
+              Trumpa frazė ar citata, kuri bus rodoma atminimo puslapyje
+            </p>
+          </div>
+        )}
 
         <div className="space-y-2">
           <Label>Profilio nuotrauka</Label>
