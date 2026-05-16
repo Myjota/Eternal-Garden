@@ -333,7 +333,7 @@ function CreateMemorialContent() {
                     {step > s ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : s}
                   </div>
                   <span className={`text-xs sm:text-sm hidden md:block ${step >= s ? 'text-foreground' : 'text-muted-foreground'}`}>
-                    {s === 1 ? 'Informacija' : s === 2 ? 'Tema' : s === 3 ? 'Gyvenimas' : s === 4 ? 'Kapavietė' : 'Peržiūra'}
+                    {s === 1 ? 'Informacija' : s === 2 ? 'Gyvenimas' : s === 3 ? 'Kapavietė' : s === 4 ? 'Tema' : 'Peržiūra'}
                   </span>
                   {s < 5 && <div className="w-4 sm:w-8 h-px bg-border mx-1 sm:mx-2" />}
                 </div>
@@ -493,26 +493,8 @@ function CreateMemorialContent() {
               </Card>
             )}
 
-{/* Step 2: Theme Selection */}
+{/* Step 2: Timeline */}
             {step === 2 && (
-              <div>
-                <div className="text-center mb-6">
-                  <h2 className="font-serif text-2xl font-bold text-foreground mb-2">
-                    Pasirinkite temą
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Tema nustato atminimo puslapio išvaizdą ir nuotaiką
-                  </p>
-                </div>
-                <ThemePicker
-                  value={formData.theme}
-                  onChange={(theme) => updateFormData('theme', theme)}
-                />
-              </div>
-            )}
-
-            {/* Step 3: Timeline */}
-            {step === 3 && (
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -618,8 +600,8 @@ function CreateMemorialContent() {
               </Card>
             )}
 
-            {/* Step 4: Burial Place */}
-            {step === 4 && (
+            {/* Step 3: Burial Place */}
+            {step === 3 && (
               <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
@@ -696,6 +678,24 @@ function CreateMemorialContent() {
                   </div>
                 </CardContent>
               </Card>
+            )}
+
+            {/* Step 4: Theme Selection */}
+            {step === 4 && (
+              <div>
+                <div className="text-center mb-6">
+                  <h2 className="font-serif text-2xl font-bold text-foreground mb-2">
+                    Pasirinkite temą
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Tema nustato atminimo puslapio išvaizdą ir nuotaiką
+                  </p>
+                </div>
+                <ThemePicker
+                  value={formData.theme}
+                  onChange={(theme) => updateFormData('theme', theme)}
+                />
+              </div>
             )}
 
             {/* Step 5: Review */}
