@@ -142,6 +142,28 @@ export const en: Translations = {
       },
     },
     backToHome: 'Back to Home',
+    creatorsLabel: 'Creators Olegas & Andrius',
+    heroTitle: 'About',
+    heroTitleLine2: 'The Creators.',
+    heroP1: 'We are an independent team of creators who took on the challenge of building a digital memorial space.',
+    heroP2: 'This vision brought us together into a small team where equality and teamwork prevail.',
+    heroP3: 'Comprehensive sharing of ideas, work and resources, regular meetings to implement the latest challenges.',
+    goalsLabel: 'Our Goals',
+    goalsTitle: 'To Be First',
+    goals: {
+      creativity: {
+        title: 'Creative Freedom',
+        description: 'Creativity reminds us of an oak tree — it sprouts quietly, strengthens slowly, and eventually grows into time.',
+      },
+      foundation: {
+        title: 'Strong Foundation',
+        description: 'We build the project on a solid foundation — from technology to design philosophy. We aim for it to remain relevant for many years to come.',
+      },
+      partnership: {
+        title: 'Partnership',
+        description: 'We are open to people, ideas and partnerships that create long-term value.',
+      },
+    },
   },
   footer: {
     tagline: 'Preserve memories. Inspire future generations.',
