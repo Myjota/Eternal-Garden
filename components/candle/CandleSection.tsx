@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CandleLit, CandleUnlit } from "./Candle";
 import { useCandlesData } from "@/hooks/useCandlesData";
 
@@ -15,10 +15,10 @@ export function CandleSection({
   initialLit = false,
   onLight,
 }: CandleSectionProps) {
-  const [isLit, setIsLit] = useState(initialLit);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'error' | 'success' | 'info'; text: string } | null>(null);
 
-  // Real Supabase data
+  // Real Supabase data - userHasLitCandle is now tracked in the hook
   const {
     stats,
     recentUsers,
@@ -26,20 +26,17 @@ export function CandleSection({
     loading: dataLoading,
     error,
     lightCandle,
-    getUserCandleStatus,
+    userHasLitCandle,
   } = useCandlesData(memorialId);
 
-  // Check if user already lit candle
-  useEffect(() => {
-    if (currentUser && !dataLoading) {
-      getUserCandleStatus().then(setIsLit);
-    }
-  }, [currentUser, dataLoading, getUserCandleStatus]);
+  // Use the hook's state directly - no need for separate useEffect
+  const isLit = userHasLitCandle || initialLit;
 
   async function handleLight() {
     if (isLit || loading) return;
 
     setLoading(true);
+    setMessage(null);
 
     try {
       const userName = currentUser?.name || "Anonymous";
@@ -47,14 +44,30 @@ export function CandleSection({
       const result = await lightCandle(userName);
 
       if (result.success) {
-        setIsLit(true);
+        // userHasLitCandle will be updated by the hook automatically
+        setMessage({
+          type: 'success',
+          text: '🕯️ Ačiū už pagarbą! Žvakė šviečia jūsų artimajam.'
+        });
         onLight?.();
+      } else if (result.alreadyLit) {
+        // userHasLitCandle will be updated by the hook automatically
+        setMessage({
+          type: 'info',
+          text: 'Jūs jau uždėgėte žvaką šiam memorialo. 🕯️'
+        });
       } else {
-        alert(result.error || "Nepavyko uždegti žvakės");
+        setMessage({
+          type: 'error',
+          text: result.error || 'Nepavyko uždegti žvakės'
+        });
       }
     } catch (error) {
       console.error("Error lighting candle:", error);
-      alert("Nepavyko uždegti žvakės");
+      setMessage({
+        type: 'error',
+        text: 'Nepavyko uždegti žvakės'
+      });
     } finally {
       setLoading(false);
     }
@@ -66,7 +79,7 @@ export function CandleSection({
         
         {/* TITLE */}
         <h2 className="memorial-section-title memorial-font-heading">
-          Uždekite žvakę
+          
         </h2>
 
         {/* CENTER CANDLE */}
@@ -88,27 +101,35 @@ export function CandleSection({
                 loading ? "candle-light-button-loading" : ""
               }`}
             >
-              Uždegti žvakę
+              {loading ? "Uždegiu..." : "Uždegti žvakę"}
             </button>
+          )}
+
+          {isLit && !loading && (
+            <div className="candle-already-lit">
+              <p className="candle-already-lit-text">
+                🕯️ Jūs jau uždėgėte žvaką
+              </p>
+            </div>
           )}
         </div>
 
+        {/* MESSAGE DISPLAY */}
+        {message && (
+          <div className={`candle-message candle-message-${message.type}`}>
+            {message.text}
+          </div>
+        )}
+
+        {/* ERROR MESSAGE */}
+        {error && !message && (
+          <div className="candle-message candle-message-error">
+            {error}
+          </div>
+        )}
+
         {/* STATS */}
         <div className="candle-stats">
-          <div className="candle-stat">
-            <span className="candle-stat-indicator"></span>
-
-            <div className="candle-stat-content">
-              <span className="candle-stat-label">
-                Dega dabar
-              </span>
-
-              <span className="candle-stat-value">
-                {stats.currently_burning}
-              </span>
-            </div>
-          </div>
-
           <div className="candle-stat candle-stat-right">
             <div className="candle-stat-content">
               <span className="candle-stat-label">

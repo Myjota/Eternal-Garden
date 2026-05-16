@@ -7,7 +7,7 @@ export async function GET() {
 
     const { data, error } = await supabase
       .from('memorials')
-      .select('id, slug, name, birth_date, death_date, short_description, photo_url')
+      .select('id, slug, name, birth_date, death_date, epitaph, photo_url')
       .eq('is_famous', true)
       .eq('is_public', true)
       .order('created_at', { ascending: false })
@@ -17,7 +17,15 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ data })
+    // Transform data to include short_description from epitaph
+    const transformedData = data?.map(memorial => ({
+      ...memorial,
+      short_description: memorial.epitaph 
+        ? memorial.epitaph.substring(0, 150) + (memorial.epitaph.length > 150 ? '...' : '')
+        : null
+    }))
+
+    return NextResponse.json({ data: transformedData })
   } catch (err) {
     console.error('Unexpected error:', err)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

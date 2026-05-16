@@ -1,38 +1,46 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
+
+import { Spinner } from '@/components/ui/spinner'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { 
-  Users, 
-  FileText, 
-  Settings, 
+
+import {
   Shield,
+  Users,
+  FileText,
+  Star,
+  Settings,
+  MoreVertical,
   Eye,
   Trash2,
-  MoreVertical,
-  AlertTriangle,
-  Star,
-  Plus,
   Check,
-  X
+  X,
+  Plus,
 } from 'lucide-react'
-import Link from 'next/link'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
-import { Spinner } from '@/components/ui/spinner'
-import type { User as SupabaseUser } from '@supabase/supabase-js'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
+
+import type { User } from '@supabase/supabase-js'
+
+const supabase = createClient()
 
 interface Profile {
   id: string
@@ -51,142 +59,159 @@ interface Memorial {
   last_name: string
   is_public: boolean
   is_famous: boolean
-  photo_url: string | null
   created_at: string
   user_id: string
 }
 
+const tabs = [
+  ['users', Users, 'Vartotojai'],
+  ['memorials', FileText, 'Atminimai'],
+  ['famous', Star, 'Žymūs'],
+  ['settings', Settings, 'Nustatymai'],
+] as const
+
+const statusBadge = (value: boolean) => (
+  <Badge variant={value ? 'default' : 'secondary'}>
+    {value ? 'Viešas' : 'Privatus'}
+  </Badge>
+)
+
+const formatName = (user: Profile) =>
+  `${user.first_name || ''} ${user.last_name || ''}`.trim() || '-'
+
 export default function AdminPage() {
   const router = useRouter()
-  const [user, setUser] = useState<SupabaseUser | null>(null)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [locale] = useState<Locale>(defaultLocale)
-  const t = getTranslations(locale)
 
-  // Data states
+  const [user, setUser] = useState<User | null>(null)
   const [users, setUsers] = useState<Profile[]>([])
   const [memorials, setMemorials] = useState<Memorial[]>([])
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalMemorials: 0,
-    publicMemorials: 0,
-    famousMemorials: 0,
-    adminCount: 0
-  })
+  const [loading, setLoading] = useState(true)
+
+  const { locale } = useLocale({ user })
+  const t = getTranslations(locale)
 
   useEffect(() => {
-    const checkAdminAndLoadData = async () => {
-      const supabase = createClient()
-      
-      // Check auth
-      const { data: userData } = await supabase.auth.getUser()
-      if (!userData.user) {
-        router.push('/auth/login')
-        return
-      }
-      
-      setUser(userData.user)
+    load()
+  }, [])
 
-      // Check if admin
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_admin')
-        .eq('id', userData.user.id)
-        .single()
+  const load = async () => {
+    const { data: auth } = await supabase.auth.getUser()
 
-      if (!profile?.is_admin) {
-        router.push('/dashboard')
-        return
-      }
-
-      setIsAdmin(true)
-
-      // Load all users
-      const { data: allUsers } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (allUsers) {
-        setUsers(allUsers)
-      }
-
-      // Load all memorials (without join to avoid 400 error)
-      const { data: allMemorials } = await supabase
-        .from('memorials')
-        .select('id, slug, name, first_name, last_name, is_public, is_famous, photo_url, created_at, user_id')
-        .order('created_at', { ascending: false })
-
-      if (allMemorials) {
-        setMemorials(allMemorials as Memorial[])
-      }
-
-      // Calculate stats
-      setStats({
-        totalUsers: allUsers?.length || 0,
-        totalMemorials: allMemorials?.length || 0,
-        publicMemorials: allMemorials?.filter(m => m.is_public).length || 0,
-        famousMemorials: allMemorials?.filter(m => m.is_famous).length || 0,
-        adminCount: allUsers?.filter(u => u.is_admin).length || 0
-      })
-
-      setLoading(false)
-    }
-
-    checkAdminAndLoadData()
-  }, [router])
-
-  const handleDeleteMemorial = async (id: string) => {
-    if (!confirm('Ar tikrai norite ištrinti šį atminimą? Šis veiksmas negrįžtamas.')) {
+    if (!auth.user) {
+      router.replace('/auth/login')
       return
     }
 
-    const supabase = createClient()
-    const { error } = await supabase
+    setUser(auth.user)
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', auth.user.id)
+      .single()
+
+    if (!profile?.is_admin) {
+      router.replace('/dashboard')
+      return
+    }
+
+    const [usersRes, memorialsRes] = await Promise.all([
+      supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false }),
+
+      supabase
+        .from('memorials')
+        .select('*')
+        .order('created_at', { ascending: false }),
+    ])
+
+    setUsers(usersRes.data || [])
+    setMemorials(memorialsRes.data || [])
+
+    setLoading(false)
+  }
+
+  const stats = useMemo(() => {
+    return [
+      ['Viso vartotojų', users.length],
+      ['Viso atminimų', memorials.length],
+      ['Vieši', memorials.filter(m => m.is_public).length],
+      ['Žymūs', memorials.filter(m => m.is_famous).length],
+      ['Administratoriai', users.filter(u => u.is_admin).length],
+    ]
+  }, [users, memorials])
+
+  const usersMap = useMemo(
+    () => new Map(users.map(u => [u.id, u])),
+    [users]
+  )
+
+  const famousMemorials = useMemo(
+    () => memorials.filter(m => m.is_famous || m.is_public),
+    [memorials]
+  )
+
+  const deleteMemorial = async (id: string) => {
+    if (!confirm('Ištrinti atminimą?')) return
+
+    await supabase
       .from('memorials')
       .delete()
       .eq('id', id)
 
-    if (!error) {
-      setMemorials(memorials.filter(m => m.id !== id))
-      setStats(prev => ({
-        ...prev,
-        totalMemorials: prev.totalMemorials - 1
-      }))
-    }
+    setMemorials(prev => prev.filter(m => m.id !== id))
   }
 
-  const handleToggleFamous = async (id: string, currentValue: boolean) => {
-    const supabase = createClient()
-    const { error } = await supabase
+  const toggleFamous = async (id: string, current: boolean) => {
+    await supabase
       .from('memorials')
-      .update({ is_famous: !currentValue })
+      .update({ is_famous: !current })
       .eq('id', id)
 
-    if (!error) {
-      setMemorials(memorials.map(m => 
-        m.id === id ? { ...m, is_famous: !currentValue } : m
-      ))
-      setStats(prev => ({
-        ...prev,
-        famousMemorials: currentValue 
-          ? prev.famousMemorials - 1 
-          : prev.famousMemorials + 1
-      }))
-    }
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Spinner className="h-8 w-8" />
-      </div>
+    setMemorials(prev =>
+      prev.map(m =>
+        m.id === id
+          ? { ...m, is_famous: !current }
+          : m
+      )
     )
   }
 
-  if (!isAdmin) {
-    return null
+  const actions = (memorial: Memorial) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <MoreVertical className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          onClick={() => router.push(`/memorial/${memorial.slug}`)}
+        >
+          <Eye className="h-4 w-4 mr-2" />
+          Peržiūrėti
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          className="text-destructive"
+          onClick={() => deleteMemorial(memorial.id)}
+        >
+          <Trash2 className="h-4 w-4 mr-2" />
+          Ištrinti
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Spinner className="h-8 w-8" />
+      </div>
+    )
   }
 
   return (
@@ -194,360 +219,228 @@ export default function AdminPage() {
       <Header user={user} t={t} locale={locale} />
 
       <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Shield className="h-8 w-8 text-primary" />
+        <div className="flex items-center gap-3 mb-8">
+          <Shield className="h-8 w-8 text-primary" />
+          <div>
             <h1 className="text-3xl font-serif font-semibold">
               Administravimas
             </h1>
+
+            <p className="text-muted-foreground">
+              Sistemos valdymas
+            </p>
           </div>
-          <p className="text-muted-foreground">
-            Valdykite vartotojus, atminimus ir sistemos nustatymus
-          </p>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Viso vartotojų</CardDescription>
-              <CardTitle className="text-3xl">{stats.totalUsers}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Viso atminimų</CardDescription>
-              <CardTitle className="text-3xl">{stats.totalMemorials}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Vieši atminimai</CardDescription>
-              <CardTitle className="text-3xl">{stats.publicMemorials}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Žymūs žmonės</CardDescription>
-              <CardTitle className="text-3xl">{stats.famousMemorials}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Administratoriai</CardDescription>
-              <CardTitle className="text-3xl">{stats.adminCount}</CardTitle>
-            </CardHeader>
-          </Card>
+          {stats.map(([label, value]) => (
+            <Card key={label}>
+              <CardHeader className="pb-2">
+                <CardDescription>{label}</CardDescription>
+
+                <CardTitle className="text-3xl">
+                  {value}
+                </CardTitle>
+              </CardHeader>
+            </Card>
+          ))}
         </div>
 
-        {/* Main Content Tabs */}
         <Tabs defaultValue="users" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="users" className="gap-2">
-              <Users className="h-4 w-4" />
-              Vartotojai
-            </TabsTrigger>
-            <TabsTrigger value="memorials" className="gap-2">
-              <FileText className="h-4 w-4" />
-              Atminimai
-            </TabsTrigger>
-            <TabsTrigger value="famous" className="gap-2">
-              <Star className="h-4 w-4" />
-              Žymūs žmonės
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="gap-2">
-              <Settings className="h-4 w-4" />
-              Nustatymai
-            </TabsTrigger>
+            {tabs.map(([value, Icon, label]) => (
+              <TabsTrigger
+                key={value}
+                value={value}
+                className="gap-2"
+              >
+                <Icon className="h-4 w-4" />
+                {label}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
-          {/* Users Tab */}
+          {/* USERS */}
           <TabsContent value="users">
             <Card>
               <CardHeader>
                 <CardTitle>Vartotojai</CardTitle>
-                <CardDescription>
-                  Visi registruoti vartotojai sistemoje
-                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Vardas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">El. paštas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Statusas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Registracija</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map((profile) => (
-                        <tr key={profile.id} className="border-b last:border-0">
-                          <td className="py-3 px-2">
-                            {profile.first_name || profile.last_name 
-                              ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim()
-                              : '-'}
-                          </td>
-                          <td className="py-3 px-2 text-muted-foreground">
-                            {profile.email || '-'}
-                          </td>
-                          <td className="py-3 px-2">
-                            {profile.is_admin ? (
-                              <Badge variant="default" className="gap-1">
-                                <Shield className="h-3 w-3" />
-                                Admin
-                              </Badge>
-                            ) : (
-                              <Badge variant="secondary">Vartotojas</Badge>
-                            )}
-                          </td>
-                          <td className="py-3 px-2 text-sm text-muted-foreground">
-                            {profile.created_at 
-                              ? new Date(profile.created_at).toLocaleDateString('lt-LT')
-                              : '-'}
-                          </td>
-                        </tr>
+
+              <CardContent className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      {['Vardas', 'El. paštas', 'Statusas', 'Data'].map(h => (
+                        <th
+                          key={h}
+                          className="text-left py-3 px-2 text-sm text-muted-foreground"
+                        >
+                          {h}
+                        </th>
                       ))}
-                    </tbody>
-                  </table>
-                  
-                  {users.length === 0 && (
-                    <p className="text-center py-8 text-muted-foreground">
-                      Nėra registruotų vartotojų
-                    </p>
-                  )}
-                </div>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {users.map(profile => (
+                      <tr key={profile.id} className="border-b">
+                        <td className="py-3 px-2">
+                          {formatName(profile)}
+                        </td>
+
+                        <td className="py-3 px-2 text-muted-foreground">
+                          {profile.email || '-'}
+                        </td>
+
+                        <td className="py-3 px-2">
+                          <Badge
+                            variant={profile.is_admin ? 'default' : 'secondary'}
+                          >
+                            {profile.is_admin ? 'Admin' : 'Vartotojas'}
+                          </Badge>
+                        </td>
+
+                        <td className="py-3 px-2 text-sm text-muted-foreground">
+                          {new Date(profile.created_at).toLocaleDateString('lt-LT')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Memorials Tab */}
+          {/* MEMORIALS */}
           <TabsContent value="memorials">
             <Card>
               <CardHeader>
                 <CardTitle>Atminimai</CardTitle>
-                <CardDescription>
-                  Visi sukurti atminimai sistemoje
-                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Atminimas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Sukūrė</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Statusas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Data</th>
-                        <th className="text-right py-3 px-2 text-sm font-medium text-muted-foreground">Veiksmai</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {memorials.map((memorial) => (
-                        <tr key={memorial.id} className="border-b last:border-0">
-                          <td className="py-3 px-2 font-medium">
-                            {memorial.first_name} {memorial.last_name}
-                          </td>
-                          <td className="py-3 px-2 text-muted-foreground">
-                            {users.find(u => u.id === memorial.user_id)?.email || '-'}
-                          </td>
-                          <td className="py-3 px-2">
-                            {memorial.is_public ? (
-                              <Badge variant="default">Viešas</Badge>
-                            ) : (
-                              <Badge variant="secondary">Privatus</Badge>
-                            )}
-                          </td>
-                          <td className="py-3 px-2 text-sm text-muted-foreground">
-                            {new Date(memorial.created_at).toLocaleDateString('lt-LT')}
-                          </td>
-                          <td className="py-3 px-2 text-right">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                  <MoreVertical className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem 
-                                  onClick={() => router.push(`/memorial/${memorial.slug}`)}
-                                >
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  Peržiūrėti
-                                </DropdownMenuItem>
-                                <DropdownMenuItem 
-                                  onClick={() => handleDeleteMemorial(memorial.id)}
-                                  className="text-destructive"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Ištrinti
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </td>
-                        </tr>
+
+              <CardContent className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      {['Atminimas', 'Sukūrė', 'Statusas', 'Data', ''].map(h => (
+                        <th
+                          key={h}
+                          className="text-left py-3 px-2 text-sm text-muted-foreground"
+                        >
+                          {h}
+                        </th>
                       ))}
-                    </tbody>
-                  </table>
-                  
-                  {memorials.length === 0 && (
-                    <p className="text-center py-8 text-muted-foreground">
-                      Nėra sukurtų atminimų
-                    </p>
-                  )}
-                </div>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {memorials.map(memorial => (
+                      <tr key={memorial.id} className="border-b">
+                        <td className="py-3 px-2 font-medium">
+                          {memorial.first_name} {memorial.last_name}
+                        </td>
+
+                        <td className="py-3 px-2 text-muted-foreground">
+                          {usersMap.get(memorial.user_id)?.email || '-'}
+                        </td>
+
+                        <td className="py-3 px-2">
+                          {statusBadge(memorial.is_public)}
+                        </td>
+
+                        <td className="py-3 px-2 text-sm text-muted-foreground">
+                          {new Date(memorial.created_at).toLocaleDateString('lt-LT')}
+                        </td>
+
+                        <td className="py-3 px-2 text-right">
+                          {actions(memorial)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Famous Tab */}
+          {/* FAMOUS */}
           <TabsContent value="famous">
             <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      <Star className="h-5 w-5 text-amber-500" />
-                      Žymūs Lietuviai
-                    </CardTitle>
-                    <CardDescription>
-                      Valdykite žymių žmonių atminimus, kurie rodomi pagrindiniame puslapyje
-                    </CardDescription>
-                  </div>
-                  <Button asChild>
-                    <Link href="/create?famous=true">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Sukurti žymaus žmogaus atminimą
-                    </Link>
-                  </Button>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Žymūs žmonės</CardTitle>
+
+                  <CardDescription>
+                    Rodomi pagrindiniame puslapyje
+                  </CardDescription>
                 </div>
+
+                <Button asChild>
+                  <Link href="/create?famous=true">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Sukurti
+                  </Link>
+                </Button>
               </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Vardas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Statusas</th>
-                        <th className="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Žymus</th>
-                        <th className="text-right py-3 px-2 text-sm font-medium text-muted-foreground">Veiksmai</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {memorials.filter(m => m.is_famous || m.is_public).map((memorial) => (
-                        <tr key={memorial.id} className="border-b last:border-0">
-                          <td className="py-3 px-2 font-medium">
-                            {memorial.name || `${memorial.first_name} ${memorial.last_name}`}
-                          </td>
-                          <td className="py-3 px-2">
-                            {memorial.is_public ? (
-                              <Badge variant="default">Viešas</Badge>
+
+              <CardContent className="overflow-x-auto">
+                <table className="w-full">
+                  <tbody>
+                    {famousMemorials.map(memorial => (
+                      <tr key={memorial.id} className="border-b">
+                        <td className="py-3 px-2 font-medium">
+                          {memorial.name || `${memorial.first_name} ${memorial.last_name}`}
+                        </td>
+
+                        <td className="py-3 px-2">
+                          {statusBadge(memorial.is_public)}
+                        </td>
+
+                        <td className="py-3 px-2">
+                          <Button
+                            size="sm"
+                            variant={memorial.is_famous ? 'default' : 'outline'}
+                            onClick={() =>
+                              toggleFamous(memorial.id, memorial.is_famous)
+                            }
+                          >
+                            {memorial.is_famous ? (
+                              <Check className="h-4 w-4" />
                             ) : (
-                              <Badge variant="secondary">Privatus</Badge>
+                              <X className="h-4 w-4" />
                             )}
-                          </td>
-                          <td className="py-3 px-2">
-                            <Button
-                              variant={memorial.is_famous ? "default" : "outline"}
-                              size="sm"
-                              onClick={() => handleToggleFamous(memorial.id, memorial.is_famous)}
-                              className="gap-1"
-                            >
-                              {memorial.is_famous ? (
-                                <>
-                                  <Check className="h-3 w-3" />
-                                  Žymus
-                                </>
-                              ) : (
-                                <>
-                                  <X className="h-3 w-3" />
-                                  Ne
-                                </>
-                              )}
-                            </Button>
-                          </td>
-                          <td className="py-3 px-2 text-right">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                  <MoreVertical className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem 
-                                  onClick={() => router.push(`/memorial/${memorial.slug}`)}
-                                >
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  Peržiūrėti
-                                </DropdownMenuItem>
-                                <DropdownMenuItem 
-                                  onClick={() => handleDeleteMemorial(memorial.id)}
-                                  className="text-destructive"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Ištrinti
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  
-                  {memorials.length === 0 && (
-                    <p className="text-center py-8 text-muted-foreground">
-                      Nėra sukurtų atminimų. Sukurkite pirmąjį žymaus žmogaus atminimą.
-                    </p>
-                  )}
-                </div>
+                          </Button>
+                        </td>
+
+                        <td className="py-3 px-2 text-right">
+                          {actions(memorial)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Settings Tab */}
+          {/* SETTINGS */}
           <TabsContent value="settings">
             <Card>
               <CardHeader>
-                <CardTitle>Sistemos nustatymai</CardTitle>
+                <CardTitle>Nustatymai</CardTitle>
+
                 <CardDescription>
-                  Bendri sistemos konfigūracijos nustatymai
+                  Sistemos konfigūracija
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex items-center gap-4 p-4 border rounded-lg">
-                  <AlertTriangle className="h-8 w-8 text-amber-500" />
-                  <div>
-                    <h3 className="font-medium">Admin valdymas</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Norėdami pridėti ar pašalinti administratorius, tiesiogiai redaguokite
-                      <code className="mx-1 px-1 py-0.5 bg-muted rounded text-xs">profiles</code>
-                      lentelę Supabase ir pakeiskite
-                      <code className="mx-1 px-1 py-0.5 bg-muted rounded text-xs">is_admin</code>
-                      lauką į <code className="px-1 py-0.5 bg-muted rounded text-xs">true</code>.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h3 className="font-medium">Duomenų bazė</h3>
-                      <p className="text-sm text-muted-foreground">Supabase PostgreSQL</p>
-                    </div>
-                    <Badge variant="outline" className="text-green-600 border-green-600">
-                      Prisijungta
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
       </main>
 
-      <Footer t={t} />
+      <Footer />
     </div>
   )
-}
+                }

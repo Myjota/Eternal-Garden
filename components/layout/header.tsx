@@ -2,11 +2,29 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
-import { Menu, X, User, ChevronDown, LogOut, Shield } from 'lucide-react'
+import {
+  useState,
+  useEffect,
+  useMemo,
+} from 'react'
+
+import {
+  useRouter,
+  usePathname,
+} from 'next/navigation'
+
+import {
+  Menu,
+  X,
+  User,
+  ChevronDown,
+  LogOut,
+  Shield,
+  Check,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,8 +35,9 @@ import {
 import {
   locales,
   localeNames,
-  type Locale,
 } from '@/lib/i18n/config'
+
+import { getTranslations } from '@/lib/i18n'
 
 import {
   getNavItems,
@@ -27,231 +46,653 @@ import {
 } from '@/lib/nav/nav.config'
 
 import { createClient } from '@/lib/supabase/client'
+
+import { useLocaleContext } from '@/providers/locale-provider'
+
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface HeaderProps {
-  locale?: Locale
-  t?: any
-  onLocaleChange?: (locale: Locale) => void
   user?: SupabaseUser | null
   isAdmin?: boolean
 }
 
 export function Header({
-  locale = 'lt',
-  t,
-  onLocaleChange,
   user,
   isAdmin = false,
 }: HeaderProps) {
-  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const [mobileOpen, setMobileOpen] =
+    useState(false)
+
+  const [currentUser, setCurrentUser] =
+    useState<SupabaseUser | null>(
+      user ?? null
+    )
 
   const router = useRouter()
   const pathname = usePathname()
 
-  const NAV = getNavItems(t)
-  const USER_MENU = getUserMenu()
+  // LOCALE
+  const { locale, setLocale } =
+    useLocaleContext()
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href)
+  // TRANSLATIONS
+  const t = getTranslations(locale)
 
-  const handleLogout = async () => {
-    try {
-      // Use dedicated logout route for proper server-side session clearing
-      const response = await fetch('/auth/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+  // MEMOIZED NAV
+  const NAV = useMemo(
+    () => getNavItems(t),
+    [t]
+  )
 
-      if (!response.ok) {
-        console.error('Logout failed')
-        return
+  const USER_MENU = useMemo(
+    () => getUserMenu(t),
+    [t]
+  )
+
+  // ACTIVE LINK
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/'
+    }
+
+    return (
+      pathname === href ||
+      pathname.startsWith(`${href}/`)
+    )
+  }
+
+  // AUTH LISTENER
+  useEffect(() => {
+
+    const supabase = createClient()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setCurrentUser(session?.user ?? null)
       }
+    )
 
-      // Also call client-side signOut to trigger auth state change immediately
+    return () => {
+      subscription.unsubscribe()
+    }
+
+  }, [])
+
+  // LOGOUT
+  const handleLogout = async () => {
+
+    try {
+
       const supabase = createClient()
+
       await supabase.auth.signOut()
 
-      // Redirect to homepage after successful logout
-      window.location.href = '/'
+      setMobileOpen(false)
+
+      router.push('/')
+      router.refresh()
+
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error(
+        'Logout error:',
+        error
+      )
+    }
+  }
+
+  // LANGUAGE SWITCH
+  const handleLocaleChange = async (
+    newLocale: 'lt' | 'en'
+  ) => {
+
+    try {
+
+      await setLocale(newLocale)
+
+      router.refresh()
+
+    } catch (error) {
+      console.error(
+        'Locale change error:',
+        error
+      )
     }
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header
+      className="
+        sticky top-0 z-50
+        border-b border-[#d4c4a8]/20
+        bg-[#f8f5ef]/70
+        backdrop-blur-xl
+        shadow-sm
+        supports-[backdrop-filter]:bg-[#f8f5ef]/55
+      "
+    >
 
-        {/* LOGO */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="h-10 w-auto"
-          />
-        </Link>
+      {/* TOP LINE */}
+      <div
+        className="
+          h-[1px]
+          bg-gradient-to-r
+          from-transparent
+          via-[#2d5a3d]/20
+          to-transparent
+        "
+      />
 
-        {/* DESKTOP NAV */}
-        <nav className="hidden md:flex gap-8">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={
-                isActive(item.href)
-                  ? 'text-foreground underline'
-                  : 'text-muted-foreground hover:text-foreground'
-              }
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+      <div
+        className="
+          container mx-auto
+          flex h-16
+          items-center
+          justify-between
+          px-4
+        "
+      >
+
+        {/* LEFT SIDE */}
+        <div className="flex items-center gap-10">
+
+          {/* LOGO */}
+          <Link
+            href="/"
+            className="
+              flex items-center
+              gap-2
+              shrink-0
+            "
+          >
+            <Image
+              src="/images/logo.png"
+              alt="Eternal Garden"
+              width={40}
+              height={40}
+              priority
+              className="
+                h-10
+                w-auto
+                transition-transform
+                duration-300
+                hover:scale-105
+              "
+            />
+          </Link>
+
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex gap-8">
+
+            {NAV.map((item) => (
+
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                  group
+                  relative
+                  text-sm
+                  pb-1
+                  transition-all
+                  duration-200
+
+                  ${
+                    isActive(item.href)
+                      ? 'text-[#2d5a3d] font-semibold'
+                      : 'text-[#4a4a4a] hover:text-[#2d5a3d]'
+                  }
+                `}
+              >
+
+                {item.label}
+
+                <span
+                  className={`
+                    absolute
+                    left-0
+                    -bottom-[2px]
+                    h-[2px]
+                    rounded-full
+                    bg-[#2d5a3d]
+                    transition-all
+                    duration-300
+
+                    ${
+                      isActive(item.href)
+                        ? 'w-full'
+                        : 'w-0 group-hover:w-full'
+                    }
+                  `}
+                />
+
+              </Link>
+
+            ))}
+
+          </nav>
+
+        </div>
 
         {/* RIGHT SIDE */}
-        <div className="hidden md:flex items-center gap-2">
+        <div
+          className="
+            hidden md:flex
+            items-center
+            gap-3
+          "
+        >
 
           {/* LANGUAGE */}
           <DropdownMenu>
+
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
+
+              <Button
+                variant="ghost"
+                size="sm"
+                className="
+                  rounded-full
+                  border border-[#d4c4a8]/40
+                  bg-white/50
+                  hover:bg-[#efe7da]
+                  transition-all
+                "
+              >
                 {locale.toUpperCase()}
-                <ChevronDown className="h-3 w-3 ml-1" />
+
+                <ChevronDown
+                  className="
+                    ml-1
+                    h-3
+                    w-3
+                  "
+                />
               </Button>
+
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              className="
+                border-[#d4c4a8]/40
+                bg-[#fdfbf8]
+                shadow-xl
+              "
+            >
+
               {locales.map((loc) => (
+
                 <DropdownMenuItem
                   key={loc}
-                  onClick={() => onLocaleChange?.(loc)}
+                  onClick={() =>
+                    handleLocaleChange(loc)
+                  }
+                  className="
+                    flex
+                    justify-between
+                    cursor-pointer
+                  "
                 >
-                  {localeNames[loc]}
+
+                  <span>
+                    {localeNames[loc]}
+                  </span>
+
+                  {locale === loc && (
+                    <Check
+                      className="
+                        h-4
+                        w-4
+                        text-[#2d5a3d]
+                      "
+                    />
+                  )}
+
                 </DropdownMenuItem>
+
               ))}
+
             </DropdownMenuContent>
+
           </DropdownMenu>
 
-          {/* USER */}
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  <User className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
+          {/* AUTH */}
+          <div
+            className="
+              w-[140px]
+              flex
+              justify-end
+            "
+          >
 
-              <DropdownMenuContent align="end" className="w-56">
+            {currentUser ? (
 
-                <div className="px-2 py-1.5 text-xs text-muted-foreground truncate">
-                  {user.email}
-                </div>
+              <DropdownMenu>
 
-                {USER_MENU.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href}>{item.label}</Link>
-                  </DropdownMenuItem>
-                ))}
+                <DropdownMenuTrigger asChild>
 
-                {isAdmin && (
-                  <>
-                    <div className="my-1 border-t" />
-                    <DropdownMenuItem asChild>
-                      <Link href={adminItem.href} className="text-primary flex gap-2">
-                        <Shield className="h-4 w-4" />
-                        {adminItem.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                )}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="
+                      rounded-full
+                      border border-[#d4c4a8]/40
+                      bg-white/60
+                      hover:bg-[#efe7da]
+                      transition-all
+                    "
+                  >
 
-                <div className="my-1 border-t" />
+                    <User
+                      className="
+                        h-4
+                        w-4
+                        text-[#2d5a3d]
+                      "
+                    />
 
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="text-destructive flex gap-2"
+                  </Button>
+
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  align="end"
+                  className="
+                    w-60
+                    border-[#d4c4a8]/40
+                    bg-[#fdfbf8]
+                    shadow-xl
+                  "
                 >
-                  <LogOut className="h-4 w-4" />
-                  Atsijungti
-                </DropdownMenuItem>
 
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <>
-              <Button asChild variant="ghost" size="sm">
-                <Link href="/auth/login">Prisijungti</Link>
+                  <div
+                    className="
+                      px-3
+                      py-2
+                      text-xs
+                      text-muted-foreground
+                      border-b
+                    "
+                  >
+                    {currentUser.email}
+                  </div>
+
+                  {USER_MENU.map((item) => (
+
+                    <DropdownMenuItem
+                      asChild
+                      key={item.href}
+                    >
+
+                      <Link href={item.href}>
+                        {item.label}
+                      </Link>
+
+                    </DropdownMenuItem>
+
+                  ))}
+
+                  {isAdmin && (
+                    <>
+
+                      <div className="my-1 border-t" />
+
+                      <DropdownMenuItem asChild>
+
+                        <Link
+                          href={adminItem(t).href}
+                          className="
+                            flex
+                            gap-2
+                            text-[#2d5a3d]
+                          "
+                        >
+
+                          <Shield
+                            className="
+                              h-4
+                              w-4
+                            "
+                          />
+
+                          {adminItem(t).label}
+
+                        </Link>
+
+                      </DropdownMenuItem>
+
+                    </>
+                  )}
+
+                  <div className="my-1 border-t" />
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="
+                      flex
+                      gap-2
+                      text-red-500
+                      cursor-pointer
+                    "
+                  >
+
+                    <LogOut
+                      className="
+                        h-4
+                        w-4
+                      "
+                    />
+
+                    {t.nav.logout}
+
+                  </DropdownMenuItem>
+
+                </DropdownMenuContent>
+
+              </DropdownMenu>
+
+            ) : (
+
+              <Button
+                asChild
+                size="sm"
+                className="
+                  min-w-[120px]
+                  rounded-full
+                  bg-[#2d5a3d]
+                  hover:bg-[#244732]
+                  text-white
+                  shadow-md
+                  transition-all
+                "
+              >
+
+                <Link href="/auth/login">
+                  {t.nav.login}
+                </Link>
+
               </Button>
-            </>
-          )}
+
+            )}
+
+          </div>
+
         </div>
 
         {/* MOBILE BUTTON */}
         <button
-          className="md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
+          onClick={() =>
+            setMobileOpen(!mobileOpen)
+          }
+          className="
+            md:hidden
+            text-[#2d5a3d]
+            transition-transform
+            duration-200
+          "
+          aria-label="Toggle Menu"
         >
-          {mobileOpen ? <X /> : <Menu />}
+
+          {mobileOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+
         </button>
+
       </div>
 
       {/* MOBILE MENU */}
       {mobileOpen && (
-        <div className="border-t md:hidden">
-          <nav className="flex flex-col gap-3 p-4">
+
+        <div
+          className="
+            md:hidden
+            border-t
+            border-[#d4c4a8]/20
+            bg-[#fdfbf8]
+            backdrop-blur-xl
+          "
+        >
+
+          <nav
+            className="
+              p-4
+              flex
+              flex-col
+              gap-1
+            "
+          >
 
             {NAV.map((item) => (
+
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={() =>
+                  setMobileOpen(false)
+                }
+                className={`
+                  rounded-xl
+                  px-4
+                  py-3
+                  text-sm
+                  transition-colors
+
+                  ${
+                    isActive(item.href)
+                      ? 'bg-[#efe7da] text-[#2d5a3d] font-medium'
+                      : 'hover:bg-[#efe7da]'
+                  }
+                `}
               >
+
                 {item.label}
+
               </Link>
+
             ))}
 
-            <div className="border-t pt-3 flex flex-col gap-2">
+            <div
+              className="
+                my-3
+                border-t
+                border-[#d4c4a8]/20
+              "
+            />
 
-              {user ? (
-                <>
-                  {USER_MENU.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+            {/* MOBILE LANGUAGE */}
+            <div className="flex gap-2">
 
-                  {isAdmin && (
-                    <Link href={adminItem.href}>
-                      {adminItem.label}
-                    </Link>
-                  )}
+              {locales.map((loc) => (
 
-                  <button
-                    onClick={handleLogout}
-                    className="text-red-500 text-left"
-                  >
-                    Atsijungti
-                  </button>
-                </>
+                <Button
+                  key={loc}
+                  variant={
+                    locale === loc
+                      ? 'default'
+                      : 'outline'
+                  }
+                  size="sm"
+                  onClick={() => {
+                    handleLocaleChange(loc)
+                    setMobileOpen(false)
+                  }}
+                  className={
+                    locale === loc
+                      ? 'bg-[#2d5a3d]'
+                      : ''
+                  }
+                >
+
+                  {loc.toUpperCase()}
+
+                </Button>
+
+              ))}
+
+            </div>
+
+            {/* MOBILE AUTH */}
+            <div className="mt-4">
+
+              {currentUser ? (
+
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="
+                    w-full
+                    justify-start
+                    rounded-xl
+                  "
+                >
+
+                  <LogOut
+                    className="
+                      mr-2
+                      h-4
+                      w-4
+                    "
+                  />
+
+                  {t.nav.logout}
+
+                </Button>
+
               ) : (
-                <Link href="/auth/login">
-                  Prisijungti
-                </Link>
+
+                <Button
+                  asChild
+                  className="
+                    w-full
+                    rounded-xl
+                    bg-[#2d5a3d]
+                    hover:bg-[#244732]
+                  "
+                  onClick={() => setMobileOpen(false)}
+                >
+
+                  <Link href="/auth/login">
+                    {t.nav.login}
+                  </Link>
+
+                </Button>
+
               )}
 
             </div>
+
           </nav>
+
         </div>
+
       )}
+
     </header>
   )
-  }
+      }

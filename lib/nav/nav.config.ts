@@ -19,15 +19,28 @@ export const getNavItems = (t?: any): NavItem[] => {
   ]
 }
 
-export const getUserMenu = (): NavItem[] => [
-  { href: '/dashboard', label: 'Valdymas' },
-  { href: '/profile', label: 'Paskyra' },
-  { href: '/settings', label: 'Nustatymai' },
-  { href: '/services', label: 'Paslaugos' },
-  { href: '/create', label: 'Sukurti Atminimą' },
-]
+export const getUserMenu = (t?: any): NavItem[] => {
+  const menu = t?.menu ?? {
+    dashboard: 'Valdymas',
+    profile: 'Paskyra',
+    settings: 'Nustatymai',
+    services: 'Paslaugos',
+    createMemorial: 'Sukurti Atminimą',
+  }
 
-export const adminItem: NavItem = {
-  href: '/admin',
-  label: 'Administravimas',
+  return [
+    { href: '/dashboard', label: menu.dashboard },
+    { href: '/profile', label: menu.profile },
+    { href: '/settings', label: menu.settings },
+    { href: '/services', label: menu.services },
+    { href: '/create', label: menu.createMemorial },
+  ]
+}
+
+export const adminItem = (t?: any): NavItem => {
+  const menu = t?.menu ?? { admin: 'Administravimas' }
+  return {
+    href: '/admin',
+    label: menu.admin,
+  }
 }

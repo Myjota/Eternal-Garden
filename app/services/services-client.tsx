@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Header } from '@/components/layout/header'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import type { User } from '@supabase/supabase-js'
 
 interface ServicesClientProps {
@@ -39,19 +39,13 @@ const services = [
 ]
 
 export function ServicesClient({ user }: ServicesClientProps) {
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
+  const { locale, setLocale } = useLocale({ user })
   const t = getTranslations(locale)
 
   return (
-    <>
-      <Header
-        locale={locale}
-        t={t}
-        onLocaleChange={setLocale}
-        user={user}
-      />
-
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto py-10 max-w-5xl">
+
         <h1 className="text-2xl font-semibold mb-2">Paslaugos</h1>
 
         <p className="text-sm text-muted-foreground mb-6">
@@ -69,9 +63,13 @@ export function ServicesClient({ user }: ServicesClientProps) {
                 </span>
               </div>
 
-              <p className="text-sm text-muted-foreground">{service.desc}</p>
+              <p className="text-sm text-muted-foreground">
+                {service.desc}
+              </p>
 
-              <p className="text-sm font-semibold">{service.price}</p>
+              <p className="text-sm font-semibold">
+                {service.price}
+              </p>
 
               <Button
                 className="w-full"
@@ -82,7 +80,8 @@ export function ServicesClient({ user }: ServicesClientProps) {
             </Card>
           ))}
         </div>
+
       </div>
-    </>
+    </div>
   )
 }

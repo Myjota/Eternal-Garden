@@ -10,11 +10,61 @@ export const en: Translations = {
     logout: 'Logout',
     dashboard: 'Dashboard',
   },
+  menu: {
+    dashboard: 'Dashboard',
+    profile: 'Account',
+    settings: 'Settings',
+    services: 'Services',
+    createMemorial: 'Create Memorial',
+    admin: 'Administration',
+  },
   hero: {
     title: 'Eternal Garden',
     subtitle: 'Living Stories',
     description: 'Create an eternal memory together. Preserve the life stories of your loved ones for future generations.',
     searchPlaceholder: 'Search memories, people, places...',
+  },
+  supportPage: {
+    title: 'Support',
+    description:
+      'Your support helps nurture the digital garden of memory — a place where memories, stories, and love remain alive for future generations.',
+    whyTitle: 'Why support us?',
+    benefits: {
+      newFeatures: {
+        title: 'New Features',
+        description:
+          'We develop new ways to preserve memories, stories, and family heritage.',
+      },
+      stableServers: {
+        title: 'Reliable Servers',
+        description:
+          'We ensure memorials and memories remain safe for years to come.',
+      },
+      newDesigns: {
+        title: 'Fresh Designs',
+        description:
+          'We create a cozy and beautiful environment reminiscent of a real garden of memory.',
+      },
+      freeServices: {
+        title: 'Free Services',
+        description:
+          'We aim to keep Eternal Garden accessible to everyone.',
+      },
+    },
+    backButton: 'Back to Home',
+    supportBoxTitle: 'Eternal Garden',
+    supportBoxSubtitle: 'Digital Garden of Memory',
+    supportBoxDescription:
+      'Your support helps grow the garden of memory where memories stay alive.',
+    supportBox: {
+      receiverLabel: 'Receiver',
+      bankLabel: 'Bank',
+      purposeLabel: 'Purpose',
+      ibanLabel: 'IBAN',
+      copyIban: 'Copy IBAN',
+      copied: 'Copied',
+      thankYou: 'Thank you for helping this garden grow 🌱',
+    },
   },
   features: {
     title: 'Why Choose Us',
@@ -48,15 +98,91 @@ export const en: Translations = {
     title: 'Famous Lithuanians',
     viewMemorial: 'View Memorial',
   },
+  visionSection: {
+    label: 'Our Philosophy',
+    title: 'More than memorials — a repository of human memory',
+    description: 'After hundreds or even thousands of years, many graves will vanish. Headstones will fade, and family stories will scatter in time. Eternal Garden is a digital garden where memory can remain forever: a place where family trees, stories, photos, and remembrances are passed from generation to generation.',
+    pillars: {
+      memory: {
+        title: 'Lasting Memory',
+        description: 'More than a place to honor — a storehouse where humanity’s memories endure even when graves disappear.',
+      },
+      tribute: {
+        title: 'Connection to the Future',
+        description: 'A bridge between past and future: a place where ancestors’ stories continue and are rediscovered by tomorrow’s generations.',
+      },
+      community: {
+        title: 'Heritage of Origin',
+        description: 'You may never visit every ancestor’s grave, but here all family histories live together in one eternal garden.',
+      },
+    },
+  },
+  aboutPage: {
+    title: 'About Eternal Garden',
+    description: 'A digital memorial space designed to preserve the life stories and memories of your loved ones for future generations.',
+    missionTitle: 'Our Mission',
+    missionDescription: 'We believe every person deserves to be remembered. Eternal Garden creates a space where families and friends can share memories, photos, and life stories.',
+    valuesTitle: 'Our Values',
+    values: {
+      respect: {
+        title: 'Respect',
+        description: 'Every memory is unique and worthy of respect. We create a space where memories remain alive.',
+      },
+      community: {
+        title: 'Community',
+        description: 'We believe sharing memories helps to cope with loss and keep a connection with those who are gone.',
+      },
+      privacy: {
+        title: 'Privacy',
+        description: 'Your data and memories are safe. We ensure the highest level of privacy.',
+      },
+      sustainability: {
+        title: 'Sustainability',
+        description: 'We build a lasting platform that will endure for future generations and help preserve family histories.',
+      },
+    },
+    backToHome: 'Back to Home',
+    creatorsLabel: 'Creators Olegas & Andrius',
+    heroTitle: 'About',
+    heroTitleLine2: 'The Creators.',
+    heroP1: 'We are an independent team of creators who took on the challenge of building a digital memorial space.',
+    heroP2: 'This vision brought us together into a small team where equality and teamwork prevail.',
+    heroP3: 'Comprehensive sharing of ideas, work and resources, regular meetings to implement the latest challenges.',
+    goalsLabel: 'Our Goals',
+    goalsTitle: 'To Be First',
+    goals: {
+      creativity: {
+        title: 'Creative Freedom',
+        description: 'Creativity reminds us of an oak tree — it sprouts quietly, strengthens slowly, and eventually grows into time.',
+      },
+      foundation: {
+        title: 'Strong Foundation',
+        description: 'We build the project on a solid foundation — from technology to design philosophy. We aim for it to remain relevant for many years to come.',
+      },
+      partnership: {
+        title: 'Partnership',
+        description: 'We are open to people, ideas and partnerships that create long-term value.',
+      },
+    },
+  },
   footer: {
     tagline: 'Preserve memories. Inspire future generations.',
     main: 'Home',
     aboutUs: 'About Us',
+    contact: 'Contact',
     faq: 'FAQ',
     donate: 'Donate',
     privacyPolicy: 'Privacy Policy',
     terms: 'Terms and Conditions',
-    copyright: '© 2024 Eternal Garden. All rights reserved.',
+    copyright: '© 2026 Eternal Garden. All rights reserved.',
+  },
+  contactPage: {
+    title: 'Contact',
+    description: 'Reach out to Eternal Garden. We are here to help and answer any questions.',
+    getInTouchTitle: 'Get in Touch',
+    contactInstructions: 'Send us an email or use the contact options below.',
+    emailLabel: 'Email',
+    backButton: 'Back to Home',
   },
   auth: {
     login: 'Login',
@@ -72,6 +198,28 @@ export const en: Translations = {
     orContinueWith: 'Or continue with',
     firstName: 'First Name',
     lastName: 'Last Name',
+    appName: 'Eternal Garden',
+    unexpectedError: 'An unexpected error occurred',
+    requiredField: 'This field is required',
+    invalidEmail: 'Invalid email address',
+    passwordMismatch: 'Passwords do not match',
+    passwordTooShort: 'Password must be at least 6 characters',
+    signupDescription: 'Create an account and start creating memories',
+    forgotPasswordDescription: 'Enter your email address and we will send you a password reset link',
+    resetEmailSent: 'Email sent!',
+    checkEmail: 'Check your email and follow the link to reset your password.',
+    backToLogin: 'Back to Login',
+    sendResetLink: 'Send Reset Link',
+    newPassword: 'New Password',
+    enterNewPassword: 'Enter a new password for your account',
+    passwordChanged: 'Password changed!',
+    passwordUpdated: 'Your password has been successfully updated. You will be redirected to the login page...',
+    loginNow: 'Login Now',
+    changePassword: 'Change Password',
+    verifyEmail: 'Verify Email',
+    signupSuccess: 'Signup successful!',
+    verificationLink: 'We sent a verification link to your email address. Click the link to activate your account.',
+    noEmailReceived: 'Did not receive an email? Check your spam folder or try again.',
   },
   memorial: {
     birthDate: 'Birth Date',

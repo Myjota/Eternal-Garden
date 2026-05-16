@@ -10,8 +10,9 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { createClient } from '@/lib/supabase/client'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations, type Locale } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 export default function SignupPage() {
   const [firstName, setFirstName] = useState('')
@@ -22,8 +23,8 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { locale } = useLocaleContext()
 
-  const locale: Locale = defaultLocale
   const t = getTranslations(locale)
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -31,12 +32,12 @@ export default function SignupPage() {
     setError(null)
 
     if (password !== confirmPassword) {
-      setError('Slaptažodžiai nesutampa')
+      setError(t.auth.passwordMismatch)
       return
     }
 
     if (password.length < 6) {
-      setError('Slaptažodis turi būti bent 6 simbolių')
+      setError(t.auth.passwordTooShort)
       return
     }
 
@@ -64,7 +65,7 @@ export default function SignupPage() {
         router.push('/auth/signup-success')
       }
     } catch {
-      setError('An unexpected error occurred')
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -108,7 +109,7 @@ export default function SignupPage() {
                 {t.auth.signup}
               </CardTitle>
               <CardDescription className="mt-2">
-                Sukurkite paskyrą ir pradėkite kurti atminimus
+                {t.auth.signupDescription}
               </CardDescription>
             </div>
 
@@ -221,7 +222,7 @@ export default function SignupPage() {
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          {t.common.back} &larr; Eternal Garden
+          {t.common.back} &larr; {t.auth.appName}
         </Link>
       </div>
     </div>

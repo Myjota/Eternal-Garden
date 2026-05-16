@@ -4,28 +4,24 @@ import { useState, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChevronLeft, Upload, Check, X, Star, Plus, Trash2, Calendar } from 'lucide-react'
+import { ChevronLeft, Check, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { ThemeProvider } from '@/lib/themes/theme-context'
-import { ThemePicker } from '@/components/theme-picker'
 import { type ThemeId } from '@/lib/themes/config'
 import { getTranslations, defaultLocale } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
 import { createClient } from '@/lib/supabase/client'
-
-interface TimelineEvent {
-  id: string
-  title: string
-  event_date: string
-  location: string
-  description: string
-}
+import {
+  StepInformation,
+  StepTimeline,
+  StepBurial,
+  StepTheme,
+  StepReview,
+  type TimelineEvent,
+  type BurialFormData,
+} from './steps'
 
 function generateSlug(firstName: string, lastName: string): string {
   const base = `${firstName}-${lastName}`
@@ -45,6 +41,7 @@ function CreateMemorialContent() {
   const isFamous = searchParams.get('famous') === 'true'
   const t = getTranslations(defaultLocale)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const coverFileInputRef = useRef<HTMLInputElement>(null)
   
   const [loading, setLoading] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
@@ -52,14 +49,23 @@ function CreateMemorialContent() {
   const [step, setStep] = useState(1)
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null)
+  const [coverImage, setCoverImage] = useState<File | null>(null)
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null)
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([])
+  const [burialFormData, setBurialFormData] = useState<BurialFormData>({
+    cemetery_name: '',
+    address: '',
+    city: '',
+    country: '',
+    section: '',
+    plot_number: '',
+  })
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     birthDate: '',
     deathDate: '',
     biography: '',
-    shortDescription: '',
     epitaph: '',
     theme: 'garden' as ThemeId,
     isPublic: true,
@@ -72,13 +78,11 @@ function CreateMemorialContent() {
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setError('Nuotrauka per didelė. Maksimalus dydis 5MB.')
+        setError('Nuotrauka per didele. Maksimalus dydis 5MB.')
         return
       }
       
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         setError('Pasirinkite tik nuotraukos failus (PNG, JPG).')
         return
@@ -98,6 +102,36 @@ function CreateMemorialContent() {
     setProfileImagePreview(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
+    }
+  }
+
+  const handleCoverImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Nuotrauka per didele. Maksimalus dydis 5MB.')
+        return
+      }
+      
+      if (!file.type.startsWith('image/')) {
+        setError('Pasirinkite tik nuotraukos failus (PNG, JPG).')
+        return
+      }
+
+      setCoverImage(file)
+      setCoverImagePreview(URL.createObjectURL(file))
+      setError(null)
+    }
+  }
+
+  const handleRemoveCoverImage = () => {
+    setCoverImage(null)
+    if (coverImagePreview) {
+      URL.revokeObjectURL(coverImagePreview)
+    }
+    setCoverImagePreview(null)
+    if (coverFileInputRef.current) {
+      coverFileInputRef.current.value = ''
     }
   }
 
@@ -153,28 +187,64 @@ function CreateMemorialContent() {
     try {
       const supabase = createClient()
       
-      // Get current user
       const { data: { user }, error: userError } = await supabase.auth.getUser()
       
       if (userError || !user) {
-        setError('Turite būti prisijungęs, kad galėtumėte kurti atminimą.')
+        setError('Turite buti prisijunges, kad galetumete kurti atminima.')
         router.push('/auth/login')
         return
       }
 
       const slug = generateSlug(formData.firstName, formData.lastName)
 
-      // Upload image if selected
       let profileImageUrl: string | null = null
       if (profileImage) {
         setUploadingImage(true)
         profileImageUrl = await uploadImage(profileImage, user.id)
-        setUploadingImage(false)
         
         if (!profileImageUrl) {
-          setError('Nepavyko įkelti nuotraukos. Bandykite dar kartą.')
+          setError('Nepavyko ikelti nuotraukos. Bandykite dar karta.')
+          setLoading(false)
+          setUploadingImage(false)
+          return
+        }
+      }
+
+      let coverImageUrl: string | null = null
+      if (coverImage) {
+        setUploadingImage(true)
+        coverImageUrl = await uploadImage(coverImage, user.id)
+        setUploadingImage(false)
+        
+        if (!coverImageUrl) {
+          setError('Nepavyko ikelti virselio nuotraukos. Bandykite dar karta.')
           setLoading(false)
           return
+        }
+      } else {
+        setUploadingImage(false)
+      }
+
+      let burialPlaceId: string | null = null
+      const hasBurialData = burialFormData.cemetery_name.trim() || burialFormData.address.trim()
+      
+      if (hasBurialData) {
+        const { data: burialPlace, error: burialError } = await supabase
+          .from('burial_places')
+          .insert({
+            name: burialFormData.cemetery_name || 'Kapavietė',
+            address: burialFormData.address || null,
+            city: burialFormData.city || null,
+            country: burialFormData.country || null,
+            cemetery_name: burialFormData.cemetery_name || null,
+            section: burialFormData.section || null,
+            plot_number: burialFormData.plot_number || null,
+          })
+          .select()
+          .single()
+        
+        if (!burialError && burialPlace) {
+          burialPlaceId = burialPlace.id
         }
       }
 
@@ -189,7 +259,6 @@ function CreateMemorialContent() {
           birth_date: formData.birthDate || null,
           death_date: formData.deathDate || null,
           biography: formData.biography || null,
-          short_description: formData.shortDescription || null,
           epitaph: formData.epitaph || null,
           theme: formData.theme,
           privacy: formData.isPublic ? 'public' : 'private',
@@ -197,6 +266,8 @@ function CreateMemorialContent() {
           is_famous: isFamous,
           photo_url: profileImageUrl,
           profile_image_url: profileImageUrl,
+          cover_image_url: coverImageUrl,
+          burial_place_id: burialPlaceId,
         })
         .select()
         .single()
@@ -207,7 +278,6 @@ function CreateMemorialContent() {
         return
       }
 
-      // Insert timeline events if any
       if (timelineEvents.length > 0 && memorial) {
         const validEvents = timelineEvents.filter(e => e.title.trim())
         if (validEvents.length > 0) {
@@ -226,7 +296,6 @@ function CreateMemorialContent() {
 
           if (timelineError) {
             console.error('Timeline insert error:', timelineError)
-            // Don't block the redirect, timeline can be added later
           }
         }
       }
@@ -235,7 +304,7 @@ function CreateMemorialContent() {
       router.refresh()
     } catch (err) {
       console.error('Unexpected error:', err)
-      setError('Įvyko netikėta klaida. Bandykite dar kartą.')
+      setError('Ivyko netiiketa klaida. Bandykite dar karta.')
     } finally {
       setLoading(false)
     }
@@ -245,7 +314,7 @@ function CreateMemorialContent() {
     if (step === 1) {
       const basicFieldsFilled = formData.firstName && formData.lastName && formData.birthDate && formData.deathDate
       if (isFamous) {
-        return basicFieldsFilled && formData.shortDescription
+        return basicFieldsFilled && formData.epitaph
       }
       return basicFieldsFilled
     }
@@ -260,7 +329,7 @@ function CreateMemorialContent() {
           <div className="container mx-auto flex h-14 items-center justify-between px-4">
             <Link href="/dashboard" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
               <ChevronLeft className="h-5 w-5" />
-              <span>Grįžti</span>
+              <span>Grizti</span>
             </Link>
             <div className="flex items-center gap-2">
               <Image
@@ -271,12 +340,12 @@ function CreateMemorialContent() {
                 style={{ width: 'auto', height: '24px' }}
               />
               <span className="font-serif text-lg font-semibold">
-                {isFamous ? 'Žymaus žmogaus atminimas' : 'Naujas atminimas'}
+                {isFamous ? 'Zymaus zmogaus atminimas' : 'Naujas atminimas'}
               </span>
               {isFamous && (
                 <Badge variant="secondary" className="gap-1">
                   <Star className="h-3 w-3 text-amber-500" />
-                  Žymus
+                  Zymus
                 </Badge>
               )}
             </div>
@@ -288,7 +357,7 @@ function CreateMemorialContent() {
         <div className="border-b border-border">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-center gap-2 sm:gap-4">
-              {[1, 2, 3, 4].map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <div key={s} className="flex items-center gap-1 sm:gap-2">
                   <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     step > s 
@@ -300,9 +369,9 @@ function CreateMemorialContent() {
                     {step > s ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : s}
                   </div>
                   <span className={`text-xs sm:text-sm hidden md:block ${step >= s ? 'text-foreground' : 'text-muted-foreground'}`}>
-                    {s === 1 ? 'Informacija' : s === 2 ? 'Tema' : s === 3 ? 'Gyvenimas' : 'Peržiūra'}
+                    {s === 1 ? 'Informacija' : s === 2 ? 'Gyvenimas' : s === 3 ? 'Kapaviete' : s === 4 ? 'Tema' : 'Perziura'}
                   </span>
-                  {s < 4 && <div className="w-4 sm:w-8 h-px bg-border mx-1 sm:mx-2" />}
+                  {s < 5 && <div className="w-4 sm:w-8 h-px bg-border mx-1 sm:mx-2" />}
                 </div>
               ))}
             </div>
@@ -320,373 +389,56 @@ function CreateMemorialContent() {
 
             {/* Step 1: Basic Information */}
             {step === 1 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-serif">Pagrindinė informacija</CardTitle>
-                  <CardDescription>
-                    Įveskite artimojo duomenis
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">Vardas *</Label>
-                      <Input
-                        id="firstName"
-                        value={formData.firstName}
-                        onChange={(e) => updateFormData('firstName', e.target.value)}
-                        placeholder="Jonas"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Pavardė *</Label>
-                      <Input
-                        id="lastName"
-                        value={formData.lastName}
-                        onChange={(e) => updateFormData('lastName', e.target.value)}
-                        placeholder="Jonaitis"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="birthDate">Gimimo data *</Label>
-                      <Input
-                        id="birthDate"
-                        type="date"
-                        value={formData.birthDate}
-                        onChange={(e) => updateFormData('birthDate', e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="deathDate">Mirties data *</Label>
-                      <Input
-                        id="deathDate"
-                        type="date"
-                        value={formData.deathDate}
-                        onChange={(e) => updateFormData('deathDate', e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  {isFamous && (
-                    <div className="space-y-2">
-                      <Label htmlFor="shortDescription">Trumpas aprašymas (rodomas kortelėje) *</Label>
-                      <Input
-                        id="shortDescription"
-                        value={formData.shortDescription}
-                        onChange={(e) => updateFormData('shortDescription', e.target.value)}
-                        placeholder="Pvz.: Lietuvos poetas, rašytojas, visuomenininkas"
-                        required={isFamous}
-                      />
-                      <p className="text-xs text-muted-foreground">
-                        Šis aprašymas bus rodomas žymių žmonių kortelėje pagrindiniame puslapyje
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <Label htmlFor="biography">Biografija</Label>
-                    <Textarea
-                      id="biography"
-                      value={formData.biography}
-                      onChange={(e) => updateFormData('biography', e.target.value)}
-                      placeholder="Papasakokite apie šį žmogų..."
-                      rows={4}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="epitaph">Epitafija</Label>
-                    <Textarea
-                      id="epitaph"
-                      value={formData.epitaph}
-                      onChange={(e) => updateFormData('epitaph', e.target.value)}
-                      placeholder="Pvz.: Amžinai gyvas mūsų širdyse..."
-                      rows={2}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Trumpa frazė ar citata, kuri bus rodoma atminimo puslapyje
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>Nuotrauka</Label>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageSelect}
-                      className="hidden"
-                    />
-                    
-                    {profileImagePreview ? (
-                      <div className="relative w-48 h-64 mx-auto">
-                        <Image
-                          src={profileImagePreview}
-                          alt="Pasirinkta nuotrauka"
-                          fill
-                          className="object-cover rounded-lg border border-border"
-                        />
-                        <button
-                          type="button"
-                          onClick={handleRemoveImage}
-                          className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center hover:bg-destructive/90"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div 
-                        onClick={() => fileInputRef.current?.click()}
-                        className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
-                      >
-                        <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
-                        <p className="mt-2 text-sm text-muted-foreground">
-                          Spustelėkite arba vilkite nuotrauką
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          PNG, JPG iki 5MB
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <StepInformation
+                formData={formData}
+                updateFormData={updateFormData}
+                isFamous={isFamous}
+                profileImagePreview={profileImagePreview}
+                coverImagePreview={coverImagePreview}
+                onImageSelect={handleImageSelect}
+                onCoverImageSelect={handleCoverImageSelect}
+                onRemoveImage={handleRemoveImage}
+                onRemoveCoverImage={handleRemoveCoverImage}
+                fileInputRef={fileInputRef}
+                coverFileInputRef={coverFileInputRef}
+              />
             )}
 
-{/* Step 2: Theme Selection */}
+            {/* Step 2: Timeline */}
             {step === 2 && (
-              <div>
-                <div className="text-center mb-6">
-                  <h2 className="font-serif text-2xl font-bold text-foreground mb-2">
-                    Pasirinkite temą
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Tema nustato atminimo puslapio išvaizdą ir nuotaiką
-                  </p>
-                </div>
-                <ThemePicker
-                  value={formData.theme}
-                  onChange={(theme) => updateFormData('theme', theme)}
-                />
-              </div>
+              <StepTimeline
+                timelineEvents={timelineEvents}
+                onAddEvent={addTimelineEvent}
+                onUpdateEvent={updateTimelineEvent}
+                onRemoveEvent={removeTimelineEvent}
+              />
             )}
 
-            {/* Step 3: Timeline */}
+            {/* Step 3: Burial Place */}
             {step === 3 && (
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="font-serif flex items-center gap-2">
-                        <Calendar className="h-5 w-5" />
-                        Gyvenimo įvykiai
-                      </CardTitle>
-                      <CardDescription>
-                        Pridėkite svarbius gyvenimo momentus (nebūtina)
-                      </CardDescription>
-                    </div>
-                    <Button onClick={addTimelineEvent} variant="outline" size="sm">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Pridėti
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {timelineEvents.length === 0 ? (
-                    <div className="text-center py-8 border-2 border-dashed border-border rounded-lg">
-                      <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-                      <p className="text-muted-foreground mb-2">
-                        Dar nepridėta jokių gyvenimo įvykių
-                      </p>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Galite pridėti svarbius gyvenimo momentus: gimimas, mokslai, vestuvės, pasiekimai ir kt.
-                      </p>
-                      <Button onClick={addTimelineEvent} variant="outline">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Pridėti pirmąjį įvykį
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {timelineEvents.map((event, index) => (
-                        <div key={event.id} className="border border-border rounded-lg p-4 relative">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive"
-                            onClick={() => removeTimelineEvent(event.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                          
-                          <div className="pr-10 space-y-4">
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-medium">
-                                {index + 1}
-                              </span>
-                              Įvykis
-                            </div>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label>Pavadinimas *</Label>
-                                <Input
-                                  value={event.title}
-                                  onChange={(e) => updateTimelineEvent(event.id, 'title', e.target.value)}
-                                  placeholder="Pvz.: Gimimas, Vestuvės"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>Data</Label>
-                                <Input
-                                  type="date"
-                                  value={event.event_date}
-                                  onChange={(e) => updateTimelineEvent(event.id, 'event_date', e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <Label>Vieta</Label>
-                              <Input
-                                value={event.location}
-                                onChange={(e) => updateTimelineEvent(event.id, 'location', e.target.value)}
-                                placeholder="Pvz.: Vilnius, Lietuva"
-                              />
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <Label>Aprašymas</Label>
-                              <Textarea
-                                value={event.description}
-                                onChange={(e) => updateTimelineEvent(event.id, 'description', e.target.value)}
-                                placeholder="Trumpas įvykio aprašymas..."
-                                rows={2}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      
-                      <Button onClick={addTimelineEvent} variant="outline" className="w-full">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Pridėti dar vieną įvykį
-                      </Button>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+              <StepBurial
+                burialFormData={burialFormData}
+                onUpdate={setBurialFormData}
+              />
             )}
 
-            {/* Step 4: Review */}
+            {/* Step 4: Theme Selection */}
             {step === 4 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-serif">Peržiūra</CardTitle>
-                  <CardDescription>
-                    Patikrinkite informaciją prieš kuriant atminimą
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Image Preview */}
-                  {profileImagePreview && (
-                    <div className="flex justify-center">
-                      <div className="relative w-32 h-40">
-                        <Image
-                          src={profileImagePreview}
-                          alt="Nuotrauka"
-                          fill
-                          className="object-cover rounded-lg border border-border"
-                        />
-                      </div>
-                    </div>
-                  )}
+              <StepTheme
+                value={formData.theme}
+                onChange={(theme) => updateFormData('theme', theme)}
+              />
+            )}
 
-                  <div className="grid gap-4">
-                    <div className="flex items-center justify-between py-3 border-b border-border">
-                      <span className="text-muted-foreground">Vardas, pavardė</span>
-                      <span className="font-medium">{formData.firstName} {formData.lastName}</span>
-                    </div>
-                    <div className="flex items-center justify-between py-3 border-b border-border">
-                      <span className="text-muted-foreground">Gimimo data</span>
-                      <span className="font-medium">{formData.birthDate}</span>
-                    </div>
-                    <div className="flex items-center justify-between py-3 border-b border-border">
-                      <span className="text-muted-foreground">Mirties data</span>
-                      <span className="font-medium">{formData.deathDate}</span>
-                    </div>
-                    <div className="flex items-center justify-between py-3 border-b border-border">
-                      <span className="text-muted-foreground">Tema</span>
-                      <span className="font-medium capitalize">{formData.theme.replace('-', ' ')}</span>
-                    </div>
-                    {isFamous && (
-                      <div className="flex items-center justify-between py-3 border-b border-border">
-                        <span className="text-muted-foreground">Tipas</span>
-                        <Badge variant="secondary" className="gap-1">
-                          <Star className="h-3 w-3 text-amber-500" />
-                          Žymus žmogus
-                        </Badge>
-                      </div>
-                    )}
-                    {formData.shortDescription && (
-                      <div className="py-3 border-b border-border">
-                        <span className="text-muted-foreground block mb-2">Trumpas aprašymas</span>
-                        <p className="text-sm">{formData.shortDescription}</p>
-                      </div>
-                    )}
-                    {formData.epitaph && (
-                      <div className="py-3 border-b border-border">
-                        <span className="text-muted-foreground block mb-2">Epitafija</span>
-                        <p className="text-sm italic">&quot;{formData.epitaph}&quot;</p>
-                      </div>
-                    )}
-                    {formData.biography && (
-                      <div className="py-3 border-b border-border">
-                        <span className="text-muted-foreground block mb-2">Biografija</span>
-                        <p className="text-sm">{formData.biography}</p>
-                      </div>
-                    )}
-                    {timelineEvents.length > 0 && (
-                      <div className="py-3">
-                        <span className="text-muted-foreground block mb-2">
-                          Gyvenimo įvykiai ({timelineEvents.length})
-                        </span>
-                        <div className="space-y-2">
-                          {timelineEvents.filter(e => e.title).map((event, index) => (
-                            <div key={event.id} className="flex items-start gap-2 text-sm">
-                              <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs">
-                                {index + 1}
-                              </span>
-                              <div>
-                                <span className="font-medium">{event.title}</span>
-                                {event.event_date && (
-                                  <span className="text-muted-foreground ml-2">
-                                    ({event.event_date})
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="bg-muted/50 rounded-lg p-4">
-                    <p className="text-sm text-muted-foreground">
-                      Sukūrus atminimą, galėsite pridėti nuotraukų ir 
-                      daugiau informacijos per redagavimo puslapį.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Step 5: Review */}
+            {step === 5 && (
+              <StepReview
+                formData={formData}
+                profileImagePreview={profileImagePreview}
+                isFamous={isFamous}
+                timelineEvents={timelineEvents}
+                burialFormData={burialFormData}
+              />
             )}
 
             {/* Navigation */}
@@ -701,19 +453,19 @@ function CreateMemorialContent() {
                 </Button>
               )}
 
-              {step < 4 ? (
+              {step < 5 ? (
                 <Button onClick={() => setStep(step + 1)} disabled={!canProceed()}>
-                  {step === 3 ? 'Peržiūrėti' : t.common.next}
+                  {step === 4 ? 'Perziureti' : t.common.next}
                 </Button>
               ) : (
                 <Button onClick={handleSubmit} disabled={loading}>
                   {loading ? (
                     <>
                       <Spinner className="h-4 w-4 mr-2" />
-                      {uploadingImage ? 'Įkeliama nuotrauka...' : 'Kuriama...'}
+                      {uploadingImage ? 'Ikeliama nuotrauka...' : 'Kuriama...'}
                     </>
                   ) : (
-                    'Sukurti atminimą'
+                    'Sukurti atminima'
                   )}
                 </Button>
               )}

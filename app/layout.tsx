@@ -1,7 +1,21 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import type {
+  Metadata,
+  Viewport,
+} from 'next'
+
+import {
+  Inter,
+  Playfair_Display,
+} from 'next/font/google'
+
+import AnalyticsGate from '@/components/AnalyticsGate'
+
 import './globals.css'
+
+import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
+import { createClient } from '@/lib/supabase/server'
+import { LocaleProvider } from '@/providers/locale-provider'
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
@@ -15,139 +29,161 @@ const playfair = Playfair_Display({
   display: 'swap',
 })
 
-const siteUrl = 'https://your-domain.com'
+const siteUrl = 'https://eternalgarden.eu'
 const siteName = 'Eternal Garden'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-
   title: {
-    default: `${siteName} | Skaitmeninė atminimo vieta`,
+    default: `${siteName} | Skaitmeninė atminimo vieta kapinės`,
     template: `%s | ${siteName}`,
   },
-
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-
-  applicationName: siteName,
-  creator: siteName,
-  publisher: siteName,
-
   keywords: [
-    'atminimas',
-    'memorialas',
-    'šeimos istorija',
-    'genealogija',
-    'prisiminimas',
+    'skaitmeninis atminimas',
+    'skaitmeninis memorialas',
+    'šeimos medis',
+    'skaitmeninės kapinės',
+    'eternal garden',
     'digital memorial',
-    'legacy platform',
+    'family tree',
   ],
-
-  authors: [{ name: siteName }],
-
+  authors: [
+    {
+      name: 'Olegas&Andrius Systems LLC',
+      url: siteUrl,
+    },
+  ],
+  creator: 'Olegas&Andrius Systems LLC',
+  publisher: 'Eternal Garden',
+  verification: {
+    google: 'bSkiHT-YJWJl9Dm5J3A5omcwFLdlIAvZyuj3bT8MfTw',
+  },
   alternates: {
     canonical: siteUrl,
     languages: {
       'lt-LT': siteUrl,
+      'en-US': `${siteUrl}/en`,
     },
   },
-
+  openGraph: {
+    type: 'website',
+    locale: 'lt_LT',
+    alternateLocale: ['en_US'],
+    url: siteUrl,
+    siteName: siteName,
+    title: `${siteName} | Skaitmeninė atminimo vieta`,
+    description:
+      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: `${siteName} - Skaitmeninė atminimo vieta`,
+        type: 'image/png',
+      },
+      {
+        url: `${siteUrl}/og-image-square.png`,
+        width: 800,
+        height: 800,
+        alt: `${siteName} - Skaitmeninė atminimo vieta`,
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@eternalgarden',
+    title: `${siteName} | Skaitmeninė atminimo vieta`,
+    description:
+      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+    creator: '@eternalgarden',
+    images: [`${siteUrl}/og-image.png`],
+  },
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
       'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
     },
   },
-
-  openGraph: {
-    type: 'website',
-    locale: 'lt_LT',
-    url: siteUrl,
-    siteName,
-
-    title: `${siteName} | Skaitmeninė atminimo vieta`,
-    description:
-      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-
-    images: [
-      {
-        url: `${siteUrl}/og-image.jpg`,
-        width: 1200,
-        height: 630,
-        alt: `${siteName} preview`,
-      },
-    ],
-  },
-
-  twitter: {
-    card: 'summary_large_image',
-    title: `${siteName} | Skaitmeninė atminimo vieta`,
-    description:
-      'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
-    images: [`${siteUrl}/og-image.jpg`],
-  },
-
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icon-32x32.png', sizes: '32x32' },
-      { url: '/icon-16x16.png', sizes: '16x16' },
-    ],
-    apple: '/apple-touch-icon.png',
-    shortcut: '/favicon.ico',
-  },
-
-  manifest: '/manifest.webmanifest',
-
-  formatDetection: {
-    telephone: false,
-    email: false,
-    address: false,
-  },
+  category: 'Memorial',
+  classification: 'Memorial Service',
 }
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#166534' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
-  ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  let user = null
+  let preferredLanguage: 'lt' | 'en' = 'lt'
+
+  try {
+    const supabase = createClient()
+
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser()
+
+    user = authUser ?? null
+
+    if (authUser) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('preferred_language')
+        .eq('id', authUser.id)
+        .single()
+
+      if (profile?.preferred_language === 'en') {
+        preferredLanguage = 'en'
+      }
+    }
+  } catch {
+    // ignore SSR auth issues
+  }
+
   return (
-    <html lang="lt" className={`${inter.variable} ${playfair.variable} bg-background`}>
-      <body className="font-sans antialiased bg-background text-foreground">
+    <html
+      lang={preferredLanguage}
+      className={`${inter.variable} ${playfair.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="
+        flex
+        min-h-screen
+        flex-col
+        bg-background
+        font-sans
+        text-foreground
+        antialiased
+      ">
+        <LocaleProvider
+          user={user}
+          initialLocale={preferredLanguage}
+        >
+          <Header user={user} isAdmin={false} />
 
-        {/* Structured Data (SEO boost) */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: siteName,
-              url: siteUrl,
-              description:
-                'Skaitmeninė atminimo platforma šeimos istorijoms ir prisiminimams išsaugoti.',
-            }),
-          }}
-        />
+          <main className="flex-1">
+            {children}
+          </main>
 
-        {children}
+          <Footer />
+        </LocaleProvider>
 
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <AnalyticsGate />
       </body>
     </html>
   )
-        }
+}

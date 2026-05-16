@@ -11,5 +11,17 @@ export default async function SettingsPage() {
     redirect('/auth/login')
   }
 
-  return <SettingsClient user={user} />
+  // Fetch user's profile with preferred_language
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('preferred_language')
+    .eq('id', user.id)
+    .single()
+
+  return (
+    <SettingsClient 
+      user={user} 
+      initialPreferredLanguage={profile?.preferred_language ?? 'lt'} 
+    />
+  )
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 type CandleStats = {
@@ -22,6 +22,40 @@ type CandlesData = {
   } | null
   loading: boolean
   error: string | null
+  userHasLitCandle: boolean // Track if current user/session already lit
+}
+
+// Helper to get localStorage key for candle status
+function getLocalStorageKey(memorialId: string): string {
+  return `candle_lit_${memorialId}`
+}
+
+// Helper to mark candle as lit in localStorage (for anonymous users)
+function markCandleAsLitInLocalStorage(memorialId: string): void {
+  if (typeof window !== 'undefined') {
+    const key = getLocalStorageKey(memorialId)
+    localStorage.setItem(key, JSON.stringify({
+      lit: true,
+      timestamp: new Date().toISOString()
+    }))
+  }
+}
+
+// Helper to check if candle is lit in localStorage (for anonymous users)
+function isCandleLitInLocalStorage(memorialId: string): boolean {
+  if (typeof window !== 'undefined') {
+    const key = getLocalStorageKey(memorialId)
+    const value = localStorage.getItem(key)
+    if (value) {
+      try {
+        const data = JSON.parse(value)
+        return data.lit === true
+      } catch {
+        return false
+      }
+    }
+  }
+  return false
 }
 
 export function useCandlesData(memorialId: string) {
@@ -30,13 +64,17 @@ export function useCandlesData(memorialId: string) {
     recentUsers: [],
     currentUser: null,
     loading: true,
-    error: null
+    error: null,
+    userHasLitCandle: false
   })
 
-  // Fetch candle data
-  const fetchCandleData = async () => {
+  // Fetch candle data AND check user status in one call
+  const fetchCandleData = useCallback(async () => {
     try {
-      const response = await fetch(`/api/candles?memorial_id=${memorialId}`)
+      // Check localStorage first for anonymous users (immediate)
+      const localLit = isCandleLitInLocalStorage(memorialId)
+      
+      const response = await fetch(`/api/candles?memorial_id=${memorialId}&check_status=true`)
       
       if (!response.ok) {
         throw new Error('Failed to fetch candle data')
@@ -44,26 +82,42 @@ export function useCandlesData(memorialId: string) {
       
       const result = await response.json()
       
-      setData(prev => ({
-        ...prev,
+      // Determine if user has lit candle:
+      // - For authenticated users: check from API response (userHasLitCandle)
+      // - For anonymous users: check localStorage
+      const userHasLit = result.userHasLitCandle || localLit
+      
+      setData({
         stats: result.stats,
         recentUsers: result.recentUsers,
         currentUser: result.currentUser,
         loading: false,
-        error: null
-      }))
+        error: null,
+        userHasLitCandle: userHasLit
+      })
     } catch (error) {
       console.error('Error fetching candle data:', error)
       setData(prev => ({
         ...prev,
         loading: false,
-        error: 'Nepavyko įkelti žvakių duomenų'
+        error: 'Nepavyko įkelti žvakių duomenų',
+        // Still check localStorage even on error
+        userHasLitCandle: isCandleLitInLocalStorage(memorialId)
       }))
     }
-  }
+  }, [memorialId])
 
   // Light a candle
   const lightCandle = async (userName?: string, userAvatar?: string) => {
+    // Prevent duplicate attempts if already lit
+    if (data.userHasLitCandle) {
+      return { 
+        success: false, 
+        error: 'Jūs jau uždėgėte žvaką šiam memorialo',
+        alreadyLit: true
+      }
+    }
+    
     try {
       const response = await fetch('/api/candles', {
         method: 'POST',
@@ -77,17 +131,32 @@ export function useCandlesData(memorialId: string) {
         })
       })
       
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to light candle')
+      const responseData = await response.json()
+      
+      // Handle already lit (409 Conflict)
+      if (response.status === 409) {
+        // Mark locally so we remember
+        markCandleAsLitInLocalStorage(memorialId)
+        setData(prev => ({ ...prev, userHasLitCandle: true }))
+        return { 
+          success: false, 
+          error: responseData.error || 'Jūs jau uždėgėte žvaką šiam memorialo',
+          alreadyLit: true
+        }
       }
       
-      const result = await response.json()
+      if (!response.ok) {
+        throw new Error(responseData.error || 'Failed to light candle')
+      }
+      
+      // Mark as lit in localStorage (works for both anonymous and authenticated)
+      markCandleAsLitInLocalStorage(memorialId)
       
       setData(prev => ({
         ...prev,
-        stats: result.stats,
-        recentUsers: result.recentUsers
+        stats: responseData.stats,
+        recentUsers: responseData.recentUsers,
+        userHasLitCandle: true
       }))
       
       return { success: true }
@@ -98,34 +167,17 @@ export function useCandlesData(memorialId: string) {
     }
   }
 
-  // Get current user candle status
-  const getUserCandleStatus = async (): Promise<boolean> => {
-    if (!data.currentUser) return false
-    
-    try {
-      const supabase = createClient()
-      const { data: candleData } = await supabase
-        .from('candles')
-        .select('id')
-        .eq('memorial_id', memorialId)
-        .eq('user_id', data.currentUser.id)
-        .eq('is_lit', true)
-        .or('expires_at.is.null,expires_at.gt.now()')
-        .single()
-      
-      return !!candleData
-    } catch (error) {
-      console.error('Error checking candle status:', error)
-      return false
-    }
-  }
+  // Get current user candle status - now just returns the cached state
+  const getUserCandleStatus = useCallback(async (): Promise<boolean> => {
+    return data.userHasLitCandle
+  }, [data.userHasLitCandle])
 
   // Initial data fetch
   useEffect(() => {
     if (memorialId) {
       fetchCandleData()
     }
-  }, [memorialId])
+  }, [memorialId, fetchCandleData])
 
   return {
     ...data,

@@ -1,93 +1,139 @@
 /* ============================================
-   GARDEN THEME 
+   GARDEN MEMORIAL THEME - Eternal Garden
+   A serene, elegant memorial experience
    ============================================ */
 
 [data-theme="garden"] {
   position: relative;
   isolation: isolate;
 
-  /* Core palette - Forest Green (hue 145) */
-  --primary: oklch(0.40 0.12 145);
-  --primary-foreground: oklch(0.98 0.005 145);
+  /* Core palette - Warm Earth & Sage (peaceful, dignified) */
+  --primary: oklch(0.38 0.08 145);
+  --primary-foreground: oklch(0.99 0.005 90);
 
-  --secondary: oklch(0.94 0.03 145);
-  --secondary-foreground: oklch(0.30 0.08 145);
+  --secondary: oklch(0.96 0.012 85);
+  --secondary-foreground: oklch(0.28 0.04 80);
 
-  --accent: oklch(0.50 0.10 145);
-  --accent-foreground: oklch(0.98 0.005 145);
+  --accent: oklch(0.45 0.06 145);
+  --accent-foreground: oklch(0.99 0.005 90);
 
-  --background: oklch(0.985 0.008 145);
-  --foreground: oklch(0.22 0.03 145);
+  --background: oklch(0.975 0.008 85);
+  --foreground: oklch(0.20 0.02 80);
 
-  --muted: oklch(0.95 0.015 145);
-  --muted-foreground: oklch(0.48 0.05 145);
+  --muted: oklch(0.94 0.01 85);
+  --muted-foreground: oklch(0.45 0.03 80);
 
-  --card: oklch(0.995 0.005 145);
-  --card-foreground: oklch(0.22 0.03 145);
+  --card: oklch(0.99 0.005 85 / 0.95);
+  --card-foreground: oklch(0.20 0.02 80);
 
-  --border: oklch(0.88 0.025 145);
-  --radius: 0.625rem;
+  --border: oklch(0.85 0.025 85 / 0.5);
+  --radius: 0.75rem;
 
-  /* Theme-specific */
-  --theme-glow-color: oklch(0.50 0.12 145 / 0.15);
-  --theme-gradient-start: oklch(0.92 0.04 145);
-  --theme-gradient-end: oklch(0.96 0.02 145);
+  /* Memorial-specific warm accents */
+  --theme-glow-color: oklch(0.45 0.08 145 / 0.12);
+  --theme-gradient-start: oklch(0.97 0.01 85);
+  --theme-gradient-end: oklch(0.94 0.02 90);
+  --theme-gold: oklch(0.72 0.12 85);
+  --theme-cream: oklch(0.98 0.008 85);
+  --theme-sage: oklch(0.52 0.10 145);
+  --theme-stone: oklch(0.88 0.015 80);
 }
 
 /* ============================================
-   GLOBAL BACKGROUND
+   GLOBAL BACKGROUND - Peaceful Garden Ambiance
    ============================================ */
 
 [data-theme="garden"] {
-  background-image: url('/themes/garden.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: 
+    radial-gradient(ellipse 120% 80% at 50% 0%, oklch(0.96 0.015 90 / 0.9), transparent 70%),
+    radial-gradient(ellipse 100% 60% at 0% 100%, oklch(0.92 0.025 145 / 0.4), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 100% 80%, oklch(0.94 0.02 85 / 0.5), transparent 50%),
+    linear-gradient(
+      175deg,
+      oklch(0.975 0.008 85) 0%,
+      oklch(0.965 0.012 90) 40%,
+      oklch(0.955 0.015 95) 100%
+    );
   background-attachment: fixed;
 }
 
+/* Soft light rays overlay */
+[data-theme="garden"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 40% at 30% 20%, oklch(1 0 0 / 0.25), transparent 50%),
+    radial-gradient(ellipse 40% 30% at 70% 60%, oklch(0.98 0.01 85 / 0.3), transparent 40%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 /* ============================================
-   MEMORIAL COVER & HERO
+   MEMORIAL COVER & HERO - Dignified Elegance
    ============================================ */
 
 [data-theme="garden"] .memorial-cover {
   position: relative;
-  min-height: 85vh;
-  padding: 6rem 0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 6rem;
   text-align: center;
   overflow: hidden;
-  background: linear-gradient(
-    160deg,
-    oklch(0.94 0.035 145 / 0.97),
-    oklch(0.96 0.025 145 / 0.95),
-    oklch(0.93 0.04 145 / 0.93)
-  );
-  backdrop-filter: blur(12px);
+  background: 
+    linear-gradient(
+      180deg,
+      oklch(0.98 0.005 85 / 0.95) 0%,
+      oklch(0.97 0.01 90 / 0.9) 30%,
+      oklch(0.96 0.015 95 / 0.85) 70%,
+      oklch(0.94 0.02 100 / 0.8) 100%
+    );
 }
 
-/* Subtle garden ambient glow */
+/* Ethereal light glow from above */
 [data-theme="garden"] .memorial-cover::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at 30% 20%,
-    oklch(0.55 0.12 145 / 0.12),
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 70% 80%,
-    oklch(0.45 0.10 145 / 0.08),
-    transparent 50%
-  );
+  background: 
+    radial-gradient(
+      ellipse 80% 50% at 50% 0%,
+      oklch(1 0 0 / 0.4),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 50% 30%,
+      oklch(0.95 0.02 85 / 0.25),
+      transparent 50%
+    );
   pointer-events: none;
   z-index: 1;
-  animation: garden-ambient 10s ease-in-out infinite alternate;
 }
 
-@keyframes garden-ambient {
-  0% { opacity: 0.8; }
-  100% { opacity: 1; }
+/* Delicate botanical pattern */
+[data-theme="garden"] .memorial-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10c-8 16-24 24-40 24 16 8 24 24 24 40 8-16 24-24 40-24-16-8-24-24-24-40z' fill='%234a6741' fill-opacity='0.4'/%3E%3Ccircle cx='15' cy='85' r='2' fill='%234a6741' fill-opacity='0.2'/%3E%3Ccircle cx='85' cy='15' r='1.5' fill='%234a6741' fill-opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+  animation: botanicalFloat 30s ease-in-out infinite;
+}
+
+@keyframes botanicalFloat {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.03;
+  }
+  50% { 
+    transform: translateY(-10px) scale(1.02);
+    opacity: 0.04;
+  }
 }
 
 /* Background wrapper */
@@ -105,29 +151,31 @@
 
 [data-theme="garden"] .memorial-hero-image {
   object-fit: cover;
+  object-position: center;
   width: 100%;
   height: 100%;
 }
 
-/* Profile container */
+/* Profile container - Centered elegantly */
 [data-theme="garden"] .memorial-profile-container {
   position: relative;
-  margin: 0 auto 2rem;
-  height: 10rem;
-  width: 10rem;
+  margin: 0 auto 2.5rem;
+  height: 12rem;
+  width: 12rem;
 }
 
 @media (min-width: 640px) {
   [data-theme="garden"] .memorial-profile-container {
-    height: 12rem;
-    width: 12rem;
+    height: 14rem;
+    width: 14rem;
   }
 }
 
 @media (min-width: 768px) {
   [data-theme="garden"] .memorial-profile-container {
-    height: 14rem;
-    width: 14rem;
+    height: 16rem;
+    width: 16rem;
+    margin-bottom: 3rem;
   }
 }
 
@@ -135,100 +183,111 @@
 [data-theme="garden"] .memorial-content {
   position: relative;
   z-index: 2;
-}
-
-/* =========================================
-   GARDEN THEME — BIOGRAPHY
-   ========================================= */
-
-[data-theme="garden"] .memorial-biography-section {
-  padding: 4rem 1rem;
-  background: linear-gradient(
-    180deg,
-    oklch(0.98 0.01 145 / 0.98),
-    oklch(0.96 0.025 145 / 0.95),
-    oklch(0.94 0.03 145 / 0.92)
-  );
-  position: relative;
-  overflow: hidden;
-  max-width: 48rem;
+  max-width: 44rem;
   margin: 0 auto;
 }
 
-/* soft nature glow overlay */
+/* =========================================
+   GARDEN THEME - BIOGRAPHY SECTION
+   ========================================= */
+
+[data-theme="garden"] .memorial-biography-section {
+  padding: 4rem 2rem;
+  background: 
+    linear-gradient(
+      180deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.98 0.008 90 / 0.96),
+      oklch(0.97 0.01 95 / 0.94)
+    );
+  position: relative;
+  overflow: hidden;
+  max-width: 56rem;
+  margin: 2rem auto 3rem;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.88 0.02 85 / 0.4);
+  box-shadow: 
+    0 4px 24px oklch(0.40 0.05 85 / 0.08),
+    0 1px 3px oklch(0.30 0.02 85 / 0.04);
+}
+
+/* Soft corner accents */
 [data-theme="garden"] .memorial-biography-section::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 20%, oklch(0.50 0.12 145 / 0.15), transparent 60%),
-    radial-gradient(circle at 80% 70%, oklch(0.60 0.08 145 / 0.12), transparent 60%);
+    radial-gradient(ellipse at 0% 0%, oklch(0.92 0.03 145 / 0.08), transparent 40%),
+    radial-gradient(ellipse at 100% 100%, oklch(0.90 0.04 85 / 0.06), transparent 40%);
   pointer-events: none;
   z-index: 1;
-  animation: garden-biography-ambient 10s ease-in-out infinite alternate;
 }
 
-@keyframes garden-biography-ambient {
-  0% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
-
-/* subtle leaf texture */
-[data-theme="garden"] .memorial-biography-section::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.08;
-  pointer-events: none;
-  background-image: url("https://www.transparenttextures.com/patterns/green-fibers.png");
-}
-
-/* container */
+/* Container */
 [data-theme="garden"] .memorial-container {
-  max-width: 720px;
+  max-width: 680px;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-/* title */
+/* Title */
 [data-theme="garden"] .memorial-section-title {
-  font-size: 28px;
-  margin-bottom: 24px;
+  font-size: 1.625rem;
+  margin-bottom: 1.75rem;
   text-align: center;
   color: var(--foreground);
-  letter-spacing: 0.4px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  position: relative;
 }
 
-/* biography text */
+/* Decorative line under title */
+[data-theme="garden"] .memorial-section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--theme-sage), transparent);
+  margin: 1rem auto 0;
+  border-radius: 1px;
+}
+
+/* Biography text */
 [data-theme="garden"] .memorial-biography {
-  line-height: 1.95;
+  line-height: 2;
   color: var(--foreground);
-  font-size: 16px;
+  font-size: 1.0625rem;
   font-family: var(--font-serif);
 }
 
-/* paragraphs */
+/* Paragraphs */
 [data-theme="garden"] .memorial-biography-paragraph {
-  margin-bottom: 16px;
+  margin-bottom: 1.5rem;
   opacity: 0.92;
+  text-indent: 2rem;
 }
 
-/* gentle fade-in */
+[data-theme="garden"] .memorial-biography-paragraph:first-child::first-letter {
+  font-size: 3.5rem;
+  float: left;
+  line-height: 1;
+  margin-right: 0.5rem;
+  margin-top: 0.1rem;
+  color: var(--theme-sage);
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+/* Gentle fade-in */
 [data-theme="garden"] .memorial-biography-section {
-  animation: gardenFadeIn 0.7s ease;
+  animation: gardenFadeIn 0.8s ease-out;
 }
 
 @keyframes gardenFadeIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -237,66 +296,119 @@
 }
 
 /* ============================================
-   TYPOGRAPHY
+   TYPOGRAPHY - Memorial Elegance
    ============================================ */
 
 [data-theme="garden"] .memorial-epitaph {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   font-size: clamp(1.125rem, 2.5vw, 1.375rem);
   font-style: italic;
-  max-width: 28rem;
+  max-width: 34rem;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.7;
+  line-height: 1.9;
   color: var(--muted-foreground);
   position: relative;
   z-index: 2;
   font-family: var(--font-serif);
-  padding: 1.25rem 1.5rem;
-  background: oklch(0.98 0.01 145 / 0.6);
-  border-radius: 0.75rem;
-  border: 1px solid var(--border);
-  backdrop-filter: blur(8px);
+  padding: 2rem 2.5rem;
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.9),
+      oklch(0.98 0.008 90 / 0.85)
+    );
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
+  box-shadow: 
+    0 4px 20px oklch(0.40 0.05 85 / 0.1),
+    inset 0 1px 0 oklch(1 0 0 / 0.5);
+}
+
+/* Decorative quote marks */
+[data-theme="garden"] .memorial-epitaph::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--theme-cream);
+  border-radius: 50%;
+  border: 2px solid oklch(0.88 0.02 85 / 0.4);
+  box-shadow: 0 2px 8px oklch(0.40 0.05 85 / 0.1);
+}
+
+[data-theme="garden"] .memorial-epitaph::after {
+  content: '"';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-35%);
+  font-size: 1.75rem;
+  font-family: var(--font-serif);
+  color: var(--theme-sage);
+  line-height: 1;
 }
 
 [data-theme="garden"] .memorial-cover p {
   margin-top: 1rem;
 }
 
-/* Memorial name */
+/* Memorial name - Dignified & Prominent */
 [data-theme="garden"] .memorial-name {
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
   font-family: var(--font-serif);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--foreground);
-  text-shadow: 0 2px 8px oklch(0.50 0.12 145 / 0.15);
+  text-shadow: 0 2px 4px oklch(0.40 0.03 85 / 0.08);
   margin-bottom: 1rem;
   position: relative;
   z-index: 2;
+  line-height: 1.15;
 }
 
-/* Memorial dates */
+/* Memorial dates - Refined badge */
 [data-theme="garden"] .memorial-dates {
   color: var(--muted-foreground);
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   font-weight: 500;
-  padding: 0.5rem 1.25rem;
-  background: oklch(0.96 0.02 145 / 0.7);
+  padding: 0.625rem 1.5rem;
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.92),
+      oklch(0.97 0.01 90 / 0.88)
+    );
   border-radius: 2rem;
-  border: 1px solid var(--border);
-  backdrop-filter: blur(8px);
+  border: 1px solid oklch(0.88 0.02 85 / 0.4);
   display: inline-block;
+  box-shadow: 0 2px 8px oklch(0.40 0.05 85 / 0.08);
+  letter-spacing: 0.04em;
+}
+
+/* Memorial location */
+[data-theme="garden"] .memorial-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
 }
 
 /* Memorial bio */
 [data-theme="garden"] .memorial-bio {
   margin-top: 1.5rem;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   max-width: 36rem;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--muted-foreground);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -311,36 +423,36 @@
 [data-theme="garden"] .memorial-font-base {
   font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--foreground);
 }
 
 [data-theme="garden"] .memorial-font-heading {
   font-family: var(--font-serif);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
   color: var(--foreground);
 }
 
 [data-theme="garden"] .memorial-font-body {
   font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.8;
   color: var(--muted-foreground);
 }
 
 [data-theme="garden"] .memorial-font-accent {
   font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: var(--primary);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 /* ============================================
-   PORTRAIT FRAME
+   PORTRAIT FRAME - Elegant Memorial Style
    ============================================ */
 
 [data-theme="garden"] .portrait-frame {
@@ -349,27 +461,33 @@
   width: 100%;
   border-radius: 50%;
   overflow: hidden;
-  padding: 6px;
-  background: linear-gradient(
-    145deg,
-    oklch(0.92 0.04 145),
-    oklch(0.96 0.025 145)
-  );
-  border: 2px solid oklch(0.85 0.04 145 / 0.4);
+  padding: 5px;
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85),
+      oklch(0.92 0.02 90),
+      oklch(0.88 0.03 95),
+      oklch(0.94 0.015 85)
+    );
+  border: none;
   box-shadow: 
-    0 12px 30px oklch(0.50 0.12 145 / 0.2),
-    0 4px 12px oklch(0.20 0.02 145 / 0.08);
-  transition: all 0.3s ease;
+    0 8px 32px oklch(0.30 0.04 85 / 0.15),
+    0 2px 8px oklch(0.25 0.02 85 / 0.1),
+    inset 0 0 0 1px oklch(1 0 0 / 0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="garden"] .portrait-frame:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow: 
-    0 18px 40px oklch(0.50 0.12 145 / 0.25),
-    0 6px 16px oklch(0.20 0.02 145 / 0.1);
+    0 16px 48px oklch(0.30 0.04 85 / 0.2),
+    0 4px 12px oklch(0.25 0.02 85 / 0.12),
+    inset 0 0 0 1px oklch(1 0 0 / 0.4);
 }
 
-[data-theme="garden"] .portrait-frame img {
+[data-theme="garden"] .portrait-frame img,
+[data-theme="garden"] .portrait-frame .portrait-image {
   border-radius: 50%;
   display: block;
   width: 100%;
@@ -377,24 +495,47 @@
   object-fit: cover;
 }
 
-/* Portrait glow ring */
+/* Portrait outer glow - soft halo */
+[data-theme="garden"] .portrait-frame::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(
+      circle,
+      oklch(0.95 0.02 90 / 0.5),
+      oklch(0.92 0.025 145 / 0.2) 50%,
+      transparent 70%
+    );
+  z-index: -1;
+  animation: softGlow 6s ease-in-out infinite;
+}
+
+@keyframes softGlow {
+  0%, 100% { 
+    opacity: 0.6; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.03);
+  }
+}
+
+/* Inner light effect */
 [data-theme="garden"] .portrait-frame::after {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -20px;
   border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    oklch(0.55 0.12 145 / 0.25),
-    oklch(0.45 0.10 145 / 0.15)
-  );
-  z-index: -1;
-  animation: portrait-glow 4s ease-in-out infinite;
-}
-
-@keyframes portrait-glow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  background: 
+    radial-gradient(
+      circle,
+      oklch(1 0 0 / 0.15),
+      transparent 60%
+    );
+  z-index: -2;
 }
 
 /* ============================================
@@ -402,40 +543,33 @@
    ============================================ */
 
 [data-theme="garden"] .theme-glow-bg {
-  background: oklch(0.99 0.005 145 / 0.9);
+  background: oklch(0.99 0.005 85 / 0.95);
   backdrop-filter: blur(12px);
-  padding: 2rem;
+  padding: 0;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.08);
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
+  box-shadow: 
+    0 4px 20px oklch(0.40 0.05 85 / 0.08),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
 [data-theme="garden"] .theme-card-glow {
   box-shadow: 
-    0 4px 20px oklch(0.50 0.12 145 / 0.1),
-    0 12px 40px oklch(0.20 0.02 145 / 0.06);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+    0 4px 20px oklch(0.30 0.04 85 / 0.1),
+    0 8px 32px oklch(0.25 0.02 85 / 0.06);
+  transition: all 0.4s ease;
 }
 
 [data-theme="garden"] .theme-card-glow:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 
-    0 8px 30px oklch(0.50 0.12 145 / 0.15),
-    0 20px 50px oklch(0.20 0.02 145 / 0.08);
+    0 8px 28px oklch(0.30 0.04 85 / 0.14),
+    0 12px 40px oklch(0.25 0.02 85 / 0.08);
 }
 
 /* ============================================
    LAYOUT STRUCTURE
    ============================================ */
-
-[data-theme="garden"] .memorial-location {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  color: var(--muted-foreground);
-}
 
 [data-theme="garden"] .memorial-section-top {
   position: relative;
@@ -449,7 +583,7 @@
 }
 
 /* ============================================
-   TABS
+   TABS - Clean Memorial Style
    ============================================ */
 
 [data-theme="garden"] .memorial-tabs-container {
@@ -464,12 +598,21 @@
 [data-theme="garden"] .memorial-tabs-nav {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  max-width: 20rem;
+  width: 100%;
+  max-width: 22rem;
   margin: 0 auto 2rem;
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.97 0.01 90 / 0.95)
+    );
+  border: 1px solid oklch(0.88 0.02 85 / 0.4);
   border-radius: var(--radius);
-  padding: 0.25rem;
+  padding: 0.3rem;
+  box-shadow: 
+    0 2px 10px oklch(0.40 0.05 85 / 0.06),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
 [data-theme="garden"] .memorial-tabs-w-full {
@@ -479,10 +622,25 @@
 [data-theme="garden"] .memorial-tabs-trigger {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: calc(var(--radius) - 2px);
-  transition: all 0.2s ease;
+  padding: 0.625rem 1rem;
+  border-radius: calc(var(--radius) - 3px);
+  transition: all 0.25s ease;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+[data-theme="garden"] .memorial-tabs-trigger:hover {
+  background: oklch(0.96 0.01 90 / 0.6);
+  color: var(--foreground);
+}
+
+[data-theme="garden"] .memorial-tabs-trigger[data-state="active"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 2px 8px oklch(0.38 0.08 145 / 0.25);
 }
 
 [data-theme="garden"] .memorial-tabs-icon {
@@ -503,7 +661,7 @@
 }
 
 /* ============================================
-   TIMELINE
+   TIMELINE - Life Journey
    ============================================ */
 
 [data-theme="garden"] .memorial-timeline {
@@ -514,13 +672,17 @@
 }
 
 [data-theme="garden"] .memorial-timeline-empty-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.97 0.01 90 / 0.95)
+    );
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
   border-radius: var(--radius);
   max-width: 32rem;
   margin: 0 auto;
-  opacity: 0.8;
-  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px oklch(0.40 0.05 85 / 0.06);
 }
 
 [data-theme="garden"] .memorial-timeline-empty-content {
@@ -538,7 +700,14 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+  background: 
+    linear-gradient(
+      180deg, 
+      oklch(0.52 0.08 145) 0%, 
+      oklch(0.70 0.06 90) 50%,
+      oklch(0.52 0.08 145) 100%
+    );
+  border-radius: 1px;
 }
 
 [data-theme="garden"] .memorial-timeline-events {
@@ -558,23 +727,34 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--primary);
-  border: 3px solid var(--background);
-  box-shadow: 0 0 0 3px oklch(0.50 0.12 145 / 0.2);
+  background: linear-gradient(135deg, oklch(0.52 0.08 145), oklch(0.42 0.06 145));
+  border: 3px solid oklch(0.98 0.005 85);
+  box-shadow: 
+    0 0 0 3px oklch(0.52 0.08 145 / 0.15),
+    0 2px 6px oklch(0.40 0.05 85 / 0.15);
 }
 
 [data-theme="garden"] .memorial-timeline-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.97 0.01 90 / 0.95)
+    );
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 16px oklch(0.50 0.12 145 / 0.08);
-  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 16px oklch(0.40 0.05 85 / 0.08),
+    inset 0 1px 0 oklch(1 0 0 / 0.35);
+  transition: all 0.35s ease;
 }
 
 [data-theme="garden"] .memorial-timeline-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.12);
+  box-shadow: 
+    0 8px 24px oklch(0.40 0.05 85 / 0.12),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
 [data-theme="garden"] .memorial-timeline-image {
@@ -585,13 +765,14 @@
 
 [data-theme="garden"] .memorial-timeline-year {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.3rem 0.875rem;
   border-radius: 2rem;
-  background: oklch(0.50 0.12 145 / 0.1);
+  background: oklch(0.52 0.08 145 / 0.1);
   color: var(--primary);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.625rem;
+  border: 1px solid oklch(0.52 0.08 145 / 0.15);
 }
 
 [data-theme="garden"] .memorial-timeline-title {
@@ -605,19 +786,19 @@
 [data-theme="garden"] .memorial-timeline-description {
   color: var(--muted-foreground);
   margin-top: 0.5rem;
-  line-height: 1.6;
-  font-size: 0.9rem;
+  line-height: 1.7;
+  font-size: 0.9375rem;
 }
 
 [data-theme="garden"] .memorial-timeline-location {
   color: var(--muted-foreground);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   margin-top: 0.5rem;
   font-style: italic;
 }
 
 /* ============================================
-   CONDOLENCES
+   CONDOLENCES - Heartfelt Messages
    ============================================ */
 
 [data-theme="garden"] .memorial-condolences {
@@ -629,16 +810,25 @@
 }
 
 [data-theme="garden"] .memorial-condolences-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.97 0.01 90 / 0.95)
+    );
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
   border-radius: var(--radius);
-  box-shadow: 0 4px 16px oklch(0.50 0.12 145 / 0.08);
-  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 16px oklch(0.40 0.05 85 / 0.08),
+    inset 0 1px 0 oklch(1 0 0 / 0.35);
+  transition: all 0.35s ease;
 }
 
 [data-theme="garden"] .memorial-condolences-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px oklch(0.50 0.12 145 / 0.12);
+  box-shadow: 
+    0 8px 24px oklch(0.40 0.05 85 / 0.1),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
 [data-theme="garden"] .memorial-condolences-title {
@@ -653,15 +843,17 @@
 [data-theme="garden"] .memorial-condolences-submit {
   width: 100%;
   gap: 0.5rem;
-  background: var(--primary);
+  background: linear-gradient(145deg, var(--primary), oklch(0.35 0.06 145));
   color: var(--primary-foreground);
   font-weight: 600;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow: 0 2px 8px oklch(0.38 0.08 145 / 0.2);
 }
 
 [data-theme="garden"] .memorial-condolences-submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px oklch(0.50 0.12 145 / 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px oklch(0.38 0.08 145 / 0.3);
 }
 
 [data-theme="garden"] .memorial-condolences-date {
@@ -671,7 +863,7 @@
 
 [data-theme="garden"] .memorial-condolences-message {
   color: var(--muted-foreground);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 [data-theme="garden"] .memorial-condolences-empty-content {
@@ -699,4 +891,522 @@
 
 [data-theme="garden"] .memorial-condolences-item-content {
   padding: 1.25rem;
+}
+
+/* ============================================
+   INPUTS & FORMS - Clean Style
+   ============================================ */
+
+[data-theme="garden"] input,
+[data-theme="garden"] textarea {
+  background: oklch(0.99 0.005 85 / 0.95);
+  border: 1px solid oklch(0.88 0.02 85 / 0.5);
+  border-radius: calc(var(--radius) - 2px);
+  transition: all 0.25s ease;
+}
+
+[data-theme="garden"] input:focus,
+[data-theme="garden"] textarea:focus {
+  outline: none;
+  border-color: oklch(0.52 0.08 145 / 0.5);
+  box-shadow: 
+    0 0 0 3px oklch(0.52 0.08 145 / 0.08),
+    0 2px 6px oklch(0.40 0.05 85 / 0.06);
+}
+
+[data-theme="garden"] input::placeholder,
+[data-theme="garden"] textarea::placeholder {
+  color: oklch(0.55 0.02 85 / 0.6);
+}
+
+/* ============================================
+   BUTTONS - Natural Elegance
+   ============================================ */
+
+[data-theme="garden"] button[type="submit"],
+[data-theme="garden"] .btn-primary {
+  background: linear-gradient(145deg, var(--primary), oklch(0.35 0.06 145));
+  color: var(--primary-foreground);
+  border: none;
+  box-shadow: 
+    0 2px 8px oklch(0.38 0.08 145 / 0.2),
+    inset 0 1px 0 oklch(1 0 0 / 0.08);
+  transition: all 0.3s ease;
+}
+
+[data-theme="garden"] button[type="submit"]:hover,
+[data-theme="garden"] .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 16px oklch(0.38 0.08 145 / 0.3),
+    inset 0 1px 0 oklch(1 0 0 / 0.1);
+}
+
+/* ============================================================
+   CANDLE SECTION - Sacred Memorial Moment
+   ============================================================ */
+[data-theme="garden"] .memorial-candle-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+  background: 
+    linear-gradient(
+      180deg,
+      oklch(0.98 0.006 85 / 0.95),
+      oklch(0.97 0.01 90 / 0.9),
+      oklch(0.96 0.015 95 / 0.85)
+    );
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
+  box-shadow: 0 4px 20px oklch(0.40 0.05 85 / 0.08);
+  max-width: 56rem;
+  margin: 0 auto 2rem;
+}
+
+/* Soft radial glow for candle ambiance */
+[data-theme="garden"] .memorial-candle-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 40%, oklch(0.92 0.04 85 / 0.2), transparent 60%),
+    radial-gradient(ellipse 30% 30% at 50% 50%, oklch(0.88 0.06 75 / 0.15), transparent 50%);
+}
+
+/* ============================================================
+   MEMORIAL CONTAINER BACKGROUND
+   ============================================================ */
+
+[data-theme="garden"] .memorial-container {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 20%,
+      oklch(0.99 0.005 85 / 0.6), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 80% 80%,
+      oklch(0.97 0.01 90 / 0.5), transparent 60%),
+    linear-gradient(165deg,
+      oklch(0.985 0.006 85) 0%,
+      oklch(0.975 0.008 90) 50%,
+      oklch(0.985 0.006 85) 100%);
+  border-radius: var(--radius);
+}
+
+/* Subtle texture overlay */
+[data-theme="garden"] .memorial-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5c-4 10-14 16-24 16 10 5 16 14 16 24 4-10 14-16 24-16-10-5-16-14-16-24z' fill='%234a6741' fill-opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+/* Ensure content stays above */
+[data-theme="garden"] .memorial-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Stats row */
+[data-theme="garden"] .candle-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="garden"] .candle-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+[data-theme="garden"] .candle-stat-right {
+  text-align: right;
+}
+
+[data-theme="garden"] .candle-stat-right .candle-stat-content {
+  align-items: flex-end;
+}
+
+[data-theme="garden"] .candle-stat-indicator {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--theme-sage);
+  box-shadow: 0 0 8px oklch(0.52 0.08 145 / 0.4);
+  margin-top: 0.35rem;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+[data-theme="garden"] .candle-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+[data-theme="garden"] .candle-stat-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-theme="garden"] .candle-stat-value {
+  font-family: var(--font-serif);
+  font-size: 1.625rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1;
+}
+
+/* Candle display area */
+[data-theme="garden"] .candle-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="garden"] .candle-wrapper {
+  position: relative;
+}
+
+/* Light button */
+[data-theme="garden"] .candle-light-button {
+  margin-top: 2rem;
+  padding: 0.875rem 2.5rem;
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, var(--primary), oklch(0.35 0.06 145));
+  color: var(--primary-foreground);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 12px oklch(0.38 0.08 145 / 0.25);
+  transition: all 0.3s ease;
+}
+
+[data-theme="garden"] .candle-light-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px oklch(0.38 0.08 145 / 0.35);
+}
+
+[data-theme="garden"] .candle-light-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Recent activity */
+[data-theme="garden"] .candle-recent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+  background: oklch(0.99 0.005 85 / 0.7);
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
+  border-radius: var(--radius);
+  position: relative;
+  z-index: 1;
+}
+
+[data-theme="garden"] .candle-recent-avatars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+[data-theme="garden"] .candle-recent-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(145deg, oklch(0.94 0.01 85), oklch(0.90 0.015 90));
+  border: 2px solid oklch(0.88 0.02 85 / 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+[data-theme="garden"] .candle-recent-avatar-first {
+  background: linear-gradient(145deg, oklch(0.88 0.04 85), oklch(0.78 0.06 80));
+  border-color: oklch(0.70 0.05 85 / 0.5);
+  color: oklch(0.98 0.005 85);
+}
+
+[data-theme="garden"] .candle-recent-text {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+}
+
+[data-theme="garden"] .candle-recent-text strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+[data-theme="garden"] .candle-recent-time {
+  margin-left: 0.5rem;
+  color: var(--muted-foreground);
+  opacity: 0.7;
+}
+
+/* ============================================
+   GALLERY SECTION
+   ============================================ */
+
+[data-theme="garden"] .memorial-gallery-container {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+[data-theme="garden"] .memorial-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+[data-theme="garden"] .memorial-gallery-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 16px oklch(0.40 0.05 85 / 0.1);
+  transition: all 0.3s ease;
+}
+
+[data-theme="garden"] .memorial-gallery-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px oklch(0.40 0.05 85 / 0.15);
+}
+
+/* ============================================
+   BURIAL PLACE - Final Resting Place
+   ============================================ */
+
+[data-theme="garden"] .memorial-burial-place-section {
+  padding: 4rem 2rem;
+  background: 
+    linear-gradient(
+      180deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.98 0.008 90 / 0.96),
+      oklch(0.97 0.01 95 / 0.94)
+    );
+  position: relative;
+  overflow: hidden;
+  max-width: 56rem;
+  margin: 2rem auto 3rem;
+  border-radius: var(--radius);
+  border: 1px solid oklch(0.88 0.02 85 / 0.4);
+  box-shadow: 
+    0 4px 24px oklch(0.40 0.05 85 / 0.08),
+    0 1px 3px oklch(0.30 0.02 85 / 0.04);
+  animation: gardenFadeIn 0.8s ease-out;
+}
+
+/* Soft corner accents */
+[data-theme="garden"] .memorial-burial-place-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 0% 0%, oklch(0.92 0.03 145 / 0.08), transparent 40%),
+    radial-gradient(ellipse at 100% 100%, oklch(0.90 0.04 85 / 0.06), transparent 40%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-theme="garden"] .memorial-burial-place-card {
+  position: relative;
+  z-index: 2;
+  background: 
+    linear-gradient(
+      145deg,
+      oklch(0.99 0.005 85 / 0.98),
+      oklch(0.97 0.01 90 / 0.95)
+    );
+  border: 1px solid oklch(0.88 0.02 85 / 0.35);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 
+    0 4px 16px oklch(0.40 0.05 85 / 0.08),
+    inset 0 1px 0 oklch(1 0 0 / 0.35);
+}
+
+[data-theme="garden"] .memorial-burial-place-cemetery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+[data-theme="garden"] .memorial-burial-place-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--theme-sage);
+  flex-shrink: 0;
+}
+
+[data-theme="garden"] .memorial-burial-place-cemetery-name {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.3;
+}
+
+[data-theme="garden"] .memorial-burial-place-location {
+  color: var(--muted-foreground);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+[data-theme="garden"] .memorial-burial-place-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="garden"] .memorial-burial-place-detail {
+  display: inline-block;
+  padding: 0.375rem 1rem;
+  border-radius: 2rem;
+  background: oklch(0.52 0.08 145 / 0.1);
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid oklch(0.52 0.08 145 / 0.15);
+}
+
+[data-theme="garden"] .memorial-burial-place-maps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px oklch(0.38 0.08 145 / 0.25);
+}
+
+[data-theme="garden"] .memorial-burial-place-maps-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px oklch(0.38 0.08 145 / 0.35);
+}
+
+[data-theme="garden"] .memorial-burial-place-btn-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (max-width: 768px) {
+  [data-theme="garden"] .memorial-burial-place-section {
+    padding: 3rem 1.5rem;
+    margin: 1.5rem 1rem;
+  }
+
+  [data-theme="garden"] .memorial-burial-place-card {
+    padding: 1.5rem;
+  }
+
+  [data-theme="garden"] .memorial-burial-place-cemetery-name {
+    font-size: 1.125rem;
+  }
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+[data-theme="garden"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="garden"] ::-webkit-scrollbar-track {
+  background: oklch(0.96 0.005 85);
+  border-radius: 4px;
+}
+
+[data-theme="garden"] ::-webkit-scrollbar-thumb {
+  background: oklch(0.85 0.02 85);
+  border-radius: 4px;
+}
+
+[data-theme="garden"] ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.78 0.025 85);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  [data-theme="garden"] .memorial-cover {
+    padding: 2rem 1rem 4rem;
+    min-height: auto;
+  }
+
+  [data-theme="garden"] .memorial-biography-section {
+    padding: 3rem 1.5rem;
+    margin: 1.5rem 1rem;
+  }
+
+  [data-theme="garden"] .memorial-epitaph {
+    padding: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  [data-theme="garden"] .memorial-candle-section {
+    padding: 3rem 1rem;
+    margin: 0 1rem 1.5rem;
+  }
+
+  [data-theme="garden"] .candle-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  [data-theme="garden"] .candle-stat-right {
+    text-align: center;
+  }
+
+  [data-theme="garden"] .candle-stat-right .candle-stat-content {
+    align-items: center;
+  }
 }

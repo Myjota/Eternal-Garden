@@ -1,10 +1,12 @@
 import { lt, type Translations } from './locales/lt'
 import { en } from './locales/en'
+import { ru } from './locales/ru'
 import { type Locale, defaultLocale } from './config'
 
 const translations: Record<Locale, Translations> = {
   lt,
   en,
+  ru,
 }
 
 export function getTranslations(locale: Locale): Translations {

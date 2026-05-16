@@ -1,5 +1,7 @@
 'use client'
 
+'use client'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -10,8 +12,9 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { createClient } from '@/lib/supabase/client'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations, type Locale } from '@/lib/i18n'
 import { Spinner } from '@/components/ui/spinner'
+import { useLocaleContext } from '@/providers/locale-provider'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -19,8 +22,8 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { locale } = useLocaleContext()
 
-  const locale: Locale = defaultLocale
   const t = getTranslations(locale)
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -42,7 +45,7 @@ export default function LoginPage() {
         router.refresh()
       }
     } catch {
-      setError('An unexpected error occurred')
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -85,7 +88,7 @@ export default function LoginPage() {
                 {t.auth.login}
               </CardTitle>
               <CardDescription className="mt-2">
-                Eternal Garden
+                {t.auth.appName}
               </CardDescription>
             </div>
 
@@ -163,7 +166,7 @@ export default function LoginPage() {
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          {t.common.back} &larr; Eternal Garden
+          {t.common.back} &larr; {t.auth.appName}
         </Link>
       </div>
 

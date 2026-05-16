@@ -29,7 +29,6 @@ export function FamousSection({ t }: FamousSectionProps) {
 
   const itemsPerPage = 4
 
-  // ✅ FIX: stable fetch (NO pathname dependency)
   useEffect(() => {
     let isActive = true
 
@@ -39,7 +38,7 @@ export function FamousSection({ t }: FamousSectionProps) {
       try {
         const response = await fetch('/api/famous-memorials')
         const result = await response.json()
-        
+
         if (!response.ok) {
           console.error('FamousSection - API error:', result.error)
           throw new Error(result.error || 'Failed to fetch famous memorials')
@@ -59,7 +58,6 @@ export function FamousSection({ t }: FamousSectionProps) {
 
     load()
 
-    // ✅ FIX: refetch when user comes back to tab / page
     const onFocus = () => load()
     const onPageShow = () => load()
 
@@ -73,14 +71,12 @@ export function FamousSection({ t }: FamousSectionProps) {
     }
   }, [])
 
-  // reset page when data changes
   useEffect(() => {
     setCurrentPage(0)
   }, [famousMemorials])
 
   const totalPages = Math.ceil(famousMemorials.length / itemsPerPage)
 
-  // prevent invalid page
   useEffect(() => {
     if (currentPage > totalPages - 1) {
       setCurrentPage(0)
@@ -94,29 +90,37 @@ export function FamousSection({ t }: FamousSectionProps) {
       currentPage * itemsPerPage,
       (currentPage + 1) * itemsPerPage
     )
-  }, [currentPage, famousMemorials, itemsPerPage])
+  }, [currentPage, famousMemorials])
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(0, Math.min(page, totalPages - 1)))
   }
 
-  const goPrev = () => {
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev))
-  }
+  const goPrev = () => setCurrentPage(p => (p > 0 ? p - 1 : p))
+  const goNext = () => setCurrentPage(p => (p < totalPages - 1 ? p + 1 : p))
 
-  const goNext = () => {
-    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : prev))
-  }
-
-  if (!isLoading && famousMemorials.length === 0) {
-    return null
-  }
+  if (!isLoading && famousMemorials.length === 0) return null
 
   return (
-    <section className="py-16 md:py-24 bg-muted/30 min-h-[600px]">
-      <div className="container mx-auto px-4">
+    <section className="relative py-16 md:py-24 bg-muted/30 min-h-[600px] overflow-hidden">
 
-        {/* Header */}
+      {/* 🌫 BACKGROUND */}
+<div className="absolute inset-0 pointer-events-none opacity-100">
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundColor: '#f6f2ec',
+      backgroundImage: `
+        linear-gradient(0deg, rgba(212,196,168,0.06), rgba(212,196,168,0.06)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")
+      `,
+    }}
+  />
+</div>
+
+      <div className="container mx-auto px-4 relative z-10">
+
+        {/* Header (UNCHANGED) */}
         <div className="text-center mb-12">
           <h2 className="font-serif text-2xl font-semibold text-primary italic md:text-3xl">
             {t.famousSection?.title || 'Žymūs Lietuviai'}
@@ -164,14 +168,10 @@ export function FamousSection({ t }: FamousSectionProps) {
               </button>
             )}
 
-            {/* Grid */}
+            {/* Grid (UNCHANGED) */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6 md:px-12">
               {currentItems.map((memorial) => (
-                <Link
-                  key={memorial.id}
-                  href={`/memorial/${memorial.slug}`}
-                  className="group block"
-                >
+                <Link key={memorial.id} href={`/memorial/${memorial.slug}`} className="group block">
                   <Card
                     className="overflow-hidden border border-primary/30 bg-card 
                                hover:border-primary/60 transition-all duration-300
@@ -179,7 +179,6 @@ export function FamousSection({ t }: FamousSectionProps) {
                                hover:-translate-y-1 cursor-pointer"
                   >
 
-                    {/* Image */}
                     <div className="aspect-[3/4] relative overflow-hidden bg-muted">
                       {memorial.photo_url ? (
                         <Image
@@ -200,7 +199,6 @@ export function FamousSection({ t }: FamousSectionProps) {
                       <div className="absolute inset-[6px] border border-primary/20 pointer-events-none" />
                     </div>
 
-                    {/* Content */}
                     <CardContent className="p-4 text-center border-t border-primary/20">
                       <h3 className="font-serif font-semibold text-foreground group-hover:text-primary transition-colors">
                         {memorial.name}
@@ -220,7 +218,7 @@ export function FamousSection({ t }: FamousSectionProps) {
               ))}
             </div>
 
-            {/* Dots */}
+            {/* Dots (UNCHANGED) */}
             {totalPages > 1 && (
               <div className="flex justify-center gap-2 mt-8">
                 {Array.from({ length: totalPages }).map((_, index) => (
@@ -242,4 +240,4 @@ export function FamousSection({ t }: FamousSectionProps) {
       </div>
     </section>
   )
-}
+            }

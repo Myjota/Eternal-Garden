@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { User, LogOut, Pencil } from 'lucide-react'
-import { Header } from '@/components/layout/header'
-import { getTranslations, type Locale, defaultLocale } from '@/lib/i18n'
+import { getTranslations } from '@/lib/i18n'
+import { useLocale } from '@/lib/i18n/useLocale'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface Profile {
@@ -24,7 +24,8 @@ interface ProfileClientProps {
 
 export function ProfileClient({ user, profile }: ProfileClientProps) {
   const [currentProfile] = useState<Profile | null>(profile)
-  const [locale, setLocale] = useState<Locale>(defaultLocale)
+
+  const { locale, setLocale } = useLocale({ user })
   const t = getTranslations(locale)
 
   const handleLogout = async () => {
@@ -33,15 +34,16 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
     window.location.href = '/'
   }
 
-  const displayName = currentProfile?.first_name && currentProfile?.last_name
-    ? `${currentProfile.first_name} ${currentProfile.last_name}`
-    : currentProfile?.first_name || user?.email?.split('@')[0] || 'Vartotojas'
+  const displayName =
+    currentProfile?.first_name && currentProfile?.last_name
+      ? `${currentProfile.first_name} ${currentProfile.last_name}`
+      : currentProfile?.first_name ||
+        user?.email?.split('@')[0] ||
+        'Vartotojas'
 
   return (
-    <>
-      <Header locale={locale} t={t} onLocaleChange={setLocale} user={user} />
-
-      <div className="container mx-auto py-10 max-w-2xl">
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto py-10 max-w-2xl min-h-[70vh]">
 
         <h1 className="text-2xl font-semibold mb-6">
           Profilis
@@ -58,30 +60,18 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
           <CardContent className="space-y-4">
 
             <div>
-              <p className="text-sm text-muted-foreground">
-                Vardas
-              </p>
-              <p className="font-medium">
-                {displayName}
-              </p>
+              <p className="text-sm text-muted-foreground">Vardas</p>
+              <p className="font-medium">{displayName}</p>
             </div>
 
             <div>
-              <p className="text-sm text-muted-foreground">
-                El. paštas
-              </p>
-              <p className="font-medium">
-                {user?.email ?? '-'}
-              </p>
+              <p className="text-sm text-muted-foreground">El. paštas</p>
+              <p className="font-medium">{user?.email ?? '-'}</p>
             </div>
 
             <div>
-              <p className="text-sm text-muted-foreground">
-                Vartotojo ID
-              </p>
-              <p className="text-xs font-mono break-all">
-                {user?.id ?? '-'}
-              </p>
+              <p className="text-sm text-muted-foreground">Vartotojo ID</p>
+              <p className="text-xs font-mono break-all">{user?.id ?? '-'}</p>
             </div>
 
           </CardContent>
@@ -110,6 +100,6 @@ export function ProfileClient({ user, profile }: ProfileClientProps) {
         </div>
 
       </div>
-    </>
+    </div>
   )
 }

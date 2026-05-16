@@ -8,11 +8,61 @@ export const lt = {
     logout: 'Atsijungti',
     dashboard: 'Valdymo skydelis',
   },
+  menu: {
+    dashboard: 'Valdymas',
+    profile: 'Paskyra',
+    settings: 'Nustatymai',
+    services: 'Paslaugos',
+    createMemorial: 'Sukurti Atminimą',
+    admin: 'Administravimas',
+  },
   hero: {
     title: 'Eternal Garden',
     subtitle: 'Living Stories',
     description: 'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
     searchPlaceholder: 'Ieškoti atminimų, žmonių, vietų...',
+  },
+  supportPage: {
+    title: 'Parama',
+    description:
+      'Jūsų parama padeda puoselėti skaitmeninį atminties sodą — vietą, kur prisiminimai, istorijos ir meilė išlieka gyvi ateities kartoms.',
+    whyTitle: 'Kodėl verta paremti?',
+    benefits: {
+      newFeatures: {
+        title: 'Naujos funkcijos',
+        description:
+          'Kuriame naujus būdus saugoti prisiminimus, istorijas ir šeimos paveldą.',
+      },
+      stableServers: {
+        title: 'Stabilūs serveriai',
+        description:
+          'Užtikriname, kad memorialai ir prisiminimai išliktų saugūs ilgus metus.',
+      },
+      newDesigns: {
+        title: 'Nauji dizainai',
+        description:
+          'Kuriame jaukią ir estetišką aplinką, primenančią tikrą atminties sodą.',
+      },
+      freeServices: {
+        title: 'Nemokamos paslaugos',
+        description:
+          'Siekiame, kad Eternal Garden būtų prieinamas visiems žmonėms.',
+      },
+    },
+    backButton: 'Grįžti į pradžią',
+    supportBoxTitle: 'Eternal Garden',
+    supportBoxSubtitle: 'Skaitmeninis atminties sodas',
+    supportBoxDescription:
+      'Jūsų parama padeda auginti atminties sodą, kuriame prisiminimai išlieka gyvi.',
+    supportBox: {
+      receiverLabel: 'Gavėjas',
+      bankLabel: 'Bankas',
+      purposeLabel: 'Paskirtis',
+      ibanLabel: 'IBAN',
+      copyIban: 'Kopijuoti IBAN',
+      copied: 'Nukopijuota',
+      thankYou: 'Ačiū, kad padedate šiam sodui augti 🌱',
+    },
   },
   features: {
     title: 'Kodėl verta mus rinktis',
@@ -46,15 +96,91 @@ export const lt = {
     title: 'Žymūs Lietuvos žmonės',
     viewMemorial: 'Peržiūrėti atminimą',
   },
+  visionSection: {
+    label: 'Mūsų filosofija',
+    title: 'Ne tik memorialai – tai amžinos atminties saugykla',
+    description: 'Praėjus šimtams metų, daugelio kapų neliks. Antkapiai sunyks, o šeimos istorijos išsisklaidys laike. Eternal Garden yra skaitmeninis sodas, kuriame atminimas gali išlikti amžinai: šeimos medis, istorijos, nuotraukos ir prisiminimai perduodami iš kartos į kartą.',
+    pillars: {
+      memory: {
+        title: 'Ilgalaikė atmintis',
+        description: 'Ne tik vieta pagerbti, bet ir saugykla, kurioje žmonijos prisiminimai išlieka net tada, kai kapai išnyksta.',
+      },
+      tribute: {
+        title: 'Ateities ryšys',
+        description: 'Tai jungtis tarp praeities ir ateities: vieta, kur protėvių pasakojimai gyvena toliau ir atrandami naujose kartose.',
+      },
+      community: {
+        title: 'Kilmės paveldas',
+        description: 'Jos nebus galima aplankyti vienu metu, bet mes padedame saugoti visas šeimos istorijas viename amžiname sode.',
+      },
+    },
+  },
+  aboutPage: {
+    title: 'Apie Eternal Garden',
+    description: 'Skaitmeninė atminimo vieta, skirta išsaugoti jūsų artimųjų gyvenimo istorijas ir prisiminimus ateities kartoms.',
+    missionTitle: 'Mūsų misija',
+    missionDescription: 'Mes tikime, kad kiekvienas žmogus nusipelno būti prisimintas. Eternal Garden sukuria erdvę, kurioje šeimos ir draugai gali dalintis prisiminimais, fotografijomis ir gyvenimo istorijomis.',
+    valuesTitle: 'Mūsų vertybės',
+    values: {
+      respect: {
+        title: 'Pagarba',
+        description: 'Kiekvienas atminimas yra unikalus ir vertas pagarbos. Mes kuriame erdvę, kurioje prisiminimai išlieka gyvai.',
+      },
+      community: {
+        title: 'Bendruomenė',
+        description: 'Tikime, kad dalintis prisiminimais padeda išgyventi netektį ir išsaugoti ryšį su prarastais artimaisiais.',
+      },
+      privacy: {
+        title: 'Privatumas',
+        description: 'Jūsų duomenys ir prisiminimai yra saugūs. Mes užtikriname aukščiausią privatumo lygį.',
+      },
+      sustainability: {
+        title: 'Tvarumas',
+        description: 'Kuriame ilgalaikę platformą, kuri išliks ateities kartoms ir padės išsaugoti šeimų istorijas.',
+      },
+    },
+    backToHome: 'Grįžti į pradžią',
+    creatorsLabel: 'Kūrėjai Olegas & Andrius',
+    heroTitle: 'Apie',
+    heroTitleLine2: 'Kūrėjus.',
+    heroP1: 'Esame nepriklausoma kūrėjų komanda, priėmusi išūkį sukurti skaitmeninę atminimo vietą.',
+    heroP2: 'Ši vizija ir subūrė mus kartu į nedidelę komandą, kur vyrauja lygiateisiškumas ir komandinis darbas.',
+    heroP3: 'Visapusiškas dalijimasis idėjomis, darbu ir resursais, reguliarūs susirinkimai siekiant, įgyvendinti naujausius išūkius.',
+    goalsLabel: 'Mūsų tikslai',
+    goalsTitle: 'Būti Pirmi',
+    goals: {
+      creativity: {
+        title: 'Kūrybos Laisvė',
+        description: 'Kūryba mums primena ąžuolą — ji tyliai dygsta, lėtai stiprėja ir galiausiai įauga į laiką.',
+      },
+      foundation: {
+        title: 'Geras Pamatas',
+        description: 'Projektą statome ant tvirto pagrindo — nuo technologijų iki dizaino filosofijos. Siekiame, kad tai išliktų aktualu ir po daugelio metų.',
+      },
+      partnership: {
+        title: 'Partnerystė',
+        description: 'Esame atviri žmonėms, idėjoms ir partnerystėms, kurios kuria ilgalaikę vertę.',
+      },
+    },
+  },
   footer: {
     tagline: 'Išsaugokime prisiminimus. Įkvėpkime ateities kartas.',
     main: 'Pradžia',
     aboutUs: 'Apie mus',
+    contact: 'Kontaktai',
     faq: 'D.U.K.',
     donate: 'Paremti',
     privacyPolicy: 'Privatumo politika',
     terms: 'Pirkimo taisyklės',
-    copyright: '© 2024 Eternal Garden. Visos teisės saugomos.',
+    copyright: '© 2026 Eternal Garden. Visos teisės saugomos.',
+  },
+  contactPage: {
+    title: 'Kontaktai',
+    description: 'Susisiekite su Eternal Garden. Mes pasiruošę padėti ir atsakyti į visus klausimus.',
+    getInTouchTitle: 'Susisiekite su mumis',
+    contactInstructions: 'Parašykite el. paštu arba pasirinkite kitą jums patogią susisiekimo formą.',
+    emailLabel: 'El. paštas',
+    backButton: 'Grįžti į pradžią',
   },
   auth: {
     login: 'Prisijungti',
@@ -70,6 +196,28 @@ export const lt = {
     orContinueWith: 'Arba tęskite su',
     firstName: 'Vardas',
     lastName: 'Pavardė',
+    appName: 'Eternal Garden',
+    unexpectedError: 'Įvyko nenumatyta klaida',
+    requiredField: 'Šis laukas yra privalomas',
+    invalidEmail: 'Neteisingas el. pašto adresas',
+    passwordMismatch: 'Slaptažodžiai nesutampa',
+    passwordTooShort: 'Slaptažodis turi būti bent 6 simbolių',
+    signupDescription: 'Sukurkite paskyrą ir pradėkite kurti atminimus',
+    forgotPasswordDescription: 'Įveskite savo el. pašto adresą ir mes atsiųsime slaptažodžio atkūrimo nuorodą',
+    resetEmailSent: 'Laiškas išsiųstas!',
+    checkEmail: 'Patikrinkite savo el. paštą ir sekite nuorodą slaptažodžiui atkurti.',
+    backToLogin: 'Grįžti į prisijungimą',
+    sendResetLink: 'Siųsti atkūrimo nuorodą',
+    newPassword: 'Naujas slaptažodis',
+    enterNewPassword: 'Įveskite naują slaptažodį savo paskyrai',
+    passwordChanged: 'Slaptažodis pakeistas!',
+    passwordUpdated: 'Jūsų slaptažodis sėkmingai atnaujintas. Būsite nukreipti į prisijungimo puslapį...',
+    loginNow: 'Prisijungti dabar',
+    changePassword: 'Pakeisti slaptažodį',
+    verifyEmail: 'Patikrinkite el. paštą',
+    signupSuccess: 'Registracija sėkminga!',
+    verificationLink: 'Išsiuntėme patvirtinimo nuorodą į jūsų el. pašto adresą. Paspauskite nuorodą, kad aktyvuotumėte paskyrą.',
+    noEmailReceived: 'Negavote laiško? Patikrinkite šlamšto aplanką arba bandykite dar kartą.',
   },
   memorial: {
     birthDate: 'Gimimo data',

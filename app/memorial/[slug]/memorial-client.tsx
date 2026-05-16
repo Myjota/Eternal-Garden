@@ -1,10 +1,10 @@
 'use client'
 
-import { Header } from '@/components/layout/header'
 import { MemorialHero } from '@/components/memorial/MemorialHero'
 import { MemorialBiography } from '@/components/memorial/MemorialBiography'
 import { MemorialTabs } from '@/components/memorial/MemorialTabs'
 import { CandleSection } from '@/components/candle/CandleSection'
+import { BurialPlace } from '@/components/memorial/BurialPlace'
 
 import type { User } from '@supabase/supabase-js'
 import type { ThemeId } from '@/lib/themes/config'
@@ -32,11 +32,25 @@ interface Memorial {
   allow_condolences: boolean
 }
 
+interface BurialPlaceData {
+  id: string
+  name: string
+  address?: string | null
+  city?: string | null
+  country?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  cemetery_name?: string | null
+  section?: string | null
+  plot_number?: string | null
+}
+
 interface MemorialClientProps {
   memorial: Memorial
   timelineEvents: any[]
   candles: any[]
   condolences: any[]
+  burialPlace: BurialPlaceData | null
   currentUser: User | null
   locale: Locale
   t: Translations
@@ -49,6 +63,7 @@ export function MemorialClient({
   timelineEvents,
   candles: initialCandles,
   condolences: initialCondolences,
+  burialPlace,
   currentUser,
   locale,
   t,
@@ -59,9 +74,6 @@ export function MemorialClient({
       data-theme={memorial.theme}
       className="min-h-screen bg-background relative overflow-hidden"
     >
-      {/* HEADER */}
-      <Header locale={locale} t={t} user={currentUser} />
-
       {/* HERO */}
       <MemorialHero memorial={memorial} />
 
@@ -70,8 +82,11 @@ export function MemorialClient({
         <CandleSection memorialId={memorial.id} initialLit={false} />
       )}
 
-      {/* 🧩 BIOGRAPHY – būtent čia (po žvakių) */}
+      {/* 🧩 BIOGRAPHY */}
       <MemorialBiography biography={memorial.biography || undefined} />
+
+      {/* 🪦 BURIAL PLACE */}
+      {burialPlace && <BurialPlace burialPlace={burialPlace} />}
 
       {/* TABS */}
       <MemorialTabs
@@ -81,4 +96,4 @@ export function MemorialClient({
       />
     </div>
   )
-}
+        }
