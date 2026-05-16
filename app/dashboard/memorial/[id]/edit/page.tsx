@@ -275,7 +275,7 @@ export default function EditMemorialPage() {
             .eq('id', burialPlace.id)
         } else {
           // Create new burial place
-          const { data: newBurial } = await supabase
+          const { data: newBurial, error: burialError } = await supabase
             .from('burial_places')
             .insert({
               name: burialFormData.cemetery_name || 'Kapavietė',
@@ -288,6 +288,11 @@ export default function EditMemorialPage() {
             })
             .select()
             .single()
+          
+          if (burialError) {
+            console.error('[v0] Burial place insert error:', burialError)
+            throw new Error(`Nepavyko išsaugoti kapavietės: ${burialError.message}`)
+          }
           
           if (newBurial) {
             burial_place_id = newBurial.id
