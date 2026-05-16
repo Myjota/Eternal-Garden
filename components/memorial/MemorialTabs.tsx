@@ -26,14 +26,20 @@ export function MemorialTabs({
         <Tabs defaultValue="timeline" className="memorial-tabs-w-full">
 
         {/* NAV */}
-        <TabsList className="memorial-tabs-nav">
+        <TabsList className="memorial-tabs-nav h-auto bg-transparent p-0">
 
-          <TabsTrigger value="timeline" className="memorial-tabs-trigger">
+          <TabsTrigger 
+            value="timeline" 
+            className="memorial-tabs-trigger border-none shadow-none"
+          >
             <Clock className="memorial-tabs-icon" />
             <span className="memorial-tabs-text">Timeline</span>
           </TabsTrigger>
 
-          <TabsTrigger value="condolences" className="memorial-tabs-trigger">
+          <TabsTrigger 
+            value="condolences" 
+            className="memorial-tabs-trigger border-none shadow-none"
+          >
             <Heart className="memorial-tabs-icon" />
             <span className="memorial-tabs-text">Messages</span>
           </TabsTrigger>
