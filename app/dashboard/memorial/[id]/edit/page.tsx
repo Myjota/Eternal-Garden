@@ -421,11 +421,11 @@ export default function EditMemorialPage() {
           </div>
 
           <Tabs defaultValue="general" className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="general">Bendra informacija</TabsTrigger>
-              <TabsTrigger value="burial">Kapavietė</TabsTrigger>
-              <TabsTrigger value="timeline">Gyvenimo istorija</TabsTrigger>
-              <TabsTrigger value="settings">Nustatymai</TabsTrigger>
+            <TabsList className="w-full flex flex-wrap h-auto gap-1 p-1">
+              <TabsTrigger value="general" className="flex-1 min-w-fit text-xs sm:text-sm">Bendra info</TabsTrigger>
+              <TabsTrigger value="burial" className="flex-1 min-w-fit text-xs sm:text-sm">Kapavietė</TabsTrigger>
+              <TabsTrigger value="timeline" className="flex-1 min-w-fit text-xs sm:text-sm">Istorija</TabsTrigger>
+              <TabsTrigger value="settings" className="flex-1 min-w-fit text-xs sm:text-sm">Nustatymai</TabsTrigger>
             </TabsList>
 
             {/* General Info Tab */}
