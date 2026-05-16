@@ -105,6 +105,7 @@ export default async function MemorialPage({ params }: Props) {
     { data: timelineEvents },
     { data: candles },
     { data: condolences },
+    { data: burialPlace },
     { data: authData },
   ] = await Promise.all([
     supabase
@@ -126,6 +127,14 @@ export default async function MemorialPage({ params }: Props) {
       .eq('memorial_id', memorial.id)
       .eq('is_approved', true)
       .order('created_at', { ascending: false }),
+
+    memorial.burial_place_id
+      ? supabase
+          .from('burial_places')
+          .select('*')
+          .eq('id', memorial.burial_place_id)
+          .single()
+      : Promise.resolve({ data: null }),
 
     supabase.auth.getUser(),
   ])
@@ -151,6 +160,7 @@ export default async function MemorialPage({ params }: Props) {
       timelineEvents={timelineEvents || []}
       candles={candles || []}
       condolences={condolences || []}
+      burialPlace={burialPlace || null}
       currentUser={user}
       locale={locale}
       t={t}
