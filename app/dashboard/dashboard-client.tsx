@@ -10,6 +10,7 @@ import {
   Trash2,
   ExternalLink,
   Users,
+  Plus,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -91,14 +92,24 @@ export function DashboardClient({
         <main className="container mx-auto px-4 py-10 max-w-6xl">
 
           {/* HEADER BLOCK */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-serif font-bold">
-              {t.dashboard.title}
-            </h1>
+          <div className="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-serif font-bold">
+                {t.dashboard.title}
+              </h1>
 
-            <p className="text-muted-foreground mt-1">
-              Sveiki, <span className="text-foreground font-medium">{displayName}</span>
-            </p>
+              <p className="text-muted-foreground mt-1">
+                Sveiki, <span className="text-foreground font-medium">{displayName}</span>
+              </p>
+            </div>
+            
+            <Button asChild>
+              <Link href="/create">
+                <Plus className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Sukurti naują</span>
+                <span className="sm:hidden">Naujas</span>
+              </Link>
+            </Button>
           </div>
 
           {/* TABS */}
