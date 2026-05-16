@@ -129,6 +129,7 @@ export default async function RootLayout({
 }) {
   let user = null
   let preferredLanguage: 'lt' | 'en' = 'lt'
+  let isAdmin = false
 
   try {
     const supabase = createClient()
@@ -142,13 +143,15 @@ export default async function RootLayout({
     if (authUser) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('preferred_language')
+        .select('preferred_language, is_admin')
         .eq('id', authUser.id)
         .single()
 
       if (profile?.preferred_language === 'en') {
         preferredLanguage = 'en'
       }
+
+      isAdmin = profile?.is_admin ?? false
     }
   } catch {
     // ignore SSR auth issues
@@ -173,7 +176,7 @@ export default async function RootLayout({
           user={user}
           initialLocale={preferredLanguage}
         >
-          <Header user={user} isAdmin={false} />
+          <Header user={user} isAdmin={isAdmin} />
 
           <main className="flex-1">
             {children}
