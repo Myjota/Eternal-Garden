@@ -257,10 +257,18 @@ export default function EditMemorialPage() {
       let burial_place_id = memorial.burial_place_id
       const hasBurialData = burialFormData.cemetery_name.trim() || burialFormData.address.trim()
       
+      console.log('[v0] Burial save start:', { 
+        hasBurialData, 
+        burialFormData, 
+        existingBurialPlace: burialPlace,
+        currentBurialPlaceId: memorial.burial_place_id 
+      })
+      
       if (hasBurialData) {
         if (burialPlace) {
           // Update existing burial place
-          await supabase
+          console.log('[v0] Updating existing burial place:', burialPlace.id)
+          const { error: updateError } = await supabase
             .from('burial_places')
             .update({
               name: burialFormData.cemetery_name || 'Kapavietė',
@@ -273,8 +281,15 @@ export default function EditMemorialPage() {
               updated_at: new Date().toISOString(),
             })
             .eq('id', burialPlace.id)
+          
+          if (updateError) {
+            console.error('[v0] Burial place update error:', updateError)
+          } else {
+            console.log('[v0] Burial place updated successfully')
+          }
         } else {
           // Create new burial place
+          console.log('[v0] Creating new burial place...')
           const { data: newBurial, error: burialError } = await supabase
             .from('burial_places')
             .insert({
@@ -294,8 +309,11 @@ export default function EditMemorialPage() {
             throw new Error(`Nepavyko išsaugoti kapavietės: ${burialError.message}`)
           }
           
+          console.log('[v0] New burial place created:', newBurial)
+          
           if (newBurial) {
             burial_place_id = newBurial.id
+            console.log('[v0] Set burial_place_id to:', burial_place_id)
           }
         }
       } else if (burialPlace && !hasBurialData) {
@@ -306,6 +324,8 @@ export default function EditMemorialPage() {
           .eq('id', burialPlace.id)
         burial_place_id = null
       }
+      
+      console.log('[v0] Final burial_place_id for memorial update:', burial_place_id)
       
       // Update memorial
       const { error } = await supabase
