@@ -618,9 +618,10 @@ export function Header({
                       : 'outline'
                   }
                   size="sm"
-                  onClick={() =>
+                  onClick={() => {
                     handleLocaleChange(loc)
-                  }
+                    setMobileOpen(false)
+                  }}
                   className={
                     locale === loc
                       ? 'bg-[#2d5a3d]'
@@ -673,6 +674,7 @@ export function Header({
                     bg-[#2d5a3d]
                     hover:bg-[#244732]
                   "
+                  onClick={() => setMobileOpen(false)}
                 >
 
                   <Link href="/auth/login">
