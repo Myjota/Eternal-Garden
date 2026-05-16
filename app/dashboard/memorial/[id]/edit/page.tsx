@@ -335,8 +335,6 @@ export default function EditMemorialPage() {
           last_name: formData.last_name,
           birth_date: formData.birth_date || null,
           death_date: formData.death_date || null,
-          birth_place: formData.birth_place || null,
-          death_place: formData.death_place || null,
           biography: formData.biography || null,
           epitaph: formData.epitaph || null,
           theme: formData.theme,
