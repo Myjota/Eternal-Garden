@@ -321,7 +321,7 @@ function CreateMemorialContent() {
         <div className="border-b border-border">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-center gap-2 sm:gap-4">
-              {[1, 2, 3, 4].map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <div key={s} className="flex items-center gap-1 sm:gap-2">
                   <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     step > s 
@@ -333,9 +333,9 @@ function CreateMemorialContent() {
                     {step > s ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : s}
                   </div>
                   <span className={`text-xs sm:text-sm hidden md:block ${step >= s ? 'text-foreground' : 'text-muted-foreground'}`}>
-                    {s === 1 ? 'Informacija' : s === 2 ? 'Tema' : s === 3 ? 'Gyvenimas' : 'Peržiūra'}
+                    {s === 1 ? 'Informacija' : s === 2 ? 'Tema' : s === 3 ? 'Gyvenimas' : s === 4 ? 'Kapavietė' : 'Peržiūra'}
                   </span>
-                  {s < 4 && <div className="w-4 sm:w-8 h-px bg-border mx-1 sm:mx-2" />}
+                  {s < 5 && <div className="w-4 sm:w-8 h-px bg-border mx-1 sm:mx-2" />}
                 </div>
               ))}
             </div>
@@ -513,7 +513,6 @@ function CreateMemorialContent() {
 
             {/* Step 3: Timeline */}
             {step === 3 && (
-              <>
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -617,9 +616,11 @@ function CreateMemorialContent() {
                   )}
                 </CardContent>
               </Card>
+            )}
 
-              {/* Burial Place Section */}
-              <Card className="mt-6">
+            {/* Step 4: Burial Place */}
+            {step === 4 && (
+              <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-muted-foreground" />
@@ -695,11 +696,10 @@ function CreateMemorialContent() {
                   </div>
                 </CardContent>
               </Card>
-              </>
             )}
 
-            {/* Step 4: Review */}
-            {step === 4 && (
+            {/* Step 5: Review */}
+            {step === 5 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="font-serif">Peržiūra</CardTitle>
@@ -835,9 +835,9 @@ function CreateMemorialContent() {
                 </Button>
               )}
 
-              {step < 4 ? (
+              {step < 5 ? (
                 <Button onClick={() => setStep(step + 1)} disabled={!canProceed()}>
-                  {step === 3 ? 'Peržiūrėti' : t.common.next}
+                  {step === 4 ? 'Peržiūrėti' : t.common.next}
                 </Button>
               ) : (
                 <Button onClick={handleSubmit} disabled={loading}>
