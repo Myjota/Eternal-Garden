@@ -172,7 +172,7 @@ export const lt = {
     donate: 'Paremti',
     privacyPolicy: 'Privatumo politika',
     terms: 'Pirkimo taisyklės',
-    copyright: '© 2024 Eternal Garden. Visos teisės saugomos.',
+    copyright: '© 2026 Eternal Garden. Visos teisės saugomos.',
   },
   contactPage: {
     title: 'Kontaktai',
