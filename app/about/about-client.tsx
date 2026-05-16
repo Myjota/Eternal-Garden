@@ -300,7 +300,7 @@ function MarbleCanvas() {
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: 'absolute',
         inset: 0,
         width: '100%',
         height: '100%',
@@ -329,7 +329,7 @@ export function AboutClient() {
       {/* GRAIN */}
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           inset: 0,
           zIndex: 1,
           pointerEvents: 'none',
