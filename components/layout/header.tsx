@@ -69,6 +69,9 @@ export function Header({
       user ?? null
     )
 
+  const [isAdminState, setIsAdminState] =
+    useState(isAdmin)
+
   const router = useRouter()
   const pathname = usePathname()
 
@@ -110,8 +113,20 @@ export function Header({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         setCurrentUser(session?.user ?? null)
+
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .single()
+
+          setIsAdminState(profile?.is_admin ?? false)
+        } else {
+          setIsAdminState(false)
+        }
       }
     )
 
@@ -435,7 +450,7 @@ export function Header({
 
                   ))}
 
-                  {isAdmin && (
+                  {isAdminState && (
                     <>
 
                       <div className="my-1 border-t" />
