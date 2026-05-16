@@ -513,6 +513,7 @@ function CreateMemorialContent() {
 
             {/* Step 3: Timeline */}
             {step === 3 && (
+              <>
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -694,6 +695,7 @@ function CreateMemorialContent() {
                   </div>
                 </CardContent>
               </Card>
+              </>
             )}
 
             {/* Step 4: Review */}
