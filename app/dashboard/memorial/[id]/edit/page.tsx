@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, Upload, X, Save, Loader2, Plus, Trash2 } from 'lucide-react'
+import { ArrowLeft, Upload, X, Save, Loader2, Plus, Trash2, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -37,6 +37,20 @@ interface Memorial {
   privacy: string
   allow_candles: boolean
   allow_condolences: boolean
+  burial_place_id: string | null
+}
+
+interface BurialPlace {
+  id: string
+  name: string
+  address: string | null
+  city: string | null
+  country: string | null
+  latitude: number | null
+  longitude: number | null
+  cemetery_name: string | null
+  section: string | null
+  plot_number: string | null
 }
 
 interface TimelineEvent {
@@ -61,6 +75,16 @@ export default function EditMemorialPage() {
   // Use locale hook - loads preferred language from Supabase
   const { locale, setLocale } = useLocale({ user })
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([])
+  const [burialPlace, setBurialPlace] = useState<BurialPlace | null>(null)
+  const [burialFormData, setBurialFormData] = useState({
+    name: '',
+    address: '',
+    city: '',
+    country: '',
+    cemetery_name: '',
+    section: '',
+    plot_number: '',
+  })
   
   // Form state
   const [formData, setFormData] = useState({
@@ -145,6 +169,28 @@ export default function EditMemorialPage() {
       setTimelineEvents(events)
     }
     
+    // Get burial place if exists
+    if (memorial.burial_place_id) {
+      const { data: burialData } = await supabase
+        .from('burial_places')
+        .select('*')
+        .eq('id', memorial.burial_place_id)
+        .single()
+      
+      if (burialData) {
+        setBurialPlace(burialData)
+        setBurialFormData({
+          name: burialData.name || '',
+          address: burialData.address || '',
+          city: burialData.city || '',
+          country: burialData.country || '',
+          cemetery_name: burialData.cemetery_name || '',
+          section: burialData.section || '',
+          plot_number: burialData.plot_number || '',
+        })
+      }
+    }
+    
     setLoading(false)
   }
 
@@ -207,6 +253,55 @@ export default function EditMemorialPage() {
         }
       }
       
+      // Handle burial place
+      let burial_place_id = memorial.burial_place_id
+      const hasBurialData = burialFormData.name.trim() || burialFormData.cemetery_name.trim()
+      
+      if (hasBurialData) {
+        if (burialPlace) {
+          // Update existing burial place
+          await supabase
+            .from('burial_places')
+            .update({
+              name: burialFormData.name || burialFormData.cemetery_name,
+              address: burialFormData.address || null,
+              city: burialFormData.city || null,
+              country: burialFormData.country || null,
+              cemetery_name: burialFormData.cemetery_name || null,
+              section: burialFormData.section || null,
+              plot_number: burialFormData.plot_number || null,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', burialPlace.id)
+        } else {
+          // Create new burial place
+          const { data: newBurial } = await supabase
+            .from('burial_places')
+            .insert({
+              name: burialFormData.name || burialFormData.cemetery_name,
+              address: burialFormData.address || null,
+              city: burialFormData.city || null,
+              country: burialFormData.country || null,
+              cemetery_name: burialFormData.cemetery_name || null,
+              section: burialFormData.section || null,
+              plot_number: burialFormData.plot_number || null,
+            })
+            .select()
+            .single()
+          
+          if (newBurial) {
+            burial_place_id = newBurial.id
+          }
+        }
+      } else if (burialPlace && !hasBurialData) {
+        // Remove burial place if data was cleared
+        await supabase
+          .from('burial_places')
+          .delete()
+          .eq('id', burialPlace.id)
+        burial_place_id = null
+      }
+      
       // Update memorial
       const { error } = await supabase
         .from('memorials')
@@ -225,6 +320,7 @@ export default function EditMemorialPage() {
           allow_condolences: formData.allow_condolences,
           profile_image_url,
           cover_image_url,
+          burial_place_id,
           updated_at: new Date().toISOString(),
         })
         .eq('id', memorialId)
@@ -327,6 +423,7 @@ export default function EditMemorialPage() {
           <Tabs defaultValue="general" className="space-y-6">
             <TabsList>
               <TabsTrigger value="general">Bendra informacija</TabsTrigger>
+              <TabsTrigger value="burial">Kapavietė</TabsTrigger>
               <TabsTrigger value="timeline">Gyvenimo istorija</TabsTrigger>
               <TabsTrigger value="settings">Nustatymai</TabsTrigger>
             </TabsList>
@@ -503,6 +600,85 @@ export default function EditMemorialPage() {
                   </CardContent>
                 </Card>
               </div>
+            </TabsContent>
+
+            {/* Burial Place Tab */}
+            <TabsContent value="burial" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MapPin className="h-5 w-5" />
+                    Kapavietės informacija
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Pridėkite informaciją apie palaidojimo vietą. Ši informacija bus rodoma atminimo puslapyje.
+                  </p>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="cemetery_name">Kapinių pavadinimas</Label>
+                    <Input
+                      id="cemetery_name"
+                      value={burialFormData.cemetery_name}
+                      onChange={(e) => setBurialFormData({ ...burialFormData, cemetery_name: e.target.value })}
+                      placeholder="Pvz.: Antakalnio kapinės"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="burial_address">Adresas</Label>
+                    <Input
+                      id="burial_address"
+                      value={burialFormData.address}
+                      onChange={(e) => setBurialFormData({ ...burialFormData, address: e.target.value })}
+                      placeholder="Pvz.: Karių kapų g. 11"
+                    />
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="burial_city">Miestas</Label>
+                      <Input
+                        id="burial_city"
+                        value={burialFormData.city}
+                        onChange={(e) => setBurialFormData({ ...burialFormData, city: e.target.value })}
+                        placeholder="Pvz.: Vilnius"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="burial_country">Šalis</Label>
+                      <Input
+                        id="burial_country"
+                        value={burialFormData.country}
+                        onChange={(e) => setBurialFormData({ ...burialFormData, country: e.target.value })}
+                        placeholder="Pvz.: Lietuva"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="burial_section">Sekcija / Kvartalas</Label>
+                      <Input
+                        id="burial_section"
+                        value={burialFormData.section}
+                        onChange={(e) => setBurialFormData({ ...burialFormData, section: e.target.value })}
+                        placeholder="Pvz.: A kvartalas"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="burial_plot">Kapavietės numeris</Label>
+                      <Input
+                        id="burial_plot"
+                        value={burialFormData.plot_number}
+                        onChange={(e) => setBurialFormData({ ...burialFormData, plot_number: e.target.value })}
+                        placeholder="Pvz.: 15-27"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
 
             {/* Timeline Tab */}
