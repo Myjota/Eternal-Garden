@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { createNoise2D } from 'simplex-noise'
 
 import { Card, CardContent } from '@/components/ui/card'
+import { useLocaleContext } from '@/providers/locale-provider'
+import { getTranslations } from '@/lib/i18n'
 
 function MarbleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -300,7 +302,7 @@ function MarbleCanvas() {
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: 'absolute',
         inset: 0,
         width: '100%',
         height: '100%',
@@ -313,6 +315,24 @@ function MarbleCanvas() {
 }
 
 export function AboutClient() {
+  const { locale } = useLocaleContext()
+  const t = getTranslations(locale)
+
+  const goals = [
+    {
+      t: t.aboutPage.goals.creativity.title,
+      d: t.aboutPage.goals.creativity.description,
+    },
+    {
+      t: t.aboutPage.goals.foundation.title,
+      d: t.aboutPage.goals.foundation.description,
+    },
+    {
+      t: t.aboutPage.goals.partnership.title,
+      d: t.aboutPage.goals.partnership.description,
+    },
+  ]
+
   return (
     <div
       style={{
@@ -329,7 +349,7 @@ export function AboutClient() {
       {/* GRAIN */}
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           inset: 0,
           zIndex: 1,
           pointerEvents: 'none',
@@ -370,7 +390,7 @@ export function AboutClient() {
                 marginBottom: '24px',
               }}
             >
-              Kūrėjai Olegas & Andrius
+              {t.aboutPage.creatorsLabel}
             </p>
 
             <h1
@@ -384,9 +404,9 @@ export function AboutClient() {
                 maxWidth: '760px',
               }}
             >
-              Apie
+              {t.aboutPage.heroTitle}
               <br />
-              Kūrėjus.
+              {t.aboutPage.heroTitleLine2}
             </h1>
 
             <div
@@ -400,28 +420,9 @@ export function AboutClient() {
                 maxWidth: '720px',
               }}
             >
-              <p>
-                Esame nepriklausoma kūrėjų
-                komanda, priėmusi išūkį
-                sukurti skaitmeninę 
-                atminimo vietą.
-              </p>
-
-              <p>
-                Ši vizija ir subūrė
-                mus kartu į nedidelę komandą,
-                kur vyrauja lygiateisiškumas
-                ir komandinis darbas.
-              </p>
-
-              <p>
-                Visapusiškas 
-                dalijimasis idėjomis, darbu
-                ir resursais, reguliarūs 
-                susirinkimai siekiant,
-                įgyvendinti naujausius
-                išūkius.
-              </p>
+              <p>{t.aboutPage.heroP1}</p>
+              <p>{t.aboutPage.heroP2}</p>
+              <p>{t.aboutPage.heroP3}</p>
             </div>
           </div>
 
@@ -474,7 +475,7 @@ export function AboutClient() {
                 marginBottom: '18px',
               }}
             >
-              Mūsų tikslai
+              {t.aboutPage.goalsLabel}
             </p>
 
             <h2
@@ -485,7 +486,7 @@ export function AboutClient() {
                 letterSpacing: '-0.04em',
               }}
             >
-              Būti Pirmi
+              {t.aboutPage.goalsTitle}
             </h2>
           </div>
 
@@ -497,23 +498,7 @@ export function AboutClient() {
               gap: '28px',
             }}
           >
-            {[
-              {
-                t: 'Kūrybos Laisvė',
-                d:
-                  'Kūryba mums primena ąžuolą — ji tyliai dygsta, lėtai stiprėja ir galiausiai įauga į laiką.',
-              },
-              {
-                t: 'Geras Pamatas',
-                d:
-                  'Projektą statome ant tvirto pagrindo — nuo technologijų iki dizaino filosofijos. Siekiame, kad tai išliktų aktualu ir po daugelio metų.',
-              },
-              {
-                t: 'Partnerystė',
-                d:
-                  'Esame atviri žmonėms, idėjoms ir partnerystėms, kurios kuria ilgalaikę vertę.',
-              },
-            ].map((i) => (
+            {goals.map((i) => (
               <Card
                 key={i.t}
                 style={{

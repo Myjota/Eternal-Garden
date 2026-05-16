@@ -140,6 +140,28 @@ export const lt = {
       },
     },
     backToHome: 'Grįžti į pradžią',
+    creatorsLabel: 'Kūrėjai Olegas & Andrius',
+    heroTitle: 'Apie',
+    heroTitleLine2: 'Kūrėjus.',
+    heroP1: 'Esame nepriklausoma kūrėjų komanda, priėmusi išūkį sukurti skaitmeninę atminimo vietą.',
+    heroP2: 'Ši vizija ir subūrė mus kartu į nedidelę komandą, kur vyrauja lygiateisiškumas ir komandinis darbas.',
+    heroP3: 'Visapusiškas dalijimasis idėjomis, darbu ir resursais, reguliarūs susirinkimai siekiant, įgyvendinti naujausius išūkius.',
+    goalsLabel: 'Mūsų tikslai',
+    goalsTitle: 'Būti Pirmi',
+    goals: {
+      creativity: {
+        title: 'Kūrybos Laisvė',
+        description: 'Kūryba mums primena ąžuolą — ji tyliai dygsta, lėtai stiprėja ir galiausiai įauga į laiką.',
+      },
+      foundation: {
+        title: 'Geras Pamatas',
+        description: 'Projektą statome ant tvirto pagrindo — nuo technologijų iki dizaino filosofijos. Siekiame, kad tai išliktų aktualu ir po daugelio metų.',
+      },
+      partnership: {
+        title: 'Partnerystė',
+        description: 'Esame atviri žmonėms, idėjoms ir partnerystėms, kurios kuria ilgalaikę vertę.',
+      },
+    },
   },
   footer: {
     tagline: 'Išsaugokime prisiminimus. Įkvėpkime ateities kartas.',
