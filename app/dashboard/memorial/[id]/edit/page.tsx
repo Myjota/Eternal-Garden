@@ -255,7 +255,7 @@ export default function EditMemorialPage() {
       
       // Handle burial place
       let burial_place_id = memorial.burial_place_id
-      const hasBurialData = burialFormData.name.trim() || burialFormData.cemetery_name.trim()
+      const hasBurialData = burialFormData.cemetery_name.trim() || burialFormData.address.trim()
       
       if (hasBurialData) {
         if (burialPlace) {
@@ -263,7 +263,7 @@ export default function EditMemorialPage() {
           await supabase
             .from('burial_places')
             .update({
-              name: burialFormData.name || burialFormData.cemetery_name,
+              name: burialFormData.cemetery_name || 'Kapavietė',
               address: burialFormData.address || null,
               city: burialFormData.city || null,
               country: burialFormData.country || null,
@@ -278,7 +278,7 @@ export default function EditMemorialPage() {
           const { data: newBurial } = await supabase
             .from('burial_places')
             .insert({
-              name: burialFormData.name || burialFormData.cemetery_name,
+              name: burialFormData.cemetery_name || 'Kapavietė',
               address: burialFormData.address || null,
               city: burialFormData.city || null,
               country: burialFormData.country || null,
