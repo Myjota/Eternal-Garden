@@ -13,7 +13,6 @@ interface FormData {
   birthDate: string
   deathDate: string
   biography: string
-  shortDescription: string
   epitaph: string
   theme: string
   isPublic: boolean
@@ -81,12 +80,6 @@ export function StepReview({
                 <Star className="h-3 w-3 text-amber-500" />
                 Žymus žmogus
               </Badge>
-            </div>
-          )}
-          {formData.shortDescription && (
-            <div className="py-3 border-b border-border">
-              <span className="text-muted-foreground block mb-2">Trumpas aprašymas</span>
-              <p className="text-sm">{formData.shortDescription}</p>
             </div>
           )}
           {formData.epitaph && (

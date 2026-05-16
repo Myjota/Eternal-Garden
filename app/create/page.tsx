@@ -66,7 +66,6 @@ function CreateMemorialContent() {
     birthDate: '',
     deathDate: '',
     biography: '',
-    shortDescription: '',
     epitaph: '',
     theme: 'garden' as ThemeId,
     isPublic: true,
@@ -260,7 +259,6 @@ function CreateMemorialContent() {
           birth_date: formData.birthDate || null,
           death_date: formData.deathDate || null,
           biography: formData.biography || null,
-          short_description: formData.shortDescription || null,
           epitaph: formData.epitaph || null,
           theme: formData.theme,
           privacy: formData.isPublic ? 'public' : 'private',
@@ -316,7 +314,7 @@ function CreateMemorialContent() {
     if (step === 1) {
       const basicFieldsFilled = formData.firstName && formData.lastName && formData.birthDate && formData.deathDate
       if (isFamous) {
-        return basicFieldsFilled && formData.shortDescription
+        return basicFieldsFilled && formData.epitaph
       }
       return basicFieldsFilled
     }
