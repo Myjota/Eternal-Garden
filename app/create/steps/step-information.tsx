@@ -26,9 +26,13 @@ interface StepInformationProps {
   updateFormData: (field: string, value: string | boolean) => void
   isFamous: boolean
   profileImagePreview: string | null
+  coverImagePreview: string | null
   onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onCoverImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void
   onRemoveImage: () => void
+  onRemoveCoverImage: () => void
   fileInputRef: React.RefObject<HTMLInputElement | null>
+  coverFileInputRef: React.RefObject<HTMLInputElement | null>
 }
 
 export function StepInformation({
@@ -36,9 +40,13 @@ export function StepInformation({
   updateFormData,
   isFamous,
   profileImagePreview,
+  coverImagePreview,
   onImageSelect,
+  onCoverImageSelect,
   onRemoveImage,
+  onRemoveCoverImage,
   fileInputRef,
+  coverFileInputRef,
 }: StepInformationProps) {
   return (
     <Card>
@@ -137,7 +145,7 @@ export function StepInformation({
         </div>
 
         <div className="space-y-2">
-          <Label>Nuotrauka</Label>
+          <Label>Profilio nuotrauka</Label>
           <input
             ref={fileInputRef}
             type="file"
@@ -169,10 +177,52 @@ export function StepInformation({
             >
               <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
               <p className="mt-2 text-sm text-muted-foreground">
-                Spustelėkite arba vilkite nuotrauką
+                Spustelekite arba vilkite nuotrauka
               </p>
               <p className="text-xs text-muted-foreground mt-1">
                 PNG, JPG iki 5MB
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label>Virselio nuotrauka (Cover)</Label>
+          <input
+            ref={coverFileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={onCoverImageSelect}
+            className="hidden"
+          />
+          
+          {coverImagePreview ? (
+            <div className="relative w-full h-40 mx-auto">
+              <Image
+                src={coverImagePreview}
+                alt="Virselio nuotrauka"
+                fill
+                className="object-cover rounded-lg border border-border"
+              />
+              <button
+                type="button"
+                onClick={onRemoveCoverImage}
+                className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center hover:bg-destructive/90"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <div 
+              onClick={() => coverFileInputRef.current?.click()}
+              className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer"
+            >
+              <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
+              <p className="mt-2 text-sm text-muted-foreground">
+                Pasirinkite virselio nuotrauka
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Rekomenduojama: 1200x400px, PNG arba JPG
               </p>
             </div>
           )}

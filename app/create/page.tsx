@@ -41,6 +41,7 @@ function CreateMemorialContent() {
   const isFamous = searchParams.get('famous') === 'true'
   const t = getTranslations(defaultLocale)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const coverFileInputRef = useRef<HTMLInputElement>(null)
   
   const [loading, setLoading] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
@@ -48,6 +49,8 @@ function CreateMemorialContent() {
   const [step, setStep] = useState(1)
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null)
+  const [coverImage, setCoverImage] = useState<File | null>(null)
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null)
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([])
   const [burialFormData, setBurialFormData] = useState<BurialFormData>({
     cemetery_name: '',
@@ -100,6 +103,36 @@ function CreateMemorialContent() {
     setProfileImagePreview(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
+    }
+  }
+
+  const handleCoverImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Nuotrauka per didele. Maksimalus dydis 5MB.')
+        return
+      }
+      
+      if (!file.type.startsWith('image/')) {
+        setError('Pasirinkite tik nuotraukos failus (PNG, JPG).')
+        return
+      }
+
+      setCoverImage(file)
+      setCoverImagePreview(URL.createObjectURL(file))
+      setError(null)
+    }
+  }
+
+  const handleRemoveCoverImage = () => {
+    setCoverImage(null)
+    if (coverImagePreview) {
+      URL.revokeObjectURL(coverImagePreview)
+    }
+    setCoverImagePreview(null)
+    if (coverFileInputRef.current) {
+      coverFileInputRef.current.value = ''
     }
   }
 
@@ -169,13 +202,28 @@ function CreateMemorialContent() {
       if (profileImage) {
         setUploadingImage(true)
         profileImageUrl = await uploadImage(profileImage, user.id)
-        setUploadingImage(false)
         
         if (!profileImageUrl) {
           setError('Nepavyko ikelti nuotraukos. Bandykite dar karta.')
           setLoading(false)
+          setUploadingImage(false)
           return
         }
+      }
+
+      let coverImageUrl: string | null = null
+      if (coverImage) {
+        setUploadingImage(true)
+        coverImageUrl = await uploadImage(coverImage, user.id)
+        setUploadingImage(false)
+        
+        if (!coverImageUrl) {
+          setError('Nepavyko ikelti virselio nuotraukos. Bandykite dar karta.')
+          setLoading(false)
+          return
+        }
+      } else {
+        setUploadingImage(false)
       }
 
       let burialPlaceId: string | null = null
@@ -220,6 +268,7 @@ function CreateMemorialContent() {
           is_famous: isFamous,
           photo_url: profileImageUrl,
           profile_image_url: profileImageUrl,
+          cover_image_url: coverImageUrl,
           burial_place_id: burialPlaceId,
         })
         .select()
@@ -347,9 +396,13 @@ function CreateMemorialContent() {
                 updateFormData={updateFormData}
                 isFamous={isFamous}
                 profileImagePreview={profileImagePreview}
+                coverImagePreview={coverImagePreview}
                 onImageSelect={handleImageSelect}
+                onCoverImageSelect={handleCoverImageSelect}
                 onRemoveImage={handleRemoveImage}
+                onRemoveCoverImage={handleRemoveCoverImage}
                 fileInputRef={fileInputRef}
+                coverFileInputRef={coverFileInputRef}
               />
             )}
 
