@@ -174,7 +174,7 @@ export const ru: Translations = {
     donate: 'Пожертвовать',
     privacyPolicy: 'Политика конфиденциальности',
     terms: 'Условия',
-    copyright: '© 2024 Eternal Garden. Все права защищены.',
+    copyright: '© 2026 Eternal Garden. Все права защищены.',
   },
   contactPage: {
     title: 'Контакты',
