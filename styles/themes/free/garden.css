@@ -598,6 +598,7 @@
 [data-theme="garden"] .memorial-tabs-nav {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  width: 100%;
   max-width: 22rem;
   margin: 0 auto 2rem;
   background: 
@@ -628,6 +629,7 @@
   transition: all 0.25s ease;
   font-weight: 500;
   color: var(--muted-foreground);
+  background: transparent;
 }
 
 [data-theme="garden"] .memorial-tabs-trigger:hover {
