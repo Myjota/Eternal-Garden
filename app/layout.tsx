@@ -34,12 +34,15 @@ const siteName = 'Eternal Garden'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
   title: {
     default: `${siteName} | Skaitmeninė atminimo vieta kapinės`,
     template: `%s | ${siteName}`,
   },
+
   description:
     'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+
   keywords: [
     'skaitmeninis atminimas',
     'skaitmeninis memorialas',
@@ -49,33 +52,44 @@ export const metadata: Metadata = {
     'digital memorial',
     'family tree',
   ],
+
   authors: [
     {
       name: 'Olegas&Andrius Systems LLC',
       url: siteUrl,
     },
   ],
+
   creator: 'Olegas&Andrius Systems LLC',
+
   publisher: 'Eternal Garden',
+
   verification: {
-    google: 'bSkiHT-YJWJl9Dm5J3A5omcwFLdlIAvZyuj3bT8MfTw',
+    google:
+      'bSkiHT-YJWJl9Dm5J3A5omcwFLdlIAvZyuj3bT8MfTw',
   },
+
   alternates: {
     canonical: siteUrl,
+
     languages: {
       'lt-LT': siteUrl,
       'en-US': `${siteUrl}/en`,
     },
   },
+
   openGraph: {
     type: 'website',
     locale: 'lt_LT',
     alternateLocale: ['en_US'],
     url: siteUrl,
     siteName: siteName,
+
     title: `${siteName} | Skaitmeninė atminimo vieta`,
+
     description:
       'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+
     images: [
       {
         url: `${siteUrl}/og-image.png`,
@@ -84,6 +98,7 @@ export const metadata: Metadata = {
         alt: `${siteName} - Skaitmeninė atminimo vieta`,
         type: 'image/png',
       },
+
       {
         url: `${siteUrl}/og-image-square.png`,
         width: 800,
@@ -93,18 +108,25 @@ export const metadata: Metadata = {
       },
     ],
   },
+
   twitter: {
     card: 'summary_large_image',
     site: '@eternalgarden',
+
     title: `${siteName} | Skaitmeninė atminimo vieta`,
+
     description:
       'Kurkime amžiną atminimą kartu. Išsaugokite savo artimųjų gyvenimo istorijas ateities kartoms.',
+
     creator: '@eternalgarden',
+
     images: [`${siteUrl}/og-image.png`],
   },
+
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
@@ -113,7 +135,9 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
+
   category: 'Memorial',
+
   classification: 'Memorial Service',
 }
 
@@ -127,11 +151,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   let user = null
   let preferredLanguage: 'lt' | 'en' = 'lt'
   let isAdmin = false
 
   try {
+
     const supabase = createClient()
 
     const {
@@ -147,7 +173,19 @@ export default async function RootLayout({
         .eq('id', authUser.id)
         .single()
 
-      if (profile?.preferred_language === 'en') {
+      const { data: profile } =
+        await supabase
+          .from('profiles')
+          .select(`
+            preferred_language,
+            is_admin
+          `)
+          .eq('id', authUser.id)
+          .single()
+
+      if (
+        profile?.preferred_language === 'en'
+      ) {
         preferredLanguage = 'en'
       }
       
@@ -155,25 +193,38 @@ export default async function RootLayout({
         isAdmin = true
       }
     }
-  } catch {
-    // ignore SSR auth issues
+
+  } catch (error) {
+
+    console.error(
+      'RootLayout auth error:',
+      error
+    )
   }
 
   return (
+
     <html
       lang={preferredLanguage}
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`
+        ${inter.variable}
+        ${playfair.variable}
+      `}
       suppressHydrationWarning
     >
-      <body className="
-        flex
-        min-h-screen
-        flex-col
-        bg-background
-        font-sans
-        text-foreground
-        antialiased
-      ">
+
+      <body
+        className="
+          flex
+          min-h-screen
+          flex-col
+          bg-background
+          font-sans
+          text-foreground
+          antialiased
+        "
+      >
+
         <LocaleProvider
           user={user}
           initialLocale={preferredLanguage}
@@ -185,10 +236,13 @@ export default async function RootLayout({
           </main>
 
           <Footer />
+
         </LocaleProvider>
 
         <AnalyticsGate />
+
       </body>
+
     </html>
   )
 }
