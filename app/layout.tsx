@@ -173,19 +173,7 @@ export default async function RootLayout({
         .eq('id', authUser.id)
         .single()
 
-      const { data: profile } =
-        await supabase
-          .from('profiles')
-          .select(`
-            preferred_language,
-            is_admin
-          `)
-          .eq('id', authUser.id)
-          .single()
-
-      if (
-        profile?.preferred_language === 'en'
-      ) {
+      if (profile?.preferred_language === 'en') {
         preferredLanguage = 'en'
       }
       
