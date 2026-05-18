@@ -69,6 +69,9 @@ export function Header({
       user ?? null
     )
 
+  const [adminStatus, setAdminStatus] =
+    useState(isAdmin)
+
   const router = useRouter()
   const pathname = usePathname()
 
@@ -78,6 +81,11 @@ export function Header({
 
   // TRANSLATIONS
   const t = getTranslations(locale)
+
+  // ADMIN STATE WITH SYNC FROM PROP
+  useEffect(() => {
+    setAdminStatus(isAdmin)
+  }, [isAdmin])
 
   // MEMOIZED NAV
   const NAV = useMemo(
@@ -773,4 +781,4 @@ export function Header({
 
     </header>
   )
-      }
+}
