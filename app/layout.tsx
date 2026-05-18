@@ -153,10 +153,7 @@ export default async function RootLayout({
 }) {
 
   let user = null
-
-  let preferredLanguage: 'lt' | 'en' =
-    'lt'
-
+  let preferredLanguage: 'lt' | 'en' = 'lt'
   let isAdmin = false
 
   try {
@@ -170,6 +167,11 @@ export default async function RootLayout({
     user = authUser ?? null
 
     if (authUser) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('preferred_language, is_admin')
+        .eq('id', authUser.id)
+        .single()
 
       const { data: profile } =
         await supabase
@@ -186,9 +188,10 @@ export default async function RootLayout({
       ) {
         preferredLanguage = 'en'
       }
-
-      isAdmin =
-        profile?.is_admin ?? false
+      
+      if (profile?.is_admin === true) {
+        isAdmin = true
+      }
     }
 
   } catch (error) {
@@ -226,11 +229,7 @@ export default async function RootLayout({
           user={user}
           initialLocale={preferredLanguage}
         >
-
-          <Header
-            user={user}
-            isAdmin={isAdmin}
-          />
+          <Header user={user} isAdmin={isAdmin} />
 
           <main className="flex-1">
             {children}
