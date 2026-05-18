@@ -272,6 +272,55 @@ export function Header({
 
             ))}
 
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`
+                  group
+                  relative
+                  text-sm
+                  pb-1
+                  transition-all
+                  duration-200
+                  flex
+                  items-center
+                  gap-1.5
+                  text-amber-700
+                  hover:text-amber-800
+
+                  ${
+                    isActive('/admin')
+                      ? 'text-amber-800 font-semibold'
+                      : ''
+                  }
+                `}
+              >
+
+                <Shield className="h-4 w-4" />
+                Administravimas
+
+                <span
+                  className={`
+                    absolute
+                    left-0
+                    -bottom-[2px]
+                    h-[2px]
+                    rounded-full
+                    bg-amber-700
+                    transition-all
+                    duration-300
+
+                    ${
+                      isActive('/admin')
+                        ? 'w-full'
+                        : 'w-0 group-hover:w-full'
+                    }
+                  `}
+                />
+
+              </Link>
+            )}
+
           </nav>
 
         </div>
@@ -596,6 +645,35 @@ export function Header({
               </Link>
 
             ))}
+
+            {isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() =>
+                  setMobileOpen(false)
+                }
+                className="
+                  rounded-xl
+                  px-4
+                  py-3
+                  text-sm
+                  transition-colors
+                  bg-amber-50
+                  text-amber-700
+                  font-medium
+                  border border-amber-200
+                  flex
+                  gap-2
+                  items-center
+                  hover:bg-amber-100
+                "
+              >
+
+                <Shield className="h-4 w-4" />
+                Administravimas
+
+              </Link>
+            )}
 
             <div
               className="
